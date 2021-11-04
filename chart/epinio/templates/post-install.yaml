@@ -27,7 +27,7 @@ spec:
       serviceAccountName: epinio-installer
       containers:
       - name: install
-        image: "juadk/epinio-installer:v{{ .Chart.AppVersion }}"
+        image: "juadk/epinio-installer:{{ .Chart.AppVersion }}"
         imagePullPolicy: IfNotPresent
         command:
           - /epinio
