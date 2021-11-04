@@ -1,0 +1,69 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "post-install-{{ .Release.Name }}"
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded, before-hook-creation
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      serviceAccountName: epinio-installer
+      containers:
+      - name: install
+        image: "juadk/epinio-installer:v{{ .Chart.AppVersion }}"
+        imagePullPolicy: IfNotPresent
+        command:
+          - /epinio
+        args:
+          - install
+          - "--email-address={{ .Values.email | default "epinio@suse.com"}}"
+          - "--tls-issuer={{ .Values.tlsIssuer | default "epinio-ca" }}"
+          - "--use-internal-registry-node-port={{ .Values.internalRegistryNodePort | default "true" }}"
+          - "--skip-default-namespace"
+{{- if .Values.password }}
+          - "--password={{ .Values.password }}"
+{{ end }}
+{{- if .Values.user }}
+          - "--user={{ .Values.user }}"
+{{ end }}
+{{- if .Values.skipCertManager }}
+          - "--skip-cert-manager"
+{{ end }}
+{{- if .Values.skipLinkerd }}
+          - "--skip-linkerd"
+{{ end }}
+{{- if .Values.skipTraefik }}
+          - "--skip-traefik"
+{{ end }}
+{{- if .Values.domain }}
+          - "--system-domain={{ .Values.domain }}"
+{{ end }}
+{{- if .Values.s3Endpoint }}
+          - "--s3-endpoint={{ .Values.s3Endpoint }}"
+          - "--s3-access-key-id={{ .Values.s3AccessKeyId }}"
+          - "--s3-secret-access-key={{ .Values.s3SecretAccessKey }}"
+          - "--s3-bucket={{ .Values.s3Bucket }}"
+{{ end }}
+{{- if .Values.s3Location }}
+          - "--s3-location={{ .Values.s3Location }}"
+{{ end }}
+{{- if .Values.s3UseSSL }}
+          - "--s3-ssl={{ .Values.s3UseSSL }}"
+{{ end }}
