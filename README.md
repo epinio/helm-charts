@@ -1,27 +1,10 @@
+# Epinio Helm Chart
+
 <img src="./assets/epinio.png" align="right" width="200" height="50%">
 
 ## Usage
 
-[Helm](https://helm.sh) must be installed to use the chart.  Please refer to
-Helm's [documentation](https://helm.sh/docs) to get started.
-
-Once Helm has been set up correctly, add the repo as follows:
-
-    helm repo add epinio-helm-chart https://epinio.github.io/epinio-helm-chart
-
-If you had already added this repo earlier, run `helm repo update` to fetch
-the latest versions of the package. You can then run `helm search repo
-epinio-helm-chart` to see the chart.
-
-To install the epinio chart:
-
-    helm install my-epinio epinio-helm-chart/epinio
-
-At the end of the installation, usefull information will be printed to help you to start working with your fresh Epinio deployment.
-
-To uninstall the chart:
-
-    helm delete my-epinio
+The doc is centralized in a uniq place, checkout the [doc website](https://docs.epinio.io/installation/install_epinio_with_helm.html).
 
 ## Helm chart repo
 
