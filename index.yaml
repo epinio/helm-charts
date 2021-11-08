@@ -2,6 +2,25 @@ apiVersion: v1
 entries:
   epinio:
   - apiVersion: v1
+    appVersion: v0.1.5
+    created: "2021-11-08T14:40:14.147568198Z"
+    description: From app to URL in one command
+    digest: 7ede8f0da9cf5abca9a75a6f2de8ee5ff63d160f8b0fe73c590e1603364cafa2
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/epinio/main/docs/epinio.svg
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: epinio-team@suse.com
+      name: SUSE
+    name: epinio
+    sources:
+    - https://github.com/epinio/epinio
+    urls:
+    - https://github.com/epinio/epinio-helm-chart/releases/download/epinio-0.1.4/epinio-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v1
     appVersion: v0.1.4
     created: "2021-11-04T15:49:33.166200374Z"
     description: From app to URL in one command
@@ -39,4 +58,4 @@ entries:
     urls:
     - https://github.com/epinio/epinio-helm-chart/releases/download/epinio-0.1.1/epinio-0.1.1.tgz
     version: 0.1.1
-generated: "2021-11-04T15:49:33.166280974Z"
+generated: "2021-11-08T14:40:14.147580198Z"
