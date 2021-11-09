@@ -14,6 +14,9 @@ tlsIssuer: "epinio-ca"
 # The domain you are planning to use for Epinio. Should be pointing to the traefik public IP (Leave empty to use a omg.howdoi.website domain).
 # domain: ""
 
+# Domain allowed to access the API. Comma-separated
+# accessControlAllowOrigin: ""
+
 # The user name for authenticating all API requests
 # user: ""
 
