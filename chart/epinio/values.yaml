@@ -1,8 +1,8 @@
-## Default values for Carrier Helm Chart.
+## Default values for Epinio Helm Chart.
 ## This is a YAML-formatted file.
 ## Declare variables to be passed into your templates.
 
-# The system domain to use for Carrier. Equivalent to `carrier install` system-domain
+# The system domain to use for Epinio. Equivalent to `epinio install` system-domain
 # parameter.
 
 # The email address you are planning to use for getting notifications about your certificates (default "epinio@suse.com")
