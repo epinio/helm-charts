@@ -2,10 +2,10 @@
 ## This is a YAML-formatted file.
 ## Declare variables to be passed into your templates.
 
-# The system domain to use for Epinio. Equivalent to `epinio install` system-domain
-# parameter.
+# Domain allowed to access the API. Comma-separated
+# accessControlAllowOrigin: ""
 
-# The email address you are planning to use for getting notifications about your certificates (default "epinio@suse.com")
+# The email address you are planning to use for getting notifications about your certificates. (default "epinio@suse.com")
 email: "epinio@suse.com"
 
 # The name of the cluster issuer to use. Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'. (default "epinio-ca")
@@ -14,13 +14,10 @@ tlsIssuer: "epinio-ca"
 # The domain you are planning to use for Epinio. Should be pointing to the traefik public IP (Leave empty to use a omg.howdoi.website domain).
 # domain: ""
 
-# Domain allowed to access the API. Comma-separated
-# accessControlAllowOrigin: ""
-
-# The user name for authenticating all API requests
+# The user name for authenticating all API requests.
 # user: ""
 
-# The password for authenticating all API requests
+# The password for authenticating all API requests.
 # password: ""
 
 # Assert to epinio that cert-manager is already installed.
@@ -32,15 +29,24 @@ tlsIssuer: "epinio-ca"
 # Assert to epinio that there is a Traefik active, even if epinio cannot find it.
 # skipTraefik: false
 
-# Make the internal registry accessible via a node port, so kubelet can access the registry without trusting its cert. (default true)
-# internalRegistryNodePort
-
 # If you are using your own S3 compatible object storage for blobs, set the following options:
-# s3Endpoint:
-# s3AccessKeyId:
-# s3SecretAccessKey:
-# s3Bucket:
+# s3Endpoint: ""
+# s3AccessKeyId: ""
+# s3SecretAccessKey: ""
+# s3Bucket: ""
 
-# Optionnal
-# s3Location:
-# s3UseSSL:
+# Optional
+# s3Location: ""
+# s3UseSSL: ""
+
+# If you are using your own external registry, set the following options:
+# --external-registry-url: ""
+# --external-registry-username: ""
+# --external-registry-password: ""
+
+# Optional
+# Provide namespace (or organization) of the external registry to which you have push access. It can be left empty.
+# --external-registry-namespace: ""
+
+# Use TLS when application images will be pulled by kubernetes. Only applies to the internal registry. (default "false")
+# --force-kube-internal-registry-tls: ""
