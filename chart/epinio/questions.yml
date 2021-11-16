@@ -36,8 +36,8 @@ questions:
   required: false
   group: "General settings"
 - variable: accessControlAllowOrigin
-  label: Access control allow organization
-  description: "Domain allowed to access the API. Comma-separated."
+  label: Access control allow origin
+  description: "Domain which serves the Rancher UI (to access the API)"
   type: strings
   required: false
   group: "General settings"

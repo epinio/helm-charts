@@ -2,7 +2,7 @@
 ## This is a YAML-formatted file.
 ## Declare variables to be passed into your templates.
 
-# Domain allowed to access the API. Comma-separated
+# Domain which serves the Rancher UI (to access the API)
 # accessControlAllowOrigin: ""
 
 # The email address you are planning to use for getting notifications about your certificates. (default "epinio@suse.com")
