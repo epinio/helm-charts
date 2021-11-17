@@ -33,15 +33,41 @@ spec:
           - /epinio
         args:
           - install
-          - "--email-address={{ .Values.email | default "epinio@suse.com"}}"
-          - "--tls-issuer={{ .Values.tlsIssuer | default "epinio-ca" }}"
-          - "--use-internal-registry-node-port={{ .Values.internalRegistryNodePort | default "true" }}"
+          - "--email-address={{ .Values.email | default "epinio@suse.com" }}"
           - "--skip-default-namespace"
+          - "--tls-issuer={{ .Values.tlsIssuer | default "epinio-ca" }}"
+{{- if .Values.accessControlAllowOrigin }}
+          - "--access-control-allow-origin={{ .Values.accessControlAllowOrigin }}"
+{{ end }}
+{{- if .Values.externalRegistryNamespace }}
+          - "--external-registry-namespace={{ .Values.externalRegistryNamespace }}"
+{{ end }}
+{{- if .Values.externalRegistryPassword }}
+          - "--external-registry-password={{ .Values.externalRegistryPassword }}"
+{{ end }}
+{{- if .Values.externalRegistryUrl }}
+          - "--external-registry-url={{ .Values.externalRegistryUrl }}"
+{{ end }}
+{{- if .Values.externalRegistryUsername }}
+          - "--external-registry-username={{ .Values.externalRegistryUsername }}"
+{{ end }}
+{{- if .Values.forceKubeInternalRegistryTls }}
+          - "--force-kube-internal-registry-tls={{ .Values.forceKubeInternalRegistryTls }}"
+{{ end }}
 {{- if .Values.password }}
           - "--password={{ .Values.password }}"
 {{ end }}
-{{- if .Values.user }}
-          - "--user={{ .Values.user }}"
+{{- if .Values.s3Endpoint }}
+          - "--s3-endpoint={{ .Values.s3Endpoint }}"
+          - "--s3-access-key-id={{ .Values.s3AccessKeyId }}"
+          - "--s3-secret-access-key={{ .Values.s3SecretAccessKey }}"
+          - "--s3-bucket={{ .Values.s3Bucket }}"
+{{ end }}
+{{- if .Values.s3Location }}
+          - "--s3-location={{ .Values.s3Location }}"
+{{ end }}
+{{- if .Values.s3UseSSL }}
+          - "--s3-ssl={{ .Values.s3UseSSL }}"
 {{ end }}
 {{- if .Values.skipCertManager }}
           - "--skip-cert-manager"
@@ -55,18 +81,6 @@ spec:
 {{- if .Values.domain }}
           - "--system-domain={{ .Values.domain }}"
 {{ end }}
-{{- if .Values.accessControlAllowOrigin }}
-          - "--access-control-allow-origin={{ .Values.accessControlAllowOrigin }}"
-{{ end }}
-{{- if .Values.s3Endpoint }}
-          - "--s3-endpoint={{ .Values.s3Endpoint }}"
-          - "--s3-access-key-id={{ .Values.s3AccessKeyId }}"
-          - "--s3-secret-access-key={{ .Values.s3SecretAccessKey }}"
-          - "--s3-bucket={{ .Values.s3Bucket }}"
-{{ end }}
-{{- if .Values.s3Location }}
-          - "--s3-location={{ .Values.s3Location }}"
-{{ end }}
-{{- if .Values.s3UseSSL }}
-          - "--s3-ssl={{ .Values.s3UseSSL }}"
+{{- if .Values.user }}
+          - "--user={{ .Values.user }}"
 {{ end }}
