@@ -1,7 +1,7 @@
 apiVersion: v1
 name: epinio
-version: 0.1.13
-appVersion: v0.1.6
+version: 0.1.14
+appVersion: v0.2.0
 description: From app to URL in one command
 home: https://github.com/epinio/epinio
 icon: https://raw.githubusercontent.com/epinio/epinio-helm-chart/main/assets/epinio.png
