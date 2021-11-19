@@ -67,7 +67,7 @@ spec:
           - "--s3-location={{ .Values.s3Location }}"
 {{ end }}
 {{- if .Values.s3UseSSL }}
-          - "--s3-ssl={{ .Values.s3UseSSL }}"
+          - "--s3-use-ssl={{ .Values.s3UseSSL }}"
 {{ end }}
 {{- if .Values.skipCertManager }}
           - "--skip-cert-manager"
