@@ -33,6 +33,7 @@ spec:
           - /epinio
         args:
           - install
+          - "--system-domain={{ .Values.domain }}"
           - "--email-address={{ .Values.email | default "epinio@suse.com" }}"
           - "--tls-issuer={{ .Values.tlsIssuer | default "epinio-ca" }}"
 {{- if .Values.accessControlAllowOrigin }}
@@ -76,9 +77,6 @@ spec:
 {{ end }}
 {{- if .Values.skipTraefik }}
           - "--skip-traefik"
-{{ end }}
-{{- if .Values.domain }}
-          - "--system-domain={{ .Values.domain }}"
 {{ end }}
 {{- if .Values.user }}
           - "--user={{ .Values.user }}"
