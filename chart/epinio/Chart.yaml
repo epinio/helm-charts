@@ -9,7 +9,8 @@ keywords:
 - epinio
 - paas
 sources:
-- https://github.com/epinio/epinio
+- https://github.com/epinio/epinio-helm-chart
 maintainers:
-- name: SUSE
+- name: epinio
   email: team@epinio.io
+  url: https://epinio.io/
