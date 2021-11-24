@@ -34,7 +34,6 @@ spec:
         args:
           - install
           - "--email-address={{ .Values.email | default "epinio@suse.com" }}"
-          - "--skip-default-namespace"
           - "--tls-issuer={{ .Values.tlsIssuer | default "epinio-ca" }}"
 {{- if .Values.accessControlAllowOrigin }}
           - "--access-control-allow-origin={{ .Values.accessControlAllowOrigin }}"
