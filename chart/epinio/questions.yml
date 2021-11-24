@@ -33,7 +33,7 @@ questions:
   label: Domain
   description: "Domain for the application"
   type: strings
-  required: false
+  required: true
   group: "General settings"
 - variable: accessControlAllowOrigin
   label: Access control allow origin
