@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "pre-delete-{{ .Release.Name }}"
+  name: "post-install-{{ .Release.Name }}"
   labels:
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
@@ -10,7 +10,7 @@ metadata:
   annotations:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.
-    "helm.sh/hook": pre-delete
+    "helm.sh/hook": post-install, post-upgrade
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded, before-hook-creation
 spec:
@@ -26,10 +26,22 @@ spec:
       restartPolicy: Never
       serviceAccountName: epinio-installer
       containers:
-      - name: uninstall
-        image: "splatform/epinio-installer:{{ .Chart.AppVersion }}"
+      - name: install
+        image: {{ template  "epinio.installerImage" . }}
         imagePullPolicy: IfNotPresent
+        workingDir: /
         command:
-          - /epinio
+          - /usr/local/bin/epinio-installer
         args:
-          - uninstall
+          - install
+          - --trace-level
+          - "1"
+          - -m
+          - /etc/epinio/manifest.yaml
+        volumeMounts:
+        - name: manifest
+          mountPath: /etc/epinio/
+      volumes:
+        - name: manifest
+          secret:
+            secretName: manifest
