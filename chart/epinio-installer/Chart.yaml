@@ -1,15 +1,16 @@
 apiVersion: v1
-name: epinio
-version: "0.1.0"
+name: epinio-installer
+version: "0.1.20"
 appVersion: "v0.2.1"
-description: The Epinio component (without dependencies)
+description: Deploys Epinio and dependencies automatically
 home: https://github.com/epinio/epinio
 icon: https://raw.githubusercontent.com/epinio/epinio-helm-chart/main/assets/epinio.png
 keywords:
 - epinio
 - paas
 sources:
-- https://github.com/epinio/epinio
+- https://github.com/epinio/epinio-helm-chart
 maintainers:
-- name: SUSE
+- name: epinio
   email: team@epinio.io
+  url: https://epinio.io/
