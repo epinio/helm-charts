@@ -325,4 +325,44 @@ entries:
     urls:
     - https://github.com/epinio/epinio-helm-chart/releases/download/epinio-0.1.1/epinio-0.1.1.tgz
     version: 0.1.1
-generated: "2021-11-24T13:08:59.478631925Z"
+  - apiVersion: v1
+    appVersion: v0.2.1
+    created: "2021-12-06T10:42:21.41163282Z"
+    description: The Epinio component (without dependencies)
+    digest: 8487d890768807f5323f2ccedd8f9b66102df610c84ad4d621b36aa33aa777b9
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/epinio-helm-chart/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio
+    sources:
+    - https://github.com/epinio/epinio
+    urls:
+    - https://github.com/epinio/epinio-helm-chart/releases/download/epinio-0.1.0/epinio-0.1.0.tgz
+    version: 0.1.0
+  epinio-installer:
+  - apiVersion: v1
+    appVersion: v0.2.1
+    created: "2021-12-06T10:42:21.601485956Z"
+    description: Deploys Epinio and dependencies automatically
+    digest: 63a56d82953ba7a70b0acfad2e77e3a875426371e69248f5682a402358adbd55
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/epinio-helm-chart/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: team@epinio.io
+      name: epinio
+      url: https://epinio.io/
+    name: epinio-installer
+    sources:
+    - https://github.com/epinio/epinio-helm-chart
+    urls:
+    - https://github.com/epinio/epinio-helm-chart/releases/download/epinio-installer-0.1.20/epinio-installer-0.1.20.tgz
+    version: 0.1.20
+generated: "2021-12-06T10:42:21.601566557Z"
