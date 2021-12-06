@@ -25,14 +25,3 @@ jobs:
           fi
       - name: Run chart-testing (lint)
         run: ct lint --config ct.yaml
-
-      - name: Set up k3d cluster
-        uses: nolar/setup-k3d-k3s@v1
-        with:
-          version: v1.22
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-        if: steps.list-changed.outputs.changed == 'true'
-
-      - name: Run chart-testing (install)
-        run: ct install --config ct.yaml
-
