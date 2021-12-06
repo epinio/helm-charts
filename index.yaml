@@ -1,5 +1,18 @@
 apiVersion: v1
 entries:
+  container-registry:
+  - apiVersion: v2
+    created: "2021-12-06T13:48:46.299105748Z"
+    description: A Helm chart for the Container Registry
+    digest: 9c709c0896ab9e89b77158dc7915c40115efdeaa7c36588c45e22c7ae0caa138
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: container-registry
+    type: application
+    urls:
+    - https://github.com/epinio/epinio-helm-chart/releases/download/container-registry-0.1.0/container-registry-0.1.0.tgz
+    version: 0.1.0
   epinio:
   - apiVersion: v1
     appVersion: v0.2.1
@@ -365,4 +378,4 @@ entries:
     urls:
     - https://github.com/epinio/epinio-helm-chart/releases/download/epinio-installer-0.1.20/epinio-installer-0.1.20.tgz
     version: 0.1.20
-generated: "2021-12-06T10:42:21.601566557Z"
+generated: "2021-12-06T13:48:46.299956314Z"
