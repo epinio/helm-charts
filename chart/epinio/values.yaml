@@ -2,51 +2,67 @@
 ## This is a YAML-formatted file.
 ## Declare variables to be passed into your templates.
 
-# Domain which serves the Rancher UI (to access the API)
-# accessControlAllowOrigin: ""
-
-# The email address you are planning to use for getting notifications about your certificates. (default "epinio@suse.com")
+# The email address you are planning to use for getting notifications about your certificates.
 email: "epinio@suse.com"
 
-# The name of the cluster issuer to use. Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'. (default "epinio-ca")
-tlsIssuer: "epinio-ca"
+# The system domain that will be used to access the epinio API server
+systemDomain: ""
 
-# The domain you are planning to use for Epinio. Should be pointing to the traefik public IP (mandatory option).
-domain: "localhost.omg.howdoi.website"
+server:
+  # Domain which serves the Rancher UI (to access the API)
+  accessControlAllowOrigin: ""
 
-# The user name for authenticating all API requests.
-# user: ""
+  # increase this value to increase all timeouts by the same factor
+  timeoutMultiplier: 1
 
-# The password for authenticating all API requests.
-# password: ""
+  # Change this to a random string. Used for session cookies by the API server.
+  sessionKey: "12345"
 
-# Assert to epinio that cert-manager is already installed.
-# skipCertManager: false
+  # The name of the cluster issuer to use.
+  # Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'.
+  tlsIssuer: "epinio-ca"
 
-# Assert to epinio that Linkerd is already installed.
-# skipLinkerd: false
+  # Increase this value to instruct the API server to produce more debug output
+  traceLevel: 0
 
-# Assert to epinio that there is a Traefik active, even if epinio cannot find it.
-# skipTraefik: false
+certManagerNamespace: ""
 
-# If you are using your own S3 compatible object storage for blobs, set the following options:
-# s3Endpoint: ""
-# s3AccessKeyId: ""
-# s3SecretAccessKey: ""
-# s3Bucket: ""
+# Connection details for the S3 storage
+s3:
+  endpoint: s3.amazonaws.com
+  bucket: ""
+  region: ""
+  accessKeyID: ""
+  secretAccessKey: ""
+  useSSL: true
 
-# Optional
-# s3Location: ""
-# s3UseSSL: ""
+# Connection details for the container registry
+registry:
+  url: ""
+  localhostURL: ""
+  username: ""
+  password: ""
 
-# If you are using your own external registry, set the following options:
-# --external-registry-url: ""
-# --external-registry-username: ""
-# --external-registry-password: ""
+  # The registry namespace (aka org). Don't confuse this with Kubernetes
+  # namespaces. This one is just the part between the registry url and the
+  # image name (e.g. your username if you are using your account on Dockerhub).
+  namespace: ""
 
-# Optional
-# Provide namespace (or organization) of the external registry to which you have push access. It can be left empty.
-# --external-registry-namespace: ""
+  # The secret which Tekton's buildpack task uses to validate the registry's
+  # certificate. If provided, it will be mounted inside the Tekton pod so that Tekton
+  # can trust it when pushing the generated image.
+  certificateSecret: ""
 
-# Use TLS when application images will be pulled by kubernetes. Only applies to the internal registry. (default "false")
-# --force-kube-internal-registry-tls: ""
+  # The namespace in which the above secret is stored
+  # When set, the tekton-staging namespace will be annotated so that any secret
+  # annotated with:
+  #    "kubed.appscode.com/sync": "kubed-registry-tls-from=the_value_below"
+  # will be copied there. The registry certificate should have such an annotation
+  # if you are deploying one on the cluster.
+  certificateSecretNamespace: ""
+
+api:
+  # Default user username
+  username: admin
+  # Default user password
+  password: password
