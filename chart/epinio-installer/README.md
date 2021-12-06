@@ -10,3 +10,8 @@ to `epinio install` command.
 ## Usage
 
 The doc is centralized in a uniq place, checkout the [doc website](https://docs.epinio.io/installation/install_epinio_with_helm.html).
+
+## Development
+
+    % helm upgrade --install -n epinio --create-namespace --set "skipLinkerd=true" epinio-installer chart/epinio-installer
+    % helm uninstall -n epinio epinio-installer

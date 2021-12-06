@@ -7,7 +7,7 @@ questions:
   required: false
   group: "General settings"
 - variable: tlsIssuer
-  label: Tls issuer
+  label: TLS issuer
   description: "Name of the cluster issue to use"
   default: "epinio-ca"
   type: enum
@@ -41,7 +41,7 @@ questions:
   type: strings
   required: false
   group: "General settings"
-- variable: forceKubeInternalRegistryTls
+- variable: forceKubeInternalRegistryTLS
   label: Force tls for internal registry
   required: false
   type: boolean
@@ -69,7 +69,7 @@ questions:
   show_subquestion_if: true
   group: "External registry"
   subquestions:
-  - variable: externalRegistryUrl
+  - variable: externalRegistryURL
     label: External registry url
     description: "URL of your external registry"
     type: strings

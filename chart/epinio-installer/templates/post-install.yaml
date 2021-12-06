@@ -10,7 +10,7 @@ metadata:
   annotations:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.
-    "helm.sh/hook": post-install
+    "helm.sh/hook": post-install, post-upgrade
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded, before-hook-creation
 spec:
@@ -27,57 +27,21 @@ spec:
       serviceAccountName: epinio-installer
       containers:
       - name: install
-        image: "splatform/epinio-installer:{{ .Chart.AppVersion }}"
+        image: {{ template  "epinio.installerImage" . }}
         imagePullPolicy: IfNotPresent
+        workingDir: /
         command:
-          - /epinio
+          - /usr/local/bin/epinio-installer
         args:
           - install
-          - "--system-domain={{ .Values.domain }}"
-          - "--email-address={{ .Values.email | default "epinio@suse.com" }}"
-          - "--tls-issuer={{ .Values.tlsIssuer | default "epinio-ca" }}"
-{{- if .Values.accessControlAllowOrigin }}
-          - "--access-control-allow-origin={{ .Values.accessControlAllowOrigin }}"
-{{ end }}
-{{- if .Values.externalRegistryNamespace }}
-          - "--external-registry-namespace={{ .Values.externalRegistryNamespace }}"
-{{ end }}
-{{- if .Values.externalRegistryPassword }}
-          - "--external-registry-password={{ .Values.externalRegistryPassword }}"
-{{ end }}
-{{- if .Values.externalRegistryUrl }}
-          - "--external-registry-url={{ .Values.externalRegistryUrl }}"
-{{ end }}
-{{- if .Values.externalRegistryUsername }}
-          - "--external-registry-username={{ .Values.externalRegistryUsername }}"
-{{ end }}
-{{- if .Values.forceKubeInternalRegistryTls }}
-          - "--force-kube-internal-registry-tls={{ .Values.forceKubeInternalRegistryTls }}"
-{{ end }}
-{{- if .Values.password }}
-          - "--password={{ .Values.password }}"
-{{ end }}
-{{- if .Values.s3Endpoint }}
-          - "--s3-endpoint={{ .Values.s3Endpoint }}"
-          - "--s3-access-key-id={{ .Values.s3AccessKeyId }}"
-          - "--s3-secret-access-key={{ .Values.s3SecretAccessKey }}"
-          - "--s3-bucket={{ .Values.s3Bucket }}"
-{{ end }}
-{{- if .Values.s3Location }}
-          - "--s3-location={{ .Values.s3Location }}"
-{{ end }}
-{{- if .Values.s3UseSSL }}
-          - "--s3-use-ssl={{ .Values.s3UseSSL }}"
-{{ end }}
-{{- if .Values.skipCertManager }}
-          - "--skip-cert-manager"
-{{ end }}
-{{- if .Values.skipLinkerd }}
-          - "--skip-linkerd"
-{{ end }}
-{{- if .Values.skipTraefik }}
-          - "--skip-traefik"
-{{ end }}
-{{- if .Values.user }}
-          - "--user={{ .Values.user }}"
-{{ end }}
+          - --trace-level
+          - "{{ .Values.traceLevel }}"
+          - -m
+          - /etc/epinio/manifest.yaml
+        volumeMounts:
+        - name: manifest
+          mountPath: /etc/epinio/
+      volumes:
+        - name: manifest
+          secret:
+            secretName: manifest
