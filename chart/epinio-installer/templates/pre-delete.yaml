@@ -27,9 +27,20 @@ spec:
       serviceAccountName: epinio-installer
       containers:
       - name: uninstall
-        image: "splatform/epinio-installer:{{ .Chart.AppVersion }}"
+        image: {{ template  "epinio.installerImage" . }}
         imagePullPolicy: IfNotPresent
         command:
-          - /epinio
+          - /usr/local/bin/epinio-installer
         args:
           - uninstall
+          - --trace-level
+          - "{{ .Values.traceLevel }}"
+          - -m
+          - /etc/epinio/manifest.yaml
+        volumeMounts:
+        - name: manifest
+          mountPath: /etc/epinio/
+      volumes:
+        - name: manifest
+          secret:
+            secretName: manifest

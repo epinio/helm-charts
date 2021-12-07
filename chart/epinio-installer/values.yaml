@@ -50,3 +50,11 @@ domain: "localhost.omg.howdoi.website"
 
 # Use TLS when application images will be pulled by kubernetes. Only applies to the internal registry. (default "false")
 # --force-kube-internal-registry-tls: ""
+
+containerRegistryChart: "https://github.com/epinio/epinio-helm-chart/releases/download/container-registry-0.1.0/container-registry-0.1.0.tgz"
+epinioChart: "https://github.com/epinio/epinio-helm-chart/releases/download/epinio-0.1.21/epinio-0.1.21.tgz"
+traefikChart: "https://helm.traefik.io/traefik/traefik-10.3.4.tgz"
+# installerImageOverride: "ghcr.io/epinio/epinio-installer:latest"
+
+# Trace level for the install/uninistall hooks
+traceLevel: "2"
