@@ -50,8 +50,8 @@ stringData:
             value: "true"
           - name: "ingressClass.isDefaultClass"
             value: "true"
-          # - name: "service.spec.loadBalancerIP"
-          #   value: "{{ .Values.loadbalancerIP }}"
+          - name: "service.spec.loadBalancerIP"
+            value: "{{ .Values.loadbalancerIP }}"
       {{ end }}
 
       - id: kubed
@@ -185,6 +185,9 @@ stringData:
             selector: "clustertasks.tekton.dev"
           - type: "crd"
             selector: "conditions.tekton.dev"
+          - type: "pod"
+            selector: "app.kubernetes.io/name=webhook"
+            namespace: "cert-manager"
 
       {{ if not .Values.externalRegistryURL -}}
       - id: namespace-registry
@@ -205,7 +208,7 @@ stringData:
         type: helm
         source:
           name: epinio-registry
-          path: assets/installer/container-registry-0.1.0.tgz
+          path: {{ .Values.containerRegistryChart | quote }}
         values:
           - name: domain
             value: "epinio-registry.{{ .Values.domain }}"
