@@ -10,6 +10,4 @@ To interract with your Epinio installation, you have to download the latest epin
 Update the api location and credentials with:
 `epinio config update`
 
-Then, you have to run `epinio namespace create workspace`
-
 For more information about Epinio, feel free to checkout https://epinio.io/ and https://docs.epinio.io/.
