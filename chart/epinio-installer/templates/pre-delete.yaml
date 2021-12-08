@@ -13,6 +13,7 @@ metadata:
     "helm.sh/hook": pre-delete
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded, before-hook-creation
+    "linkerd.io/inject": disabled
 spec:
   backoffLimit: 0
   template:
