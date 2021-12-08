@@ -1,7 +1,7 @@
 apiVersion: v1
 name: epinio
-version: "0.1.21"
-appVersion: "v0.2.1"
+version: "0.2.0"
+appVersion: "v0.3.0"
 description: The Epinio component (without dependencies)
 home: https://github.com/epinio/epinio
 icon: https://raw.githubusercontent.com/epinio/epinio-helm-chart/main/assets/epinio.png
