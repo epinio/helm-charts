@@ -202,8 +202,9 @@ stringData:
             type: annotation
 
       - id: registry
-        # needs: namespace-registry
+        {{- if not .Values.skipCertManager }}
         needs: cert-manager
+        {{- end }}
         namespace: epinio-registry
         type: helm
         source:
