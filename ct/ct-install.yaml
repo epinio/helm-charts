@@ -1,7 +1,7 @@
 # See https://github.com/helm/chart-testing#configuration
 remote: origin
-check-version-increment: false
 target-branch: main
 chart-dirs:
   - chart
+charts: chart/epinio-installer
 helm-extra-args: --timeout 600s
