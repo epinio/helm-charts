@@ -44,4 +44,4 @@ spec:
       volumes:
         - name: manifest
           secret:
-            secretName: manifest
+            secretName: {{ default "manifest" .Values.manifestSecret }}

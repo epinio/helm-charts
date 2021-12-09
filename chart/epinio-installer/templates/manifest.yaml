@@ -1,3 +1,4 @@
+{{ if not .Values.manifestSecret }}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -265,3 +266,4 @@ stringData:
             selector: "statefulset.kubernetes.io/pod-name=tenant1-ss-0-0"
             namespace: minio-epinio
       {{ end }}
+{{ end }}
