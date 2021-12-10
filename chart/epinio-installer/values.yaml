@@ -56,5 +56,8 @@ epinioChart: "https://github.com/epinio/epinio-helm-chart/releases/download/epin
 traefikChart: "https://helm.traefik.io/traefik/traefik-10.3.4.tgz"
 # installerImageOverride: "ghcr.io/epinio/epinio-installer:latest"
 
+# needs to be in the .Release.Namespace
+# manifestSecret: epinio
+
 # Trace level for the install/uninistall hooks
 traceLevel: "2"
