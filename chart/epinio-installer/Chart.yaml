@@ -5,12 +5,12 @@ version: 0.3.0
 appVersion: v0.0.1-15
 description: Deploys Epinio and dependencies automatically
 home: https://github.com/epinio/epinio
-icon: https://raw.githubusercontent.com/epinio/epinio-helm-chart/main/assets/epinio.png
+icon: https://raw.githubusercontent.com/epinio/helm/main/assets/epinio.png
 keywords:
 - epinio
 - paas
 sources:
-- https://github.com/epinio/epinio-helm-chart
+- https://github.com/epinio/helm
 maintainers:
 - name: epinio
   email: team@epinio.io
