@@ -1,4 +1,4 @@
-# Epinio Helm Chart
+# Epinio Helm Charts
 
 <img src="./assets/epinio.png" align="right" width="200" height="50%">
 
