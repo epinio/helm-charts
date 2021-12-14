@@ -65,4 +65,3 @@ traceLevel: "2"
 server: 
   traceLevel: "2"
   timeoutMultiplier: 1
-  
