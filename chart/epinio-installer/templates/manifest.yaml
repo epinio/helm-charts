@@ -144,6 +144,8 @@ stringData:
             value: "{{ $sessionKey }}"
           - name: "server.accessControlAllowOrigin"
             value: {{ default "*" .Values.accessControlAllowOrigin | quote }}
+          - name: "server.tlsIssuer"
+            value: "{{ .Values.tlsIssuer }}"
           - name: "server.timeoutMultiplier"
             value: "1"
           - name: "server.traceLevel"
