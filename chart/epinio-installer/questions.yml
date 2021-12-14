@@ -52,12 +52,12 @@ questions:
   type: boolean
   group: "General settings"
 - variable: skipLinkerd
-  label: Skip Linkerd installation
+  label: Use existing Linkerd Installation
   required: false
   type: boolean
   group: "General settings"
 - variable: skipTraefik
-  label: Skip Traefik installation
+  label: Use existing ingress controller
   required: false
   type: boolean
   group: "General settings"
@@ -126,3 +126,21 @@ questions:
     label: S3 use SSL
     type: boolean
     required: false
+- variable: traceLevel
+  label: Installer Log Level
+  required: false
+  type: strings
+  default: "2"
+  group: "Debugging"
+- variable: server.traceLevel
+  label: Epinio API Log Level
+  required: false
+  type: strings
+  default: "2"
+  group: "Debugging"
+- variable: server.timeoutMultiplier
+  label: Timeout Multiplier
+  required: false
+  type: strings
+  default: "1"
+  group: "Debugging"
