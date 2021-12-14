@@ -145,7 +145,7 @@ stringData:
           - name: "server.accessControlAllowOrigin"
             value: {{ default "*" .Values.accessControlAllowOrigin | quote }}
           - name: "server.timeoutMultiplier"
-            value: "{{ .Values.server.timeoutMultiplier }}"
+            value: {{ .Values.server.timeoutMultiplier }}
           - name: "server.traceLevel"
             value: "{{ .Values.server.traceLevel }}"
 

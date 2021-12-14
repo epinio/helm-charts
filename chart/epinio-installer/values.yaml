@@ -61,3 +61,7 @@ traefikChart: "https://helm.traefik.io/traefik/traefik-10.3.4.tgz"
 
 # Trace level for the install/uninistall hooks
 traceLevel: "2"
+
+server: 
+  traceLevel: "2"
+  timeoutMultiplier: 1
