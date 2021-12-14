@@ -134,9 +134,9 @@ stringData:
             value: "{{ .Values.email }}"
           - name: "systemDomain"
             value: "{{ .Values.domain }}"
-          - name: "user"
+          - name: "api.username"
             value: {{ default "admin" .Values.user | quote }}
-          - name: "password"
+          - name: "api.password"
             value: {{ default $password .Values.password | quote }}
           - name:  "certManagerNamespace"
             value: cert-manager
@@ -145,9 +145,9 @@ stringData:
           - name: "server.accessControlAllowOrigin"
             value: {{ default "*" .Values.accessControlAllowOrigin | quote }}
           - name: "server.timeoutMultiplier"
-            value: "1"
+            value: "{{ .Values.server.timeoutMultiplier }}"
           - name: "server.traceLevel"
-            value: "1"
+            value: "{{ .Values.server.traceLevel }}"
 
           - name: "s3.endpoint"
             value: {{ default "minio.minio-epinio.svc.cluster.local" .Values.s3Endpoint | quote }}
