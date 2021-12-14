@@ -61,7 +61,7 @@ questions:
   required: false
   type: boolean
   group: "General settings"
-- variable: logLevel
+- variable: traceLevel
   label: Log Level
   required: false
   type: strings
