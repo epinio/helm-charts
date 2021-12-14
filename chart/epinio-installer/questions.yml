@@ -52,14 +52,20 @@ questions:
   type: boolean
   group: "General settings"
 - variable: skipLinkerd
-  label: Skip Linkerd installation
+  label: Use existing Linkerd Installation
   required: false
   type: boolean
   group: "General settings"
 - variable: skipTraefik
-  label: Skip Traefik installation
+  label: Use existing ingress controller
   required: false
   type: boolean
+  group: "General settings"
+- variable: logLevel
+  label: Log Level
+  required: false
+  type: strings
+  default: "2"
   group: "General settings"
 - variable: useExternalRegistry
   default: "false"
