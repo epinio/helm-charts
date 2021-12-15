@@ -3,6 +3,24 @@
   "title": "Values",
   "type": "object",
   "properties": {
+    "registryURL": {
+      "type": "string"
+    },
+    "tekton": {
+      "description": "tekton configuration",
+      "type": "object",
+      "properties": {
+        "bashImage": {
+          "type": "string"
+        },
+        "kubectlImage": {
+          "type": "string"
+        },
+        "awsCliImage": {
+          "type": "string"
+        }
+      }
+    },
     "server": {
       "description": "server configuration",
       "type": "object",
@@ -23,6 +41,9 @@
           "type": "integer"
         },
         "registryCertificateSecret": {
+          "type": "string"
+        },
+        "containerImage": {
           "type": "string"
         }
       }

@@ -238,7 +238,7 @@ spec:
             - name: REGISTRY_CERTIFICATE_SECRET
               value: "{{ .Values.registry.certificateSecret }}"
             {{- end }}
-          image: splatform/epinio-server:{{ .Chart.AppVersion }}
+          image: "{{ template "registry-url" . }}{{ .Values.server.containerImage }}:{{ .Chart.AppVersion }}"
           livenessProbe:
             httpGet:
               path: /ready

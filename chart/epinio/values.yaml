@@ -5,8 +5,18 @@
 # The email address you are planning to use for getting notifications about your certificates.
 email: "epinio@suse.com"
 
+# The URL of the container registry from where to pull container images
+# for the various created Pods. Don't confuse this registry with the "Epinio
+# registry" which is the one where Epinio stores the application images.
+registryURL: ""
+
 # The system domain that will be used to access the epinio API server
 systemDomain: ""
+
+tekton:
+  bashImage: "bash:5.1.4@sha256:b208215a4655538be652b2769d82e576bc4d0a2bb132144c060efc5be8c3f5d6"
+  kubectlImage: "lachlanevenson/k8s-kubectl:v1.22.2"
+  awsCliImage: "amazon/aws-cli:2.0.52@sha256:1506cec98a7101c935176d440a14302ea528b8f92fcaf4a6f1ea2d7ecef7edc4" #tag: 2.0.52
 
 server:
   # Domain which serves the Rancher UI (to access the API)
@@ -24,6 +34,10 @@ server:
 
   # Increase this value to instruct the API server to produce more debug output
   traceLevel: 0
+
+  # The epinio server image. Combinded with the top-level "registryURL", it
+  # allows the use of a private registry.
+  containerImage: "splatform/epinio-server"
 
 certManagerNamespace: ""
 
