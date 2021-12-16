@@ -174,10 +174,12 @@ stringData:
             value: "{{ $registryPassword }}"
           - name: "registry.namespace"
             value: {{ default "apps" .Values.externalRegistryNamespace | quote }}
+          {{- if not .Values.externalRegistryURL }}
           - name: "registry.certificateSecret"
             value: "epinio-registry-tls"
           - name: "registry.certificateSecretNamespace"
             value: "epinio-registry"
+          {{- end }}
           - name: "server.forceKubeInternalRegistryTLS"
             value: {{ default "false" .Values.forceKubeInternalRegistryTLS | quote }}
         preDeploy:
