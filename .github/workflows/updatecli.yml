@@ -1,0 +1,28 @@
+---
+name: updatecli
+
+on:
+  workflow_dispatch:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # Run every Monday at 9 AM
+    - cron: '0 9 * * 1'
+  repository_dispatch:
+    types: [epinio-release]
+
+jobs:
+  updatecli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Apply
+        uses: updatecli/updatecli-action@v1.17.0
+        if: github.ref == 'refs/heads/main'
+        with:
+          command: apply
+          flags: "--config ./updatecli/updatecli.d"
+        env:
+          UPDATECLI_GITHUB_ACTOR: ${{ github.actor }}
+          UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
