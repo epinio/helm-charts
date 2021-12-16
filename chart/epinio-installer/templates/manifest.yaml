@@ -166,7 +166,7 @@ stringData:
 
           - name: "registry.url"
             value: {{ default (print "epinio-registry." .Values.domain)  .Values.externalRegistryURL | quote }}
-          {{- if (not .Values.externalRegistryURL) }}
+          {{- if not .Values.externalRegistryURL }}
           - name: "registry.localhostURL"
             value: "127.0.0.1:30500"
           {{- end }}
