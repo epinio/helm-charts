@@ -52,7 +52,7 @@ conditions:
     scmID: "helm-charts"
     spec:
       file: "chart/epinio/values.yaml"
-      key: "image.epinio.registry"
+      key: "image.epinio.repository"
       value: "splatform/epinio-server"
 
 # Defines what need to be udpated if needed
