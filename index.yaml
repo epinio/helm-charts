@@ -15,6 +15,25 @@ entries:
     version: 0.1.0
   epinio:
   - apiVersion: v1
+    appVersion: v0.3.1
+    created: "2021-12-16T13:28:36.776169411Z"
+    description: The Epinio component (without dependencies)
+    digest: b457ca2ea68baf17af2d469f00dea0e6352c56988cdcec35e2f7091c584751e9
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio
+    sources:
+    - https://github.com/epinio/epinio
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-0.2.1/epinio-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v1
     appVersion: v0.2.1
     created: "2021-12-07T14:14:43.182217861Z"
     description: The Epinio component (without dependencies)
@@ -379,6 +398,26 @@ entries:
   epinio-installer:
   - apiVersion: v1
     appVersion: v0.0.1-15
+    created: "2021-12-16T13:28:36.890298227Z"
+    description: Deploys Epinio and dependencies automatically
+    digest: 1430da98f6ae1884f7721912aa22311c7be11991eb59544fabee64e526b61a92
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: team@epinio.io
+      name: epinio
+      url: https://epinio.io/
+    name: epinio-installer
+    sources:
+    - https://github.com/epinio/helm-charts
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-installer-0.3.2/epinio-installer-0.3.2.tgz
+    version: 0.3.2
+  - apiVersion: v1
+    appVersion: v0.0.1-15
     created: "2021-12-08T13:06:36.97566351Z"
     description: Deploys Epinio and dependencies automatically
     digest: 9bd32f65b0d504c3410d22449beb0fe457b60a76963429716e3aacbc791f0a88
@@ -437,4 +476,4 @@ entries:
     urls:
     - https://github.com/epinio/epinio-helm-chart/releases/download/epinio-installer-0.1.20/epinio-installer-0.1.20.tgz
     version: 0.1.20
-generated: "2021-12-08T13:06:36.975783711Z"
+generated: "2021-12-16T13:28:36.890679326Z"
