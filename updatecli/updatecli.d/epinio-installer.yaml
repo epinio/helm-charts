@@ -2,7 +2,7 @@
 title: "Bump epinio-installer Helm Chart"
 # Define git repository configuration to know where to push changes
 scms:
-  epinio-helm-chart:
+  helm-charts:
     kind: "github"
     spec:
       user: "{{ .github.epinio.user }}"
@@ -15,11 +15,11 @@ scms:
 
 # Define pullrequest configuration if one needs to be created
 pullrequests:
-  epinio-helm-chart:
+  helm-charts:
     kind: "github"
-    scmid: "epinio-helm-chart"
+    scmid: "helm-charts"
     targets:
-      - "epinio-helm-chart"
+      - "helm-charts"
     spec:
       labels:
         - "dependencies"
@@ -35,11 +35,11 @@ sources:
       repository: "installer"
       username: '{{ requiredEnv .github.epinio.username }}'
       token: '{{ requiredEnv .github.epinio.token }}'
-  epinio-helm-chart:
+  helm-charts:
     name: "Get Latest Epinio Helm chart version"
     kind: "helmChart"
     spec:
-      url: "https://epinio.github.io/epinio-helm-chart"
+      url: "https://epinio.github.io/helm-charts"
       name: "epinio"
 
 ## Defines condition that must pass in order to update targets
@@ -59,7 +59,7 @@ targets:
 #  Commented for now until we parametrize the container configuration in the chart epinio-installer
 #    name: "Update epinio version in chart epinio"
 #    kind: "helmChart"
-#    scmID: "epinio-helm-chart"
+#    scmID: "helm-charts"
 #    sourceID: "epinio"
 #    spec:
 #      appVersion: true
@@ -69,10 +69,10 @@ targets:
   epinio-installer-helm-charts:
     name: "Update epinio chart version in Helm chart epinio-installer"
     kind: "helmChart"
-    scmID: "epinio-helm-chart"
-    sourceID: "epinio-helm-chart"
+    scmID: "helm-charts"
+    sourceID: "helm-charts"
     spec:
       name: "chart/epinio-installer"
       file: "values.yaml"
       key: "epinioChart"
-      value: 'https://github.com/epinio/epinio-helm-chart/releases/download/epinio-{{ source "epinio-helm-chart" }}/epinio-{{ source "epinio-helm-chart" }}.tgz'
+      value: 'https://github.com/epinio/helm-charts/releases/download/epinio-{{ source "helm-charts" }}/epinio-{{ source "helm-charts" }}.tgz'
