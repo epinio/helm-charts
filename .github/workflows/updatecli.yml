@@ -10,6 +10,9 @@ on:
   repository_dispatch:
     types: [epinio-release]
 
+permissions:
+  contents: write
+
 jobs:
   updatecli:
     runs-on: ubuntu-latest
