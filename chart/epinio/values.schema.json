@@ -6,18 +6,52 @@
     "registryURL": {
       "type": "string"
     },
-    "tekton": {
-      "description": "tekton configuration",
+    "image": {
       "type": "object",
       "properties": {
-        "bashImage": {
-          "type": "string"
+        "epinio": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
         },
-        "kubectlImage": {
-          "type": "string"
+        "bash": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
         },
-        "awsCliImage": {
-          "type": "string"
+        "awscli": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
+        },
+        "kubectl": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -41,9 +75,6 @@
           "type": "integer"
         },
         "registryCertificateSecret": {
-          "type": "string"
-        },
-        "containerImage": {
           "type": "string"
         }
       }

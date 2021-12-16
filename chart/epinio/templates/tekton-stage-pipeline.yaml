@@ -106,7 +106,7 @@ spec:
   - name: source
   steps:
   - name: cleanup
-    image: "{{ template "registry-url" . }}{{ .Values.tekton.kubectlImage }}"
+    image: "{{ trimSuffix "/" .Values.registryURL }}/{{ .Values.image.kubectl.repository}}:{{ .Values.image.kubectl.tag }}"
     workingDir: "/workspace/source"
     command:
       - sh
@@ -126,7 +126,7 @@ spec:
   - name: source
   steps:
   - name: extract
-    image: "{{ template "registry-url" . }}{{ .Values.tekton.kubectlImage }}"
+    image: "{{ trimSuffix "/" .Values.registryURL }}/{{ .Values.image.kubectl.repository}}:{{ .Values.image.kubectl.tag }}"
     workingDir: "/workspace/source"
     command:
       - sh
