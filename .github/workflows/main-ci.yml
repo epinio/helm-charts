@@ -40,6 +40,7 @@ jobs:
           if [[ -n "$changed" ]]; then
             echo "::set-output name=changed::true"
           fi
+
       - name: Set up k3d cluster
         uses: nolar/setup-k3d-k3s@v1
         with:
@@ -49,3 +50,4 @@ jobs:
 
       - name: Run chart-testing (install)
         run: ct install --config ct/ct-install.yaml
+        if: steps.list-changed.outputs.changed == 'true'
