@@ -35,7 +35,7 @@ spec:
       default: ["help"]
   steps:
     - name: awscli
-      image: "{{ trimSuffix "/" .Values.registryURL }}/{{ .Values.image.awscli.repository}}:{{ .Values.image.awscli.tag }}"
+      image: "{{ template "registry-url" }}{{ .Values.image.awscli.repository}}:{{ .Values.image.awscli.tag }}"
       script: "$(params.SCRIPT)"
       args:
         - "$(params.ARGS)"
