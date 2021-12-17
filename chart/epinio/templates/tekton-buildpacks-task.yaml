@@ -79,7 +79,7 @@ spec:
 
   steps:
     - name: prepare
-      image: "{{ template "registry-url" }}{{ .Values.image.bash.repository}}:{{ .Values.image.bash.tag }}"
+      image: "{{ template "registry-url" . }}{{ .Values.image.bash.repository}}:{{ .Values.image.bash.tag }}"
       args:
         - "--env-vars"
         - "$(params.ENV_VARS[*])"
@@ -165,7 +165,7 @@ spec:
         runAsGroup: 1000
 
     - name: results
-      image: "{{ template "registry-url" }}{{ .Values.image.bash.repository}}:{{ .Values.image.bash.tag }}"
+      image: "{{ template "registry-url" . }}{{ .Values.image.bash.repository}}:{{ .Values.image.bash.tag }}"
       script: |
         #!/usr/bin/env bash
         set -e
