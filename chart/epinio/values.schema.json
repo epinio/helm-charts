@@ -3,6 +3,58 @@
   "title": "Values",
   "type": "object",
   "properties": {
+    "registryURL": {
+      "type": "string"
+    },
+    "image": {
+      "type": "object",
+      "properties": {
+        "epinio": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
+        },
+        "bash": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
+        },
+        "awscli": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
+        },
+        "kubectl": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "server": {
       "description": "server configuration",
       "type": "object",
