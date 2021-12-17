@@ -62,7 +62,7 @@ stringData:
           name: kubed
           path: assets/installer/kubed-v0.12.0.tgz
 
-      {{- if not .Values.skipCertManager }}
+      {{- if not (or .Values.skipCertManager .Values.useCustomTlsIssuer) }}
       - id: cert-manager
         namespace: cert-manager
         type: helm
@@ -145,7 +145,7 @@ stringData:
           - name: "server.accessControlAllowOrigin"
             value: {{ default "*" .Values.accessControlAllowOrigin | quote }}
           - name: "server.tlsIssuer"
-            value: "{{ .Values.tlsIssuer }}"
+            value: {{ default .Values.tlsIssuer .Values.customTlsIssuer | quote }}
           - name: "server.timeoutMultiplier"
             value: {{ .Values.server.timeoutMultiplier }}
           - name: "server.traceLevel"
@@ -209,7 +209,7 @@ stringData:
             type: annotation
 
       - id: registry
-        {{- if not .Values.skipCertManager }}
+        {{- if not (or .Values.skipCertManager .Values.useCustomTlsIssuer) }}
         needs: cert-manager
         {{- end }}
         namespace: epinio-registry
@@ -226,7 +226,7 @@ stringData:
           - name: createNodePort
             value: "true"
           - name: tlsIssuer
-            value: "{{ .Values.tlsIssuer }}"
+            value: {{ default .Values.tlsIssuer .Values.customTlsIssuer | quote }}
         preDeploy:
           - type: "pod"
             selector: "app.kubernetes.io/name=webhook"
