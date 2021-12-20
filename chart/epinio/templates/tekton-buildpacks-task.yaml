@@ -1,5 +1,5 @@
 # Copied from https://github.com/tektoncd/catalog/blob/master/task/buildpacks/0.3/buildpacks.yaml
-# Modified to mount ca certs
+# Modified to mount the registry cert
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Task
@@ -158,7 +158,7 @@ spec:
         - name: registry-certs
           mountPath: /etc/ssl/certs/$(params.REGISTRY_CERTIFICATE_HASH)
           readOnly: true
-          subPath: ca.crt
+          subPath: tls.crt
         {{- end }}
       securityContext:
         runAsUser: 1000
