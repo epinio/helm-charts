@@ -17,7 +17,7 @@ scms:
 pullrequests:
   helm-charts:
     kind: "github"
-    scmid: "helm-charts"
+    scmID: "helm-charts"
     targets:
       - "helm-charts"
     spec:
