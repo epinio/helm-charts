@@ -55,7 +55,7 @@ conditions:
       key: "image.epinio.repository"
       value: "splatform/epinio-server"
 
-# Defines what need to be udpated if needed
+# Defines what needs to be udpated if needed
 targets:
   helm-charts:
     name: "Update epinio version in chart epinio"
