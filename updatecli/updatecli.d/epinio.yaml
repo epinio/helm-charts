@@ -9,7 +9,7 @@ scms:
       email: "{{ .github.epinio.email }}"
       owner: "{{ .github.epinio.owner }}"
       repository: "{{ .github.epinio.repository }}"
-      token: "{{ requiredEnv .github.epinio.token }}"
+      token: '{{ requiredEnv .github.epinio.token }}'
       username: "{{ .github.epinio.username }}"
       branch: "{{ .github.epinio.branch }}"
 
