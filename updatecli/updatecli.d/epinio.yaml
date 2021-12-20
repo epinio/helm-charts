@@ -1,0 +1,69 @@
+---
+title: "Bump epinio server version"
+# Define git repository configuration to know where to push changes
+scms:
+  helm-charts:
+    kind: "github"
+    spec:
+      user: "{{ .github.epinio.user }}"
+      email: "{{ .github.epinio.email }}"
+      owner: "{{ .github.epinio.owner }}"
+      repository: "{{ .github.epinio.repository }}"
+      token: "{{ requiredEnv .github.epinio.token }}"
+      username: "{{ .github.epinio.username }}"
+      branch: "{{ .github.epinio.branch }}"
+
+# Define pullrequest configuration if one needs to be created
+pullrequests:
+  helm-charts:
+    kind: "github"
+    scmID: "helm-charts"
+    targets:
+      - "helm-charts"
+    spec:
+      labels:
+        - "dependencies"
+        - "epinio"
+
+# Defines where we get source values
+sources:
+  epinio:
+    name: "Get Latest epinio version"
+    kind: "githubRelease"
+    spec:
+      owner: "epinio"
+      repository: "epinio"
+      username: '{{ requiredEnv .github.epinio.username }}'
+      token: '{{ requiredEnv .github.epinio.token }}'
+
+# Defines condition that must pass in order to update targets
+conditions:
+  dockerImage:
+    name: 'Check that splatform/epinio-installer:{{ source "epinio" }} is published'
+    kind: "dockerImage"
+    sourceID: "epinio"
+    spec:
+      image: "splatform/epinio-server"
+
+  dockerImageContainer:
+    name: "Check that splatform/epinio-installer is used in Helm chart epinio"
+    kind: "yaml"
+    disablesourceinput: true
+    scmID: "helm-charts"
+    spec:
+      file: "chart/epinio/values.yaml"
+      key: "image.epinio.repository"
+      value: "splatform/epinio-server"
+
+# Defines what needs to be udpated if needed
+targets:
+  helm-charts:
+    name: "Update epinio version in chart epinio"
+    kind: "helmChart"
+    scmID: "helm-charts"
+    sourceID: "epinio"
+    spec:
+      appVersion: true
+      name: "chart/epinio"
+      file: "values.yaml"
+      key: "image.epinio.tag"
