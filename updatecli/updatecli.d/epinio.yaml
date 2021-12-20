@@ -57,7 +57,7 @@ conditions:
 
 # Defines what need to be udpated if needed
 targets:
-  helm-chartss:
+  helm-charts:
     name: "Update epinio version in chart epinio"
     kind: "helmChart"
     scmID: "helm-charts"
