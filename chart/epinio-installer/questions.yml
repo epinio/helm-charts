@@ -6,9 +6,23 @@ questions:
   type: strings
   required: false
   group: "General settings"
+- variable: useCustomTlsIssuer
+  label: Use your own TLS issuer
+  default: "false"
+  description: "Use your own TLS issuer"
+  type: boolean
+  group: "General settings"
+  show_subquestion_if: true
+  subquestions:
+  - variable: customTlsIssuer
+    label: TLS issuer
+    description: "Name of the cluster issuer to use"
+    type: strings
+    required: false
 - variable: tlsIssuer
+  show_if: "useCustomTlsIssuer=false"
   label: TLS issuer
-  description: "Name of the cluster issue to use"
+  description: "Name of the predefined cluster issuer to use"
   default: "epinio-ca"
   type: enum
   required: false
@@ -42,17 +56,18 @@ questions:
   required: false
   group: "General settings"
 - variable: forceKubeInternalRegistryTLS
-  label: Force tls for internal registry
+  label: Force TLS for internal registry
   required: false
   type: boolean
   group: "General settings"
 - variable: skipCertManager
-  label: Skip Cert Manager installation
+  show_if: "useCustomTlsIssuer=false"
+  label: Use existing CertManager installation
   required: false
   type: boolean
   group: "General settings"
 - variable: skipLinkerd
-  label: Use existing Linkerd Installation
+  label: Use existing Linkerd installation
   required: false
   type: boolean
   group: "General settings"
