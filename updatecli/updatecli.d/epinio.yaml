@@ -59,11 +59,9 @@ conditions:
 targets:
   helm-charts:
     name: "Update epinio version in chart epinio"
-    kind: "helmChart"
+    kind: "yaml"
     scmID: "helm-charts"
     sourceID: "epinio"
     spec:
-      appVersion: true
-      name: "chart/epinio"
-      file: "values.yaml"
-      key: "image.epinio.tag"
+      file: "chart/epinio/Chart.yaml"
+      key: "appVersion"
