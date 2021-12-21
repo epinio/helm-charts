@@ -35,6 +35,12 @@ sources:
       repository: "installer"
       username: '{{ requiredEnv .github.epinio.username }}'
       token: '{{ requiredEnv .github.epinio.token }}'
+  epinioHelmChart:
+    name: "Get Latest epinio helm chart version"
+    kind: helmChart
+    spec:
+      url: https://epinio.github.io/helm-charts
+      name: epinio
 
 # Defines condition that must pass in order to update the epinio-installer helm chart
 conditions:
@@ -57,3 +63,12 @@ targets:
     spec:
       file: "chart/epinio-installer/Chart.yaml"
       key: "appVersion"
+  epinio-chart:
+    name: "Update epinio helm chart tgz url in chart epinio-installer"
+    kind: "yaml"
+    scmID: "helm-charts"
+    sourceID: "epinioHelmChart"
+    spec:
+      file: "chart/epinio-installer/values.yaml"
+      key: "epinioChart"
+      value: 'https://github.com/epinio/helm-charts/releases/download/epinio-{{ source "epinioHelmChart" }}/epinio-{{ source "epinioHelmChart" }}.tgz'
