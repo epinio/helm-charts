@@ -39,11 +39,10 @@ sleep 5
 helm repo add chartmuseum http://localhost:8090
 helm repo update
 
-# Push all our charts to the repo
+# Push charts needed by epinio-installer to the repo
 # We force version 0.1.0 because we don't care about versionning
 # We only care about testing here
 cd chart/
-helm cm-push --version "0.1.0" epinio-installer/ chartmuseum
 helm cm-push --version "0.1.0" epinio/ chartmuseum
 helm cm-push --version "0.1.0" container-registry/ chartmuseum
 
