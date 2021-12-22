@@ -15,6 +15,25 @@ entries:
     version: 0.1.0
   epinio:
   - apiVersion: v1
+    appVersion: v0.3.2
+    created: "2021-12-22T08:37:54.006968055+02:00"
+    description: The Epinio component (without dependencies)
+    digest: 58cf3f4c3a528520f807a644ff251f0216c84676cfff5e5de3b2093013af4f6b
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio
+    sources:
+    - https://github.com/epinio/epinio
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-0.2.2/epinio-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v1
     appVersion: v0.3.1
     created: "2021-12-16T13:28:36.776169411Z"
     description: The Epinio component (without dependencies)
