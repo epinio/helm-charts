@@ -48,6 +48,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         if: steps.list-changed.outputs.changed == 'true'
 
+      - name: Build and expose ephemeral Helm charts locally
+        run: make build-charts-ci
+        if: steps.list-changed.outputs.changed == 'true'
+
+      - name: Print Helm charts used by epinio-installer
+        run: grep tgz chart/epinio-installer/values.yaml
+        if: steps.list-changed.outputs.changed == 'true'
+
       - name: Run chart-testing (install)
         run: ct install --config ct/ct-install.yaml
         if: steps.list-changed.outputs.changed == 'true'
