@@ -5,14 +5,14 @@ metadata:
   name: manifest
 stringData:
   manifest.yaml: |
-    ---
     {{ $registryUsername := default "admin" .Values.externalRegistryUsername -}}
     {{- $registryPassword := default (randAlphaNum 10) .Values.externalRegistryPassword -}}
-    {{- $accessKey := randAlphaNum 16 -}}
-    {{- $secretKey := randAlphaNum 16 -}}
+    {{- $oldkeys := (lookup "v1" "Secret" "minio-epinio" "tenant-creds").data -}}
+    {{- $accessKey := empty $oldkeys | ternary (randAlphaNum 16) (b64dec (default "" $oldkeys.accesskey)) -}}
+    {{- $secretKey := empty $oldkeys | ternary (randAlphaNum 16) (b64dec (default "" $oldkeys.secretkey)) -}}
     {{- $sessionKey := randAlphaNum 24 -}}
-    {{- $password := randAlphaNum 12 -}}
-
+    {{- $password := randAlphaNum 12 }}
+    ---
     components:
       {{- if not .Values.skipLinkerd }}
       - id: linkerd
