@@ -113,7 +113,7 @@ questions:
   group: "External S3 storage"
   subquestions:
   - variable: s3Endpoint
-    label: S3 Endpoint
+    label: S3 endpoint
     description: "Endpoint of your S3 storage"
     type: strings
     required: false
@@ -125,10 +125,10 @@ questions:
   - variable: s3SecretAccessKey
     label: S3 access key secret
     description: "Secret access key to authenticate to your S3 storage"
-    type: strings
+    type: password
     required: false
   - variable: s3Bucket
-    label: S3 Bucket
+    label: S3 bucket
     description: "Bucket of your S3 storage"
     type: strings
     required: false
