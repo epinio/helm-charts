@@ -10,9 +10,19 @@ are already deployed on the cluster.
 
 This chart can be used in a manual installation of Epinio components.
 
-There is also a helm chart that installs all of components automatically:
+The documentation is centralized in the [doc website](https://docs.epinio.io/installation/install_epinio_with_helm.html).
 
+## Relation to Epinio Installer Chart
 
+There is also a helm chart that installs all of components automatically: [epinio-installer](https://artifacthub.io/packages/helm/epinio/epinio-installer)
+
+To use this chart, after using the epinio-installer chart, first export all values:
+
+```
+helm repo add epinio https://epinio.github.io/helm-charts/
+helm get values -n epinio epinio > values.yaml
+helm upgrade --install -n epinio --create-namespace --values values.yaml epinio epinio/epinio
+```
 
 ## Prerequisites
 
@@ -34,7 +44,7 @@ Install linkerd with:
 
 ```
 $ kubectl create namespace linkerd
-$ kubectl apply -f assets/embedded-files/linkerd/rbac.yaml 
+$ kubectl apply -f assets/embedded-files/linkerd/rbac.yaml
 $ linkerd install | kubectl apply -f - && linkerd check --wait 10m
 ```
 
@@ -57,7 +67,7 @@ $ helm install traefik --namespace traefik "https://helm.traefik.io/traefik/trae
 ### Install Kubed
 
 ```
-$ kubectl create namespace kubed 
+$ kubectl create namespace kubed
 $ helm repo add appscode https://charts.appscode.com/stable/
 $ helm repo update
 $ helm install kubed --namespace kubed --version v0.12.0 appscode/kubed

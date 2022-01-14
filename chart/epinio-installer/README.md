@@ -1,17 +1,17 @@
-# Epinio Helm Chart
+# Epinio Installer Helm Chart
 
-From app to URL in one command.
+From app to URL in one command. This chart installs Epinio and all dependencies.
 
 ## Introduction
 
-This helm chart can be used to deploy Epinio on a cluster. It is an alternative
-to `epinio install` command.
+This helm chart can be used to deploy Epinio on a cluster. It includes the [Epinio server helm chart]((https://artifacthub.io/packages/helm/epinio/epinio).
+It is best used with a fresh cluster.
 
 ## Usage
 
-The doc is centralized in a uniq place, checkout the [doc website](https://docs.epinio.io/installation/install_epinio_with_helm.html).
+The documentation is centralized in the [doc website](https://docs.epinio.io/installation/install_epinio_with_helm.html).
 
-## Development
+## Example
 
     % helm repo add epinio https://epinio.github.io/helm-charts/
     % helm upgrade --install -n epinio --create-namespace --set "skipLinkerd=true" epinio-installer epinio/epinio-installer
