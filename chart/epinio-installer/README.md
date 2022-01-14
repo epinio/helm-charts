@@ -13,5 +13,6 @@ The doc is centralized in a uniq place, checkout the [doc website](https://docs.
 
 ## Development
 
-    % helm upgrade --install -n epinio --create-namespace --set "skipLinkerd=true" epinio-installer chart/epinio-installer
+    % helm repo add epinio https://epinio.github.io/helm-charts/
+    % helm upgrade --install -n epinio --create-namespace --set "skipLinkerd=true" epinio-installer epinio/epinio-installer
     % helm uninstall -n epinio epinio-installer
