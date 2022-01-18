@@ -5,7 +5,7 @@ metadata:
   namespace: epinio
 spec:
   dnsNames:
-  - epinio.{{ .Values.systemDomain }}
+  - epinio.{{ .Values.domain }}
   issuerRef:
     kind: ClusterIssuer
     name: {{ .Values.server.tlsIssuer }}

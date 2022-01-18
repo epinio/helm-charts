@@ -8,8 +8,8 @@ email: "epinio@suse.com"
 # for the various created Pods. Don't confuse this registry with the "Epinio
 # registry" which is the one where Epinio stores the application images.
 registryURL: ""
-# The system domain that will be used to access the epinio API server
-systemDomain: ""
+# The domain that will be used to access the epinio API server
+domain: ""
 image:
   epinio:
     repository: splatform/epinio-server

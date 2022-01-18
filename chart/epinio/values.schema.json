@@ -154,8 +154,8 @@
       "description": "the namespace there cert-manager controller is deployed",
       "type": "string"
     },
-    "systemDomain": {
-      "description": "the system domain that will be used to access the Epinio API",
+    "domain": {
+      "description": "the domain that will be used to access the Epinio API",
       "type": "string"
     }
   },
@@ -163,6 +163,6 @@
     "certManagerNamespace",
     "s3",
     "registry",
-    "systemDomain"
+    "domain"
   ]
 }
