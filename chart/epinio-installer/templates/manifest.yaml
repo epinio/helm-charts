@@ -132,7 +132,7 @@ stringData:
         values:
           - name: email
             value: "{{ .Values.email }}"
-          - name: "systemDomain"
+          - name: "domain"
             value: "{{ .Values.domain }}"
           - name: "api.username"
             value: {{ default "admin" .Values.user | quote }}

@@ -11,7 +11,7 @@ metadata:
   namespace: epinio
 spec:
   rules:
-  - host: "epinio.{{ .Values.systemDomain }}"
+  - host: "epinio.{{ .Values.domain }}"
     http:
       paths:
       - backend:
@@ -23,5 +23,5 @@ spec:
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - "epinio.{{ .Values.systemDomain }}"
+    - "epinio.{{ .Values.domain }}"
     secretName: epinio-tls
