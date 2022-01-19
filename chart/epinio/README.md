@@ -10,7 +10,7 @@ are already deployed on the cluster.
 
 This chart can be used in a manual installation of Epinio components.
 
-The documentation is centralized in the [doc website](https://docs.epinio.io/installation/install_epinio_with_helm.html).
+The documentation is centralized in the [doc website](https://docs.epinio.io/installation/installation.html).
 
 ## Relation to Epinio Installer Chart
 

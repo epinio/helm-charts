@@ -6,7 +6,7 @@
 
 The documentation is centralized in a uniq place, checkout the [doc website].
 
-[doc website]: https://docs.epinio.io/installation/install_epinio_with_helm.html
+[doc website]: https://docs.epinio.io/installation/installation.html
 
 ## Helm chart repo
 
