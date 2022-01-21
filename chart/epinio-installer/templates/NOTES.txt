@@ -5,9 +5,9 @@ You can get the IP address of your Ingress controller by passing this command:
 
 Make sure your domain points to the IP address of your Ingress controller (1.2.3.4).
 {{ end }}
-To interact with your Epinio installation, you have to download the latest epinio binary https://github.com/epinio/epinio/releases.
-
-Update the api location and credentials with:
+To interact with your Epinio installation with a command line interface, you have to download the latest epinio binary https://github.com/epinio/epinio/releases and then update its knowledge of api location and credentials with:
 `epinio config update`
+
+Otherwise, if you installed Epinio via Rancher (or imported your Cluster in Rancher), you can control Epinio through the Epinio menu you will find in Global Apps.
 
 For more information about Epinio, feel free to checkout https://epinio.io/ and https://docs.epinio.io/.
