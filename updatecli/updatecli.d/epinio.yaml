@@ -39,21 +39,21 @@ sources:
 # Defines condition that must pass in order to update targets
 conditions:
   dockerImage:
-    name: 'Check that splatform/epinio-installer:{{ source "epinio" }} is published'
+    name: 'Check that ghcr.io/epinio/epinio-server:{{ source "epinio" }} is published'
     kind: "dockerImage"
     sourceID: "epinio"
     spec:
-      image: "splatform/epinio-server"
+      image: "ghcr.io/epinio/epinio-server"
 
   dockerImageContainer:
-    name: "Check that splatform/epinio-installer is used in Helm chart epinio"
+    name: "Check that ghcr.io/epinio/epinio-server is used in Helm chart epinio"
     kind: "yaml"
     disablesourceinput: true
     scmID: "helm-charts"
     spec:
       file: "chart/epinio/values.yaml"
       key: "image.epinio.repository"
-      value: "splatform/epinio-server"
+      value: "ghcr.io/epinio/epinio-server"
 
 # Defines what needs to be udpated if needed
 targets:

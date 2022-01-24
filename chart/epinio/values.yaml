@@ -12,7 +12,7 @@ registryURL: ""
 domain: ""
 image:
   epinio:
-    repository: splatform/epinio-server
+    repository: ghcr.io/epinio/epinio-server
     tag: ""
   bash:
     repository: library/bash
