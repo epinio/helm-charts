@@ -28,7 +28,7 @@ pullrequests:
 # Defines where we get source values
 sources:
   epinio-installer:
-    name: "Get Latest epinio version"
+    name: "Get Latest epinio-installer version"
     kind: "githubRelease"
     spec:
       owner: "epinio"
