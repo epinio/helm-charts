@@ -12,6 +12,15 @@ metadata:
   name: epinio-server
 rules:
 - apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - get
+  - create
+  - delete
+  - list
+- apiGroups:
   - "tekton.dev"
   resources:
   - pipelineruns
