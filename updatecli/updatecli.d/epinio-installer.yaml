@@ -57,18 +57,22 @@ conditions:
 targets:
   helm-charts:
     name: "Update epinio-installer version in chart epinio-installer"
-    kind: "yaml"
+    kind: "helmChart"
     scmID: "helm-charts"
     sourceID: "epinio-installer"
     spec:
-      file: "chart/epinio-installer/Chart.yaml"
+      name: "chart/epinio-installer"
+      file: "Chart.yaml"
       key: "appVersion"
+      versionIncrement: minor
   epinio-chart:
     name: "Update epinio helm chart tgz url in chart epinio-installer"
-    kind: "yaml"
+    kind: "helmChart"
     scmID: "helm-charts"
     sourceID: "epinioHelmChart"
     spec:
-      file: "chart/epinio-installer/values.yaml"
+      name: "chart/epinio-installer"
+      file: "values.yaml"
       key: "epinioChart"
       value: 'https://github.com/epinio/helm-charts/releases/download/epinio-{{ source "epinioHelmChart" }}/epinio-{{ source "epinioHelmChart" }}.tgz'
+      versionIncrement: minor
