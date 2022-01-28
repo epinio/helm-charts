@@ -84,14 +84,6 @@ $ helm install cert-manager --namespace cert-manager jetstack/cert-manager \
 		--set extraArgs[0]=--enable-certificate-owner-ref=true
 ```
 
-### Install Tekton
-
-```
-$ kubectl create namespace tekton
-$ kubectl label namespace tekton "linkerd.io/inject"="enabled"
-$ kubectl apply -f https://raw.githubusercontent.com/epinio/epinio/main/assets/embedded-files/tekton/pipeline-v0.28.0.yaml
-```
-
 ### Install Minio (Optional)
 
 Any S3 compatible storage can be used

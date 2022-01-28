@@ -86,31 +86,6 @@ stringData:
             namespace: "cert-manager"
       {{ end }}
 
-      - id: namespace-tekton
-        {{- if not .Values.skipLinkerd }}
-        needs: linkerd
-        {{- end }}
-        type: namespace
-        namespace: tekton
-        values:
-          - name: linkerd.io/inject
-            value: enabled
-            type: annotation
-
-      - id: tekton
-        needs: namespace-tekton
-        type: yaml
-        source:
-          path: assets/installer/pipeline-v0.28.0.yaml
-        waitComplete:
-          - type: "pod"
-            selector: "app=tekton-pipelines-webhook"
-            namespace: tekton-pipelines
-          - type: "crd"
-            selector: "clustertasks.tekton.dev"
-          - type: "crd"
-            selector: "conditions.tekton.dev"
-
       - id: namespace-epinio
         {{- if not .Values.skipLinkerd }}
         needs: linkerd
@@ -185,13 +160,6 @@ stringData:
           - name: "server.forceKubeInternalRegistryTLS"
             value: {{ default "false" .Values.forceKubeInternalRegistryTLS | quote }}
         preDeploy:
-          - type: "pod"
-            selector: "app=tekton-pipelines-webhook"
-            namespace: tekton-pipelines
-          - type: "crd"
-            selector: "clustertasks.tekton.dev"
-          - type: "crd"
-            selector: "conditions.tekton.dev"
           - type: "pod"
             selector: "app.kubernetes.io/name=webhook"
             namespace: "cert-manager"
