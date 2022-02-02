@@ -23,10 +23,10 @@ domain: "localhost.omg.howdoi.website"
 # Assert to epinio that cert-manager is already installed.
 # skipCertManager: false
 
-# Assert to epinio that Linkerd is already installed.
+# Skip to use existing Linkerd installation or none
 # skipLinkerd: false
 
-# Assert to epinio that there is a Traefik active, even if epinio cannot find it.
+# Skip installation of traefik
 # skipTraefik: false
 
 # If you are using your own S3 compatible object storage for blobs, set the following options:

@@ -67,7 +67,7 @@ questions:
   type: boolean
   group: "General settings"
 - variable: skipLinkerd
-  label: Use existing Linkerd installation
+  label: Use existing Linkerd installation or none
   required: false
   type: boolean
   group: "General settings"
