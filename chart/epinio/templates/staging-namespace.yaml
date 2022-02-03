@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: tekton-staging
+  name: epinio-staging
   annotations:
     linkerd.io/inject: enabled
   {{- if .Values.registry.certificateSecretNamespace }}

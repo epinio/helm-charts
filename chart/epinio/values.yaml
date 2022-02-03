@@ -54,12 +54,12 @@ registry:
   # namespaces. This one is just the part between the registry url and the
   # image name (e.g. your username if you are using your account on Dockerhub).
   namespace: ""
-  # The secret which Tekton's buildpack task uses to validate the registry's
-  # certificate. If provided, it will be mounted inside the Tekton pod so that Tekton
-  # can trust it when pushing the generated image.
+  # The secret used by the staging job to validate the registry's certificate.
+  # If provided, it will be mounted inside the staging pod so that the pod can
+  # trust it when pushing the generated image.
   certificateSecret: ""
   # The namespace in which the above secret is stored
-  # When set, the tekton-staging namespace will be annotated so that any secret
+  # When set, the epinio-staging namespace will be annotated so that any secret
   # annotated with:
   #    "kubed.appscode.com/sync": "kubed-registry-tls-from=the_value_below"
   # will be copied there. The registry certificate should have such an annotation
