@@ -50,7 +50,7 @@ jobs:
         with:
           distribution: goreleaser
           version: latest
-          args: release --rm-dist --config assetrepo/.goreleaser
+          args: release --rm-dist --config assetrepo/.goreleaser-installer.yml
         env:
           TAG: ${{ github.event.inputs.tag }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
