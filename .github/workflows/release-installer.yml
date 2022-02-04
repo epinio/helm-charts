@@ -1,8 +1,6 @@
 name: Release Installer
 
 on:
-  repository_dispatch:
-    types: [epinio-release]
   workflow_dispatch:
     inputs:
       tag:
@@ -38,12 +36,6 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      # -
-      #   name: Login to DockerHub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_PASSWORD }}
       -
         name: Login to GitHub Docker Registry
         uses: docker/login-action@v1
@@ -60,6 +52,7 @@ jobs:
           version: latest
           args: release --rm-dist
         env:
+          TAG: ${{ github.event.inputs.tag }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HELM_VERSION: "3.7.1"
           HELM_CHECKSUM: "6cd6cad4b97e10c33c978ff3ac97bb42b68f79766f1d2284cfd62ec04cd177f4"
