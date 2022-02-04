@@ -35,6 +35,8 @@ sources:
       repository: "installer"
       username: '{{ requiredEnv .github.epinio.username }}'
       token: '{{ requiredEnv .github.epinio.token }}'
+    transformers:
+      - trimSuffix: "-noassets"
   epinioHelmChart:
     name: "Get Latest epinio helm chart version"
     kind: helmChart
