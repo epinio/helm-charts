@@ -1,4 +1,4 @@
-name: goreleaser
+name: Release Installer
 
 on:
   repository_dispatch:
@@ -22,7 +22,7 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: epinio/epinio-installer
+          repository: epinio/installer
           fetch-depth: 0
       -
         name: Checkout
