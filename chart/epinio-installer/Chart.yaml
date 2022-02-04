@@ -2,7 +2,7 @@ apiVersion: v1
 name: epinio-installer
 version: 0.3.7
 # This is the version of the epinio/installer image
-appVersion: v0.0.1-17
+appVersion: v0.0.1-18
 description: Deploys Epinio and dependencies automatically
 home: https://github.com/epinio/epinio
 icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
