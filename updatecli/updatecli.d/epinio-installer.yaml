@@ -28,13 +28,10 @@ pullrequests:
 # Defines where we get source values
 sources:
   epinio-installer:
-    name: "Get Latest epinio-installer version"
-    kind: "githubRelease"
+    name: "Get latest epinio-installer 'with assets' image version"
+    kind: "dockerImage"
     spec:
-      owner: "epinio"
-      repository: "installer"
-      username: '{{ requiredEnv .github.epinio.username }}'
-      token: '{{ requiredEnv .github.epinio.token }}'
+      image: "ghcr.io/epinio/epinio-installer"
   epinioHelmChart:
     name: "Get Latest epinio helm chart version"
     kind: helmChart
