@@ -2,4 +2,6 @@
 FROM ghcr.io/epinio/epinio-installer-noassets
 ARG ASSET_DIR=assets/installer 
 
+LABEL org.opencontainers.image.source https://github.com/epinio/helm-charts
+
 COPY ${ASSET_DIR} /assets/installer
