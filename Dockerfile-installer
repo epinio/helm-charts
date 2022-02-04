@@ -1,0 +1,5 @@
+# Image used by the Epinio Wrapper Helm Chart
+FROM ghcr.io/epinio/epinio-installer-noassets
+ARG ASSET_DIR=assets/installer 
+
+COPY ${ASSET_DIR} /assets/installer
