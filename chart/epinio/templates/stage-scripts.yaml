@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: epinio-stage-scripts
+  namespace: epinio-staging
+data:
+  download: |-
+    # Parameters
+    # - PROTOCOL # s3 protocol
+    # - ENDPOINT # s3 endpoint
+    # - BUCKET   # s3 bucket
+    # - BLOBID   # blob id / file name for source archive
+    #
+    # This data is set in the chart only for an external s3.  For
+    # internal s3 the chart has no information.  Therefore we cannot
+    # use helm templating to insert these.
+    echo By _ _ __ ___ _____ $(whoami)
+    aws --endpoint-url "${PROTOCOL}://${ENDPOINT}" s3 cp "s3://${BUCKET}/${BLOBID}" "/workspace/source/${BLOBID}"
+    echo _ _ __ ___ _____ Done
+  unpack: |-
+    # Parameters
+    # - BLOBID # blob id / file name for source archive
+    #
+    # Attempting to unpack the sources as, in order:
+    #    .tar   - epinio cli
+    #    .zip   - epinio UI
+    # -z .tar.gz
+    # -j .tar.bz2
+    # -J .tar.xz
+    #
+    # __Note__: While it would have been nicer, IMNSHO, to use `file` to determine the
+    # type of the file and then directly dispatch to the proper unpacker, the `file`
+    # command is not available in the `bash` image. The code as written now relies on each
+    # unpacker to recognize/reject input properly.
+    #
+    # The `sed` command add format indicators to the output from the unarchivers, making
+    # the detected format more explicit in the output.
+    #
+    echo By _ _ __ ___ _____ $(whoami)
+    mkdir /workspace/source/app
+    (  cd /workspace/source/app
+       ( echo Tar? ; tar -xvf  "../${BLOBID}" 2>&1 | sed -e 's/^/Tar: /' ) || \
+       ( echo Zip? ; unzip     "../${BLOBID}" 2>&1 | sed -e 's/^/Zip: /' ) || \
+       ( echo Tgz? ; tar -xvzf "../${BLOBID}" 2>&1 | sed -e 's/^/Tgz: /' ) || \
+       ( echo Tbz? ; tar -xvjf "../${BLOBID}" 2>&1 | sed -e 's/^/Tbz: /' ) || \
+       ( echo Txz? ; tar -xvJf "../${BLOBID}" 2>&1 | sed -e 's/^/Txz: /' ) || \
+       ( echo "Unable to unpack. No supported archive file format found" ; exit 1 )
+       echo OK
+    )
+    rm "/workspace/source/${BLOBID}"
+    chown -R 1000:1000 /workspace
+    cp -vL /platform/appenv/* /platform/env/
+    ls -la /platform/env
+    echo _ _ __ ___ _____ Done
+  build: |-
+    # Parameters
+    # - PREIMAGE # url of previous image
+    # - APPIMAGE # url of application image
+    #
+    # ATTENTION: The `curl localhost:4191` command is used to stop the linkerd proxy
+    # container gracefully. We use `|| true` in case linkerd is not deployed.  Further, it
+    # is placed into a trap to ensure that it will always run, even for a staging failure.
+    #
+    trap "curl -X POST http://localhost:4191/shutdown || true" EXIT
+    echo By _ _ __ ___ _____ $(whoami)
+    ls -la /platform/env
+    /cnb/lifecycle/creator \
+      -app=/workspace/source/app \
+      -cache-dir=/workspace/cache \
+      -uid=1000 \
+      -gid=1000 \
+      -layers=/layers \
+      -platform=/platform \
+      -report=/layers/report.toml \
+      -process-type=web \
+      -skip-restore=false \
+      "-previous-image=${PREIMAGE}" \
+      "${APPIMAGE}"
+      echo _ _ __ ___ _____ Done
