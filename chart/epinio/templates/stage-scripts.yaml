@@ -14,7 +14,7 @@ data:
     # This data is set in the chart only for an external s3.  For
     # internal s3 the chart has no information.  Therefore we cannot
     # use helm templating to insert these.
-    echo By _ _ __ ___ _____ $(whoami)
+    echo By _ _ __ ___ _____ $(whoami) $(pwd)
     aws --endpoint-url "${PROTOCOL}://${ENDPOINT}" s3 cp "s3://${BUCKET}/${BLOBID}" "/workspace/source/${BLOBID}"
     echo _ _ __ ___ _____ Done
   unpack: |-
@@ -36,7 +36,7 @@ data:
     # The `sed` command add format indicators to the output from the unarchivers, making
     # the detected format more explicit in the output.
     #
-    echo By _ _ __ ___ _____ $(whoami)
+    echo By _ _ __ ___ _____ $(whoami) $(pwd)
     mkdir /workspace/source/app
     (  cd /workspace/source/app
        ( echo Tar? ; tar -xvf  "../${BLOBID}" 2>&1 | sed -e 's/^/Tar: /' ) || \
@@ -48,9 +48,10 @@ data:
        echo OK
     )
     rm "/workspace/source/${BLOBID}"
-    chown -R 1000:1000 /workspace
-    cp -vL /platform/appenv/* /platform/env/
-    ls -la /platform/env
+    mkdir -p /workspace/source/env
+    cp -vL /workspace/source/appenv/* /workspace/source/env
+    chown -R 1000:1000 /workspace 2> /dev/null
+    find /workspace
     echo _ _ __ ___ _____ Done
   build: |-
     # Parameters
@@ -62,15 +63,15 @@ data:
     # is placed into a trap to ensure that it will always run, even for a staging failure.
     #
     trap "curl -X POST http://localhost:4191/shutdown || true" EXIT
-    echo By _ _ __ ___ _____ $(whoami)
-    ls -la /platform/env
+    echo By _ _ __ ___ _____ $(whoami) $(pwd)
+    find /workspace
     /cnb/lifecycle/creator \
       -app=/workspace/source/app \
       -cache-dir=/workspace/cache \
       -uid=1000 \
       -gid=1000 \
       -layers=/layers \
-      -platform=/platform \
+      -platform=/workspace/source \
       -report=/layers/report.toml \
       -process-type=web \
       -skip-restore=false \
