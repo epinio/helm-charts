@@ -36,6 +36,8 @@ server:
   # Increase this value to instruct the API server to produce more debug output
   traceLevel: 0
 certManagerNamespace: ""
+
+
 # Connection details for the S3 storage
 s3:
   endpoint: s3.amazonaws.com
@@ -70,3 +72,18 @@ api:
   username: admin
   # Default user password
   password: password
+
+# Minio subchart values
+minio:
+  enabled: true
+  existingSecret: minio-creds
+  persistence:
+    size: 2Gi
+  drivesPerNode: 4
+  replicas: 1
+  resources:
+    requests:
+      memory: 1Gi
+  makeUserJob:
+    podAnnotations:
+      linkerd.io/inject: disabled

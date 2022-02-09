@@ -4,5 +4,7 @@ target-branch: main
 check-version-increment: false
 chart-dirs:
   - chart
+chart-repos:
+  - minio=https://charts.min.io
 charts: chart/epinio-installer
 helm-extra-args: --timeout 600s
