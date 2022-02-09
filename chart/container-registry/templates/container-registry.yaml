@@ -27,7 +27,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
   labels:
@@ -35,6 +34,7 @@ metadata:
   name: registry
   namespace: {{ .Release.Namespace }}
 spec:
+  ingressClassName: "traefik"
   rules:
   - host: {{ .Values.domain }}
     http:
