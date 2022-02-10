@@ -76,7 +76,15 @@
         },
         "registryCertificateSecret": {
           "type": "string"
+        },
+        "ingressClassName": {
+          "type": "string"
         }
+      }
+    },
+    "ingress": {
+      "ingressClassName": {
+        "type": "string"
       }
     },
     "s3": {

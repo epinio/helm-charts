@@ -34,7 +34,9 @@ metadata:
   name: registry
   namespace: {{ .Release.Namespace }}
 spec:
-  ingressClassName: "traefik"
+  {{- if .Values.ingress.ingressClassName }}
+  ingressClassName: "{{ .Values.ingress.ingressClassName }}"
+  {{- end }}
   rules:
   - host: {{ .Values.domain }}
     http:

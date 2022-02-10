@@ -255,6 +255,10 @@ spec:
             - name: REGISTRY_CERTIFICATE_SECRET
               value: "{{ .Values.registry.certificateSecret }}"
             {{- end }}
+            {{- if .Values.ingress.ingressClassName }}
+            - name: INGRESS_CLASS_NAME
+              value: "{{ .Values.ingress.ingressClassName }}"
+            {{- end }}
           image: "{{ template "registry-url" . }}{{ .Values.image.epinio.repository}}:{{ or .Values.image.epinio.tag .Chart.AppVersion }}"
           livenessProbe:
             httpGet:

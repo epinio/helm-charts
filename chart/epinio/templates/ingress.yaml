@@ -9,7 +9,9 @@ metadata:
   name: epinio
   namespace: epinio
 spec:
-  ingressClassName: "traefik"
+  {{- if .Values.ingress.ingressClassName }}
+  ingressClassName: "{{ .Values.ingress.ingressClassName }}"
+  {{- end }}
   rules:
   - host: "epinio.{{ .Values.domain }}"
     http:
