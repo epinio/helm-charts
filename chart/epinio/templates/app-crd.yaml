@@ -72,6 +72,11 @@ spec:
                 items:
                   type: string
                 type: array
+              stageid:
+                description: StageID stores the id of the latest attempt to stage
+                  the application, regardless of outcome. This enables access to the
+                  staging logs of an application which never staged successfully.
+                type: string
             required:
             - origin
             type: object
