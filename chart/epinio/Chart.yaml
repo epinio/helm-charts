@@ -1,6 +1,13 @@
-apiVersion: v1
+apiVersion: v2
 appVersion: v0.3.6
 description: The Epinio component (without dependencies)
+dependencies:
+  - name: minio
+    version: 3.5.2
+    repository: https://charts.min.io/
+    condition: minio.enabled, global.minio.enabled
+    tags:
+      - minio
 home: https://github.com/epinio/epinio
 icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
 keywords:

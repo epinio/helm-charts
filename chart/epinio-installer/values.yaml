@@ -37,7 +37,10 @@ domain: "localhost.omg.howdoi.website"
 
 # Optional
 # s3Location: ""
-# s3UseSSL: ""
+s3UseSSL: false
+
+minio:
+  enabled: true
 
 # If you are using your own external registry, set the following options:
 # externalRegistryURL: ""

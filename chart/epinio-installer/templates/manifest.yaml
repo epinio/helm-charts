@@ -126,18 +126,20 @@ stringData:
           - name: "server.traceLevel"
             value: "{{ .Values.server.traceLevel }}"
 
+          - name: "minio.enabled"
+            value: {{ .Values.minio.enabled }}
           - name: "s3.endpoint"
-            value: {{ default "minio.minio-epinio.svc.cluster.local" .Values.s3Endpoint | quote }}
+            value: {{ .Values.s3Endpoint | quote }}
           - name: "s3.bucket"
-            value: {{ default "epinio" .Values.s3Bucket | quote }}
+            value: {{ .Values.s3Bucket | quote }}
           - name: "s3.accessKeyID"
-            value: {{ default $accessKey .Values.s3AccessKeyId | quote }}
+            value: {{ .Values.s3AccessKeyId | quote }}
           - name: "s3.secretAccessKey"
-            value: {{ default $secretKey .Values.s3SecretAccessKey | quote }}
+            value: {{ .Values.s3SecretAccessKey | quote }}
           - name: "s3.region"
-            value: {{ default "" .Values.s3Location | quote }}
+            value: {{ .Values.s3Location | quote }}
           - name: "s3.useSSL"
-            value: {{ default "false" .Values.s3UseSSL | quote }}
+            value: {{ .Values.s3UseSSL }}
 
           - name: "registry.url"
             value: {{ default (print "epinio-registry." .Values.domain)  .Values.externalRegistryURL | quote }}
@@ -203,42 +205,5 @@ stringData:
             selector: "certificates.cert-manager.io"
           - type: "crd"
             selector: "clusterissuers.cert-manager.io"
-      {{ end }}
-
-      {{- if not .Values.s3Endpoint }}
-      - id: namespace-minio
-        {{- if not .Values.skipLinkerd }}
-        needs: linkerd
-        {{- end }}
-        type: namespace
-        namespace: minio-epinio
-        values:
-          - name: linkerd.io/inject
-            value: enabled
-            type: annotation
-
-      - id: minio
-        needs: namespace-minio
-        type: yaml
-        source:
-          path: assets/installer/minio-operator.yaml
-        waitComplete:
-          - type: "crd"
-            selector: "tenants.minio.min.io"
-
-      - id: minio-tenant
-        needs: minio
-        type: yaml
-        source:
-          path: assets/installer/minio-tenant.yaml
-        values:
-          - name: accessKey
-            value: "{{ $accessKey }}"
-          - name: secretKey
-            value: "{{ $secretKey }}"
-        waitComplete:
-          - type: "pod"
-            selector: "statefulset.kubernetes.io/pod-name=tenant1-ss-0-0"
-            namespace: minio-epinio
       {{ end }}
 {{ end }}
