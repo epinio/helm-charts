@@ -55,13 +55,6 @@ stringData:
             value: "{{ .Values.loadbalancerIP }}"
       {{ end }}
 
-      - id: kubed
-        namespace: kubed
-        type: helm
-        source:
-          name: kubed
-          path: assets/installer/kubed-v0.12.0.tgz
-
       {{- if not (or .Values.skipCertManager .Values.useCustomTlsIssuer) }}
       - id: cert-manager
         namespace: cert-manager

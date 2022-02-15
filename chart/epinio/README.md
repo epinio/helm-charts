@@ -66,12 +66,9 @@ $ helm install traefik --namespace traefik "https://helm.traefik.io/traefik/trae
 
 ### Install Kubed
 
-```
-$ kubectl create namespace kubed
-$ helm repo add appscode https://charts.appscode.com/stable/
-$ helm repo update
-$ helm install kubed --namespace kubed --version v0.12.0 appscode/kubed
-```
+Kubed is installed as a subchart, there is- no need to install it manually.
+If you already have kubed running, you can skip the installation by setting
+the helm value "kubed.enabled" to "false".
 
 ### Install Cert Manager
 
