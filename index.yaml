@@ -474,6 +474,26 @@ entries:
   epinio-installer:
   - apiVersion: v1
     appVersion: v0.0.1-18
+    created: "2022-02-15T11:27:09.771277878Z"
+    description: Deploys Epinio and dependencies automatically
+    digest: ca9fd67d12b8894dee3b09b1218514a37e32478399bddda6fccb341e4b29a0f6
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: team@epinio.io
+      name: epinio
+      url: https://epinio.io/
+    name: epinio-installer
+    sources:
+    - https://github.com/epinio/helm-charts
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-installer-0.5.0/epinio-installer-0.5.0.tgz
+    version: 0.5.0
+  - apiVersion: v1
+    appVersion: v0.0.1-18
     created: "2022-02-07T10:46:41.239546124Z"
     description: Deploys Epinio and dependencies automatically
     digest: eb8f046ac13f641fb1d80040c4584b7cad003dc323df7a50b113bd5b64f24666
@@ -672,4 +692,4 @@ entries:
     urls:
     - https://github.com/epinio/epinio-helm-chart/releases/download/epinio-installer-0.1.20/epinio-installer-0.1.20.tgz
     version: 0.1.20
-generated: "2022-02-07T10:46:41.239814226Z"
+generated: "2022-02-15T11:27:09.77152798Z"
