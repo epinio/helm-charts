@@ -94,3 +94,6 @@ minio:
   makeUserJob:
     podAnnotations:
       linkerd.io/inject: disabled
+
+kubed:
+  enabled: true

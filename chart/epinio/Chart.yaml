@@ -7,6 +7,12 @@ dependencies:
   tags:
   - minio
   version: 3.5.2
+- condition: kubed.enabled, global.kubed.enabled
+  name: kubed
+  repository: https://charts.appscode.com/stable/
+  tags:
+  - kubed
+  version: 0.13.1
 description: The Epinio component (without dependencies)
 home: https://github.com/epinio/epinio
 icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png

@@ -6,4 +6,5 @@ chart-dirs:
   - chart
 chart-repos:
   - minio=https://charts.min.io
+  - appscode=https://charts.appscode.com/stable/
 helm-extra-args: --timeout 600s

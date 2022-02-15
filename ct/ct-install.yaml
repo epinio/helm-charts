@@ -6,5 +6,6 @@ chart-dirs:
   - chart
 chart-repos:
   - minio=https://charts.min.io
+  - appscode=https://charts.appscode.com/stable/
 charts: chart/epinio-installer
 helm-extra-args: --timeout 600s
