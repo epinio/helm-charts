@@ -125,6 +125,12 @@ stringData:
             value: {{ .Values.server.timeoutMultiplier }}
           - name: "server.traceLevel"
             value: "{{ .Values.server.traceLevel }}"
+          {{ if .Values.ingress.ingressClassName }}
+          - name: "server.ingressClassName"
+            value: "{{ .Values.ingress.ingressClassName }}"
+          - name: "ingress.ingressClassName"
+            value: "{{ .Values.ingress.ingressClassName }}"
+          {{ end }}
 
           - name: "minio.enabled"
             value: {{ .Values.minio.enabled }}
@@ -197,6 +203,10 @@ stringData:
             value: "true"
           - name: tlsIssuer
             value: {{ default .Values.tlsIssuer .Values.customTlsIssuer | quote }}
+          {{- if .Values.ingress.ingressClassName }}
+          - name: "ingress.ingressClassName"
+            value: "{{ .Values.ingress.ingressClassName }}"
+          {{-  end }}
         preDeploy:
           - type: "pod"
             selector: "app.kubernetes.io/name=webhook"

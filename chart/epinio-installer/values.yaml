@@ -11,6 +11,10 @@ email: "epinio@suse.com"
 # The name of the cluster issuer to use. Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'. (default "epinio-ca")
 tlsIssuer: "epinio-ca"
 
+ingress:
+  # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
+  ingressClassName: ""
+
 # The domain you are planning to use for Epinio. Should be pointing to the traefik public IP (mandatory option).
 domain: "localhost.omg.howdoi.website"
 

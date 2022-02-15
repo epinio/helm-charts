@@ -35,6 +35,13 @@ server:
   tlsIssuer: "epinio-ca"
   # Increase this value to instruct the API server to produce more debug output
   traceLevel: 0
+  # The ingressClassName is used to select the ingress controller for apps. If empty no class will be added to their ingresseses.
+  ingressClassName: ""
+
+ingress:
+  # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
+  ingressClassName: ""
+
 certManagerNamespace: ""
 
 
