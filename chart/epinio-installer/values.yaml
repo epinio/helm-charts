@@ -55,7 +55,7 @@ minio:
 # --force-kube-internal-registry-tls: ""
 
 containerRegistryChart: "https://github.com/epinio/helm-charts/releases/download/container-registry-0.1.0/container-registry-0.1.0.tgz"
-epinioChart: "https://github.com/epinio/helm-charts/releases/download/epinio-0.3.0/epinio-0.3.0.tgz"
+epinioChart: "https://github.com/epinio/helm-charts/releases/download/epinio-0.4.0/epinio-0.4.0.tgz"
 traefikChart: "https://helm.traefik.io/traefik/traefik-10.3.4.tgz"
 # installerImageOverride: "ghcr.io/epinio/epinio-installer:latest"
 
