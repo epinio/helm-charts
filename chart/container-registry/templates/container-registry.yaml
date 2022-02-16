@@ -28,8 +28,10 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: traefik
+    {{ if .Capabilities.APIVersions.Has "cert-manager.io/v1" -}}
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
+    {{ end }}
   labels:
     {{- include "container-registry.labels" . | nindent 4 }}
   name: registry
@@ -46,10 +48,13 @@ spec:
               number: 5000
         path: /
         pathType: ImplementationSpecific
+  {{ if .Capabilities.APIVersions.Has "cert-manager.io/v1" -}}
   tls:
   - hosts:
     - {{ .Values.domain }}
     secretName: epinio-registry-tls
+  {{ end }}
+
 {{ if .Values.createNodePort }}
 ---
 apiVersion: v1

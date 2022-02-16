@@ -1,3 +1,4 @@
+{{ if .Capabilities.APIVersions.Has "cert-manager.io/v1" -}}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -13,3 +14,4 @@ spec:
   secretTemplate:
     annotations:
       kubed.appscode.com/sync: "kubed-registry-tls-from=epinio-registry" # Sync certificate to matching namespaces
+{{ end }}
