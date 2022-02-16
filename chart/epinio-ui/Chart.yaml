@@ -1,0 +1,8 @@
+apiVersion: v2
+name: epinio-ui
+description: A Helm chart for the Epinio UI
+type: application
+version: 0.0.1
+maintainers:
+- name: SUSE
+  email: team@epinio.io
