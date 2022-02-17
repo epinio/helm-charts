@@ -3,10 +3,10 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: traefik
-  {{ if .Capabilities.APIVersions.Has "cert-manager.io/v1" -}}
+  {{- if .Capabilities.APIVersions.Has "cert-manager.io/v1" }}
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
-  {{ end -}}
+  {{- end }}
   labels:
     app.kubernetes.io/name: epinio
   name: epinio
@@ -23,9 +23,9 @@ spec:
               number: 80
         path: /
         pathType: ImplementationSpecific
-{{ if .Capabilities.APIVersions.Has "cert-manager.io/v1" -}}
+{{- if .Capabilities.APIVersions.Has "cert-manager.io/v1" }}
   tls:
   - hosts:
     - "epinio.{{ .Values.domain }}"
     secretName: epinio-tls
-{{ end -}}
+{{ end }}

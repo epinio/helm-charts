@@ -153,7 +153,7 @@ stringData:
             value: "{{ $registryPassword }}"
           - name: "registry.namespace"
             value: {{ default "apps" .Values.externalRegistryNamespace | quote }}
-          {{- if not .Values.externalRegistryURL }}
+          {{- if not (or .Values.skipCertManager .Values.externalRegistryURL) }}
           - name: "registry.certificateSecret"
             value: "epinio-registry-tls"
           - name: "registry.certificateSecretNamespace"
@@ -161,10 +161,12 @@ stringData:
           {{- end }}
           - name: "server.forceKubeInternalRegistryTLS"
             value: {{ default "false" .Values.forceKubeInternalRegistryTLS | quote }}
+        {{- if not .Values.skipCertManager }}
         preDeploy:
           - type: "pod"
             selector: "app.kubernetes.io/name=webhook"
             namespace: "cert-manager"
+        {{- end }}
 
       {{ if not .Values.externalRegistryURL -}}
       - id: namespace-registry
@@ -197,6 +199,7 @@ stringData:
             value: "true"
           - name: tlsIssuer
             value: {{ default .Values.tlsIssuer .Values.customTlsIssuer | quote }}
+        {{- if not .Values.skipCertManager }}
         preDeploy:
           - type: "pod"
             selector: "app.kubernetes.io/name=webhook"
@@ -205,5 +208,6 @@ stringData:
             selector: "certificates.cert-manager.io"
           - type: "crd"
             selector: "clusterissuers.cert-manager.io"
+        {{- end }}
       {{ end }}
 {{ end }}
