@@ -7,13 +7,13 @@ metadata:
   labels:
     app.kubernetes.io/name: epinio
   name: epinio
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 spec:
   {{- if .Values.ingress.ingressClassName }}
   ingressClassName: "{{ .Values.ingress.ingressClassName }}"
   {{- end }}
   rules:
-  - host: "epinio.{{ .Values.domain }}"
+  - host: "epinio.{{ .Values.global.domain }}"
     http:
       paths:
       - backend:
@@ -25,5 +25,5 @@ spec:
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - "epinio.{{ .Values.domain }}"
+    - "epinio.{{ .Values.global.domain }}"
     secretName: epinio-tls

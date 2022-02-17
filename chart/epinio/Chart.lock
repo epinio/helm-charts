@@ -5,5 +5,8 @@ dependencies:
 - name: kubed
   repository: https://charts.appscode.com/stable/
   version: v0.13.1
-digest: sha256:f33eaea4803e705d0af7a83496b609d4e1aea4046b017420faa3970dbc6eef8a
-generated: "2022-02-15T16:40:49.530150281+02:00"
+- name: container-registry
+  repository: file://../container-registry/
+  version: 0.1.0
+digest: sha256:e849f6c60f2c14f5a2c8b8a21a0121a49dcc136e25bfbd7ba909bea1c38e89c7
+generated: "2022-02-16T12:21:32.254747595+02:00"

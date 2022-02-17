@@ -5,7 +5,8 @@ metadata:
   name: auth
   namespace: {{ .Release.Namespace }}
 stringData:
-  htpasswd:  {{ .Values.auth.htpasswd | quote }}
+  # The only supported password format is bcrypt
+  htpasswd:  {{ htpasswd .Values.global.registryUsername .Values.global.registryPassword | quote }}
 ---
 apiVersion: v1
 kind: Service
@@ -22,13 +23,17 @@ spec:
   - name: registry
     port: 5000
     targetPort: 5000
+
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
+    {{- if .Capabilities.APIVersions.Has "cert-manager.io/v1" }}
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
+    {{- end }}
   labels:
     {{- include "container-registry.labels" . | nindent 4 }}
   name: registry
@@ -38,7 +43,7 @@ spec:
   ingressClassName: "{{ .Values.ingress.ingressClassName }}"
   {{- end }}
   rules:
-  - host: {{ .Values.domain }}
+  - host: "epinio-registry.{{ .Values.global.domain }}"
     http:
       paths:
       - backend:
@@ -48,10 +53,12 @@ spec:
               number: 5000
         path: /
         pathType: ImplementationSpecific
+  {{- if .Capabilities.APIVersions.Has "cert-manager.io/v1" }}
   tls:
   - hosts:
-    - {{ .Values.domain }}
+    - "epinio-registry.{{ .Values.global.domain }}"
     secretName: epinio-registry-tls
+  {{- end }}
 {{ if .Values.createNodePort }}
 ---
 apiVersion: v1
