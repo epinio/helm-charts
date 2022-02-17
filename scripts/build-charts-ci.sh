@@ -44,9 +44,7 @@ helm repo update
 # We only care about testing here
 cd chart/
 helm cm-push --version "0.1.0" epinio/ chartmuseum
-helm cm-push --version "0.1.0" container-registry/ chartmuseum
 
 # Update epinio-installer's values.yaml file for using charts hosted in our repo
-sed -i -e 's|containerRegistryChart:.*|containerRegistryChart: "http://host.k3d.internal:8090/charts/container-registry-0.1.0.tgz"|'\
-       -e 's|epinioChart:.*|epinioChart: "http://host.k3d.internal:8090/charts/epinio-0.1.0.tgz"|'\
+sed -i -e 's|epinioChart:.*|epinioChart: "http://host.k3d.internal:8090/charts/epinio-0.1.0.tgz"|'\
        ../chart/epinio-installer/values.yaml
