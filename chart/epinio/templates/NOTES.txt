@@ -1,5 +1,5 @@
 
-{{- if .Values.domain }}
+{{- if .Values.global.domain }}
 You can get the IP address of your Ingress controller by passing this command:
 `kubectl describe svc traefik --namespace traefik | grep Ingress | awk '{print $3}'`
 

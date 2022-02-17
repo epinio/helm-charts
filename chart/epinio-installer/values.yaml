@@ -46,6 +46,9 @@ s3UseSSL: false
 minio:
   enabled: true
 
+containerregistry:
+  enabled: true
+
 # If you are using your own external registry, set the following options:
 # externalRegistryURL: ""
 # externalRegistryUsername: ""

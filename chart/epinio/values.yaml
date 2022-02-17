@@ -8,8 +8,6 @@ email: "epinio@suse.com"
 # for the various created Pods. Don't confuse this registry with the "Epinio
 # registry" which is the one where Epinio stores the application images.
 registryURL: ""
-# The domain that will be used to access the epinio API server
-domain: ""
 image:
   epinio:
     repository: ghcr.io/epinio/epinio-server
@@ -30,9 +28,6 @@ server:
   timeoutMultiplier: 1
   # Change this to a random string. Used for session cookies by the API server.
   sessionKey: "12345"
-  # The name of the cluster issuer to use.
-  # Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'.
-  tlsIssuer: "epinio-ca"
   # Increase this value to instruct the API server to produce more debug output
   traceLevel: 0
   # The ingressClassName is used to select the ingress controller for apps. If empty no class will be added to their ingresseses.
@@ -63,17 +58,6 @@ registry:
   # namespaces. This one is just the part between the registry url and the
   # image name (e.g. your username if you are using your account on Dockerhub).
   namespace: ""
-  # The secret used by the staging job to validate the registry's certificate.
-  # If provided, it will be mounted inside the staging pod so that the pod can
-  # trust it when pushing the generated image.
-  certificateSecret: ""
-  # The namespace in which the above secret is stored
-  # When set, the epinio-staging namespace will be annotated so that any secret
-  # annotated with:
-  #    "kubed.appscode.com/sync": "kubed-registry-tls-from=the_value_below"
-  # will be copied there. The registry certificate should have such an annotation
-  # if you are deploying one on the cluster.
-  certificateSecretNamespace: ""
 api:
   # Default user username
   username: admin
@@ -97,3 +81,18 @@ minio:
 
 kubed:
   enabled: true
+
+containerregistry:
+  enabled: true
+
+global:
+  # The domain that will be used to access the epinio API server and the registry
+  domain: ""
+  registryURL: ""
+  registryUsername: "admin"
+  registryPassword: "changeme"
+  registryNamespace: "apps"
+
+  # The name of the cluster issuer to use.
+  # Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'.
+  tlsIssuer: "epinio-ca"

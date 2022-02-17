@@ -1,15 +1,18 @@
+{{- if .Capabilities.APIVersions.Has "cert-manager.io/v1" -}}
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: epinio-registry
-  namespace: epinio-registry
+  namespace: {{ .Release.Namespace }}
 spec:
   dnsNames:
-  - {{ .Values.domain }}
+  - "epinio-registry.{{ .Values.global.domain }}"
   issuerRef:
     kind: ClusterIssuer
-    name: {{ .Values.tlsIssuer }}
+    name: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
   secretName: epinio-registry-tls
   secretTemplate:
     annotations:
-      kubed.appscode.com/sync: "kubed-registry-tls-from=epinio-registry" # Sync certificate to matching namespaces
+      kubed.appscode.com/sync: "kubed-registry-tls-from={{ .Release.Namespace }}" # Sync certificate to matching namespaces
+{{- end }}

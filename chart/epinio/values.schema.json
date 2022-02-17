@@ -68,9 +68,6 @@
         "sessionKey": {
           "type": "string"
         },
-        "tlsIssuer": {
-          "type": "string"
-        },
         "traceLevel": {
           "type": "integer"
         },
@@ -135,9 +132,6 @@
         },
         "namespace": {
           "type": "string"
-        },
-        "certificateSecret": {
-          "type": "string"
         }
       },
       "required": [
@@ -170,7 +164,20 @@
   "required": [
     "certManagerNamespace",
     "s3",
-    "registry",
-    "domain"
-  ]
+    "registry"
+  ],
+  "global": {
+    "type": "object",
+    "properties": {
+      "domain": {
+        "type": "string"
+      },
+      "tlsIssuer": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "domain"
+    ]
+  }
 }
