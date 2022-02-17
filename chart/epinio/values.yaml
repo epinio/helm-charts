@@ -85,6 +85,19 @@ kubed:
 containerregistry:
   enabled: true
 
+  image: registry:2.7.1
+  imagePullPolicy: IfNotPresent
+
+  # We create a service with type `NodePort` only in
+  # local deployment as Kubelet cannot access the
+  # secured registry because there is no way to add
+  # registry CA to kubelet.
+  createNodePort: true
+
+  # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
+  ingressClassName: ""
+
+
 global:
   # The domain that will be used to access the epinio API server and the registry
   domain: ""
