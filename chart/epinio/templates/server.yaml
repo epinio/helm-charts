@@ -237,6 +237,9 @@ spec:
       name: epinio-server
     spec:
       serviceAccountName: epinio-server
+      volumes:
+      - name: tmp-volume
+        emptyDir: {}
       containers:
         - command: ["/epinio", "server"]
           args: ["--port", "80"]
@@ -267,6 +270,9 @@ spec:
           name: epinio-server
           ports:
             - containerPort: 80
+          volumeMounts:
+          - name: tmp-volume
+            mountPath: /tmp
           readinessProbe:
             httpGet:
               path: /ready
