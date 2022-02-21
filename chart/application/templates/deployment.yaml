@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    {{- include "epinio-app.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.epinio.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "epinio-app.labels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        app.kubernetes.io/name: {{ .Release.Name }}
+      labels:
+        {{- include "epinio-app.labels" . | nindent 8 }}
+        epinio.suse.org/stage-id: {{ .Values.epinio.stageID }}
+    spec:
+      serviceAccountName: {{ .Release.Namespace }}
+      automountServiceAccountToken: true
+      containers:
+      - name: {{ .Release.Name }}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        env:
+        - name: PORT
+          value: "8080"
+        image: {{ .Values.epinio.imageURL }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

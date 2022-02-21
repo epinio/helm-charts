@@ -1,0 +1,6 @@
+apiVersion: v2
+name: epinio-application
+description: The helm chart for epinio applications to be deployed by
+type: application
+version: 0.1.0
+appVersion: "1.16.0"

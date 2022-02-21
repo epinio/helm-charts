@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: i-{{ .Release.Name }}
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  labels:
+    {{- include "epinio-app.labels" . | nindent 4 }}
+spec:
+  rules:
+    - host: {{ .Values.epinio.route }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{ .Release.Name }}
+                port:
+                  number: 8080
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+      - {{ .Values.epinio.route }}
+      secretName: {{ .Release.Name }}-tls
