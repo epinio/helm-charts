@@ -1,7 +1,9 @@
-# Default values for epinio-app.
+# Default values for epinio-application.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-
+#
+# This is the API between the epinio server's deployment code, and
+# charts implementing the deployment, like this one.
 
 image:
   pullPolicy: IfNotPresent
@@ -12,13 +14,17 @@ epinio:
   #appName: .Release.Name
   #namespace: .Release.Namespace
   replicaCount: 1
+  appUID: 999
   stageID: 999
   imageURL: curl
   username: user
-  route: host.tld
-  env: []
-  mounts: []
-  volumes: []
+  routes: []
+  env: {}
+  services: []
+
+# routes:   sequence of host names
+# services: sequence of service names
+# env:      mapping name/value
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
