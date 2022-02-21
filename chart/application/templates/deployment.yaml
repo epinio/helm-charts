@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "epinio-application.labels" . | nindent 4 }}
+  ownerReferences:
+  - apiVersion: application.epinio.io/v1
+    kind: App
+    name: {{ .Release.Name }}
+    uid: {{ .Values.epinio.appUID }}
+spec:
+  progressDeadlineSeconds: 600
+  replicas: {{ .Values.epinio.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Release.Name }}
+  template:
+    metadata:
+      annotations:
+        app.kubernetes.io/name: {{ .Release.Name }}
+        epinio.suse.org/start: {{ .Values.epinio.start | quote }}
+      labels:
+        {{- include "epinio-application.labels" . | nindent 8 }}
+        epinio.suse.org/stage-id: {{ .Values.epinio.stageID | quote }}
+    spec:
+      serviceAccount: {{ .Release.Namespace }}
+      serviceAccountName: {{ .Release.Namespace }}
+      automountServiceAccountToken: true
+      volumes:
+      {{- range .Values.epinio.services }}
+      - name: {{ . }}
+        secret:
+          defaultMode: 420
+          secretName: service.namespace-{{ $.Release.Namespace }}.svc-{{ . }}
+      {{- end }}
+      containers:
+      - name: {{ .Release.Name }}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        {{- range .Values.epinio.services }}
+        - mountPath: /services/{{ . }}
+          name: {{ . }}
+          readOnly: true
+        {{- end }}
+        env:
+        - name: PORT
+          value: "8080"
+        {{- range $k, $v := .Values.epinio.env }}
+        - name: {{ $k | quote }}
+          value: {{ $v | quote }}
+        {{- end}}
+        image: {{ .Values.epinio.imageURL }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- with .Values.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end}}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
