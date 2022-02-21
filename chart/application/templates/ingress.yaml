@@ -1,0 +1,33 @@
+{{- range .Values.epinio.routes }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: i-{{ $.Values.epinio.appName }}-{{ . }}
+  namespace: {{ $.Release.Namespace }}
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  labels:
+    {{- include "epinio-application.labels" $ | nindent 4 }}
+  ownerReferences:
+  - apiVersion: application.epinio.io/v1
+    kind: App
+    name: {{ $.Values.epinio.appName }}
+    uid: {{ $.Values.epinio.appUID }}
+spec:
+  rules:
+    - host: {{ . }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: s-{{ $.Values.epinio.appName }}
+                port:
+                  number: 8080
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+      - {{ . }}
+      secretName: i-{{ $.Values.epinio.appName }}-{{ . }}-tls
+{{- end }}

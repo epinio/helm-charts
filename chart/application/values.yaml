@@ -1,0 +1,60 @@
+# Default values for epinio-application.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This is the API between the epinio server's deployment code, and
+# charts implementing the deployment, like this one.
+
+# appName      :: string                 :: application name
+# replicaCount :: integer                :: number of instances (pods) to deploy
+# appUID       :: string                 :: App CRD resource owning the deployment
+# stageID      :: string                 :: id of stage run generating the app image
+# imageURL     :: string                 :: reference to app image in registry
+# username     :: string                 :: user triggering deployment
+# routes       :: sequence (string)      :: hostnames the app has to be reachable under
+# env          :: map (string -> string) :: app environment variables and values
+# services     :: sequence (string)      :: names of the services to import into the app
+# start        :: integer                :: time of deployment, nanoseconds
+
+# The `start` element can be used to force a restart of specific
+# resources with each re-deployment. This standard chart uses it in a
+# pod template annotation, forcing pod restart.
+#
+# Required because an app may have to ingest changes to resurces outside of itself.
+# I.e. an update to a bound services' configuration.
+
+image:
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+
+epinio:
+  appName: placeholder
+  # namespace: .Release.Namespace
+  replicaCount: 1
+  appUID: 999
+  stageID: 999
+  imageURL: curl
+  username: user
+  routes: ~
+  env: ~
+  services: ~
+  start: 0
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
