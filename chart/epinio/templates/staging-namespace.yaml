@@ -7,6 +7,7 @@ metadata:
     linkerd.io/inject: enabled
   {{- if .Values.containerregistry.enabled }}
   labels:
-    # label so that kubed copies epinio-registry secret to this namespace
+    # label so that kubed copies epinio-registry and s3 secret to this namespace
     kubed-registry-tls-from: {{ .Release.Namespace }}
+    kubed-s3-tls-from: {{ .Release.Namespace }}
   {{- end }}

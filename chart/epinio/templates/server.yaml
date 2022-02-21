@@ -255,6 +255,10 @@ spec:
             - name: REGISTRY_CERTIFICATE_SECRET
               value: "epinio-registry-tls"
             {{- end }}
+            {{- if .Values.minio.enabled }}
+            - name: S3_CERTIFICATE_SECRET
+              value: "minio-tls"
+            {{- end }}
             {{- if .Values.ingress.ingressClassName }}
             - name: INGRESS_CLASS_NAME
               value: "{{ .Values.ingress.ingressClassName }}"

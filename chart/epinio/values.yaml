@@ -47,7 +47,7 @@ s3:
   region: ""
   accessKeyID: ""
   secretAccessKey: ""
-  useSSL: true
+  useSSL: false
 # Connection details for the container registry
 registry:
   url: ""
@@ -68,6 +68,11 @@ api:
 minio:
   enabled: true
   existingSecret: minio-creds
+  # tls:
+  #   enabled: true
+  #   certSecret: minio-tls
+  #   publicCrt: tls.crt
+  #   privateKey: tls.key
   persistence:
     size: 2Gi
   drivesPerNode: 4

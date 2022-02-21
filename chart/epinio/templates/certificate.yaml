@@ -10,3 +10,20 @@ spec:
     kind: ClusterIssuer
     name: {{ .Values.global.tlsIssuer }}
   secretName: epinio-tls
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: minio-cert
+  namespace: epinio
+spec:
+  dnsNames:
+  - epinio-minio.{{ .Release.Namespace }}.svc.cluster.local
+  issuerRef:
+    kind: ClusterIssuer
+    name: {{ .Values.global.tlsIssuer }}
+  secretName: minio-tls
+  secretTemplate:
+    annotations:
+      kubed.appscode.com/sync: "kubed-s3-tls-from={{ .Release.Namespace }}"
