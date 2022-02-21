@@ -1,0 +1,59 @@
+{{- range .Values.epinio.routes }}
+---
+apiVersion: "cert-manager.io/v1"
+kind: Certificate
+metadata:
+  name: {{ include "epinio-truncate" (print "i-" $.Values.epinio.appName "-" .id) }}
+  labels:
+    {{- include "epinio-application.labels" $ | nindent 4 }}
+  ownerReferences:
+  - apiVersion: application.epinio.io/v1
+    kind: App
+    name: {{ include "epinio-truncate" $.Values.epinio.appName }}
+    uid: {{ $.Values.epinio.appUID }}
+  # Attention: Cannot make the ingress the owner.
+  #            As it is created in the chart its UID
+  #            is not available.
+spec:
+  secretName: {{ include "epinio-truncate" (print "i-" $.Values.epinio.appName "-" .id "-tls") }}
+  dnsNames:
+  - {{ .domain }}
+  issuerRef:
+    name : {{ $.Values.epinio.tlsIssuer | quote }}
+    kind: ClusterIssuer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "epinio-truncate" (print "i-" $.Values.epinio.appName "-" .id) }}
+  namespace: {{ $.Release.Namespace }}
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  labels:
+    {{- include "epinio-application.labels" $ | nindent 4 }}
+  ownerReferences:
+  - apiVersion: application.epinio.io/v1
+    kind: App
+    name: {{ include "epinio-truncate" $.Values.epinio.appName }}
+    uid: {{ $.Values.epinio.appUID }}
+spec:
+  {{- with $.Values.epinio.ingress }}
+  ingressClassName: {{ . | quote }}
+  {{- end }}
+  rules:
+    - host: {{ .domain | quote }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{ include "epinio-truncate" (print "s-" $.Values.epinio.appName) }}
+                port:
+                  number: 8080
+            path: {{ .path | quote }}
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+      - {{ .domain | quote }}
+      secretName: {{ include "epinio-truncate" (print "i-" $.Values.epinio.appName "-" .id "-tls") }}
+{{- end }}

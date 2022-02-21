@@ -153,6 +153,12 @@ rules:
   - pods
   verbs:
   - list
+- apiGroups:
+  - apps
+  resources:
+  - replicasets
+  verbs:
+  - list
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
