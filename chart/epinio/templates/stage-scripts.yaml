@@ -15,7 +15,8 @@ data:
     # internal s3 the chart has no information.  Therefore we cannot
     # use helm templating to insert these.
     echo By _ _ __ ___ _____ $(whoami) $(pwd)
-    aws --endpoint-url "${PROTOCOL}://${ENDPOINT}" s3 cp "s3://${BUCKET}/${BLOBID}" "/workspace/source/${BLOBID}"
+    cat /certs/ca.crt /certs/tls.crt > /tmp/ca-bundle.pem
+    aws --ca-bundle /tmp/ca-bundle.pem --endpoint-url "${PROTOCOL}://${ENDPOINT}" s3 cp "s3://${BUCKET}/${BLOBID}" "/workspace/source/${BLOBID}"
     echo _ _ __ ___ _____ Done
   unpack: |-
     # Parameters
