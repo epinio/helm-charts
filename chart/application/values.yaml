@@ -11,8 +11,8 @@ image:
 imagePullSecrets: []
 
 epinio:
-  #appName: .Release.Name
-  #namespace: .Release.Namespace
+  # appName: .Release.Name
+  # namespace: .Release.Namespace
   replicaCount: 1
   appUID: 999
   stageID: 999
