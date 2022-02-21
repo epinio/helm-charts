@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.epinio.appName }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "epinio-application.labels" . | nindent 4 }}
+  ownerReferences:
+  - apiVersion: application.epinio.io/v1
+    kind: App
+    name: {{ .Values.epinio.appName }}
+    uid: {{ .Values.epinio.appUID }}
+spec:
+  replicas: {{ .Values.epinio.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.epinio.appName }}
+  template:
+    metadata:
+      annotations:
+        app.kubernetes.io/name: {{ .Values.epinio.appName }}
+        epinio.suse.org/start: {{ .Values.epinio.start | quote }}
+      labels:
+        {{- include "epinio-application.labels" . | nindent 8 }}
+        epinio.suse.org/stage-id: {{ .Values.epinio.stageID | quote }}
+    spec:
+      serviceAccount: {{ .Release.Namespace }}
+      serviceAccountName: {{ .Release.Namespace }}
+      automountServiceAccountToken: true
+      {{- with .Values.epinio.services }}
+      volumes:
+      {{- range . }}
+      - name: {{ . }}
+        secret:
+          defaultMode: 420
+          secretName: service.namespace-{{ $.Release.Namespace }}.svc-{{ . }}
+      {{- end }}
+      {{- end }}
+      containers:
+      - name: {{ .Values.epinio.appName }}
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        {{- with .Values.epinio.services }}
+        volumeMounts:
+        {{- range . }}
+        - mountPath: /services/{{ . }}
+          name: {{ . }}
+          readOnly: true
+        {{- end }}
+        {{- end }}
+        env:
+        - name: PORT
+          value: "8080"
+        {{- range $k, $v := .Values.epinio.env }}
+        - name: {{ $k | quote }}
+          value: {{ $v | quote }}
+        {{- end}}
+        image: {{ .Values.epinio.imageURL }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- with .Values.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end}}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

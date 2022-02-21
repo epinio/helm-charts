@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  labels:
+    {{- include "epinio-application.labels" . | nindent 4 }}
+  name: s-{{ .Values.epinio.appName }}
+  namespace:  {{ .Release.Namespace }}
+  ownerReferences:
+  - apiVersion: application.epinio.io/v1
+    kind: App
+    name: {{ .Values.epinio.appName }}
+    uid: {{ .Values.epinio.appUID }}
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    {{- include "epinio-application.selectorLabels" . | nindent 4 }}
+  type: ClusterIP
