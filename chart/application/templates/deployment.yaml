@@ -28,31 +28,35 @@ spec:
       serviceAccountName: {{ .Release.Namespace }}
       automountServiceAccountToken: true
       volumes:
-{{ range .Values.epinio.services }}
-        - name: {{ . }}
-	  secret:
-	    defaultMode: 420
-	    secretName: service.namespace-{{ .Release.Namespace }}.svc-{{ . }}
-{{ end }}
+      {{- range .Values.epinio.services }}
+      - name: {{ . }}
+        secret:
+          defaultMode: 420
+          secretName: service.namespace-{{ .Release.Namespace }}.svc-{{ . }}
+      {{- end }}
       containers:
       - name: {{ .Release.Name }}
         ports:
         - containerPort: 8080
           protocol: TCP
-	volumeMounts:
-{{ range .Values.epinio.services }}
-          - mountPath: /services/{{ . }}
-	    name: {{ . }}
-	    readOnly: true
-{{ end }}
+        volumeMounts:
+        {{- range .Values.epinio.services }}
+        - mountPath: /services/{{ . }}
+          name: {{ . }}
+          readOnly: true
+        {{- end }}
         env:
         - name: PORT
           value: "8080"
-        {{- toYaml .Values.epinio.env | nindent 8 }}
+        {{- with .Values.epinio.env }}
+        {{- toYaml . | nindent 8 }}
+        {{- end}}
         image: {{ .Values.epinio.imageURL }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- with .Values.resources }}
         resources:
-          {{- toYaml .Values.resources | nindent 10 }}
+          {{- toYaml . | nindent 10 }}
+        {{- end}}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

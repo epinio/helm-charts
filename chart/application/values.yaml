@@ -18,9 +18,9 @@ epinio:
   stageID: 999
   imageURL: curl
   username: user
-  routes: []
-  env: {}
-  services: []
+  routes: ~
+  env: ~
+  services: ~
 
 # routes:   sequence of host names
 # services: sequence of service names
