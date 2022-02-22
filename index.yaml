@@ -500,6 +500,21 @@ entries:
   epinio-application:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-02-22T15:48:44.015624772Z"
+    description: The helm chart for epinio applications to be deployed by
+    digest: e90788294759e5d1520bac248dd8dc5679999045162e0f40dffaeddbc4fd04b9
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio-application
+    type: application
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.2/epinio-application-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-02-22T14:53:13.696847806Z"
     description: The helm chart for epinio applications to be deployed by
     digest: 5783b580dd1b3af5b7f19fd3d9495937833c7a3cbbffcec491b594a5b7809044
@@ -749,4 +764,4 @@ entries:
     urls:
     - https://github.com/epinio/epinio-helm-chart/releases/download/epinio-installer-0.1.20/epinio-installer-0.1.20.tgz
     version: 0.1.20
-generated: "2022-02-22T14:53:13.696998906Z"
+generated: "2022-02-22T15:48:44.015756673Z"
