@@ -11,6 +11,7 @@ spec:
     name: {{ .Values.global.tlsIssuer }}
   secretName: epinio-tls
 
+{{- if .Values.minio.enabled }}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -27,6 +28,7 @@ spec:
   secretTemplate:
     annotations:
       kubed.appscode.com/sync: "kubed-s3-tls-from={{ .Release.Namespace }}"
+{{- end }}
 
 ---
 apiVersion: cert-manager.io/v1
