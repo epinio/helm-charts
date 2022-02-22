@@ -1,0 +1,49 @@
+---
+title: "Bump epinio ui version"
+# Define git repository configuration to know where to push changes
+scms:
+  helm-charts:
+    kind: "github"
+    spec:
+      user: "{{ .github.epinio.user }}"
+      email: "{{ .github.epinio.email }}"
+      owner: "{{ .github.epinio.owner }}"
+      repository: "{{ .github.epinio.repository }}"
+      token: '{{ requiredEnv .github.epinio.token }}'
+      username: "{{ .github.epinio.username }}"
+      branch: "{{ .github.epinio.branch }}"
+
+# Defines where we get source values
+sources:
+  ui-backend-tag:
+    kind: gitTag
+    scm:
+      git:
+        url: https://epinio.github.io/ui-backend
+
+# Defines what needs to be udpated if needed
+targets:
+  epinio-ui-chart:
+    name: "Update ui-backend image in chart epinio-ui"
+    kind: "helmChart"
+    scmID: "helm-charts"
+    sourceID: "ui-backend-tag"
+    spec:
+      name: "chart/epinio-ui"
+      file: "values.yaml"
+      key: "epinioUI.image"
+      value: 'ghcr.io/epinio/epinio-ui:{{ source "ui-backend-tag" }}'
+      versionIncrement: minor
+
+# Define pullrequest configuration if one needs to be created
+pullrequests:
+  helm-charts:
+    kind: "github"
+    scmID: "helm-charts"
+    targets:
+      - "helm-charts"
+    spec:
+      labels:
+        - "dependencies"
+        - "epinio-ui"
+
