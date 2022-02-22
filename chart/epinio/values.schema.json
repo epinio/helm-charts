@@ -103,6 +103,9 @@
         "secretAccessKey": {
           "type": "string"
         },
+        "certificateSecret": {
+          "type": "string"
+        },
         "useSSL": {
           "type": "boolean"
         }

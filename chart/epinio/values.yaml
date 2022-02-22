@@ -48,6 +48,9 @@ s3:
   accessKeyID: ""
   secretAccessKey: ""
   useSSL: true
+  # Set it to an existing secret if S3 is using a self signed cert
+  certificateSecret: ""
+
 # Connection details for the container registry
 registry:
   url: ""
