@@ -1,7 +1,7 @@
 # Default values for epinio-application.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-#
+
 # This is the API between the epinio server's deployment code, and
 # charts implementing the deployment, like this one.
 
