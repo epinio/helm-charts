@@ -12,18 +12,6 @@ This chart can be used in a manual installation of Epinio components.
 
 The documentation is centralized in the [doc website](https://docs.epinio.io/installation/installation.html).
 
-## Relation to Epinio Installer Chart
-
-There is also a helm chart that installs all of components automatically: [epinio-installer](https://artifacthub.io/packages/helm/epinio/epinio-installer)
-
-To use this chart, after using the epinio-installer chart, first export all values:
-
-```
-helm repo add epinio https://epinio.github.io/helm-charts/
-helm get values -n epinio epinio > values.yaml
-helm upgrade --install -n epinio --create-namespace --values values.yaml epinio epinio/epinio
-```
-
 ## Prerequisites
 
 Epinio needs a number of external components to be running on your cluster in order to
@@ -33,20 +21,6 @@ to deploy them.
 Important: Some of the namespaces of the components are hardcoded in the Epinio
 code and thus are important to be the same as described here. In the future this
 may be configurable on the Epinio Helm chart.
-
-### Linkerd
-
-- Optional
-
-Download the linkerd cli from here: https://github.com/linkerd/linkerd2/releases/tag/stable-2.10.2
-
-Install linkerd with:
-
-```
-$ kubectl create namespace linkerd
-$ kubectl apply -f assets/embedded-files/linkerd/rbac.yaml
-$ linkerd install | kubectl apply -f - && linkerd check --wait 10m
-```
 
 ### Traefik
 
