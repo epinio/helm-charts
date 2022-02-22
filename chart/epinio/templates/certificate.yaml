@@ -27,3 +27,20 @@ spec:
   secretTemplate:
     annotations:
       kubed.appscode.com/sync: "kubed-s3-tls-from={{ .Release.Namespace }}"
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: epinio-ca
+  namespace: {{ .Values.certManagerNamespace }}
+spec:
+  commonName: epinio-ca
+  isCA: true
+  issuerRef:
+    kind: ClusterIssuer
+    name: selfsigned-issuer
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  secretName: epinio-ca-root

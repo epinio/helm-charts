@@ -50,10 +50,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    {{- if .Capabilities.APIVersions.Has "cert-manager.io/v1" }}
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
-    {{- end }}
   labels:
     app.kubernetes.io/name: "epinio-registry"
     app.kubernetes.io/instance: "epinio-registry"
@@ -74,12 +72,10 @@ spec:
               number: 5000
         path: /
         pathType: ImplementationSpecific
-  {{- if .Capabilities.APIVersions.Has "cert-manager.io/v1" }}
   tls:
   - hosts:
     - "epinio-registry.{{ .Values.global.domain }}"
     secretName: epinio-registry-tls
-  {{- end }}
 
 {{ if .Values.containerregistry.createNodePort }}
 ---
