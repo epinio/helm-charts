@@ -8,7 +8,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
   labels:
-    {{- include "epinio-application.labels" . | nindent 4 }}
+    {{- include "epinio-application.labels" $ | nindent 4 }}
   ownerReferences:
   - apiVersion: application.epinio.io/v1
     kind: App
