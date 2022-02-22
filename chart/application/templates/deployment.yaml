@@ -32,7 +32,7 @@ spec:
       - name: {{ . }}
         secret:
           defaultMode: 420
-          secretName: service.namespace-{{ .Release.Namespace }}.svc-{{ . }}
+          secretName: service.namespace-{{ $.Release.Namespace }}.svc-{{ . }}
       {{- end }}
       containers:
       - name: {{ .Release.Name }}
