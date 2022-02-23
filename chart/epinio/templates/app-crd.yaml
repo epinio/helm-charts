@@ -52,6 +52,10 @@ spec:
                   Epinio will use the builder image set by the user explicitly but
                   if one is not set, it will try to use the previously set image.
                 type: string
+              imageurl:
+                description: ImageURL stores the image reference of the currently
+                  running application. This is set on deployment, for use in updates.
+                type: string
               origin:
                 properties:
                   container:
