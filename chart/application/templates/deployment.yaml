@@ -48,8 +48,9 @@ spec:
         env:
         - name: PORT
           value: "8080"
-        {{- with .Values.epinio.env }}
-        {{- toYaml . | nindent 8 }}
+        {{- range $k, $v := .Values.epinio.env }}
+        - name: {{ $k | quote }}
+          value: {{ $k | quote }}
         {{- end}}
         image: {{ .Values.epinio.imageURL }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
