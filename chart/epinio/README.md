@@ -4,25 +4,10 @@ From app to URL in one command.
 
 ## Introduction
 
-This chart deploys the Epinio API server along with other resources needed
-for Epinio to work on a cluster. It assumes the rest of the Epinio dependencies
-are already deployed on the cluster.
-
-This chart can be used in a manual installation of Epinio components.
+This chart deploys Epinio PaaS on a Kubernetes cluster. It also deploys some of
+its dependencies as subcharts.
 
 The documentation is centralized in the [doc website](https://docs.epinio.io/installation/installation.html).
-
-## Relation to Epinio Installer Chart
-
-There is also a helm chart that installs all of components automatically: [epinio-installer](https://artifacthub.io/packages/helm/epinio/epinio-installer)
-
-To use this chart, after using the epinio-installer chart, first export all values:
-
-```
-helm repo add epinio https://epinio.github.io/helm-charts/
-helm get values -n epinio epinio > values.yaml
-helm upgrade --install -n epinio --create-namespace --values values.yaml epinio epinio/epinio
-```
 
 ## Prerequisites
 
@@ -34,46 +19,31 @@ Important: Some of the namespaces of the components are hardcoded in the Epinio
 code and thus are important to be the same as described here. In the future this
 may be configurable on the Epinio Helm chart.
 
-### Linkerd
+### Ingress Controller
 
-- Optional
+Epinio creates Ingress resources for the API server, the applications and depending
+on your setup, the internal container registry. Those resources won't work unless
+an Ingress controller is running on your cluster.
 
-Download the linkerd cli from here: https://github.com/linkerd/linkerd2/releases/tag/stable-2.10.2
-
-Install linkerd with:
-
-```
-$ kubectl create namespace linkerd
-$ kubectl apply -f assets/embedded-files/linkerd/rbac.yaml
-$ linkerd install | kubectl apply -f - && linkerd check --wait 10m
-```
-
-### Traefik
-
-Install Traefik with:
+If you don't have an Ingress controller already running, you can install Traefik with:
 
 ```
 $ kubectl create namespace traefik
 $ export LOAD_BALANCER_IP=$(LOAD_BALANCER_IP:-) # Set this to the IP of your load balancer if you know that
 $ helm install traefik --namespace traefik "https://helm.traefik.io/traefik/traefik-10.3.4.tgz" \
 		--set globalArguments='' \
-		--set-string deployment.podAnnotations.linkerd\\.io/inject=enabled \
 		--set-string ports.web.redirectTo=websecure \
 		--set-string ingressClass.enabled=true \
 		--set-string ingressClass.isDefaultClass=true \
 		--set-string service.spec.loadBalancerIP=$LOAD_BALANCER_IP
 ```
 
-### Install Kubed
+### Cert Manager
 
-```
-$ kubectl create namespace kubed
-$ helm repo add appscode https://charts.appscode.com/stable/
-$ helm repo update
-$ helm install kubed --namespace kubed --version v0.12.0 appscode/kubed
-```
+Epinio needs [cert-manager](https://cert-manager.io/) in order to create TLS
+certificates for the various Ingresses (see "Ingress controller" above).
 
-### Install Cert Manager
+If cert-manager is not already installed on the cluster, it can be installed like this:
 
 ```
 $ kubectl create namespace cert-manager
@@ -84,30 +54,40 @@ $ helm install cert-manager --namespace cert-manager jetstack/cert-manager \
 		--set extraArgs[0]=--enable-certificate-owner-ref=true
 ```
 
-### Install Minio (Optional)
+### Kubed
 
-Any S3 compatible storage can be used
+Kubed is installed as a subchart when `.Values.kubed.enabled` is true (default).
+If you already have kubed running, you can skip the installation by setting
+the helm value "kubed.enabled" to "false".
 
-TODO: Describe a deployment of Minio here
+### S3 storage
 
-### Install Registry (Optional)
+Epinio is using an S3 compatible storage to store the application source code.
+This chart will install [Minio](https://min.io/) when `.Values.minio.enabled` is
+true (default). Any S3 compatible solution can be used instead by setting this
+value to `false` and using [the values under `s3`](https://github.com/epinio/helm-charts/blob/7ce84a4b391105551ba52f9ab8ea7213b5358977/chart/epinio/values.yaml#L49)
+to point to the desired S3 server. 
+
+### Container Registry
+
+When Epinio builds a container image for an application from source, it needs
+to store that image to a container registry. Epinio installs a container registry
+on the cluster when `.Values.containerregistry.enabled` is `true` (default).
 
 Any container registry that supports basic auth authentication can be used (e.g. gcr, dockerhub etc)
+instead by setting this value to `false` and using
+[the values under `registry`](https://github.com/epinio/helm-charts/blob/7ce84a4b391105551ba52f9ab8ea7213b5358977/chart/epinio/values.yaml#L57-L76)
+to point to the desired container registry.
 
-TODO: Describe a deployment of a registry here
+## Install Epinio
 
-### Install Epinio
-
-```
-$ kubectl create namespace epinio
-$ kubectl label namespace epinio "linkerd.io/inject"="enabled"
-```
-
-Create a `values.yaml` file for Epinio. Look at the available options here:
-https://github.com/epinio/epinio/blob/documentation-installer/helm/chart/epinio/values.yaml
-
-Install Epinio with:
+If the above dependencies are available or going to be installed by this chart,
+Epinio can be installed with the following:
 
 ```
-$ helm install epinio helm/chart/epinio/ -n epinio --values values.yaml
+$ helm install epinio -n epinio --create-namespace epinio/epinio --values epinio-values.yaml --set global.domain=myepiniodomain.org
 ```
+
+The only value that is mandatory is the `.Values.global.domain` which
+should be a wildcard domain, pointing to the IP address of your running
+Ingress controller.

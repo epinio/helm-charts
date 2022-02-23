@@ -1,3 +1,0 @@
-# This file overloads the default values.yaml file of the Helm Chart
-# to customize different CI test cases.
-skipTraefik: true

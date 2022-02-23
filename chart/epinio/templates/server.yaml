@@ -251,12 +251,16 @@ spec:
             - name: SESSION_KEY
               value: "{{ .Values.server.sessionKey }}"
             - name: TLS_ISSUER
-              value: "{{ .Values.server.tlsIssuer }}"
+              value: "{{ .Values.global.tlsIssuer }}"
             - name: TRACE_LEVEL
               value: "{{ .Values.server.traceLevel }}"
-            {{- if .Values.registry.certificateSecret }}
+            {{- if or .Values.s3.certificateSecret .Values.minio.enabled }}
+            - name: S3_CERTIFICATE_SECRET
+              value: {{ default "minio-tls" .Values.s3.certificateSecret }}
+            {{- end }}
+            {{- if .Values.containerregistry.enabled }}
             - name: REGISTRY_CERTIFICATE_SECRET
-              value: "{{ .Values.registry.certificateSecret }}"
+              value: "epinio-registry-tls"
             {{- end }}
             {{- if .Values.ingress.ingressClassName }}
             - name: INGRESS_CLASS_NAME

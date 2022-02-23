@@ -1,3 +1,4 @@
+{{- if .Values.containerregistry.enabled }}
 ---
 apiVersion: v1
 kind: Secret
@@ -5,7 +6,9 @@ metadata:
   name: auth
   namespace: {{ .Release.Namespace }}
 stringData:
-  htpasswd:  {{ .Values.auth.htpasswd | quote }}
+  # The only supported password format is bcrypt
+  htpasswd:  {{ htpasswd .Values.global.registryUsername .Values.global.registryPassword | quote }}
+
 ---
 apiVersion: v1
 kind: Service
@@ -13,15 +16,35 @@ metadata:
   name: registry
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "container-registry.labels" . | nindent 4 }}
+    app.kubernetes.io/name: "epinio-registry"
+    app.kubernetes.io/instance: "epinio-registry"
 spec:
   type: ClusterIP
   selector:
-    {{- include "container-registry.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/name: "epinio-registry"
+    app.kubernetes.io/instance: "epinio-registry"
   ports:
   - name: registry
     port: 5000
     targetPort: 5000
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: epinio-registry
+  namespace: {{ .Release.Namespace }}
+spec:
+  dnsNames:
+  - "epinio-registry.{{ .Values.global.domain }}"
+  issuerRef:
+    kind: ClusterIssuer
+    name: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
+  secretName: epinio-registry-tls
+  secretTemplate:
+    annotations:
+      kubed.appscode.com/sync: "kubed-registry-tls-from={{ .Release.Namespace }}" # Sync certificate to matching namespaces
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -30,15 +53,16 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
   labels:
-    {{- include "container-registry.labels" . | nindent 4 }}
+    app.kubernetes.io/name: "epinio-registry"
+    app.kubernetes.io/instance: "epinio-registry"
   name: registry
   namespace: {{ .Release.Namespace }}
 spec:
-  {{- if .Values.ingress.ingressClassName }}
-  ingressClassName: "{{ .Values.ingress.ingressClassName }}"
+  {{- if .Values.containerregistry.ingressClassName }}
+  ingressClassName: "{{ .Values.containerregistry.ingressClassName }}"
   {{- end }}
   rules:
-  - host: {{ .Values.domain }}
+  - host: "epinio-registry.{{ .Values.global.domain }}"
     http:
       paths:
       - backend:
@@ -50,9 +74,10 @@ spec:
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - {{ .Values.domain }}
+    - "epinio-registry.{{ .Values.global.domain }}"
     secretName: epinio-registry-tls
-{{ if .Values.createNodePort }}
+
+{{ if .Values.containerregistry.createNodePort }}
 ---
 apiVersion: v1
 kind: Service
@@ -60,17 +85,20 @@ metadata:
   name: registry-node
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "container-registry.labels" . | nindent 4 }}
+    app.kubernetes.io/name: "epinio-registry"
+    app.kubernetes.io/instance: "epinio-registry"
 spec:
   type: NodePort
   selector:
-    {{- include "container-registry.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/name: "epinio-registry"
+    app.kubernetes.io/instance: "epinio-registry"
   ports:
   - name: registry
     port: 5000
     targetPort: 5000
     nodePort: 30500
 {{- end }}
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -78,21 +106,24 @@ metadata:
   name: registry
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "container-registry.labels" . | nindent 4 }}
+    app.kubernetes.io/name: "epinio-registry"
+    app.kubernetes.io/instance: "epinio-registry"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "container-registry.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/name: "epinio-registry"
+      app.kubernetes.io/instance: "epinio-registry"
   template:
     metadata:
       labels:
-        {{- include "container-registry.labels" . | nindent 8 }}
+        app.kubernetes.io/name: "epinio-registry"
+        app.kubernetes.io/instance: "epinio-registry"
     spec:
       containers:
       - name: registry
-        image: {{ .Values.registry.image }}
-        imagePullPolicy: {{ .Values.registry.imagePullPolicy }}
+        image: {{ .Values.containerregistry.image }}
+        imagePullPolicy: {{ .Values.containerregistry.imagePullPolicy }}
         env:
         - name: REGISTRY_AUTH
           value: htpasswd
@@ -128,3 +159,4 @@ spec:
       - name: auth
         secret:
           secretName: auth
+{{- end }}

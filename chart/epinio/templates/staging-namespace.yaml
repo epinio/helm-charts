@@ -5,8 +5,9 @@ metadata:
   name: epinio-staging
   annotations:
     linkerd.io/inject: enabled
-  {{- if .Values.registry.certificateSecretNamespace }}
+  {{- if .Values.containerregistry.enabled }}
   labels:
-    # label so that kubed copies epinio-registry secret to this namespace
-    kubed-registry-tls-from: {{ .Values.registry.certificateSecretNamespace }}
+    # label so that kubed copies epinio-registry and s3 secret to this namespace
+    kubed-registry-tls-from: {{ .Release.Namespace }}
+    kubed-s3-tls-from: {{ .Release.Namespace }}
   {{- end }}

@@ -68,9 +68,6 @@
         "sessionKey": {
           "type": "string"
         },
-        "tlsIssuer": {
-          "type": "string"
-        },
         "traceLevel": {
           "type": "integer"
         },
@@ -106,6 +103,9 @@
         "secretAccessKey": {
           "type": "string"
         },
+        "certificateSecret": {
+          "type": "string"
+        },
         "useSSL": {
           "type": "boolean"
         }
@@ -124,9 +124,6 @@
         "url": {
           "type": "string"
         },
-        "localhostURL": {
-          "type": "string"
-        },
         "username": {
           "type": "string"
         },
@@ -134,9 +131,6 @@
           "type": "string"
         },
         "namespace": {
-          "type": "string"
-        },
-        "certificateSecret": {
           "type": "string"
         }
       },
@@ -170,7 +164,20 @@
   "required": [
     "certManagerNamespace",
     "s3",
-    "registry",
-    "domain"
-  ]
+    "registry"
+  ],
+  "global": {
+    "type": "object",
+    "properties": {
+      "domain": {
+        "type": "string"
+      },
+      "tlsIssuer": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "domain"
+    ]
+  }
 }
