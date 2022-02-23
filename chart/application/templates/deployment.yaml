@@ -50,7 +50,7 @@ spec:
           value: "8080"
         {{- range $k, $v := .Values.epinio.env }}
         - name: {{ $k | quote }}
-          value: {{ $k | quote }}
+          value: {{ $v | quote }}
         {{- end}}
         image: {{ .Values.epinio.imageURL }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
