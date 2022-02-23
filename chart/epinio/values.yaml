@@ -54,7 +54,6 @@ s3:
 # Connection details for the container registry
 registry:
   url: ""
-  localhostURL: ""
   username: ""
   password: ""
   # The registry namespace (aka org). Don't confuse this with Kubernetes
