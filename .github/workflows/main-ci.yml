@@ -48,6 +48,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         if: steps.list-changed.outputs.changed == 'true'
 
+      - name: Prepare CI env before installing epinio
+        run: make prepare-ci-env
+        if: steps.list-changed.outputs.changed == 'true'
+
       - name: Run chart-testing
-        run: ct install --config ct/ct.yaml
+        run: ct install --debug --config ct/ct.yaml --namespace epinio
         if: steps.list-changed.outputs.changed == 'true'
