@@ -794,4 +794,17 @@ entries:
     urls:
     - https://github.com/epinio/epinio-helm-chart/releases/download/epinio-installer-0.1.20/epinio-installer-0.1.20.tgz
     version: 0.1.20
-generated: "2022-02-23T12:00:19.047617349Z"
+  epinio-ui:
+  - apiVersion: v2
+    created: "2022-02-24T15:32:52.128281905Z"
+    description: A Helm chart for the Epinio UI
+    digest: 9ffaf71240834d227fb9bfa686c36acfb045a4df06bfec5b98734115f2e466de
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio-ui
+    type: application
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-ui-0.0.1/epinio-ui-0.0.1.tgz
+    version: 0.0.1
+generated: "2022-02-24T15:32:52.128650006Z"
