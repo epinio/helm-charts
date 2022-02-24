@@ -1,0 +1,91 @@
+{{- $secret := (lookup "v1" "Secret" .Release.Namespace "epinio-ui").data -}}
+{{- $encryptionKey := empty $secret | ternary (printf "%x" (randAscii 32)) (b64dec (default "" $secret.encryptionKey)) -}}
+{{- $sessionSecret := empty $secret | ternary (randAlphaNum 16) (b64dec (default "" $secret.sessionSecret)) -}}
+
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: epinio-ui
+  namespace: {{ .Release.Namespace }}
+stringData:
+  encryptionKey: {{ $encryptionKey }}
+  sessionSecret: {{ $sessionSecret }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: epinio-ui
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "epinio-ui.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "epinio-ui.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "epinio-ui.labels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: epinio-ui
+        image: {{ .Values.epinioUI.image }}
+        imagePullPolicy: {{ .Values.epinioUI.imagePullPolicy }}
+        workingDir: /db
+
+        env:
+        - name: EPINIO_API_URL
+          value: {{ .Values.epinioApiUrl | quote }}
+        - name: EPINIO_API_SKIP_SSL
+          value: {{ .Values.epinioApiSkipSSL | quote }}
+        - name: SESSION_STORE_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: epinio-ui
+              key: sessionSecret
+        - name: UI_PATH
+          value: "/ui"
+        - name: AUTH_ENDPOINT_TYPE
+          value: epinio
+        - name: ENCRYPTION_KEY
+          valueFrom:
+            secretKeyRef:
+              name: epinio-ui
+              key: encryptionKey
+
+        - name: DATABASE_PROVIDER
+          value: sqlite
+        - name: HTTPS
+          value: "false"
+        - name: CONSOLE_PROXY_TLS_ADDRESS
+          value: 0.0.0.0:8000
+        - name: LOG_LEVEL
+          value: {{ .Values.logLevel | quote }}
+
+        {{- with .Values.volumeMounts }}
+        volumeMounts:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+
+        securityContext:
+          runAsUser: 1000
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+        livenessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
