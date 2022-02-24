@@ -23,7 +23,9 @@ spec:
   - epinio-minio.{{ .Release.Namespace }}.svc.cluster.local
   issuerRef:
     kind: ClusterIssuer
-    name: {{ .Values.global.tlsIssuer }}
+    # We always trust the CA for minio so we can always use selfsigned certs
+    # Because Letsencrypt doesn't create certs for non public domains
+    name: epinio-ca
   secretName: minio-tls
   secretTemplate:
     annotations:
