@@ -15,6 +15,38 @@ entries:
     version: 0.1.0
   epinio:
   - apiVersion: v2
+    appVersion: v0.5.0
+    created: "2022-02-25T15:07:44.822111519Z"
+    dependencies:
+    - condition: minio.enabled, global.minio.enabled
+      name: minio
+      repository: https://charts.min.io/
+      tags:
+      - minio
+      version: 3.5.2
+    - condition: kubed.enabled, global.kubed.enabled
+      name: kubed
+      repository: https://charts.appscode.com/stable/
+      tags:
+      - kubed
+      version: 0.13.1
+    description: The Epinio component (without dependencies)
+    digest: 0e4ffa7773d0b9990db9c7e84d3ebedae502d8ca96ce86b8f1d1a5794f7f3851
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio
+    sources:
+    - https://github.com/epinio/epinio
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-0.5.0/epinio-0.5.0.tgz
+    version: 0.5.0
+  - apiVersion: v2
     appVersion: v0.4.0
     created: "2022-02-15T11:31:55.292984713Z"
     dependencies:
@@ -822,4 +854,4 @@ entries:
     urls:
     - https://github.com/epinio/helm-charts/releases/download/epinio-ui-0.0.1/epinio-ui-0.0.1.tgz
     version: 0.0.1
-generated: "2022-02-24T15:43:14.069166976Z"
+generated: "2022-02-25T15:07:44.82233043Z"
