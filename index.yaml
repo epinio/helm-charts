@@ -16,7 +16,7 @@ entries:
   epinio:
   - apiVersion: v2
     appVersion: v0.5.0
-    created: "2022-02-25T15:07:44.822111519Z"
+    created: "2022-03-01T09:11:02.498223354+01:00"
     dependencies:
     - condition: minio.enabled, global.minio.enabled
       name: minio
@@ -30,8 +30,8 @@ entries:
       tags:
       - kubed
       version: 0.13.1
-    description: The Epinio component (without dependencies)
-    digest: 0e4ffa7773d0b9990db9c7e84d3ebedae502d8ca96ce86b8f1d1a5794f7f3851
+    description: The official way to install Epinio
+    digest: 2ff24152d6a0b346527c0d0390b2c691c872c01c01e6c56876d06b0a3741041c
     home: https://github.com/epinio/epinio
     icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
     keywords:
