@@ -624,7 +624,7 @@ entries:
   - apiVersion: v1
     appVersion: v0.0.1-18
     created: "2022-02-15T11:27:09.771277878Z"
-    description: Deploys Epinio and dependencies automatically
+    description: Deploys Epinio and dependencies automatically (deprecated)
     digest: ca9fd67d12b8894dee3b09b1218514a37e32478399bddda6fccb341e4b29a0f6
     home: https://github.com/epinio/epinio
     icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
