@@ -623,10 +623,9 @@ entries:
   epinio-installer:
   - apiVersion: v1
     appVersion: v0.0.1-18
-    created: "2022-02-28T15:09:24.766614142+01:00"
-    deprecated: true
+    created: "2022-02-28T15:21:10.842525888+01:00"
     description: DEPRECATED - Deploys Epinio and dependencies automatically
-    digest: e022ee7714eca5bcfd74be7e597a04641e3e86a2a8d8d68d9d959ed8ecee6c59
+    digest: 6c00c83d07ccca1089fb5db210f306e76b4006abeb1d3f30ae1cf6273c865554
     home: https://github.com/epinio/epinio
     icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
     keywords:
