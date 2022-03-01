@@ -11,10 +11,12 @@
 # stageID      :: string                 :: id of stage run generating the app image
 # imageURL     :: string                 :: reference to app image in registry
 # username     :: string                 :: user triggering deployment
-# routes       :: sequence (string)      :: hostnames the app has to be reachable under
+# routes       :: sequence (route)       :: routes (= domain+path+id) the app has to be reachable at
 # env          :: map (string -> string) :: app environment variables and values
 # services     :: sequence (string)      :: names of the services to import into the app
 # start        :: integer                :: time of deployment, nanoseconds
+# ingress      :: string                 :: ingress class name to use, if any
+# tlsIssuer    :: string                 :: name of cert issuer
 
 # The `start` element can be used to force a restart of specific
 # resources with each re-deployment. This standard chart uses it in a
@@ -29,6 +31,8 @@ image:
 imagePullSecrets: []
 
 epinio:
+  tlsIssuer: ~
+  ingress: ~
   appName: placeholder
   # namespace: .Release.Namespace
   replicaCount: 1
