@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.epinio.appName }}
+  name: {{ include "epinio-truncate" .Values.epinio.appName }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "epinio-application.labels" . | nindent 4 }}
   ownerReferences:
   - apiVersion: application.epinio.io/v1
     kind: App
-    name: {{ .Values.epinio.appName }}
+    name: {{ include "epinio-truncate" .Values.epinio.appName }}
     uid: {{ .Values.epinio.appUID }}
 spec:
   replicas: {{ .Values.epinio.replicaCount }}
@@ -37,7 +37,7 @@ spec:
       {{- end }}
       {{- end }}
       containers:
-      - name: {{ .Values.epinio.appName }}
+      - name: {{ include "epinio-truncate" .Values.epinio.appName }}
         ports:
         - containerPort: 8080
           protocol: TCP

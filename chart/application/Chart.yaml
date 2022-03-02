@@ -4,7 +4,7 @@ description: The helm chart for epinio applications to be deployed by
 icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
 home: https://github.com/epinio/epinio
 type: application
-version: 0.1.7
+version: 0.1.8
 appVersion: "1.16.0"
 maintainers:
 - email: team@epinio.io

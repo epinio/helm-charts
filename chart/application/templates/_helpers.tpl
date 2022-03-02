@@ -23,3 +23,11 @@ Selector labels
 app.kubernetes.io/name: {{ .Values.epinio.appName }}
 app.kubernetes.io/component: application
 {{- end }}
+
+{{/*
+Resource name truncation while keeping it unique. Keep as-is when short enough.
+Else compute a 32-char hash and affix it to the suitably truncated base.
+*/}}
+{{- define "epinio-truncate" -}}
+{{ ternary . (print (trunc 30 .) "-" (trunc 31 (sha256sum .))) (lt (len .) 64) }}
+{{- end }}
