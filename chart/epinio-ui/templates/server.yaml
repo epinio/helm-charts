@@ -41,11 +41,15 @@ spec:
           value: {{ .Values.epinioApiUrl | quote }}
         - name: EPINIO_API_SKIP_SSL
           value: {{ .Values.epinioApiSkipSSL | quote }}
+        - name: EPINIO_VERSION
+          value: {{ .Values.epinioVersion | quote }}
         - name: SESSION_STORE_SECRET
           valueFrom:
             secretKeyRef:
               name: epinio-ui
               key: sessionSecret
+        - name: SESSION_STORE_EXPIRY
+          value: 1440
         - name: UI_PATH
           value: "/ui"
         - name: AUTH_ENDPOINT_TYPE
