@@ -51,15 +51,6 @@ s3:
   # Set it to an existing secret if S3 is using a self signed cert
   certificateSecret: ""
 
-# Connection details for the container registry
-registry:
-  url: ""
-  username: ""
-  password: ""
-  # The registry namespace (aka org). Don't confuse this with Kubernetes
-  # namespaces. This one is just the part between the registry url and the
-  # image name (e.g. your username if you are using your account on Dockerhub).
-  namespace: ""
 api:
   # Default user username
   username: admin
@@ -108,7 +99,9 @@ containerregistry:
 global:
   # The domain that will be used to access the epinio API server and the registry
   domain: ""
-  registryURL: ""
+
+  # Connection details for the container registry.
+  registryURL: ""              # Skip if containerregistry.enabled is true
   registryUsername: "admin"
   registryPassword: "changeme"
   registryNamespace: "apps"
