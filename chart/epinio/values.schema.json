@@ -117,29 +117,6 @@
         "secretAccessKey"
       ]
     },
-    "registry": {
-      "description": "container registry connection details",
-      "type": "object",
-      "properties": {
-        "url": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "namespace": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "url",
-        "username",
-        "password"
-      ]
-    },
     "api": {
       "description": "default api user credentials",
       "type": "object",
@@ -163,8 +140,7 @@
   },
   "required": [
     "certManagerNamespace",
-    "s3",
-    "registry"
+    "s3"
   ],
   "global": {
     "type": "object",
@@ -173,6 +149,18 @@
         "type": "string"
       },
       "tlsIssuer": {
+        "type": "string"
+      },
+      "registryURL": {
+        "type": "string"
+      },
+      "registryUsername": {
+        "type": "string"
+      },
+      "registryPassword": {
+        "type": "string"
+      },
+      "registryNamespace": {
         "type": "string"
       }
     },
