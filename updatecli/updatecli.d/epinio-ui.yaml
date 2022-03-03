@@ -13,21 +13,35 @@ scms:
       username: "{{ .github.epinio.username }}"
       branch: "{{ .github.epinio.branch }}"
 
+  ui-backend:
+    kind: "git"
+    spec:
+      url: "https://github.com/epinio/ui-backend.git"
+      branch: "main"
+
 # Defines where we get source values
 sources:
   ui-backend-tag:
-    kind: gitTag
-    scm:
-      git:
-        url: https://epinio.github.io/ui-backend
+    name: "Get latest Epinio UI backend git tag"
+    kind: "gittag"
+    scmID: ui-backend
 
-# Defines what needs to be udpated if needed
+conditions:
+  dockerImage:
+    name: 'Check that ghcr.io/epinio/epinio-ui:{{ source "ui-backend-tag" }} exists'
+    kind: "dockerImage"
+    sourceID: "ui-backend-tag"
+    spec:
+      image: "ghcr.io/epinio/epinio-ui"
+
 targets:
   epinio-ui-chart:
-    name: "Update ui-backend image in chart epinio-ui"
+    name: "Update Epinio UI backend image for Helm Chart chart/epinio-ui"
     kind: "helmChart"
     scmID: "helm-charts"
     sourceID: "ui-backend-tag"
+    transformers:
+      - addPrefix: "ghcr.io/epinio/epinio-ui:"
     spec:
       name: "chart/epinio-ui"
       file: "values.yaml"
@@ -41,8 +55,9 @@ pullrequests:
     kind: "github"
     scmID: "helm-charts"
     targets:
-      - "helm-charts"
+      - "epinio-ui-chart"
     spec:
+      automerge: true
       labels:
         - "dependencies"
         - "epinio-ui"
