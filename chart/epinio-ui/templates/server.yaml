@@ -49,7 +49,7 @@ spec:
               name: epinio-ui
               key: sessionSecret
         - name: SESSION_STORE_EXPIRY
-          value: 1440
+          value: "1440"
         - name: UI_PATH
           value: "/ui"
         - name: AUTH_ENDPOINT_TYPE
