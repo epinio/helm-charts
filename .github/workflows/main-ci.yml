@@ -4,7 +4,7 @@ on: pull_request
 
 jobs:
   lint-test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -20,7 +20,7 @@ jobs:
         run: ct lint --config ct/ct.yaml
 
   installation-test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: lint-test
     steps:
       - name: Checkout
