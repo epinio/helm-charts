@@ -18,12 +18,12 @@
 # ingress      :: string                 :: ingress class name to use, if any
 # tlsIssuer    :: string                 :: name of cert issuer
 
-# The `start` element can be used to force a restart of specific
-# resources with each re-deployment. This standard chart uses it in a
-# pod template annotation, forcing pod restart.
+# The `start` element can be used to force a restart of specific resources with each
+# re-deployment. This standard chart uses it in a pod template annotation, forcing pod
+# restart.
 #
-# Required because an app may have to ingest changes to resurces outside of itself.
-# I.e. an update to a bound services' configuration.
+# This is required because an app may have to ingest changes to resources outside of
+# itself.  I.e. an update to a bound services' configuration.
 
 image:
   pullPolicy: IfNotPresent
@@ -43,7 +43,7 @@ epinio:
   routes: ~
   env: ~
   services: ~
-  start: 0
+  start: ~
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
