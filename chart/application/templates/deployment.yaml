@@ -54,9 +54,9 @@ spec:
         env:
         - name: PORT
           value: "8080"
-        {{- range $k, $v := .Values.epinio.env }}
-        - name: {{ $k | quote }}
-          value: {{ $v | quote }}
+        {{- range .Values.epinio.env }}
+        - name: {{ .name | quote }}
+          value: {{ .value | quote }}
         {{- end}}
         image: {{ .Values.epinio.imageURL }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
