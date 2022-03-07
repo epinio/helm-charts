@@ -4,17 +4,33 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: auth
-  namespace: {{ .Release.Namespace }}
+  namespace: epinio-staging
 stringData:
   # The only supported password format is bcrypt
   htpasswd:  {{ htpasswd .Values.global.registryUsername .Values.global.registryPassword | quote }}
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: epinio-registry
+  namespace: epinio-staging
+spec:
+  dnsNames:
+  - registry.epinio-staging.svc.cluster.local
+  ipAddresses:
+  - 127.0.0.1
+  issuerRef:
+    kind: ClusterIssuer
+    name: epinio-ca
+  secretName: epinio-registry-tls
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: registry
-  namespace: {{ .Release.Namespace }}
+  namespace: epinio-staging
   labels:
     app.kubernetes.io/name: "epinio-registry"
     app.kubernetes.io/instance: "epinio-registry"
@@ -28,62 +44,13 @@ spec:
     port: 5000
     targetPort: 5000
 
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: epinio-registry
-  namespace: {{ .Release.Namespace }}
-spec:
-  dnsNames:
-  - "epinio-registry.{{ .Values.global.domain }}"
-  issuerRef:
-    kind: ClusterIssuer
-    name: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
-  secretName: epinio-registry-tls
-  secretTemplate:
-    annotations:
-      kubed.appscode.com/sync: "kubed-registry-tls-from={{ .Release.Namespace }}" # Sync certificate to matching namespaces
-
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
-  labels:
-    app.kubernetes.io/name: "epinio-registry"
-    app.kubernetes.io/instance: "epinio-registry"
-  name: registry
-  namespace: {{ .Release.Namespace }}
-spec:
-  {{- if .Values.containerregistry.ingressClassName }}
-  ingressClassName: "{{ .Values.containerregistry.ingressClassName }}"
-  {{- end }}
-  rules:
-  - host: "epinio-registry.{{ .Values.global.domain }}"
-    http:
-      paths:
-      - backend:
-          service:
-            name: registry
-            port:
-              number: 5000
-        path: /
-        pathType: ImplementationSpecific
-  tls:
-  - hosts:
-    - "epinio-registry.{{ .Values.global.domain }}"
-    secretName: epinio-registry-tls
-
 {{ if .Values.containerregistry.createNodePort }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: registry-node
-  namespace: {{ .Release.Namespace }}
+  namespace: epinio-staging
   labels:
     app.kubernetes.io/name: "epinio-registry"
     app.kubernetes.io/instance: "epinio-registry"
@@ -101,10 +68,47 @@ spec:
 
 ---
 apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: registry-ds
+  namespace: epinio-staging
+  labels:
+    app.kubernetes.io/name: "registry-ds"
+    app.kubernetes.io/instance: "registry-ds"
+spec:
+  selector:
+    matchLabels:
+      name: registry-ds
+  template:
+    metadata:
+      labels:
+        name: registry-ds
+    spec:
+      containers:
+      - name: registry-ds
+        image: busybox
+        command: [ 'sh' ]
+        args: [ '-c', 'mkdir -p /etc/docker/certs.d/127.0.0.1:30500 && cp -f /mnt/certs/ca.crt /etc/docker/certs.d/127.0.0.1:30500/ca.crt && exec tail -f /dev/null' ]
+        volumeMounts:
+        - name: etc-docker
+          mountPath: /etc/docker/certs.d
+        - name: ca-cert
+          mountPath: /mnt/certs
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: etc-docker
+        hostPath:
+          path: /etc/docker/certs.d
+      - name: ca-cert
+        secret:
+          secretName: epinio-registry-tls
+
+---
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: registry
-  namespace: {{ .Release.Namespace }}
+  namespace: epinio-staging
   labels:
     app.kubernetes.io/name: "epinio-registry"
     app.kubernetes.io/instance: "epinio-registry"
@@ -131,6 +135,10 @@ spec:
           value: Registry Realm
         - name: REGISTRY_AUTH_HTPASSWD_PATH
           value: /etc/registry/auth/htpasswd
+        - name: REGISTRY_HTTP_TLS_CERTIFICATE
+          value: "/certs/tls.crt"
+        - name: REGISTRY_HTTP_TLS_KEY
+          value: "/certs/tls.key"
         volumeMounts:
         - name: registry
           mountPath: /var/lib/registry
@@ -138,19 +146,24 @@ spec:
         - name: auth
           mountPath: /etc/registry/auth
           readOnly: true
+        - name: certs
+          mountPath: /certs
+          readOnly: true
         securityContext:
           runAsUser: 1000
           runAsNonRoot: true
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
         livenessProbe:
-          tcpSocket:
+          httpGet:
             port: 5000
+            scheme: HTTPS
           initialDelaySeconds: 15
           periodSeconds: 20
         readinessProbe:
-          tcpSocket:
+          httpGet:
             port: 5000
+            scheme: HTTPS
           initialDelaySeconds: 5
           periodSeconds: 5
       volumes:
@@ -159,4 +172,7 @@ spec:
       - name: auth
         secret:
           secretName: auth
+      - name: certs
+        secret:
+          secretName: epinio-registry-tls
 {{- end }}

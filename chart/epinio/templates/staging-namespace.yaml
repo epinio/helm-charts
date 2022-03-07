@@ -6,10 +6,7 @@ metadata:
   annotations:
     linkerd.io/inject: enabled
   labels:
-  # label so that kubed copies epinio-registry and s3 secret to this namespace
-  {{- if .Values.containerregistry.enabled }}
-    kubed-registry-tls-from: {{ .Release.Namespace }}
-  {{- end }}
+  # label so that kubed copies s3 secret to this namespace
   {{- if .Values.minio.enabled }}
     kubed-s3-tls-from: {{ .Release.Namespace }}
   {{- end }}
