@@ -14,7 +14,7 @@ spec:
   ingressClassName: "{{ .Values.ingress.ingressClassName }}"
   {{- end }}
   rules:
-  - host: {{ .Values.domain }}
+  - host: {{ .Values.global.domain }}
     http:
       paths:
       - backend:
@@ -26,5 +26,5 @@ spec:
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - {{ .Values.domain }}
+    - {{ .Values.global.domain }}
     secretName: epinio-ui-tls

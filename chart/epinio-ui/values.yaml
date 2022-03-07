@@ -6,11 +6,11 @@ ingress:
   # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
   ingressClassName: ""
 
-tlsIssuer: selfsigned-issuer
+global:
+  domain: ui.epinio.dev
+  tlsIssuer: selfsigned-issuer
 
 logLevel: info
-
-domain: ui.epinio.dev
 
 # API URL of epinio instance, for proxied connections
 epinioApiUrl: http://epinio-server.epinio.svc.cluster.local
