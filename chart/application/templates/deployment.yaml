@@ -35,7 +35,7 @@ spec:
       - name: {{ . }}
         secret:
           defaultMode: 420
-          secretName: configuration.namespace-{{ $.Release.Namespace }}.svc-{{ . }}
+          secretName: configuration.namespace-{{ $.Release.Namespace }}.conf-{{ . }}
       {{- end }}
       {{- end }}
       containers:
