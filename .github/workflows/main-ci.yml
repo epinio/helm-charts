@@ -53,5 +53,5 @@ jobs:
         if: steps.list-changed.outputs.changed == 'true'
 
       - name: Run chart-testing
-        run: ct install --debug --config ct/ct.yaml --namespace epinio
+        run: ct install --debug --config ct/ct-install.yaml --namespace epinio
         if: steps.list-changed.outputs.changed == 'true'
