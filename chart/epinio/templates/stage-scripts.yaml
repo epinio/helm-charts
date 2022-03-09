@@ -15,8 +15,9 @@ data:
     # internal s3 the chart has no information.  Therefore we cannot
     # use helm templating to insert these.
     echo By _ _ __ ___ _____ $(whoami) $(pwd)
-    cat /etc/ssl/certs/ca-bundle.crt > /tmp/ca-bundle.pem
-    cat /certs/ca.crt /certs/tls.crt >> /tmp/ca-bundle.pem
+    cat /etc/ssl/certs/ca-bundle.crt               > /tmp/ca-bundle.pem
+    test -f /certs/ca.crt   && cat /certs/ca.crt  >> /tmp/ca-bundle.pem
+    test -f /certs/tls.crt  && cat /certs/tls.crt >> /tmp/ca-bundle.pem
     aws --ca-bundle /tmp/ca-bundle.pem --endpoint-url "${PROTOCOL}://${ENDPOINT}" s3 cp "s3://${BUCKET}/${BLOBID}" "/workspace/source/${BLOBID}"
     echo _ _ __ ___ _____ Done
   unpack: |-
@@ -35,7 +36,7 @@ data:
     # command is not available in the `bash` image. The code as written now relies on each
     # unpacker to recognize/reject input properly.
     #
-    # The `sed` command add format indicators to the output from the unarchivers, making
+    # The `sed` commands add format indicators to the output from the unarchivers, making
     # the detected format more explicit in the output.
     #
     echo By _ _ __ ___ _____ $(whoami) $(pwd)
@@ -67,9 +68,11 @@ data:
     # ATTENTION: The `curl localhost:4191` command is used to stop the linkerd proxy
     # container gracefully. We use `|| true` in case linkerd is not deployed.  Further, it
     # is placed into a trap to ensure that it will always run, even for a staging failure.
-    #
+    # Error output generated when linkerd is not present/up is squashed (dev/null).
+    # These messages are irrelevant, the situation is not an error, and allowing them through
+    # would confuse users (readers of app staging logs).
     set -e
-    trap "curl -X POST http://localhost:4191/shutdown || true" EXIT
+    trap "curl -X POST http://localhost:4191/shutdown 2> /dev/null || true" EXIT
     echo By _ _ __ ___ _____ $(whoami) $(pwd)
     if test ! -d "/workspace/source/app" ; then
       echo Nothing to build
