@@ -8,11 +8,6 @@ metadata:
     {{- include "epinio-application.labels" . | nindent 4 }}
   name: {{ include "epinio-truncate" (print "s-" .Values.epinio.appName) }}
   namespace:  {{ .Release.Namespace }}
-  ownerReferences:
-  - apiVersion: application.epinio.io/v1
-    kind: App
-    name: {{ include "epinio-truncate" .Values.epinio.appName }}
-    uid: {{ .Values.epinio.appUID }}
 spec:
   ports:
     - port: 8080

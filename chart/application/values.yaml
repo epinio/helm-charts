@@ -7,7 +7,6 @@
 
 # appName      :: string                 :: application name
 # replicaCount :: integer                :: number of instances (pods) to deploy
-# appUID       :: string                 :: App CRD resource owning the deployment
 # stageID      :: string                 :: id of stage run generating the app image
 # imageURL     :: string                 :: reference to app image in registry
 # username     :: string                 :: user triggering deployment
@@ -38,7 +37,6 @@ epinio:
   appName: placeholder
   # namespace: .Release.Namespace
   replicaCount: 1
-  appUID: 999
   stageID: 999
   imageURL: curl
   username: user

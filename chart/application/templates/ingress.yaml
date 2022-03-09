@@ -6,14 +6,6 @@ metadata:
   name: {{ include "epinio-truncate" (print "i-" $.Values.epinio.appName "-" .id) }}
   labels:
     {{- include "epinio-application.labels" $ | nindent 4 }}
-  ownerReferences:
-  - apiVersion: application.epinio.io/v1
-    kind: App
-    name: {{ include "epinio-truncate" $.Values.epinio.appName }}
-    uid: {{ $.Values.epinio.appUID }}
-  # Attention: Cannot make the ingress the owner.
-  #            As it is created in the chart its UID
-  #            is not available.
 spec:
   secretName: {{ include "epinio-truncate" (print "i-" $.Values.epinio.appName "-" .id "-tls") }}
   dnsNames:
@@ -32,11 +24,6 @@ metadata:
     traefik.ingress.kubernetes.io/router.tls: "true"
   labels:
     {{- include "epinio-application.labels" $ | nindent 4 }}
-  ownerReferences:
-  - apiVersion: application.epinio.io/v1
-    kind: App
-    name: {{ include "epinio-truncate" $.Values.epinio.appName }}
-    uid: {{ $.Values.epinio.appUID }}
 spec:
   {{- with $.Values.epinio.ingress }}
   ingressClassName: {{ . | quote }}
