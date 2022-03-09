@@ -29,13 +29,13 @@ spec:
       serviceAccount: {{ .Release.Namespace }}
       serviceAccountName: {{ .Release.Namespace }}
       automountServiceAccountToken: true
-      {{- with .Values.epinio.services }}
+      {{- with .Values.epinio.configurations }}
       volumes:
       {{- range . }}
       - name: {{ . }}
         secret:
           defaultMode: 420
-          secretName: service.namespace-{{ $.Release.Namespace }}.svc-{{ . }}
+          secretName: configuration.namespace-{{ $.Release.Namespace }}.svc-{{ . }}
       {{- end }}
       {{- end }}
       containers:
@@ -43,10 +43,10 @@ spec:
         ports:
         - containerPort: 8080
           protocol: TCP
-        {{- with .Values.epinio.services }}
+        {{- with .Values.epinio.configurations }}
         volumeMounts:
         {{- range . }}
-        - mountPath: /services/{{ . }}
+        - mountPath: /configurations/{{ . }}
           name: {{ . }}
           readOnly: true
         {{- end }}

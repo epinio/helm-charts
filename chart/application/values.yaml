@@ -5,18 +5,18 @@
 # This is the API between the epinio server's deployment code, and
 # charts implementing the deployment, like this one.
 
-# appName      :: string                 :: application name
-# replicaCount :: integer                :: number of instances (pods) to deploy
-# appUID       :: string                 :: App CRD resource owning the deployment
-# stageID      :: string                 :: id of stage run generating the app image
-# imageURL     :: string                 :: reference to app image in registry
-# username     :: string                 :: user triggering deployment
-# routes       :: sequence (route)       :: routes (= domain+path+id) the app has to be reachable at
-# env          :: sequence (assignment)  :: app environment variables and values
-# services     :: sequence (string)      :: names of the services to import into the app
-# start        :: integer                :: time of deployment, nanoseconds
-# ingress      :: string                 :: ingress class name to use, if any
-# tlsIssuer    :: string                 :: name of cert issuer
+# appName            :: string                 :: application name
+# replicaCount       :: integer                :: number of instances (pods) to deploy
+# appUID             :: string                 :: App CRD resource owning the deployment
+# stageID            :: string                 :: id of stage run generating the app image
+# imageURL           :: string                 :: reference to app image in registry
+# username           :: string                 :: user triggering deployment
+# routes             :: sequence (route)       :: routes (= domain+path+id) the app has to be reachable at
+# env                :: sequence (assignment)  :: app environment variables and values
+# configurations     :: sequence (string)      :: names of the configurations to import into the app
+# start              :: integer                :: time of deployment, nanoseconds
+# ingress            :: string                 :: ingress class name to use, if any
+# tlsIssuer          :: string                 :: name of cert issuer
 ##
 #  assignment :: map ('name' -> string, 'value' -> string)
 
@@ -25,7 +25,7 @@
 # restart.
 #
 # This is required because an app may have to ingest changes to resources outside of
-# itself.  I.e. an update to a bound services' configuration.
+# itself.  I.e. an update to a bound configuration
 
 image:
   pullPolicy: IfNotPresent
@@ -44,7 +44,7 @@ epinio:
   username: user
   routes: ~
   env: ~
-  services: ~
+  configurations: ~
   start: ~
 
 resources: {}
