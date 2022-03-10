@@ -264,6 +264,8 @@ spec:
         - command: ["/epinio", "server"]
           args: ["--port", "80"]
           env:
+            - name: NAMESPACE
+              value: "{{ .Release.Namespace }}"
             - name: ACCESS_CONTROL_ALLOW_ORIGIN
               value: "{{ .Values.server.accessControlAllowOrigin }}"
             - name: EPINIO_TIMEOUT_MULTIPLIER
