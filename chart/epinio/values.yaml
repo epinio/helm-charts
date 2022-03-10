@@ -60,6 +60,8 @@ api:
 # Minio subchart values
 minio:
   enabled: true
+  # hardcode this, to avoid problems with release name
+  fullnameOverride: minio
   existingSecret: minio-creds
   tls:
     enabled: true

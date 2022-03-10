@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: epinio-stage-scripts
-  namespace: epinio-staging
+  namespace: {{ .Release.Namespace }}
 data:
   download: |-
     # Parameters
