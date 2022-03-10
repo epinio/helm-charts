@@ -79,6 +79,8 @@ minio:
 
 kubed:
   enabled: true
+  fullnameOverride: kubed
+  enableAnalytics: false
 
 containerregistry:
   enabled: true
