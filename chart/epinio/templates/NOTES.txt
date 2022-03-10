@@ -8,7 +8,7 @@ Make sure your domain points to the IP address of your Ingress controller (1.2.3
 To interract with your Epinio installation, you have to download the latest epinio binary https://github.com/epinio/epinio/releases.
 
 Update the api location and credentials with:
-`epinio config update`
+`epinio settings update`
 
 Then, you have to run `epinio namespace create workspace`
 
