@@ -104,7 +104,7 @@ global:
   registryURL: ""              # Skip if containerregistry.enabled is true
   registryUsername: "admin"
   registryPassword: "changeme"
-  registryNamespace: "apps"
+  registryNamespace: "apps"    # Used in registry path when pushing -> "external.tld/apps/APPNAME"
 
   # The name of the cluster issuer to use.
   # Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'.
