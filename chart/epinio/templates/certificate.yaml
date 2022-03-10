@@ -8,7 +8,7 @@ spec:
   - epinio.{{ .Values.global.domain }}
   issuerRef:
     kind: ClusterIssuer
-    name: {{ .Values.global.tlsIssuer }}
+    name: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
   secretName: epinio-tls
 
 {{- if .Values.minio.enabled }}
