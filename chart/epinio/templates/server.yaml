@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: epinio-server
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -17,7 +17,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: epinio-server
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 
 ---
 kind: ClusterRole
@@ -186,14 +186,14 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: epinio-server
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 
 ---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: epinio-server
-  namespace: epinio-staging
+  namespace: {{ .Release.Namespace }}
 rules:
 - apiGroups:
   - batch
@@ -216,7 +216,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: epinio-server-role
-  namespace: epinio-staging
+  namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -224,7 +224,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: epinio-server
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 
 ---
 apiVersion: apps/v1
@@ -237,7 +237,7 @@ metadata:
     app.kubernetes.io/part-of: epinio
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
   name: epinio-server
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -264,6 +264,8 @@ spec:
         - command: ["/epinio", "server"]
           args: ["--port", "80"]
           env:
+            - name: NAMESPACE
+              value: "{{ .Release.Namespace }}"
             - name: ACCESS_CONTROL_ALLOW_ORIGIN
               value: "{{ .Values.server.accessControlAllowOrigin }}"
             - name: EPINIO_TIMEOUT_MULTIPLIER
@@ -316,7 +318,7 @@ metadata:
     app.kubernetes.io/part-of: epinio
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
   name: epinio-server
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - name: http

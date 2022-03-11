@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: epinio
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 spec:
   dnsNames:
   - epinio.{{ .Values.global.domain }}
@@ -17,10 +17,10 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: minio-cert
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 spec:
   dnsNames:
-  - epinio-minio.{{ .Release.Namespace }}.svc.cluster.local
+  - {{ include "epinio.minio-hostname" . }}
   issuerRef:
     kind: ClusterIssuer
     # We always trust the CA for minio so we can always use selfsigned certs

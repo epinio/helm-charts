@@ -60,6 +60,8 @@ api:
 # Minio subchart values
 minio:
   enabled: true
+  # hardcode this, to avoid problems with release name
+  fullnameOverride: minio
   existingSecret: minio-creds
   tls:
     enabled: true
@@ -79,6 +81,8 @@ minio:
 
 kubed:
   enabled: true
+  fullnameOverride: kubed
+  enableAnalytics: false
 
 containerregistry:
   enabled: true
@@ -104,7 +108,7 @@ global:
   registryURL: ""              # Skip if containerregistry.enabled is true
   registryUsername: "admin"
   registryPassword: "changeme"
-  registryNamespace: "apps"
+  registryNamespace: "apps"    # Used in registry path when pushing -> "external.tld/apps/APPNAME"
 
   # The name of the cluster issuer to use.
   # Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'.

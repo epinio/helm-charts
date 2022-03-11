@@ -5,7 +5,7 @@ metadata:
   labels:
     epinio.suse.org/api-user-credentials: "true"
   name: default-epinio-user
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 stringData:
   password: {{ .Values.api.password }}
   username: {{ .Values.api.username }}

@@ -98,7 +98,7 @@ questions:
     required: false
   - variable: global.registryNamespace
     label: External registry namespace
-    description: "Namespace of the external registry where you have push access"
+    description: "The organization part of the registry path for an external registry where you have push access"
     type: strings
     required: false
 - variable: minio.enabled
