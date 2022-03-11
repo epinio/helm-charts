@@ -1024,6 +1024,18 @@ entries:
     version: 0.1.20
   epinio-ui:
   - apiVersion: v2
+    created: "2022-03-11T16:29:04.529162704Z"
+    description: A Helm chart for the Epinio UI
+    digest: b620211b35db4152edbc1710fd56d95155334e43155583eb5cfd367d011c357d
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio-ui
+    type: application
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-ui-0.1.0/epinio-ui-0.1.0.tgz
+    version: 0.1.0
+  - apiVersion: v2
     created: "2022-03-04T09:27:36.445783701Z"
     description: A Helm chart for the Epinio UI
     digest: 9f24ee947254f006bc85bd47828f0aa50fa1e56b70d7eef151448feed13f6123
@@ -1047,4 +1059,4 @@ entries:
     urls:
     - https://github.com/epinio/helm-charts/releases/download/epinio-ui-0.0.1/epinio-ui-0.0.1.tgz
     version: 0.0.1
-generated: "2022-03-10T14:41:40.66831955Z"
+generated: "2022-03-11T16:29:04.530330054Z"
