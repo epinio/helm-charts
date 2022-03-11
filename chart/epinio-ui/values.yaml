@@ -1,43 +1,36 @@
 epinioUI:
-  image: ghcr.io/epinio/epinio-ui:v0.0.1-5
+  image: ghcr.io/epinio/epinio-ui:v0.6.0-0.0.1
   imagePullPolicy: IfNotPresent
-
 ingress:
   # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
   ingressClassName: ""
-
 global:
   domain: ui.epinio.dev
   tlsIssuer: selfsigned-issuer
-
 logLevel: info
-
 # API URL of epinio instance, for proxied connections
 epinioApiUrl: http://epinio-server.epinio.svc.cluster.local
-
 # Skip checking for valid SSL cert when making requests to `EPINIO_API_URL`
 epinioApiSkipSSL: "true"
-
 # This is the version that is displayed in the ui and should match that of the epinio it's targetting
 epinioVersion: "0.5.0"
-
 volumeMounts:
-- name: tmp
-  mountPath: /tmp
-  readOnly: false
-- name: db
-  mountPath: /db
-  readOnly: false
+  - name: tmp
+    mountPath: /tmp
+    readOnly: false
+  - name: db
+    mountPath: /db
+    readOnly: false
 # - name: ui
 #   mountPath: /ui
 #   subPath: dist
 #   readOnly: true
 
 volumes:
-- name: tmp
-  emptyDir: {}
-- name: db
-  emptyDir: {}
+  - name: tmp
+    emptyDir: {}
+  - name: db
+    emptyDir: {}
 # - name: ui
 #   persistentVolumeClaim:
 #     claimName: ui
