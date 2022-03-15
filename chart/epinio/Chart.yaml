@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: v0.6.0
+appVersion: v0.6.1
 dependencies:
 - condition: minio.enabled, global.minio.enabled
   name: minio
@@ -25,4 +25,4 @@ maintainers:
 name: epinio
 sources:
 - https://github.com/epinio/epinio
-version: 0.7.0
+version: 0.8.0
