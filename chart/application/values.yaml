@@ -38,7 +38,7 @@ epinio:
   # namespace: .Release.Namespace
   replicaCount: 1
   stageID: 999
-  imageURL: curl
+  imageURL: ~
   username: user
   routes: ~
   env: ~
