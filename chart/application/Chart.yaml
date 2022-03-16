@@ -13,3 +13,5 @@ maintainers:
   name: SUSE
 sources:
 - https://github.com/epinio/helm-charts
+annotations:
+  artifacthub.io/license: Apache-2.0

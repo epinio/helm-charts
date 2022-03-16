@@ -13,3 +13,5 @@ sources:
 - https://github.com/epinio/ui
 icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
 home: https://github.com/epinio/epinio
+annotations:
+  artifacthub.io/license: Apache-2.0
