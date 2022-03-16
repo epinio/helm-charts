@@ -5,6 +5,11 @@ icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.pn
 home: https://github.com/epinio/epinio
 type: application
 version: 0.1.13
+keywords:
+- epinio
+- paas
 maintainers:
 - email: team@epinio.io
   name: SUSE
+sources:
+- https://github.com/epinio/helm-charts
