@@ -36,9 +36,6 @@ data:
     # command is not available in the `bash` image. The code as written now relies on each
     # unpacker to recognize/reject input properly.
     #
-    # The `sed` commands add format indicators to the output from the unarchivers, making
-    # the detected format more explicit in the output.
-    #
     echo By _ _ __ ___ _____ $(whoami) $(pwd)
     if test ! -f "/workspace/source/${BLOBID}" ; then
       echo Nothing to unpack
@@ -46,11 +43,11 @@ data:
     fi
     mkdir /workspace/source/app
     (  cd /workspace/source/app
-       ( echo Tar? ; tar -xvf  "../${BLOBID}" 2>&1 | sed -e 's/^/Tar: /' ) || \
-       ( echo Zip? ; unzip     "../${BLOBID}" 2>&1 | sed -e 's/^/Zip: /' ) || \
-       ( echo Tgz? ; tar -xvzf "../${BLOBID}" 2>&1 | sed -e 's/^/Tgz: /' ) || \
-       ( echo Tbz? ; tar -xvjf "../${BLOBID}" 2>&1 | sed -e 's/^/Tbz: /' ) || \
-       ( echo Txz? ; tar -xvJf "../${BLOBID}" 2>&1 | sed -e 's/^/Txz: /' ) || \
+       ( echo Tar? ; tar -xvf  "../${BLOBID}" ) || \
+       ( echo Zip? ; unzip     "../${BLOBID}" ) || \
+       ( echo Tgz? ; tar -xvzf "../${BLOBID}" ) || \
+       ( echo Tbz? ; tar -xvjf "../${BLOBID}" ) || \
+       ( echo Txz? ; tar -xvJf "../${BLOBID}" ) || \
        ( echo "Unable to unpack. No supported archive file format found" ; exit 1 )
        echo OK
     )
