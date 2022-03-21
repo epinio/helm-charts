@@ -26,3 +26,5 @@ name: epinio
 sources:
 - https://github.com/epinio/epinio
 version: 0.7.1
+annotations:
+  artifacthub.io/license: Apache-2.0
