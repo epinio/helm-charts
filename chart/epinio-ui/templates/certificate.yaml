@@ -1,3 +1,4 @@
+{{- if .Values.ingress.enabled }}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -10,3 +11,4 @@ spec:
     kind: ClusterIssuer
     name: {{ .Values.global.tlsIssuer }}
   secretName: epinio-ui-tls
+{{- end }}

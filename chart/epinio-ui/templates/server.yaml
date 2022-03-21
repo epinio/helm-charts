@@ -38,7 +38,8 @@ spec:
 
         env:
         - name: EPINIO_API_URL
-          value: {{ .Values.epinioApiUrl | quote }}
+          value: {{ default (printf "http://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioApiUrl }}
+
         - name: EPINIO_API_SKIP_SSL
           value: {{ .Values.epinioApiSkipSSL | quote }}
         - name: EPINIO_VERSION
