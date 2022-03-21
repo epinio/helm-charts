@@ -626,12 +626,27 @@ entries:
     - https://github.com/epinio/epinio-helm-chart/releases/download/epinio-0.1.0/epinio-0.1.0.tgz
     version: 0.1.0
   epinio-application:
+  - apiVersion: v2
+    created: "2022-03-10T13:02:24.90211973Z"
+    description: The helm chart for epinio applications to be deployed by
+    digest: 749033a29d0b4fe0e2746a3950c9307e6d843d025348391746a011f12ecff02a
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio-application
+    type: application
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.13/epinio-application-0.1.13.tgz
+    version: 0.1.13
+  epinio-ui:
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
-    created: "2022-03-17T09:30:19.926698063Z"
-    description: The helm chart for epinio applications to be deployed by
-    digest: 08c77e55a40a311a6d761b9df7a5d8a0c673ecafb9f2cc1ce3bddb65ad9c19c4
+    created: "2022-03-21T16:03:54.984599686Z"
+    description: A Helm chart for the Epinio UI
+    digest: c2f39ffa1a8f113220410139ec2951fb18ab3daf78fababedc00bc834dedb8fb
     home: https://github.com/epinio/epinio
     icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
     keywords:
@@ -640,14 +655,13 @@ entries:
     maintainers:
     - email: team@epinio.io
       name: SUSE
-    name: epinio-application
+    name: epinio-ui
     sources:
-    - https://github.com/epinio/helm-charts
+    - https://github.com/epinio/ui
     type: application
     urls:
-    - https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.14/epinio-application-0.1.14.tgz
-    version: 0.1.14
-  epinio-ui:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-ui-0.1.1/epinio-ui-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     created: "2022-03-11T16:29:04.529162704Z"
     description: A Helm chart for the Epinio UI
@@ -684,4 +698,4 @@ entries:
     urls:
     - https://github.com/epinio/helm-charts/releases/download/epinio-ui-0.0.1/epinio-ui-0.0.1.tgz
     version: 0.0.1
-generated: "2022-03-17T09:30:20.135202534Z"
+generated: "2022-03-21T16:03:54.98516526Z"
