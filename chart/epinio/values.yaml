@@ -82,6 +82,11 @@ minio:
     podAnnotations:
       linkerd.io/inject: disabled
 
+epinio-ui:
+  enabled: true
+  ingress:
+    enabled: false
+
 kubed:
   enabled: true
   fullnameOverride: kubed

@@ -19,6 +19,36 @@ spec:
   - host: "epinio.{{ .Values.global.domain }}"
     http:
       paths:
+  {{- if ".Values.epinio-ui.enabled" }}
+      - backend:
+          service:
+            name: epinio-ui
+            port:
+              number: 80
+        path: /
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: epinio-server
+            port:
+              number: 80
+        path: /api
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: epinio-server
+            port:
+              number: 80
+        path: /wapi
+        pathType: ImplementationSpecific
+      - backend:
+          service:
+            name: epinio-server
+            port:
+              number: 80
+        path: /ready
+        pathType: ImplementationSpecific
+  {{- else }}
       - backend:
           service:
             name: epinio-server
@@ -26,6 +56,7 @@ spec:
               number: 80
         path: /
         pathType: ImplementationSpecific
+  {{- end }}
   tls:
   - hosts:
     - "epinio.{{ .Values.global.domain }}"

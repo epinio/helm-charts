@@ -5,5 +5,8 @@ dependencies:
 - name: kubed
   repository: https://charts.appscode.com/stable/
   version: v0.13.1
-digest: sha256:f33eaea4803e705d0af7a83496b609d4e1aea4046b017420faa3970dbc6eef8a
-generated: "2022-02-17T11:05:38.952609555Z"
+- name: epinio-ui
+  repository: https://epinio.github.io/helm-charts
+  version: 0.1.1
+digest: sha256:58272447d638334d7c23b960e2d0e902b8d421db242c0c4f6b7685ede0622f88
+generated: "2022-03-21T17:06:21.826602+01:00"
