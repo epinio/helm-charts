@@ -36,6 +36,9 @@ server:
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
+  # Annotations to add to the API ingress
+  # e.g.: --set 'ingress.annotations.nginx\.ingress\.kubernetes\.io/ssl-redirect=false'
+  annotations: {}
 
 certManagerNamespace: cert-manager
 

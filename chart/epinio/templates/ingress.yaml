@@ -4,6 +4,9 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
+    {{- range $key, $value := .Values.ingress.annotations }}
+    {{ $key | quote }}: {{ $value | quote }}
+    {{- end }}
   labels:
     app.kubernetes.io/name: epinio
   name: epinio
