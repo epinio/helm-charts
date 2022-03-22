@@ -27,6 +27,7 @@ spec:
               number: 80
         path: /
         pathType: ImplementationSpecific
+  {{- end }}
       - backend:
           service:
             name: epinio-server
@@ -48,15 +49,6 @@ spec:
               number: 80
         path: /ready
         pathType: ImplementationSpecific
-  {{- else }}
-      - backend:
-          service:
-            name: epinio-server
-            port:
-              number: 80
-        path: /
-        pathType: ImplementationSpecific
-  {{- end }}
   tls:
   - hosts:
     - "epinio.{{ .Values.global.domain }}"
