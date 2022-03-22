@@ -26,6 +26,7 @@ jobs:
         run: |
           helm repo add minio https://charts.min.io/
           helm repo add appscode https://charts.appscode.com/stable/
+          helm repo add epinio https://epinio.github.io/helm-charts
           helm repo update
 
       - name: Run chart-releaser
