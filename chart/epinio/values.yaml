@@ -21,6 +21,9 @@ image:
   kubectl:
     repository: lachlanevenson/k8s-kubectl
     tag: v1.22.2
+  builder:
+    repository: paketobuildpacks/builder
+    tag: full
 server:
   # Domain which serves the Rancher UI (to access the API)
   accessControlAllowOrigin: ""
