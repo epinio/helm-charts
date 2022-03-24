@@ -106,7 +106,7 @@ spec:
       containers:
 {{ if .Values.containerregistry.createNodePort }}
       - name: nginx
-        image: nginx:1.21
+        image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.nginx.repository}}:{{ .Values.containerregistry.image.nginx.tag }}"
         imagePullPolicy: IfNotPresent
         securityContext:
           runAsUser: 1000
@@ -130,7 +130,7 @@ spec:
           name: nginx-run
 {{- end }}
       - name: registry
-        image: {{ .Values.containerregistry.image }}
+        image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.registry.repository}}:{{ .Values.containerregistry.image.registry.tag }}"
         imagePullPolicy: {{ .Values.containerregistry.imagePullPolicy }}
         env:
         - name: REGISTRY_AUTH

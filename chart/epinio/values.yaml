@@ -10,7 +10,8 @@ email: "epinio@suse.com"
 registryURL: ""
 image:
   epinio:
-    repository: ghcr.io/epinio/epinio-server
+    registry: ghcr.io/
+    repository: epinio/epinio-server
     tag: ""
   bash:
     repository: library/bash
@@ -98,7 +99,13 @@ kubed:
 containerregistry:
   enabled: true
 
-  image: registry:2.7.1
+  image:
+    registry:
+      repository: registry
+      tag: 2.7.1
+    nginx:
+      repository: nginx
+      tag: 1.21
   imagePullPolicy: IfNotPresent
 
   # We create a service with type `NodePort` only in
