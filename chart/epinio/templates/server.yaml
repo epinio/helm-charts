@@ -288,7 +288,7 @@ spec:
             - name: INGRESS_CLASS_NAME
               value: "{{ .Values.ingress.ingressClassName }}"
             {{- end }}
-          image: "{{ template "registry-url" . }}{{ .Values.image.epinio.repository}}:{{ or .Values.image.epinio.tag .Chart.AppVersion }}"
+          image: "{{ default .Values.image.epinio.registry (include "registry-url" .) }}{{ .Values.image.epinio.repository }}:{{ default .Chart.AppVersion .Values.image.epinio.tag }}"
           livenessProbe:
             httpGet:
               path: /ready

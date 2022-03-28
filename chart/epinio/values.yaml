@@ -10,7 +10,8 @@ email: "epinio@suse.com"
 registryURL: ""
 image:
   epinio:
-    repository: ghcr.io/epinio/epinio-server
+    registry: ghcr.io/
+    repository: epinio/epinio-server
     tag: ""
   bash:
     repository: library/bash
@@ -21,6 +22,9 @@ image:
   kubectl:
     repository: lachlanevenson/k8s-kubectl
     tag: v1.22.2
+  builder:
+    repository: paketobuildpacks/builder
+    tag: full
 server:
   # Domain which serves the Rancher UI (to access the API)
   accessControlAllowOrigin: ""
@@ -95,7 +99,13 @@ kubed:
 containerregistry:
   enabled: true
 
-  image: registry:2.7.1
+  image:
+    registry:
+      repository: registry
+      tag: 2.7.1
+    nginx:
+      repository: nginx
+      tag: 1.21
   imagePullPolicy: IfNotPresent
 
   # We create a service with type `NodePort` only in
