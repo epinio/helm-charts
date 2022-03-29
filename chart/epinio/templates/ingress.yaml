@@ -4,6 +4,7 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: {{ .Values.ingress.nginxSSLRedirect | quote }}
     {{- range $key, $value := .Values.ingress.annotations }}
     {{ $key | quote }}: {{ $value | quote }}
     {{- end }}

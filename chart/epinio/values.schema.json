@@ -82,6 +82,12 @@
     "ingress": {
       "ingressClassName": {
         "type": "string"
+      },
+      "annotations": {
+        "type": "object"
+      },
+      "nginxSSLRedirect": {
+        "type": "string"
       }
     },
     "s3": {
