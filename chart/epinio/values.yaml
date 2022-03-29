@@ -43,6 +43,8 @@ ingress:
   # Annotations to add to the API ingress
   # e.g.: --set 'ingress.annotations.nginx\.ingress\.kubernetes\.io/ssl-redirect=false'
   annotations: {}
+  # nginxSSLRedirect to controll https->http redirects
+  nginxSSLRedirect: "true"
 
 certManagerNamespace: cert-manager
 
