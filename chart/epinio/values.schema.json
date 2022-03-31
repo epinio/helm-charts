@@ -181,5 +181,205 @@
   "required": [
     "certManagerNamespace",
     "s3"
-  ]
+  ],
+  "containerregistry": {
+    "type": "object",
+    "properties": {
+      "createNodePort": {
+        "type": "boolean"
+      },
+      "enabled": {
+        "type": "boolean"
+      },
+      "image": {
+        "type": "object",
+        "properties": {
+          "nginx": {
+            "type": "object",
+            "properties": {
+              "repository": {
+                "type": "string"
+              },
+              "tag": {
+                "type": "string"
+              }
+            }
+          },
+          "registry": {
+            "type": "object",
+            "properties": {
+              "repository": {
+                "type": "string"
+              },
+              "tag": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "nginx",
+          "registry"
+        ]
+      },
+      "imagePullPolicy": {
+        "type": "string"
+      },
+      "ingressClassName": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "createNodePort",
+      "enabled",
+      "image",
+      "imagePullPolicy",
+      "ingressClassName"
+    ]
+  },
+  "epinio-ui": {
+    "type": "object",
+    "properties": {
+      "enabled": {
+        "type": "boolean"
+      },
+      "ingress": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled"
+        ]
+      }
+    },
+    "required": [
+      "enabled",
+      "ingress"
+    ]
+  },
+  "kubed": {
+    "type": "object",
+    "properties": {
+      "enabled": {
+        "type": "boolean"
+      },
+      "enableAnalytics": {
+        "type": "boolean"
+      },
+      "fullnameOverride": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "enabled",
+      "enableAnalytics",
+      "fullnameOverride"
+    ]
+  },
+  "minio": {
+    "type": "object",
+    "properties": {
+      "drivesPerNode": {
+        "type": "integer"
+      },
+      "enabled": {
+        "type": "boolean"
+      },
+      "existingSecret": {
+        "type": "string"
+      },
+      "fullnameOverride": {
+        "type": "string"
+      },
+      "makeUserJob": {
+        "type": "object",
+        "properties": {
+          "podAnnotations": {
+            "type": "object",
+            "properties": {
+              "linkerd.io/inject": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "linkerd.io/inject"
+            ]
+          }
+        },
+        "required": [
+          "podAnnotations"
+        ]
+      },
+      "persistence": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "size"
+        ]
+      },
+      "replicas": {
+        "type": "integer"
+      },
+      "resources": {
+        "type": "object",
+        "properties": {
+          "requests": {
+            "type": "object",
+            "properties": {
+              "memory": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "memory"
+            ]
+          }
+        },
+        "required": [
+          "requests"
+        ]
+      },
+      "tls": {
+        "type": "object",
+        "properties": {
+          "certSecret": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "privateKey": {
+            "type": "string"
+          },
+          "publicCrt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "certSecret",
+          "enabled",
+          "privateKey",
+          "publicCrt"
+        ]
+      }
+    },
+    "required": [
+      "drivesPerNode",
+      "enabled",
+      "existingSecret",
+      "fullnameOverride",
+      "makeUserJob",
+      "persistence",
+      "replicas",
+      "resources",
+      "tls"
+    ]
+  }
 }
