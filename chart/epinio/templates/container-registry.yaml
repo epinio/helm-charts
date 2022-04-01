@@ -44,7 +44,7 @@ spec:
     port: 5000
     targetPort: 5000
 
-{{ if .Values.containerregistry.createNodePort }}
+{{ if .Values.containerregistry.enabled }}
 ---
 apiVersion: v1
 kind: Service
@@ -104,7 +104,7 @@ spec:
         app.kubernetes.io/instance: "epinio-registry"
     spec:
       containers:
-{{ if .Values.containerregistry.createNodePort }}
+{{ if .Values.containerregistry.enabled }}
       - name: nginx
         image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.nginx.repository}}:{{ .Values.containerregistry.image.nginx.tag }}"
         imagePullPolicy: IfNotPresent
@@ -179,7 +179,7 @@ spec:
       - name: certs
         secret:
           secretName: epinio-registry-tls
-{{ if .Values.containerregistry.createNodePort }}
+{{ if .Values.containerregistry.enabled }}
       - name: nginx-conf
         configMap:
           name: nginx-conf
