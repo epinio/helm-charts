@@ -1,5 +1,7 @@
+annotations:
+  artifacthub.io/license: Apache-2.0
 apiVersion: v2
-appVersion: v0.6.1
+appVersion: v0.6.2
 dependencies:
 - condition: minio.enabled, global.minio.enabled
   name: minio
@@ -31,6 +33,4 @@ maintainers:
 name: epinio
 sources:
 - https://github.com/epinio/epinio
-version: 0.7.3
-annotations:
-  artifacthub.io/license: Apache-2.0
+version: 0.8.0
