@@ -1,10 +1,11 @@
 # These are three simple Services to fill the Service Catalog
+{{ if .Values.global.serviceCatalog.enableSamples }}
 ---
 apiVersion: application.epinio.io/v1
 kind: Service
 metadata:
   name: epinio-postgresql
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 spec:
   name: epinio-postgresql
   shortDescription: An Epinio PostgreSQL instance
@@ -21,7 +22,7 @@ apiVersion: application.epinio.io/v1
 kind: Service
 metadata:
   name: epinio-mysql
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 spec:
   name: epinio-mysql
   shortDescription: An Epinio MySQL instance
@@ -39,7 +40,7 @@ apiVersion: application.epinio.io/v1
 kind: Service
 metadata:
   name: epinio-redis
-  namespace: epinio
+  namespace: {{ .Release.Namespace }}
 spec:
   name: epinio-redis
   shortDescription: An Epinio Redis instance
@@ -52,3 +53,4 @@ spec:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
   values: ""
+{{- end }}

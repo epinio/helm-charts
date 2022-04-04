@@ -21,6 +21,11 @@ questions:
   description: "Set a class name to select the ingress controller you want to use for your apps"
   type: strings
   group: "Advanced settings"
+- variable: global.serviceCatalog.enableSamples
+  label: Enable samples for the service catalog
+  description: "Enables the publishing of the samples Services in the Service Catalog"
+  type: boolean
+  group: "Advanced settings"
 - variable: useCustomTlsIssuer
   label: Use your own TLS issuer
   default: "false"
