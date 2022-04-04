@@ -47,7 +47,7 @@ conditions:
       architecture: "amd64"
 
   dockerImageRepository:
-    name: "Check that ghcr.io/epinio/epinio-server is used in Helm chart epinio"
+    name: "Check that container image repository 'epinio/epinio-server' is used in Helm chart epinio"
     kind: "yaml"
     disablesourceinput: true
     scmID: "helm-charts"
@@ -57,7 +57,7 @@ conditions:
       value: "epinio/epinio-server"
 
   dockerImageRegistry:
-    name: "Check that ghcr.io/epinio/epinio-server is used in Helm chart epinio"
+    name: "Check that 'ghcr.io' registry is used in Helm chart epinio"
     kind: "yaml"
     disablesourceinput: true
     scmID: "helm-charts"
