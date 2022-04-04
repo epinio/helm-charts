@@ -33,6 +33,7 @@ conditions:
     sourceID: "ui-backend-tag"
     spec:
       image: "ghcr.io/epinio/epinio-ui"
+      architecture: "amd64"
 
 targets:
   epinio-ui-chart:
