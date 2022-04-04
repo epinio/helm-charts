@@ -44,8 +44,9 @@ conditions:
     sourceID: "epinio"
     spec:
       image: "ghcr.io/epinio/epinio-server"
+      architecture: "amd64"
 
-  dockerImageContainer:
+  dockerImageRepository:
     name: "Check that ghcr.io/epinio/epinio-server is used in Helm chart epinio"
     kind: "yaml"
     disablesourceinput: true
@@ -53,7 +54,17 @@ conditions:
     spec:
       file: "chart/epinio/values.yaml"
       key: "image.epinio.repository"
-      value: "ghcr.io/epinio/epinio-server"
+      value: "epinio/epinio-server"
+
+  dockerImageRegistry:
+    name: "Check that ghcr.io/epinio/epinio-server is used in Helm chart epinio"
+    kind: "yaml"
+    disablesourceinput: true
+    scmID: "helm-charts"
+    spec:
+      file: "chart/epinio/values.yaml"
+      key: "image.epinio.registry"
+      value: "ghcr.io/"
 
 # Defines what needs to be udpated if needed
 targets:
