@@ -1,0 +1,54 @@
+# These are three simple Services to fill the Service Catalog
+---
+apiVersion: application.epinio.io/v1
+kind: Service
+metadata:
+  name: epinio-postgresql
+  namespace: epinio
+spec:
+  name: epinio-postgresql
+  shortDescription: An Epinio PostgreSQL instance
+  description: |
+    This service is going to deploy a simple default Bitnami PostreSQL db instance.
+    You can find more info at https://github.com/bitnami/charts/tree/master/bitnami/postgresql/.
+  chart: postgresql
+  helmRepo:
+    name: bitnami
+    url: "https://charts.bitnami.com/bitnami"
+  values: ""
+---
+apiVersion: application.epinio.io/v1
+kind: Service
+metadata:
+  name: epinio-mysql
+  namespace: epinio
+spec:
+  name: epinio-mysql
+  shortDescription: An Epinio MySQL instance
+  description: |
+    This service is going to deploy a simple default Bitnami MySQL db instance.  
+
+    You can find more info at https://github.com/bitnami/charts/tree/master/bitnami/mysql/.
+  chart: mysql
+  helmRepo:
+    name: bitnami
+    url: "https://charts.bitnami.com/bitnami"
+  values: ""
+---
+apiVersion: application.epinio.io/v1
+kind: Service
+metadata:
+  name: epinio-redis
+  namespace: epinio
+spec:
+  name: epinio-redis
+  shortDescription: An Epinio Redis instance
+  description: |
+    This service is going to deploy a simple default Bitnami Redis instance.  
+
+    You can find more info at https://github.com/bitnami/charts/tree/master/bitnami/redis/.
+  chart: redis
+  helmRepo:
+    name: bitnami
+    url: "https://charts.bitnami.com/bitnami"
+  values: ""
