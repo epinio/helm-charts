@@ -1,0 +1,93 @@
+# The rancher helm controller used to deploy service helm charts
+# Copied from here:
+# https://github.com/k3s-io/helm-controller/blob/341b2eaa41e5cb9247c119bfa34a7ad131c7ac51/manifests/deploy-namespaced.yaml
+# We deploy the helm controller without any conditions. In k3s/k3d the controller
+# may already be running as part of k3s (not as a Pod).
+# TODO: If that causes problems, we should add an explicit value to skip?
+# We can't use capabilities as a condition because the CRDs are not removed
+# on `helm uninstall` but the Deployment is removed. So installing after a previous
+# uninstall, would not deploy the helm-controller if we checked for the existence
+# of the CRDs.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helm-controller
+  namespace: epinio
+  labels:
+    app: helm-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helm-controller
+  template:
+    metadata:
+      labels:
+        app: helm-controller
+    spec:
+      serviceAccountName: helm-controller
+      containers:
+        - name: helm-controller
+          image: rancher/helm-controller:v0.12.0
+          command: ["helm-controller"]
+          args: ["--namespace", "epinio"]
+
+## Not copied resources, fixing RBAC permissions for the controller
+--- 
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: helm-controller
+  namespace: {{ .Release.Namespace }}
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: helm-controller
+rules:
+- apiGroups:
+  - "batch"
+  resources:
+  - jobs
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts
+  - configmaps
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - "rbac.authorization.k8s.io"
+  resources:
+  - clusterrolebindings
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - "helm.cattle.io"
+  resources:
+  - helmcharts
+  - helmchartconfigs
+  verbs:
+  - list
+  - watch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: helm-controller-cluster-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: helm-controller
+subjects:
+- kind: ServiceAccount
+  name: helm-controller
+  namespace: {{ .Release.Namespace }}
