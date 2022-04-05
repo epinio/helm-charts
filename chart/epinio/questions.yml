@@ -21,9 +21,10 @@ questions:
   description: "Set a class name to select the ingress controller you want to use for your apps"
   type: strings
   group: "Advanced settings"
-- variable: global.serviceCatalog.enableSamples
-  label: Enable samples for the service catalog
-  description: "Enables the publishing of the samples Services in the Service Catalog"
+- variable: serviceCatalog.enableDevServices
+  label: Enable catalog services for development
+  default: "true"
+  description: "Enables services in the Epinio service catalog, meant to be used in development (because they are running in-cluster)"
   type: boolean
   group: "Advanced settings"
 - variable: useCustomTlsIssuer

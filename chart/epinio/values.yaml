@@ -113,6 +113,9 @@ containerregistry:
   # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
   ingressClassName: ""
 
+serviceCatalog:
+  # Enable service catalog service for development
+  enableDevServices: true
 
 global:
   # The domain that will be used to access the epinio API server and the registry
@@ -127,8 +130,3 @@ global:
   # The name of the cluster issuer to use.
   # Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'.
   tlsIssuer: "epinio-ca"
-
-  serviceCatalog:
-    # Enable samples for the service catalog.
-    # If true some sample services will be published.
-    enableSamples: true
