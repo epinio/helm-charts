@@ -60,3 +60,18 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+URL registry prefix for container images (Rancher compatibility support)
+*/}}
+{{- define "epinio-ui.registry" -}}
+{{- if .Values.global.cattle -}}
+{{- if .Values.global.cattle.systemDefaultRegistry -}}
+{{ trimSuffix "/" .Values.global.cattle.systemDefaultRegistry }}/
+{{- else -}}
+{{ .Values.epinioUI.image.registry }}/
+{{- end -}}
+{{- else -}}
+{{ .Values.epinioUI.image.registry }}/
+{{- end -}}
+{{- end -}}
