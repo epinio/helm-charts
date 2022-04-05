@@ -39,11 +39,14 @@ spec:
         env:
         - name: EPINIO_API_URL
           value: {{ default (printf "http://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioApiUrl }}
-
+        - name: EPINIO_WSS_URL
+          value: {{ default (printf "ws://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioWssUrl }}
         - name: EPINIO_API_SKIP_SSL
           value: {{ .Values.epinioApiSkipSSL | quote }}
         - name: EPINIO_VERSION
           value: {{ .Values.epinioVersion | quote }}
+        - name: HTTP_CLIENT_TIMEOUT_IN_SECS
+          value: "120"
         - name: SESSION_STORE_SECRET
           valueFrom:
             secretKeyRef:
