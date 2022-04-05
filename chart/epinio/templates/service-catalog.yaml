@@ -1,0 +1,60 @@
+# These are three simple Services to fill the Service Catalog
+{{ if .Values.serviceCatalog.enableDevServices }}
+---
+apiVersion: application.epinio.io/v1
+kind: Service
+metadata:
+  name: postgresql-dev
+  namespace: {{ .Release.Namespace }}
+spec:
+  name: postgresql-dev
+  shortDescription: A PostgreSQL service that can be used during development
+  description: |
+    This service is going to deploy a simple default Bitnami PostreSQL db instance.
+    You can find more info at https://github.com/bitnami/charts/tree/master/bitnami/postgresql/.
+    This database is running inside the cluster so it's probably not a good choice for production
+    environments, at least with this default configuration.
+  chart: postgresql
+  helmRepo:
+    name: bitnami
+    url: "https://charts.bitnami.com/bitnami"
+  values: ""
+---
+apiVersion: application.epinio.io/v1
+kind: Service
+metadata:
+  name: mysql-dev
+  namespace: {{ .Release.Namespace }}
+spec:
+  name: mysql-dev
+  shortDescription: A MySQL service that can be used during development
+  description: |
+    This service is going to deploy a simple default Bitnami MySQL db instance.  
+    You can find more info at https://github.com/bitnami/charts/tree/master/bitnami/mysql/.
+    This database is running inside the cluster so it's probably not a good choice for production
+    environments, at least with this default configuration.
+  chart: mysql
+  helmRepo:
+    name: bitnami
+    url: "https://charts.bitnami.com/bitnami"
+  values: ""
+---
+apiVersion: application.epinio.io/v1
+kind: Service
+metadata:
+  name: redis-dev
+  namespace: {{ .Release.Namespace }}
+spec:
+  name: redis-dev
+  shortDescription: A Redis service that can be used during development
+  description: |
+    This service is going to deploy a simple default Bitnami Redis instance.  
+    You can find more info at https://github.com/bitnami/charts/tree/master/bitnami/redis/.
+    This database is running inside the cluster so it's probably not a good choice for production
+    environments, at least with this default configuration.
+  chart: redis
+  helmRepo:
+    name: bitnami
+    url: "https://charts.bitnami.com/bitnami"
+  values: ""
+{{- end }}
