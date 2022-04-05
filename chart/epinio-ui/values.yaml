@@ -2,23 +2,18 @@ epinioUI:
   image:
     registry: ghcr.io
     repository: epinio/epinio-ui
-    tag: v0.6.0-0.0.1
+    tag: v0.6.2-0.0.1
   imagePullPolicy: IfNotPresent
-
 ingress:
   enabled: true
   # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
   ingressClassName: ""
-
 global:
   domain: ui.epinio.dev
   tlsIssuer: selfsigned-issuer
-
 logLevel: info
-
 # API URL of epinio instance, for proxied connections, defaults to http://epinio-server.%s.svc.cluster.local"
 epinioApiUrl: ""
-
 # Skip checking for valid SSL cert when making requests to `EPINIO_API_URL`
 epinioApiSkipSSL: "true"
 # This is the version that is displayed in the ui and should match that of the epinio it's targetting
