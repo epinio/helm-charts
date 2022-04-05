@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: epinio-ui
-        image: {{ .Values.epinioUI.image }}
+        image: {{ template "epinio-ui.registry" . }}{{ .Values.epinioUI.image.repository }}:{{ .Values.epinioUI.image.tag }}
         imagePullPolicy: {{ .Values.epinioUI.imagePullPolicy }}
         workingDir: /db
 
