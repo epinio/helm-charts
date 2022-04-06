@@ -8,13 +8,13 @@ dependencies:
   repository: https://charts.min.io/
   tags:
   - minio
-  version: 3.5.2
+  version: 3.6.3
 - condition: kubed.enabled, global.kubed.enabled
   name: kubed
   repository: https://charts.appscode.com/stable/
   tags:
   - kubed
-  version: 0.13.1
+  version: 0.13.2
 - condition: epinio-ui.enabled
   name: epinio-ui
   repository: https://epinio.github.io/helm-charts
