@@ -2,7 +2,7 @@ apiVersion: application.epinio.io/v1
 kind: AppChart
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: epinio-standard-app-chart
+  name: standard
   labels:
     app.kubernetes.io/component: epinio
     app.kubernetes.io/instance: default
@@ -11,6 +11,6 @@ metadata:
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
 spec:
   name: standard
-  shortDescription: Standard deployment
-  description: Standard support chart for application deployment
+  shortDescription: Epinio standard deployment
+  description: Epinio standard support chart for application deployment
   chart: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.15/epinio-application-0.1.15.tgz
