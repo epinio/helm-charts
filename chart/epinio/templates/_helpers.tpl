@@ -2,8 +2,8 @@
 URL prefix for container images to be compatible with Rancher
 */}}
 {{- define "registry-url" -}}
-{{- if .Values.registryURL -}}
-{{ trimSuffix "/" .Values.registryURL }}/
+{{- if .Values.global.cattle.systemDefaultRegistry -}}
+{{ trimSuffix "/" .Values.global.cattle.systemDefaultRegistry }}/
 {{- end -}}
 {{- end -}}
 
