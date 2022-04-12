@@ -37,28 +37,21 @@ spec:
           spec:
             description: AppChartSpec defines the desired state of AppChart
             properties:
-              chart:
-                description: HelmChart is the name of the Helm chart used to deploy
-                  the service
-                type: string
               description:
-                description: Description of the chart, long form for detailed display
+                description: Description of the chart. Long form to be used in detailed
+                  displays
+                type: string
+              helmChart:
+                description: HelmChart is the name of the Helm chart used to deploy
+                  an application.
                 type: string
               helmRepo:
-                description: HelmRepo is the Helm repository where to fetch the helm
-                  chart. This can be empty. In that case the HelmChart field has to
-                  reference the chart as full URL instead of as a simple name.
-                properties:
-                  name:
-                    type: string
-                  url:
-                    type: string
-                type: object
-              name:
-                description: Name of the app support chart (i.e. standard)
+                description: HelmRepo is the URL to the Helm repository where to fetch
+                  the helm chart. This can be empty. In that case the HelmChart field
+                  has to reference the chart as full URL instead of as a simple name.
                 type: string
               shortDescription:
-                description: ShortDescription of the chart to be used in lists
+                description: ShortDescription of the chart. To be used in list displays
                 type: string
             type: object
           status:
