@@ -62,3 +62,9 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# For HorizontalPodAutoscaling
+hpa:
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercent: 50
