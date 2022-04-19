@@ -155,7 +155,7 @@
           }
         },
         "domain": {
-          "type": "array"
+          "type": "string"
         },
         "tlsIssuer": {
           "type": "string"
