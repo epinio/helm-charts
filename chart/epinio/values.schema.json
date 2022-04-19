@@ -142,44 +142,44 @@
     "domain": {
       "description": "the domain that will be used to access the Epinio API",
       "type": "string"
+    },
+    "global": {
+      "type": "object",
+      "properties": {
+        "cattle": {
+          "type": "object",
+          "properties": {
+            "systemDefaultRegistry": {
+              "type": "string"
+            }
+          }
+        },
+        "domain": {
+          "type": "array"
+        },
+        "tlsIssuer": {
+          "type": "string"
+        },
+        "registryURL": {
+          "type": "string"
+        },
+        "registryUsername": {
+          "type": "string"
+        },
+        "registryPassword": {
+          "type": "string"
+        },
+        "registryNamespace": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "domain"
+      ]
     }
   },
   "required": [
     "certManagerNamespace",
     "s3"
-  ],
-  "global": {
-    "type": "object",
-    "properties": {
-      "cattle": {
-        "type": "object",
-        "properties": {
-          "systemDefaultRegistry": {
-            "type": "string"
-          }
-        }
-      },
-      "domain": {
-        "type": "string"
-      },
-      "tlsIssuer": {
-        "type": "string"
-      },
-      "registryURL": {
-        "type": "string"
-      },
-      "registryUsername": {
-        "type": "string"
-      },
-      "registryPassword": {
-        "type": "string"
-      },
-      "registryNamespace": {
-        "type": "string"
-      }
-    },
-    "required": [
-      "domain"
-    ]
-  }
+  ]
 }
