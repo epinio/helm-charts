@@ -46,8 +46,8 @@ targets:
     spec:
       name: "chart/epinio-ui"
       file: "values.yaml"
-      key: "epinioUI.image"
-      value: 'ghcr.io/epinio/epinio-ui:{{ source "ui-backend-tag" }}'
+      key: "epinioUI.image.tag"
+      value: '{{ source "ui-backend-tag" }}'
       versionIncrement: minor
 
 # Define pullrequest configuration if one needs to be created
