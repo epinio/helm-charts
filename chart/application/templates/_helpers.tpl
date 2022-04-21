@@ -29,5 +29,5 @@ Resource name truncation while keeping it unique. Keep as-is when short enough.
 Else compute a 32-char hash and affix it to the suitably truncated base.
 */}}
 {{- define "epinio-truncate" -}}
-{{ ternary . (print (trunc 30 .) "-" (trunc 31 (sha256sum .))) (lt (len .) 64) }}
+{{ ternary . (print (trunc 30 .) (trunc 32 (sha256sum .))) (lt (len .) 64) }}
 {{- end }}
