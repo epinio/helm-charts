@@ -4,4 +4,6 @@ Update the api location and credentials with:
     
     `epinio settings update`
 
+or go to the dashboard at: https://epinio.{{ .Values.global.domain }}
+
 For more information about Epinio, feel free to checkout https://epinio.io/ and https://docs.epinio.io/.
