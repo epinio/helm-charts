@@ -289,15 +289,7 @@
           "type": "object",
           "properties": {
             "podAnnotations": {
-              "type": "object",
-              "properties": {
-                "linkerd.io/inject": {
-                  "type": "object"
-                }
-              },
-              "required": [
-                "linkerd.io/inject"
-              ]
+              "type": "object"
             }
           },
           "required": [
