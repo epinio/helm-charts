@@ -180,9 +180,6 @@
     "containerregistry": {
       "type": "object",
       "properties": {
-        "createNodePort": {
-          "type": "boolean"
-        },
         "enabled": {
           "type": "boolean"
         },
@@ -225,7 +222,6 @@
         }
       },
       "required": [
-        "createNodePort",
         "enabled",
         "image",
         "imagePullPolicy",
