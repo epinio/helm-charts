@@ -87,6 +87,7 @@ minio:
 
 epinio-ui:
   enabled: true
+  epinioVersion: "0.7.1"
   ingress:
     enabled: false
 
