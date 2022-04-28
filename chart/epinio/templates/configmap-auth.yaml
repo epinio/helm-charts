@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth-config
+  namespace: epinio
+data:
+  casbin.conf: |-
+    [request_definition]
+    r = subject, domain, action, resource
+
+    [policy_definition]
+    p = subject, action, resource
+
+    [policy_effect]
+    e = some(where (p.eft == allow))
+
+    [matchers]
+    m = (p.subject == '' || r.subject == p.subject) && keyMatch2(r.resource, p.resource) && (r.domain == keyGet2(r.resource, p.resource, 'namespace') || '' == keyGet2(r.resource, p.resource, 'namespace')) && regexMatch(r.action, p.action) || r.subject == 'admin'
+  policy.csv: |-
+    # public endpoints
+    p,,, /ready
+    p,,, /api/v1/info
+    p,,, /api/v1/authtoken
+    p,,, /api/v1/configurations
+    p,,, /api/v1/services
+    p,,, /api/v1/services/:servicename
+
+    # namespaced endpoints
+    # namespaced-user can do anything on their namespaces 
+    p, namespaced-user, (GET)|(POST)|(PUT)|(DELETE)|(PATCH), /api/v1/namespaces/:namespace/*

@@ -260,6 +260,9 @@ spec:
       volumes:
       - name: tmp-volume
         emptyDir: {}
+      - name: auth-config-volume
+        configMap:
+          name: auth-config
       containers:
         - command: ["/epinio", "server"]
           args: ["--port", "8030"]
@@ -299,6 +302,8 @@ spec:
           volumeMounts:
           - name: tmp-volume
             mountPath: /tmp
+          - name: auth-config-volume
+            mountPath: /etc/config
           readinessProbe:
             httpGet:
               path: /ready
