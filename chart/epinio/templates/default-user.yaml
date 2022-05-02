@@ -17,7 +17,7 @@ type: BasicAuth
 metadata:
   labels:
     epinio.suse.org/api-user-credentials: "true"
-    epinio.suse.org/role: "namespaced-user"
+    epinio.suse.org/role: "user"
   name: default-epinio-user
   namespace: {{ .Release.Namespace }}
 stringData:
