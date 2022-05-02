@@ -4,8 +4,24 @@ type: BasicAuth
 metadata:
   labels:
     epinio.suse.org/api-user-credentials: "true"
+    epinio.suse.org/role: "admin"
+  name: admin-epinio-user
+  namespace: {{ .Release.Namespace }}
+stringData:
+  username: {{ .Values.api.username }}
+  password: {{ .Values.api.password }}
+---
+apiVersion: v1
+kind: Secret
+type: BasicAuth
+metadata:
+  labels:
+    epinio.suse.org/api-user-credentials: "true"
+    epinio.suse.org/role: "namespaced-user"
   name: default-epinio-user
   namespace: {{ .Release.Namespace }}
 stringData:
-  password: {{ .Values.api.password }}
-  username: {{ .Values.api.username }}
+  username: epinio
+  password: password
+  namespaces: |
+    workspace
