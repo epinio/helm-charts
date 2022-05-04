@@ -7,7 +7,7 @@ From app to URL in one command.
 This chart deploys Epinio PaaS on a Kubernetes cluster. It also deploys some of
 its dependencies as subcharts.
 
-The documentation is centralized in the [doc website](https://docs.epinio.io/installation).
+The documentation is centralized in the [doc website](https://docs.epinio.io).
 
 ## Prerequisites
 
