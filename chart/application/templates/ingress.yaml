@@ -3,11 +3,11 @@
 apiVersion: "cert-manager.io/v1"
 kind: Certificate
 metadata:
-  name: {{ include "epinio-truncate" (print "i-" $.Values.epinio.appName "-" .id) }}
+  name: {{ include "epinio-truncate" (print $.Values.epinio.appName "-" .id) }}
   labels:
     {{- include "epinio-application.labels" $ | nindent 4 }}
 spec:
-  secretName: {{ include "epinio-truncate" (print "i-" $.Values.epinio.appName "-" .id "-tls") }}
+  secretName: {{ include "epinio-truncate" (print $.Values.epinio.appName "-" .id "-tls") }}
   dnsNames:
   - {{ .domain }}
   issuerRef:
@@ -17,7 +17,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "epinio-truncate" (print "i-" $.Values.epinio.appName "-" .id) }}
+  name: {{ include "epinio-truncate" (print $.Values.epinio.appName "-" .id) }}
   namespace: {{ $.Release.Namespace }}
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
@@ -34,7 +34,7 @@ spec:
         paths:
           - backend:
               service:
-                name: {{ include "epinio-truncate" (print "s-" $.Values.epinio.appName) }}
+                name: {{ include "epinio-truncate" (print $.Values.epinio.appName) }}
                 port:
                   number: 8080
             path: {{ .path | quote }}
@@ -42,5 +42,5 @@ spec:
   tls:
     - hosts:
       - {{ .domain | quote }}
-      secretName: {{ include "epinio-truncate" (print "i-" $.Values.epinio.appName "-" .id "-tls") }}
+      secretName: {{ include "epinio-truncate" (print $.Values.epinio.appName "-" .id "-tls") }}
 {{- end }}
