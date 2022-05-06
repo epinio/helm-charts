@@ -42,7 +42,7 @@ targets:
     scmID: "helm-charts"
     sourceID: "ui-backend-tag"
     transformers:
-      - addPrefix: "ghcr.io/epinio/epinio-ui:"
+      - addprefix: "ghcr.io/epinio/epinio-ui:"
     spec:
       name: "chart/epinio-ui"
       file: "values.yaml"
