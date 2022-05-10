@@ -26,10 +26,20 @@ sources:
     kind: "gittag"
     scmid: ui-backend
 
+  epinio:
+    name: "Get Latest epinio version"
+    kind: "githubrelease"
+    spec:
+      owner: "epinio"
+      repository: "epinio"
+      username: '{{ requiredEnv .github.epinio.username }}'
+      token: '{{ requiredEnv .github.epinio.token }}'
+
+
 conditions:
   dockerImage:
     name: 'Check that ghcr.io/epinio/epinio-ui:{{ source "ui-backend-tag" }} exists'
-    kind: "dockerImage"
+    kind: "dockerimage"
     sourceid: "ui-backend-tag"
     spec:
       image: "ghcr.io/epinio/epinio-ui"
@@ -38,7 +48,7 @@ conditions:
 targets:
   epinio-ui-chart:
     name: "Update Epinio UI backend image for Helm Chart chart/epinio-ui"
-    kind: "helmChart"
+    kind: "helmchart"
     scmid: "helm-charts"
     sourceid: "ui-backend-tag"
     transformers:
@@ -48,13 +58,25 @@ targets:
       file: "values.yaml"
       key: "epinioUI.image.tag"
       value: '{{ source "ui-backend-tag" }}'
-      versionIncrement: minor
+      versionincrement: minor
+      appversion: true
+
+  epinio-chart:
+    name: "Update Required Epinio version for Helm Chart chart/epinio-ui"
+    kind: "helmchart"
+    scmid: "helm-charts"
+    sourceid: "epinio"
+    spec:
+      name: "chart/epinio-ui"
+      file: "values.yaml"
+      key: "epinioVersion"
+      versionincrement: patch
 
 # Define pullrequest configuration if one needs to be created
 pullrequests:
   helm-charts:
     kind: "github"
-    scmID: "helm-charts"
+    scmid: "helm-charts"
     targets:
       - "epinio-ui-chart"
     spec:
