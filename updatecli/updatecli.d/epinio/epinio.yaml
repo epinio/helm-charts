@@ -17,7 +17,7 @@ scms:
 pullrequests:
   helm-charts:
     kind: "github"
-    scmID: "helm-charts"
+    scmid: "helm-charts"
     targets:
       - "helm-charts"
     spec:
@@ -29,7 +29,7 @@ pullrequests:
 sources:
   epinio:
     name: "Get Latest epinio version"
-    kind: "githubRelease"
+    kind: "githubrelease"
     spec:
       owner: "epinio"
       repository: "epinio"
@@ -40,8 +40,8 @@ sources:
 conditions:
   dockerImage:
     name: 'Check that ghcr.io/epinio/epinio-server:{{ source "epinio" }} is published'
-    kind: "dockerImage"
-    sourceID: "epinio"
+    kind: "dockerimage"
+    sourceid: "epinio"
     spec:
       image: "ghcr.io/epinio/epinio-server"
       architecture: "amd64"
@@ -50,7 +50,7 @@ conditions:
     name: "Check that container image repository 'epinio/epinio-server' is used in Helm chart epinio"
     kind: "yaml"
     disablesourceinput: true
-    scmID: "helm-charts"
+    scmid: "helm-charts"
     spec:
       file: "chart/epinio/values.yaml"
       key: "image.epinio.repository"
@@ -60,7 +60,7 @@ conditions:
     name: "Check that 'ghcr.io' registry is used in Helm chart epinio"
     kind: "yaml"
     disablesourceinput: true
-    scmID: "helm-charts"
+    scmid: "helm-charts"
     spec:
       file: "chart/epinio/values.yaml"
       key: "image.epinio.registry"
@@ -70,11 +70,12 @@ conditions:
 targets:
   helm-charts:
     name: "Update epinio version in chart epinio"
-    kind: "helmChart"
-    scmID: "helm-charts"
-    sourceID: "epinio"
+    kind: "helmchart"
+    scmid: "helm-charts"
+    sourceid: "epinio"
     spec:
       name: "chart/epinio"
       file: "Chart.yaml"
       key: "appVersion"
-      versionIncrement: minor
+      versionincrement: minor
+

@@ -24,13 +24,13 @@ sources:
   ui-backend-tag:
     name: "Get latest Epinio UI backend git tag"
     kind: "gittag"
-    scmID: ui-backend
+    scmid: ui-backend
 
 conditions:
   dockerImage:
     name: 'Check that ghcr.io/epinio/epinio-ui:{{ source "ui-backend-tag" }} exists'
     kind: "dockerImage"
-    sourceID: "ui-backend-tag"
+    sourceid: "ui-backend-tag"
     spec:
       image: "ghcr.io/epinio/epinio-ui"
       architecture: "amd64"
@@ -39,10 +39,10 @@ targets:
   epinio-ui-chart:
     name: "Update Epinio UI backend image for Helm Chart chart/epinio-ui"
     kind: "helmChart"
-    scmID: "helm-charts"
-    sourceID: "ui-backend-tag"
+    scmid: "helm-charts"
+    sourceid: "ui-backend-tag"
     transformers:
-      - addPrefix: "ghcr.io/epinio/epinio-ui:"
+      - addprefix: "ghcr.io/epinio/epinio-ui:"
     spec:
       name: "chart/epinio-ui"
       file: "values.yaml"
