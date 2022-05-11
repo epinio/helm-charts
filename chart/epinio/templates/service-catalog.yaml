@@ -14,7 +14,9 @@ spec:
     You can find more info at https://github.com/bitnami/charts/tree/master/bitnami/postgresql/.
     This database is running inside the cluster so it's probably not a good choice for production
     environments, at least with this default configuration.
-  chart: postgresql:11.1.28
+  chart: postgresql
+  chartVersion: 11.1.28
+  appVersion: 14.2.0
   helmRepo:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
@@ -33,7 +35,9 @@ spec:
     You can find more info at https://github.com/bitnami/charts/tree/master/bitnami/mysql/.
     This database is running inside the cluster so it's probably not a good choice for production
     environments, at least with this default configuration.
-  chart: mysql:8.9.6
+  chart: mysql
+  chartVersion: 8.9.6
+  appVersion: 8.0.29
   helmRepo:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
@@ -52,7 +56,9 @@ spec:
     You can find more info at https://github.com/bitnami/charts/tree/master/bitnami/redis/.
     This database is running inside the cluster so it's probably not a good choice for production
     environments, at least with this default configuration.
-  chart: redis:16.9.1
+  chart: redis
+  chartVersion: 16.9.2
+  appVersion: 6.2.7
   helmRepo:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
@@ -71,7 +77,9 @@ spec:
     You can find more info at https://github.com/bitnami/charts/tree/master/bitnami/rabbitmq/.
     This instance is running inside the cluster so it's probably not a good choice for production
     environments, at least with this default configuration.
-  chart: rabbitmq:9.0.3
+  chart: rabbitmq
+  chartVersion: 9.0.5
+  appVersion: 3.9.17
   helmRepo:
     name: bitnami
     url: https://charts.bitnami.com/bitnami

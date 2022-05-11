@@ -37,9 +37,17 @@ spec:
           spec:
             description: ServiceSpec defines the desired state of Service
             properties:
+              appVersion:
+                description: AppVersion is the version of the service deployed by
+                  the referenced chart
+                type: string
               chart:
                 description: HelmChart is the name of the Helm chart used to deploy
                   the service
+                type: string
+              chartVersion:
+                description: ChartVersion is the version of the Helm chart used to
+                  deploy the service
                 type: string
               description:
                 description: Description of the service to be used when the service
