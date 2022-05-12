@@ -1,7 +1,4 @@
-{{- if and
-      (not (.Capabilities.APIVersions.Has "helmcharts.helm.cattle.io/v1"))
-      (not (.Capabilities.APIVersions.Has "helmchartconfigs.helm.cattle.io/v1"))
--}}
+{{- if not (.Capabilities.APIVersions.Has "helm.cattle.io/v1") -}}
 
 # Helm Controller Deployment
 ---
