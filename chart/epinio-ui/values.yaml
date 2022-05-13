@@ -18,7 +18,7 @@ epinioWssUrl: ""
 # Skip checking for valid SSL cert when making requests to `EPINIO_API_URL`
 epinioApiSkipSSL: "true"
 # This is the version that is displayed in the ui and should match that of the epinio it's targetting
-epinioVersion: "v0.7.1"
+epinioVersion: "v0.8.0"
 volumeMounts:
   - name: tmp
     mountPath: /tmp
