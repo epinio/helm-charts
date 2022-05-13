@@ -1,12 +1,36 @@
 {{- if not (.Capabilities.APIVersions.Has "helm.cattle.io/v1") -}}
 
+# RBAC - ServiceAccount
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: helm-controller
+  namespace: {{ .Release.Namespace }}
+
+
+# RBAC - ClusterRoleBinding
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: helm-controller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: helm-controller
+  namespace: {{ .Release.Namespace }}
+
 # Helm Controller Deployment
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: helm-controller
-  namespace: kube-system
+  namespace: {{ .Release.Namespace }}
   labels:
     app: helm-controller
 spec:
@@ -19,6 +43,7 @@ spec:
       labels:
         app: helm-controller
     spec:
+      serviceAccountName: helm-controller
       containers:
         - name: helm-controller
           image: rancher/helm-controller:v0.12.1
