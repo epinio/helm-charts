@@ -19,6 +19,8 @@ epinioWssUrl: ""
 epinioApiSkipSSL: "true"
 # This is the version that is displayed in the ui and should match that of the epinio it's targetting
 epinioVersion: "v0.8.0"
+# Epinio standalone only supports a single theme, either light or dark
+epinioTheme: "light"
 volumeMounts:
   - name: tmp
     mountPath: /tmp

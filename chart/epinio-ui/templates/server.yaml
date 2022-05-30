@@ -45,6 +45,8 @@ spec:
           value: {{ .Values.epinioApiSkipSSL | quote }}
         - name: EPINIO_VERSION
           value: {{ .Values.epinioVersion | quote }}
+        - name: EPINIO_THEME
+          value: {{ .Values.epinioTheme | quote }}
         - name: HTTP_CLIENT_TIMEOUT_IN_SECS
           value: "120"
         - name: SESSION_STORE_SECRET
