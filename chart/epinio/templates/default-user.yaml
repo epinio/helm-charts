@@ -3,8 +3,8 @@ kind: Secret
 type: BasicAuth
 metadata:
   labels:
-    epinio.suse.org/api-user-credentials: "true"
-    epinio.suse.org/role: "admin"
+    epinio.io/api-user-credentials: "true"
+    epinio.io/role: "admin"
   name: admin-epinio-user
   namespace: {{ .Release.Namespace }}
 stringData:
@@ -16,8 +16,8 @@ kind: Secret
 type: BasicAuth
 metadata:
   labels:
-    epinio.suse.org/api-user-credentials: "true"
-    epinio.suse.org/role: "user"
+    epinio.io/api-user-credentials: "true"
+    epinio.io/role: "user"
   name: default-epinio-user
   namespace: {{ .Release.Namespace }}
 stringData:
