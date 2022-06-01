@@ -1,8 +1,8 @@
 To interract with your Epinio installation download the latest epinio binary from https://github.com/epinio/epinio/releases/latest.
 
-Update the api location and credentials with:
+Login to the cluster with:
     
-    `epinio settings update`
+    `epinio login -u admin -p password https://epinio.{{ .Values.global.domain }}`
 
 or go to the dashboard at: https://epinio.{{ .Values.global.domain }}
 

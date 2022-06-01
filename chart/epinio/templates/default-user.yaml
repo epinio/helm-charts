@@ -22,6 +22,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 stringData:
   username: epinio
+  # bcrypt hash for 'password'
   password: "$2a$10$6bCi5NMstMK781In7JGiL.B44pgoplUb330FQvm6mVXMppbXBPiXS"
   namespaces: |
     workspace
