@@ -135,7 +135,7 @@ extraDeploy:
           serviceAccountName: "pvc-deleter-{{ .Release.Name }}"
           containers:
           - name: post-install-job
-            image: "bitnami/kubectl"
+            image: "%s"
             command: ["kubectl", "delete", "pvc", "-n", "{{ .Release.Namespace }}", "-l", "app.kubernetes.io/instance={{ .Release.Name }}"]
-` | indent 4}}
+` (print (include "registry-url" .) .Values.image.kubectl.repository ":" .Values.image.kubectl.tag) | indent 4}}
 {{- end -}}
