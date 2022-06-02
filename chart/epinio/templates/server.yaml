@@ -303,9 +303,13 @@ spec:
             httpGet:
               path: /ready
               port: 8030
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
+        runAsGroup: 3000
 
 ---
 apiVersion: v1
