@@ -13,12 +13,12 @@ global:
   tlsIssuer: selfsigned-issuer
 logLevel: info
 # API URL of epinio instance, for proxied connections, defaults to http://epinio-server.%s.svc.cluster.local"
-epinioApiUrl: ""
-epinioWssUrl: ""
+epinioAPIUrl: ""
+epinioWSSUrl: ""
 # Domain that will serve the UI and be the origin of browser requests, used by CORS process
 epinioAllowedOrigins: ""
 # Skip checking for valid SSL cert when making requests to `EPINIO_API_URL`
-epinioApiSkipSSL: "true"
+epinioAPISkipSSL: "true"
 # This is the version that is displayed in the ui and should match that of the epinio it's targetting
 epinioVersion: "v0.8.0"
 # Epinio standalone only supports a single theme, either light or dark
