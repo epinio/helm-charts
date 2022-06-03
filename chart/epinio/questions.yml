@@ -57,9 +57,9 @@ questions:
   type: strings
   required: false
   group: "General settings"
-- variable: api.password
+- variable: api.passwordBcrypt
   label: API password
-  description: "The password for authenticating all API requests"
+  description: "The password for authenticating all API requests (hashed with Bcrypt)"
   type: password
   required: false
   group: "General settings"

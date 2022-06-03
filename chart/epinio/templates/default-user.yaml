@@ -9,7 +9,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 stringData:
   username: {{ .Values.api.username }}
-  password: {{ .Values.api.password }}
+  password: {{ .Values.api.passwordBcrypt }}
 ---
 apiVersion: v1
 kind: Secret
