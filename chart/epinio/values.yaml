@@ -60,8 +60,8 @@ s3:
 api:
   # Default user username
   username: admin
-  # Default user password
-  password: password
+  # Default user password (bcrypt hash for 'password')
+  passwordBcrypt: "$2a$10$6bCi5NMstMK781In7JGiL.B44pgoplUb330FQvm6mVXMppbXBPiXS"
 
 # Minio subchart values
 minio:
