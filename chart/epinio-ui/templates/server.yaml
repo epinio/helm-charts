@@ -37,6 +37,8 @@ spec:
         workingDir: /db
 
         env:
+        - name: ALLOWED_ORIGINS
+          value: {{ default (printf "https://epinio.%s" .Values.global.domain) .Values.epinioAllowedOrigins }}
         - name: EPINIO_API_URL
           value: {{ default (printf "http://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioApiUrl }}
         - name: EPINIO_WSS_URL
