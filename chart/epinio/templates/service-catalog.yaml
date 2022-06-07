@@ -22,7 +22,7 @@ spec:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
   values: |-
-    {{- template "epinio.catalog-service-values" }}
+    {{- template "epinio.catalog-service-values" . }}
 ---
 apiVersion: application.epinio.io/v1
 kind: Service
@@ -45,7 +45,7 @@ spec:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
   values: |-
-    {{- template "epinio.catalog-service-values" }}
+    {{- template "epinio.catalog-service-values" . }}
 ---
 apiVersion: application.epinio.io/v1
 kind: Service
@@ -68,7 +68,7 @@ spec:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
   values: |-
-    {{- template "epinio.catalog-service-values" }}
+    {{- template "epinio.catalog-service-values" . }}
 ---
 apiVersion: application.epinio.io/v1
 kind: Service
@@ -91,5 +91,5 @@ spec:
     name: bitnami
     url: https://charts.bitnami.com/bitnami
   values: |-
-    {{- template "epinio.catalog-service-values" }}
+    {{- template "epinio.catalog-service-values" . }}
 {{- end }}

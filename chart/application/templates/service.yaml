@@ -6,7 +6,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.tls: "true"
   labels:
     {{- include "epinio-application.labels" . | nindent 4 }}
-  name: {{ include "epinio-truncate" (print .Values.epinio.appName) }}
+  name: {{ include "epinio-truncate" .Values.epinio.appName }}
   namespace:  {{ .Release.Namespace }}
 spec:
   ports:
