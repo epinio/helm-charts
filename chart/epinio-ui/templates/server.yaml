@@ -40,9 +40,9 @@ spec:
         - name: ALLOWED_ORIGINS
           value: {{ default (printf "https://epinio.%s" .Values.global.domain) .Values.epinioAllowedOrigins }}
         - name: EPINIO_API_URL
-          value: {{ default (printf "http://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioAPIUrl }}
+          value: {{ default (printf "http://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioAPIURL }}
         - name: EPINIO_WSS_URL
-          value: {{ default (printf "ws://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioWSSUrl }}
+          value: {{ default (printf "ws://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioWSSURL }}
         - name: EPINIO_API_SKIP_SSL
           value: {{ .Values.epinioAPISkipSSL | quote }}
         - name: EPINIO_VERSION

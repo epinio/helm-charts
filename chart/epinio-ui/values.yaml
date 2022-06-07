@@ -13,8 +13,8 @@ global:
   tlsIssuer: selfsigned-issuer
 logLevel: info
 # API URL of epinio instance, for proxied connections, defaults to http://epinio-server.%s.svc.cluster.local"
-epinioAPIUrl: ""
-epinioWSSUrl: ""
+epinioAPIURL: ""
+epinioWSSURL: ""
 # Domain that will serve the UI and be the origin of browser requests, used by CORS process
 epinioAllowedOrigins: ""
 # Skip checking for valid SSL cert when making requests to `EPINIO_API_URL`
