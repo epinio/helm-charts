@@ -124,14 +124,37 @@
       ]
     },
     "api": {
-      "description": "default api user credentials",
+      "description": "API access configuration",
       "type": "object",
       "properties": {
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
+        "users": {
+          "description": "Default Epinio users",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string"
+              },
+              "passwordBcrypt": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              },
+              "workspaces": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "username",
+              "passwordBcrypt",
+              "role"
+            ]
+          }
         }
       }
     },
