@@ -11,8 +11,8 @@ image:
     repository: epinio/epinio-server
     tag: ""
   bash:
-    repository: rancher/shell
-    tag: v0.1.16
+    repository: library/bash
+    tag: 5.1.4
   awscli:
     repository: amazon/aws-cli
     tag: 2.0.52
