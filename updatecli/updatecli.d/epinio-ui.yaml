@@ -61,17 +61,6 @@ targets:
       versionincrement: minor
       appversion: true
 
-  epinio-chart:
-    name: "Update Required Epinio version for Helm Chart chart/epinio-ui"
-    kind: "helmchart"
-    scmid: "helm-charts"
-    sourceid: "epinio"
-    spec:
-      name: "chart/epinio-ui"
-      file: "values.yaml"
-      key: "epinioVersion"
-      versionincrement: patch
-
 # Define pullrequest configuration if one needs to be created
 pullrequests:
   helm-charts:
