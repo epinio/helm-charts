@@ -6,7 +6,7 @@ on:
   push:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    # Run every Monday at 9 AM
+    # Run every hour
     - cron: '0 * * * *'
   repository_dispatch:
     types: [epinio-release, epinio-ui-release]
@@ -23,11 +23,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install Updatecli in the runner
+        uses: updatecli/updatecli-action@v2
+
       - name: Apply
-        uses: updatecli/updatecli-action@v1.33.0
-        with:
-          command: apply
-          flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.yaml"
+        run: "updatecli apply --config ./updatecli/updatecli.d --values ./updatecli/values.yaml"
         env:
           UPDATECLI_GITHUB_ACTOR: ${{ github.actor }}
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
