@@ -1,5 +1,5 @@
 ---
-title: "Bump the Epinio chart depedency 'epinio-io'"
+title: "Bump the Epinio chart depedency 'epinio-ui'"
 # Define git repository configuration to know where to push changes
 scms:
   default:
