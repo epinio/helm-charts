@@ -16,12 +16,13 @@ spec:
     environments, at least with this default configuration.
   chart: postgresql
   chartVersion: 11.1.28
+  serviceIcon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-220x234.png
   appVersion: 14.2.0
   helmRepo:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
   values: |-
-    {{- template "epinio.catalog-service-values" }}
+    {{- template "epinio.catalog-service-values" . }}
 ---
 apiVersion: application.epinio.io/v1
 kind: Service
@@ -38,12 +39,13 @@ spec:
     environments, at least with this default configuration.
   chart: mysql
   chartVersion: 8.9.6
+  serviceIcon: https://bitnami.com/assets/stacks/mysql/img/mysql-stack-220x234.png
   appVersion: 8.0.29
   helmRepo:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
   values: |-
-    {{- template "epinio.catalog-service-values" }}
+    {{- template "epinio.catalog-service-values" . }}
 ---
 apiVersion: application.epinio.io/v1
 kind: Service
@@ -60,12 +62,13 @@ spec:
     environments, at least with this default configuration.
   chart: redis
   chartVersion: 16.9.2
+  serviceIcon: https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png
   appVersion: 6.2.7
   helmRepo:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
   values: |-
-    {{- template "epinio.catalog-service-values" }}
+    {{- template "epinio.catalog-service-values" . }}
 ---
 apiVersion: application.epinio.io/v1
 kind: Service
@@ -82,10 +85,11 @@ spec:
     environments, at least with this default configuration.
   chart: rabbitmq
   chartVersion: 9.0.5
+  serviceIcon: https://bitnami.com/assets/stacks/rabbitmq/img/rabbitmq-stack-220x234.png
   appVersion: 3.9.17
   helmRepo:
     name: bitnami
     url: https://charts.bitnami.com/bitnami
   values: |-
-    {{- template "epinio.catalog-service-values" }}
+    {{- template "epinio.catalog-service-values" . }}
 {{- end }}

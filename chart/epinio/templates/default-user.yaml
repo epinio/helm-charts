@@ -1,27 +1,17 @@
-apiVersion: v1
-kind: Secret
-type: BasicAuth
-metadata:
-  labels:
-    epinio.suse.org/api-user-credentials: "true"
-    epinio.suse.org/role: "admin"
-  name: admin-epinio-user
-  namespace: {{ .Release.Namespace }}
-stringData:
-  username: {{ .Values.api.username }}
-  password: {{ .Values.api.password }}
+{{- range .Values.api.users }}
 ---
 apiVersion: v1
 kind: Secret
 type: BasicAuth
 metadata:
   labels:
-    epinio.suse.org/api-user-credentials: "true"
-    epinio.suse.org/role: "user"
-  name: default-epinio-user
-  namespace: {{ .Release.Namespace }}
+    epinio.io/api-user-credentials: "true"
+    epinio.io/role: {{ .role }}
+  name: {{ include "epinio-truncate" (print "user-" .username) }}
+  namespace: {{ $.Release.Namespace }}
 stringData:
-  username: epinio
-  password: password
+  username: {{ .username }}
+  password: {{ .passwordBcrypt }}
   namespaces: |
-    workspace
+    {{ join "\n" .workspaces -}}
+{{- end }}

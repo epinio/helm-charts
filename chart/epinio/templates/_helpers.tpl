@@ -14,7 +14,7 @@ URL of the registry epinio uses to store workload images
 {{- if .Values.containerregistry.enabled -}}
 {{-   printf "registry.%s.svc.cluster.local:5000" .Release.Namespace }}
 {{- else -}}
-{{-   print .Values.global.registryURL }}
+{{-   .Values.global.registryURL }}
 {{- end -}}
 {{- end -}}
 
@@ -25,7 +25,7 @@ URL of the minio epinio installed
 {{- if .Values.minio.enabled -}}
 {{-   printf "%s.%s.svc.cluster.local:9000" .Values.minio.fullnameOverride .Release.Namespace }}
 {{- else -}}
-{{-   print .Values.s3.endpoint }}
+{{-  .Values.s3.endpoint }}
 {{- end -}}
 {{- end -}}
 
@@ -135,7 +135,26 @@ extraDeploy:
           serviceAccountName: "pvc-deleter-{{ .Release.Name }}"
           containers:
           - name: post-install-job
-            image: "bitnami/kubectl"
+            image: "%s"
             command: ["kubectl", "delete", "pvc", "-n", "{{ .Release.Namespace }}", "-l", "app.kubernetes.io/instance={{ .Release.Name }}"]
-` | indent 4}}
+` (print (include "registry-url" .) .Values.image.kubectl.repository ":" .Values.image.kubectl.tag) | indent 4}}
 {{- end -}}
+
+{{/*
+Removes characters that are invalid for kubernetes resource names from the
+given string
+*/}}
+{{- define "epinio-name-sanitize" -}}
+{{ regexReplaceAll "[^-a-z0-9]*" . "" }}
+{{- end }}
+
+{{/*
+Resource name sanitization and truncation.
+- Always suffix the sha1sum (40 characters long)
+- Always add an "r" prefix to make sure we don't have leading digits
+- The rest of the characters up to 63 are the original string with invalid
+character removed.
+*/}}
+{{- define "epinio-truncate" -}}
+{{ print "r" (trunc 21 (include "epinio-name-sanitize" .)) "-" (sha1sum .) }}
+{{- end }}

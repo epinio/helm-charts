@@ -65,6 +65,9 @@ spec:
               name:
                 description: Name of the service (i.e. redis-small)
                 type: string
+              serviceIcon:
+                description: ServiceIcon is an image associated with this service
+                type: string
               shortDescription:
                 description: ShortDescription of the service to be used in lists
                 type: string

@@ -34,7 +34,7 @@ spec:
         paths:
           - backend:
               service:
-                name: {{ include "epinio-truncate" (print $.Values.epinio.appName) }}
+                name: {{ include "epinio-truncate" $.Values.epinio.appName }}
                 port:
                   number: 8080
             path: {{ .path | quote }}

@@ -17,8 +17,8 @@ image:
     repository: amazon/aws-cli
     tag: 2.0.52
   kubectl:
-    repository: lachlanevenson/k8s-kubectl
-    tag: v1.22.2
+    repository: rancher/kubectl
+    tag: v1.22.6
   builder:
     repository: paketobuildpacks/builder
     tag: full
@@ -58,10 +58,16 @@ s3:
   certificateSecret: ""
 
 api:
-  # Default user username
-  username: admin
-  # Default user password
-  password: password
+  # Default users
+  users:
+    - username: admin
+      passwordBcrypt: "$2a$10$6bCi5NMstMK781In7JGiL.B44pgoplUb330FQvm6mVXMppbXBPiXS"
+      role: admin
+    - username: epinio
+      passwordBcrypt: "$2a$10$6bCi5NMstMK781In7JGiL.B44pgoplUb330FQvm6mVXMppbXBPiXS"
+      role: user
+      workspaces:
+        - workspace
 
 # Minio subchart values
 minio:
@@ -87,7 +93,8 @@ minio:
 
 epinio-ui:
   enabled: true
-  epinioVersion: "0.7.1"
+  epinioTheme: light
+  epinioVersion: "0.7.0"
   ingress:
     enabled: false
 
