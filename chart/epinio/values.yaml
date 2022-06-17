@@ -94,7 +94,7 @@ minio:
 epinio-ui:
   enabled: true
   epinioTheme: light
-  epinioVersion: "0.11.0"
+  epinioVersion: "1.0.0-rc1"
   ingress:
     enabled: false
 
