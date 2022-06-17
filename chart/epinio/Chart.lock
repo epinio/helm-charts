@@ -8,5 +8,8 @@ dependencies:
 - name: epinio-ui
   repository: https://epinio.github.io/helm-charts
   version: 0.4.0
-digest: sha256:a65ed16f10e8429403c8f9ba9b1d153a03c01802304782d8a427bf93a9f0399d
-generated: "2022-06-14T12:22:27.500228392Z"
+- name: rabbitmq
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.1.8
+digest: sha256:6164e024cf6224327df46db7b4db1849ca5211efcf0d7ac070754d561164ca10
+generated: "2022-06-17T11:16:57.554117431+03:00"

@@ -264,6 +264,17 @@ spec:
         - command: ["/epinio", "server"]
           args: ["--port", "8030"]
           env:
+            {{- if .Values.rabbitmq.enabled }}
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-rabbitmq
+                  key: rabbitmq-password
+            - name: RABBITMQ_HOST
+              value: {{ .Release.Name }}-rabbitmq.{{ .Release.Namespace }}.svc.cluster.local
+            - name: RABBITMQ_PORT
+              value: "5672"
+            {{- end }}
             - name: NAMESPACE
               value: "{{ .Release.Namespace }}"
             - name: ACCESS_CONTROL_ALLOW_ORIGIN
