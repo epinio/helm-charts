@@ -20,6 +20,7 @@ pullrequests:
     scmid: "helm-charts"
     targets:
       - "helm-charts"
+      - "epinioui"
     spec:
       labels:
         - "dependencies"
@@ -77,5 +78,15 @@ targets:
       name: "chart/epinio"
       file: "Chart.yaml"
       key: "appVersion"
-      versionincrement: minor
+      versionincrement: "minor"
 
+  epinioui:
+    name: "Update epinio version in chart epinio"
+    kind: "helmchart"
+    scmid: "helm-charts"
+    sourceid: "epinio"
+    spec:
+      name: "chart/epinio"
+      file: "values.yaml"
+      key: "epinio-ui.epinioVersion"
+      versionincrement: "minor"
