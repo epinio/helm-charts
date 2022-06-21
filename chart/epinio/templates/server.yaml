@@ -264,6 +264,8 @@ spec:
         - command: ["/epinio", "server"]
           args: ["--port", "8030"]
           env:
+            - name: EPINIO_SETTINGS
+              value: /tmp/settings.yaml
             - name: NAMESPACE
               value: "{{ .Release.Namespace }}"
             - name: ACCESS_CONTROL_ALLOW_ORIGIN
