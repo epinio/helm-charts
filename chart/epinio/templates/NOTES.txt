@@ -2,7 +2,7 @@ To interact with your Epinio installation download the latest epinio binary from
 
 Login to the cluster with any of
 {{ range .Values.api.users }}
-    `epinio login -u '{{ .username }}' 'https://epinio.{{ $.Values.global.domain }}'`
+    `epinio login -u {{ .username }} https://epinio.{{ $.Values.global.domain }}`
 {{- end }}
 
 or go to the dashboard at: https://epinio.{{ .Values.global.domain }}
