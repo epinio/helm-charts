@@ -1,0 +1,30 @@
+name: Upgrade test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upgrade-test:
+    runs-on: self-hosted
+    needs: lint-test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v2.1
+        with:
+          version: v3.7.2
+
+      - name: Set up k3d cluster
+        run: |
+          make create-k3d-cluster
+
+      - name: Upgrade epinio
+        env:
+          EPINIO_DOCKER_USER: ${{ secrets.EPINIO_DOCKER_USER}}
+          EPINIO_DOCKER_PASSWORD: ${{ secrets.EPINIO_DOCKER_PASSWORD}}
+        run: |
+          make upgrade-test
