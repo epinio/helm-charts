@@ -32,6 +32,6 @@ jobs:
         with:
           push: true
           context: images/.
-          tags: splatform/epiniod:${{ env.GITHUB_REF || env.GITHUB_SHA }}
+          tags: splatform/epiniod:${{ github.ref }}
           build-args: |
             VERSION=${{ env.GITHUB_REF }}
