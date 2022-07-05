@@ -1,6 +1,7 @@
 name: Build epiniod image
 
 on:
+  workflow_dispatch:
   release:
     types: [published]
 jobs:
