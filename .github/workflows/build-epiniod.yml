@@ -38,7 +38,7 @@ jobs:
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=tag
-            type=sha
+            type=sha,enable=true,priority=100,prefix=,suffix=,format=short
 
       - name: Build and push
         uses: docker/build-push-action@v3
