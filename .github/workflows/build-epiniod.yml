@@ -27,11 +27,25 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # https://github.com/docker/build-push-action/blob/master/docs/advanced/tags-labels.md
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            splatform/epiniod
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=ref,event=tag
+            type=sha
+
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           push: true
           context: images/.
-          tags: splatform/epiniod:${{ github.ref }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             VERSION=${{ env.GITHUB_REF }}
