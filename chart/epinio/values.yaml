@@ -65,6 +65,8 @@ api:
 # Minio subchart values
 minio:
   enabled: true
+  image:
+    tag: RELEASE.2022-07-06T20-29-49Z
   # hardcode this, to avoid problems with release name
   fullnameOverride: minio
   existingSecret: minio-creds
