@@ -98,10 +98,10 @@ containerregistry:
   image:
     registry:
       repository: registry
-      tag: 2.7.1
+      tag: 2.8.1
     nginx:
       repository: nginx
-      tag: 1.21.6
+      tag: 1.23.0
   imagePullPolicy: IfNotPresent
   # The ingressClassName is used to select the ingress controller. If
   # empty no class will be added to the ingresses.
