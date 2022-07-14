@@ -1,4 +1,5 @@
 {{- range .Values.epinio.routes }}
+{{- if not .secret }}
 ---
 apiVersion: "cert-manager.io/v1"
 kind: Certificate
@@ -13,6 +14,7 @@ spec:
   issuerRef:
     name : {{ $.Values.epinio.tlsIssuer | quote }}
     kind: ClusterIssuer
+{{- end }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -42,5 +44,9 @@ spec:
   tls:
     - hosts:
       - {{ .domain | quote }}
+{{- if .secret }}
+      secretName: {{ .secret }}
+{{- else }}
       secretName: {{ include "epinio-truncate" (print $.Values.epinio.appName "-" .id "-tls") }}
+{{- end }}
 {{- end }}
