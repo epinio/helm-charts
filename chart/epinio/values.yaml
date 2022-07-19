@@ -62,6 +62,10 @@ api:
       role: user
       workspaces:
         - workspace
+
+# Dex subchart values -- None for now, and sub chart disabled
+dex:
+  enabled: false
 # Minio subchart values
 minio:
   enabled: true
