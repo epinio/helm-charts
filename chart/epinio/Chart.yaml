@@ -3,6 +3,12 @@ annotations:
 apiVersion: v2
 appVersion: v1.2.0
 dependencies:
+- condition: dex.enabled, global.dex.enabled
+  name: dex
+  repository: https://charts.dexidp.io
+  tags:
+  - dex
+  version: 0.9.0
 - condition: minio.enabled, global.minio.enabled
   name: minio
   repository: https://charts.min.io/
