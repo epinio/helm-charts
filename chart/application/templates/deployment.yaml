@@ -20,6 +20,7 @@ spec:
       labels:
         {{- include "epinio-application.labels" . | nindent 8 }}
         epinio.io/stage-id: {{ .Values.epinio.stageID | quote }}
+        epinio.io/app-container: {{ include "epinio-truncate" .Values.epinio.appName }}
     spec:
       serviceAccount: {{ .Release.Namespace }}
       serviceAccountName: {{ .Release.Namespace }}
