@@ -67,27 +67,9 @@ dex:
   enabled: true
   # hardcode this, to avoid problems with release name
   fullnameOverride: "dex"
-  config:
-    issuer: http://dex.need.a.good.domain.here
-    storage:
-      type: memory
-    enablePasswordDB: true
-  ingress:
-    enabled: true
-    annotations:
-      cert-manager.io/cluster-issuer: epinio-ca
-      traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      traefik.ingress.kubernetes.io/router.tls: "true"
-      kubernetes.io/ingress.class: "traefik"
-    hosts:
-      - host: dex.need.a.good.domain.here
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - hosts:
-          - dex.need.a.good.domain.here
-        secretName: dex-tls
+  configSecret:
+    create: false
+    name: "dex-config"
 
 
 # Extra environment variables passed to the epinio-server pod.

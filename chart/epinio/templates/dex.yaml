@@ -1,0 +1,88 @@
+{{- if .Values.dex.enabled -}}
+
+{{- $secret := (lookup "v1" "Secret" .Release.Namespace "dex-client-secret").data -}}
+{{- $clientSecret:= empty $secret | ternary (randAlphaNum 16) (b64dec (default "" $secret.clientSecret)) -}}
+
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: dex-client-secret
+  namespace: {{ .Release.Namespace }}
+stringData:
+  clientSecret: {{ $clientSecret }}
+
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  annotations:
+  name: dex-config
+  namespace: {{ .Release.Namespace }}
+stringData:
+  config.yaml: |-
+    issuer: "https://dex.{{ .Values.global.domain }}"
+    storage:
+      type: memory
+    enablePasswordDB: true
+    staticClients:
+    # A "public" client for the cli and a non-public for the web UI
+    - id: epinio-ui
+      secret: {{ $clientSecret }}
+      name: 'Epinio Web UI'
+      redirectURIs:
+      - "https://epinio.{{ .Values.global.domain }}/dex/callback"
+    - id: epinio-cli
+      public: true
+      name: 'Epinio cli'
+      # NOTE: no need for this to be safe
+      # https://dexidp.io/docs/custom-scopes-claims-clients/#public-clients
+      # https://github.com/dexidp/dex/issues/469
+      # https://developers.google.com/identity/protocols/oauth2/native-app
+      secret: cli-app-secret
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dex
+  namespace: "{{ .Release.Namespace }}"
+spec:
+  dnsNames:
+  - "dex.{{ .Values.global.domain }}"
+  issuerRef:
+    kind: ClusterIssuer
+    name: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
+  secretName: dex-tls
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dex
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  rules:
+  - host: "dex.{{ .Values.global.domain }}"
+    http:
+      paths:
+      - backend:
+          service:
+            name: dex
+            port:
+              number: 5556
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - "dex.{{ .Values.global.domain }}"
+    secretName: dex-tls
+
+{{- end }}
