@@ -1,5 +1,5 @@
 apiVersion: v2
-name: epinio-stateful-application
+name: epinio-application-stateful
 description: The helm chart for epinio applications to be deployed by
 icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
 home: https://github.com/epinio/epinio
