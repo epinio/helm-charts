@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "epinio-application.labels" . | nindent 4 }}
 spec:
-  serviceName: {{ include "epinio-truncate" (print "s-" .Values.epinio.appName "-headless" )}}
+  serviceName: {{ include "epinio-truncate" (print .Values.epinio.appName "-headless" )}}
   replicas: {{ .Values.epinio.replicaCount }}
   selector:
     matchLabels:
@@ -16,11 +16,12 @@ spec:
       annotations:
         app.kubernetes.io/name: {{ .Values.epinio.appName }}
         {{- with .Values.epinio.start }}
-        epinio.suse.org/start: {{ . | quote }}
+        epinio.io/start: {{ . | quote }}
         {{- end }}
       labels:
         {{- include "epinio-application.labels" . | nindent 8 }}
-        epinio.suse.org/stage-id: {{ .Values.epinio.stageID | quote }}
+        epinio.io/stage-id: {{ .Values.epinio.stageID | quote }}
+        epinio.io/app-container: {{ include "epinio-truncate" .Values.epinio.appName }}
     spec:
       serviceAccount: {{ .Release.Namespace }}
       serviceAccountName: {{ .Release.Namespace }}

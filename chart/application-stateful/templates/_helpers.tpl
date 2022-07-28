@@ -25,9 +25,20 @@ app.kubernetes.io/component: application
 {{- end }}
 
 {{/*
-Resource name truncation while keeping it unique. Keep as-is when short enough.
-Else compute a 32-char hash and affix it to the suitably truncated base.
+Removes characters that are invalid for kubernetes resource names from the
+given string
+*/}}
+{{- define "epinio-name-sanitize" -}}
+{{ regexReplaceAll "[^-a-z0-9]*" . "" }}
+{{- end }}
+
+{{/*
+Resource name sanitization and truncation.
+- Always suffix the sha1sum (40 characters long)
+- Always add an "r" prefix to make sure we don't have leading digits
+- The rest of the characters up to 63 are the original string with invalid
+character removed.
 */}}
 {{- define "epinio-truncate" -}}
-{{ ternary . (print (trunc 30 .) "-" (trunc 31 (sha256sum .))) (lt (len .) 64) }}
+{{ print "r" (trunc 21 (include "epinio-name-sanitize" .)) "-" (sha1sum .) }}
 {{- end }}
