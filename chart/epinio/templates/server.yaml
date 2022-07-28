@@ -260,6 +260,10 @@ spec:
       volumes:
       - name: tmp-volume
         emptyDir: {}
+      - name: dex-tls
+        secret:
+          secretName: dex-tls
+          optional: false
       containers:
         - command: ["/epinio", "server"]
           args: ["--port", "8030"]
@@ -288,6 +292,12 @@ spec:
             - name: INGRESS_CLASS_NAME
               value: "{{ .Values.ingress.ingressClassName }}"
             {{- end }}
+            - name: DEX_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: dex-client-secret
+                  key: clientSecret
+                  optional: false
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 -}}
             {{- end }}
@@ -302,6 +312,8 @@ spec:
           volumeMounts:
           - name: tmp-volume
             mountPath: /tmp
+          - name: dex-tls
+            mountPath: /dex-tls
           readinessProbe:
             httpGet:
               path: /ready
