@@ -113,10 +113,10 @@ global:
   # The domain that will be used to access the epinio API server and the registry
   domain: ""
   # Connection details for the container registry.
-  registryURL: "" # Skip if containerregistry.enabled is true
+  registryURL: ""  # Skip if containerregistry.enabled is true
   registryUsername: "admin"
   registryPassword: "changeme"
-  registryNamespace: "apps" # Used in registry path when pushing -> "external.tld/apps/APPNAME"
+  registryNamespace: "apps"  # Used in registry path when pushing -> "external.tld/apps/APPNAME"
   # The name of the cluster issuer to use.
   # Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'.
   tlsIssuer: "epinio-ca"
