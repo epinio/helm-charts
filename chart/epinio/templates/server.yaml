@@ -272,8 +272,6 @@ spec:
               value: "{{ .Values.server.accessControlAllowOrigin }}"
             - name: EPINIO_TIMEOUT_MULTIPLIER
               value: "{{ .Values.server.timeoutMultiplier }}"
-            - name: SESSION_KEY
-              value: "{{ .Values.server.sessionKey }}"
             - name: TLS_ISSUER
               value: "{{ .Values.global.tlsIssuer }}"
             - name: TRACE_LEVEL

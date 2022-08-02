@@ -65,9 +65,6 @@
         "timeoutMultiplier": {
           "type": "integer"
         },
-        "sessionKey": {
-          "type": "string"
-        },
         "traceLevel": {
           "type": "integer"
         },
