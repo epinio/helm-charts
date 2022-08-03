@@ -235,7 +235,7 @@ metadata:
     app.kubernetes.io/instance: default
     app.kubernetes.io/name: epinio-server
     app.kubernetes.io/part-of: epinio
-    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.image.epinio.tag }}
   name: epinio-server
   namespace: {{ .Release.Namespace }}
 spec:
@@ -253,7 +253,7 @@ spec:
         app.kubernetes.io/instance: default
         app.kubernetes.io/name: epinio-server
         app.kubernetes.io/part-of: epinio
-        app.kubernetes.io/version: {{ .Chart.AppVersion }}
+        app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.image.epinio.tag }}
       name: epinio-server
     spec:
       serviceAccountName: epinio-server
@@ -320,7 +320,7 @@ metadata:
     app.kubernetes.io/instance: default
     app.kubernetes.io/name: epinio-server
     app.kubernetes.io/part-of: epinio
-    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.image.epinio.tag }}
   name: epinio-server
   namespace: {{ .Release.Namespace }}
 spec:
