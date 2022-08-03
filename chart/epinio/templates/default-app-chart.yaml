@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/instance: default
     app.kubernetes.io/name: epinio-standard-app-chart
     app.kubernetes.io/part-of: epinio
-    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.image.epinio.tag }}
 spec:
   shortDescription: Epinio standard deployment
   description: Epinio standard support chart for application deployment

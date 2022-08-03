@@ -26,8 +26,6 @@ server:
   accessControlAllowOrigin: ""
   # increase this value to increase all timeouts by the same factor
   timeoutMultiplier: 1
-  # Change this to a random string. Used for session cookies by the API server.
-  sessionKey: "12345"
   # Increase this value to instruct the API server to produce more debug output
   traceLevel: 0
   # The ingressClassName is used to select the ingress controller for apps. If empty no class will be added to their ingresseses.
