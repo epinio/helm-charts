@@ -23,13 +23,13 @@ metadata:
   namespace: {{ .Release.Namespace }}
 stringData:
   config.yaml: |-
-    issuer: "https://dex.{{ .Values.global.domain }}"
+    issuer: "https://auth.{{ .Values.global.domain }}"
     storage:
       type: memory
     enablePasswordDB: true
     # TODO: Move the default Epinio users here
     staticPasswords:
-    - email: "admin@example.com"
+    - email: "admin@epinio.io"
       # bcrypt hash of the string "password": $(echo password | htpasswd -BinC 10 admin | cut -d: -f2)
       hash: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"
       username: "admin"
@@ -45,11 +45,6 @@ stringData:
     - id: epinio-cli
       public: true
       name: 'Epinio cli'
-      # NOTE: no need for this to be safe
-      # https://dexidp.io/docs/custom-scopes-claims-clients/#public-clients
-      # https://github.com/dexidp/dex/issues/469
-      # https://developers.google.com/identity/protocols/oauth2/native-app
-      secret: cli-app-secret
 
 ---
 apiVersion: cert-manager.io/v1
@@ -59,7 +54,7 @@ metadata:
   namespace: "{{ .Release.Namespace }}"
 spec:
   dnsNames:
-  - "dex.{{ .Values.global.domain }}"
+  - "auth.{{ .Values.global.domain }}"
   issuerRef:
     kind: ClusterIssuer
     name: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
@@ -78,7 +73,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
   rules:
-  - host: "dex.{{ .Values.global.domain }}"
+  - host: "auth.{{ .Values.global.domain }}"
     http:
       paths:
       - backend:
@@ -90,7 +85,7 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - "dex.{{ .Values.global.domain }}"
+    - "auth.{{ .Values.global.domain }}"
     secretName: dex-tls
 
 {{- end }}
