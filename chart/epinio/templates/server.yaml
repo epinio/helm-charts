@@ -313,7 +313,8 @@ spec:
           - name: tmp-volume
             mountPath: /tmp
           - name: dex-tls
-            mountPath: /dex-tls
+            mountPath: /etc/ssl/certs/dex-tls.pem
+            subPath: tls.crt
           readinessProbe:
             httpGet:
               path: /ready
