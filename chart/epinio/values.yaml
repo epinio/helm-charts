@@ -65,7 +65,7 @@ api:
       role: user
       workspaces:
         - workspace
-        
+
 # Minio subchart values
 minio:
   enabled: true
