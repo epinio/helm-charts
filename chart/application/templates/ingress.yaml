@@ -7,6 +7,8 @@ metadata:
   name: {{ include "epinio-truncate" (print $.Values.epinio.appName "-" .id) }}
   labels:
     {{- include "epinio-application.labels" $ | nindent 4 }}
+  annotations:
+    {{- include "epinio-application.annotations" . | nindent 4 }}
 spec:
   secretName: {{ include "epinio-truncate" (print $.Values.epinio.appName "-" .id "-tls") }}
   dnsNames:
@@ -24,6 +26,7 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
+    {{- include "epinio-application.annotations" . | nindent 4 }}
   labels:
     {{- include "epinio-application.labels" $ | nindent 4 }}
 spec:

@@ -5,6 +5,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "epinio-application.labels" . | nindent 4 }}
+  annotations:
+    {{- include "epinio-application.annotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.epinio.replicaCount }}
   selector:
@@ -14,6 +16,7 @@ spec:
     metadata:
       annotations:
         app.kubernetes.io/name: {{ .Values.epinio.appName }}
+        {{- include "epinio-application.annotations" . | nindent 8 }}
         {{- with .Values.epinio.start }}
         epinio.io/start: {{ . | quote }}
         {{- end }}
