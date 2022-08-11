@@ -10,10 +10,16 @@ Common labels
 */}}
 {{- define "epinio-application.labels" -}}
 app.kubernetes.io/managed-by: epinio
-app.kubernetes.io/created-by: {{ .Values.epinio.username }}
 app.kubernetes.io/part-of: {{ .Release.Namespace }}
 helm.sh/chart: {{ include "epinio-application.chart" . }}
 {{ include "epinio-application.selectorLabels" . }}
+{{- end }}
+
+{{/*
+Common annotations
+*/}}
+{{- define "epinio-application.annotations" -}}
+epinio.io/created-by: {{ .Values.epinio.username }}
 {{- end }}
 
 {{/*
