@@ -60,12 +60,6 @@ api:
       role: user
       workspaces:
         - workspace
-    - username: user1@epinio.io
-      passwordBcrypt: "$2a$10$6bCi5NMstMK781In7JGiL.B44pgoplUb330FQvm6mVXMppbXBPiXS"
-      role: user
-      workspaces:
-        - workspace
-
 # Minio subchart values
 minio:
   enabled: true
