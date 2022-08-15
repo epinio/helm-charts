@@ -4,6 +4,7 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
+    {{- include "epinio-application.annotations" . | nindent 4 }}
   labels:
     {{- include "epinio-application.labels" . | nindent 4 }}
   name: {{ include "epinio-truncate" .Values.epinio.appName }}
@@ -23,6 +24,7 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
+    {{- include "epinio-application.annotations" . | nindent 4 }}
   labels:
     {{- include "epinio-application.labels" . | nindent 4 }}
   name: {{ include "epinio-truncate" (print .Values.epinio.appName "-headless" )}}
