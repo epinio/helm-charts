@@ -46,5 +46,5 @@ Resource name sanitization and truncation.
 character removed.
 */}}
 {{- define "epinio-truncate" -}}
-{{ print "r" (trunc 21 (include "epinio-name-sanitize" .)) "-" (sha1sum .) }}
+{{ print "r-" (sha1sum .) }}
 {{- end }}
