@@ -82,6 +82,12 @@ spec:
                 items:
                   type: string
                 type: array
+              settings:
+                additionalProperties:
+                  type: string
+                description: Settings stores the fields and values set by the user
+                  to configure the application chart. See ChartName.
+                type: object
               stageid:
                 description: StageID stores the id of the latest attempt to stage
                   the application, regardless of outcome. This enables access to the

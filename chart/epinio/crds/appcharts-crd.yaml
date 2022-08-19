@@ -50,9 +50,44 @@ spec:
                   the helm chart. This can be empty. In that case the HelmChart field
                   has to reference the chart as full URL instead of as a simple name.
                 type: string
+              settings:
+                additionalProperties:
+                  properties:
+                    enum:
+                      description: Enumeration of allowed values, for types string,
+                        number, integer
+                      items:
+                        type: string
+                      type: array
+                    maximum:
+                      description: Maximal allowed value, for number, integer
+                      type: string
+                    minimum:
+                      description: Minimal allowed value, for number, integer
+                      type: string
+                    type:
+                      description: Type of the setting (string, bool, number, or integer)
+                      type: string
+                  required:
+                  - type
+                  type: object
+                description: Settings declares the fields underneath `userValues`
+                  the user is allowed to customize when deploying an application with
+                  the helm chart referenced by this app chart.
+                type: object
               shortDescription:
                 description: ShortDescription of the chart. To be used in list displays
                 type: string
+              values:
+                additionalProperties:
+                  type: string
+                description: Values provides settings, i.e. field names and values
+                  to customize the referenced helm chart when deploying an application
+                  with this app chart. Note that user-configurable settings are declared
+                  with `Settings` instead. While nothing checks against exposing a
+                  field set here to the user this is strongly discouraged, to avoid
+                  confusion.
+                type: object
             type: object
           status:
             description: AppChartStatus defines the observed state of AppChart
