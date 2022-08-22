@@ -108,7 +108,7 @@ spec:
     environments, at least with this default configuration.
   chart: mongodb
   chartVersion: 13.1.0
-  serviceIcon: https://bitnami.com/assets/stacks/rabbitmq/img/rabbitmq-stack-220x234.png
+  serviceIcon: https://bitnami.com/assets/stacks/mongodb/img/mongodb-stack-220x234.png
   appVersion: 6.0.1
   helmRepo:
     name: bitnami
