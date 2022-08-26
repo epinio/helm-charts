@@ -44,7 +44,6 @@ spec:
     port: 5000
     targetPort: 5000
 
-{{ if .Values.containerregistry.enabled }}
 ---
 apiVersion: v1
 kind: Service
@@ -80,7 +79,6 @@ data:
         proxy_pass https://localhost:5000/;
       }
     }
-{{- end }}
 
 ---
 apiVersion: apps/v1
@@ -104,7 +102,6 @@ spec:
         app.kubernetes.io/instance: "epinio-registry"
     spec:
       containers:
-{{ if .Values.containerregistry.enabled }}
       - name: nginx
         image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.nginx.repository}}:{{ .Values.containerregistry.image.nginx.tag }}"
         imagePullPolicy: IfNotPresent
@@ -128,7 +125,6 @@ spec:
           name: nginx-run
         - mountPath: /var/run/
           name: nginx-run
-{{- end }}
       - name: registry
         image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.registry.repository}}:{{ .Values.containerregistry.image.registry.tag }}"
         imagePullPolicy: {{ .Values.containerregistry.imagePullPolicy }}
@@ -179,7 +175,6 @@ spec:
       - name: certs
         secret:
           secretName: epinio-registry-tls
-{{ if .Values.containerregistry.enabled }}
       - name: nginx-conf
         configMap:
           name: nginx-conf
@@ -187,5 +182,4 @@ spec:
         emptyDir: {}
       - name: nginx-run
         emptyDir: {}
-{{- end }}
 {{- end }}
