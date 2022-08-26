@@ -93,6 +93,12 @@ kubed:
   enableAnalytics: false
 containerregistry:
   enabled: true
+  # If not set, a new certificate will be generated for the registry
+  # To make the communication between Kubernetes and the internal registry
+  # encrypted, set this to a secret that is trusted by the Kubernetes nodes.
+  # Alternatively, disable the internal container registry by setting "enabled"
+  # to "false" and setup a registry manually.
+  certificateSecretName: ~
   image:
     registry:
       repository: registry
