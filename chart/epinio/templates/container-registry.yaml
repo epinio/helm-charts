@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: auth
+  name: registry-auth
   namespace: {{ .Release.Namespace }}
 stringData:
   # The only supported password format is bcrypt
@@ -175,7 +175,7 @@ spec:
         emptyDir: {}
       - name: auth
         secret:
-          secretName: auth
+          secretName: registry-auth
       - name: certs
         secret:
           secretName: epinio-registry-tls
