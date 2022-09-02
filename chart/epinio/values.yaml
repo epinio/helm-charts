@@ -60,6 +60,10 @@ api:
       role: user
       workspaces:
         - workspace
+# Extra environment variables passed to the epinio-server pod.
+# extraEnv:
+# - name: MY_ENV_VAR
+#   value: "1.0"
 # Minio subchart values
 minio:
   enabled: true
