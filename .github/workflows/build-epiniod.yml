@@ -42,6 +42,6 @@ jobs:
         with:
           push: true
           context: images/.
-          tags: ghcr.io/epinio/epiniod:${{ steps.get-tag.outputs.tag }}
+          tags: ghcr.io/epinio/epiniod:${{ steps.get-tag.outputs.tag }}, ghcr.io/epinio/epiniod:latest
           build-args: |
             VERSION=${{ steps.get-tag.outputs.tag }}
