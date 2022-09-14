@@ -18,7 +18,7 @@ Visit https://epinio.127.0.0.1.sslip.io in your browser
 
 ## Build in CI
 
-There is a [pipeline](https://github.com/epinio/helm-charts/blob/main/.github/workflows/build-epiniod.yml) that builds the image for the latest released chart.
+We provide a [pipeline](https://github.com/epinio/helm-charts/blob/main/.github/workflows/build-epiniod.yml) that builds the image for the latest released chart.
 This can be manually triggered (with workflow dispatch) here: https://github.com/epinio/helm-charts/actions/workflows/build-epiniod.yml
 
 The built image can be run in a similar way as above, but pointing to the public image:
