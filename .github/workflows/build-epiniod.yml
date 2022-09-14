@@ -27,25 +27,21 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # https://github.com/docker/build-push-action/blob/master/docs/advanced/tags-labels.md
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          # list of Docker images to use as base name for tags
-          images: |
-            ghcr.io/epinio/epiniod
-          # generate Docker tags based on the following events/attributes
-          tags: |
-            type=ref,event=tag
-            type=sha,enable=true,priority=100,prefix=,suffix=,format=short
+      - uses: chrisdickinson/setup-yq@latest     # Install yq
+      - uses: WyriHaximus/github-action-helm3@v2 # Install helm
+      - name: Docker image tag
+        id: get-tag
+        run: |
+          helm repo add epinio https://epinio.github.io/helm-charts
+          helm repo update
+          latestRelease=$(helm show chart epinio/epinio  | yq r - version)
+          echo "::set-output name=tag::$latestRelease"
 
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           push: true
           context: images/.
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ghcr.io/epinio/epiniod:${{ steps.get-tag.outputs.tag }}
           build-args: |
-            VERSION=${{ github.ref_name || github.sha }}
+            VERSION=${{ steps.get-tag.outputs.tag }}
