@@ -47,6 +47,19 @@ stringData:
       name: 'Epinio cli'
 
 ---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  labels:
+    epinio.io/api-user-credentials: "true"
+    epinio.io/role: "admin"
+  name: {{ include "epinio-truncate" (print "user-" "admin@epinio.io") }}
+  namespace: {{ .Release.Namespace }}
+stringData:
+  username: "admin@epinio.io"
+
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
