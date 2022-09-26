@@ -25,7 +25,9 @@ stringData:
   config.yaml: |-
     issuer: "https://auth.{{ .Values.global.domain }}"
     storage:
-      type: memory
+      type: kubernetes
+      config:
+        inCluster: true
     enablePasswordDB: true
     # TODO: Move the default Epinio users here
     staticPasswords:
