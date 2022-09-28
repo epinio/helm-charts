@@ -26,20 +26,6 @@ spec:
             name: epinio-server
             port:
               number: 80
-        path: /login
-        pathType: Exact
-      - backend:
-          service:
-            name: epinio-server
-            port:
-              number: 80
-        path: /dex/callback
-        pathType: Exact
-      - backend:
-          service:
-            name: epinio-server
-            port:
-              number: 80
         path: /api
         pathType: Prefix
       - backend:

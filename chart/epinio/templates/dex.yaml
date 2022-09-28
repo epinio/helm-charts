@@ -1,18 +1,5 @@
 {{- if .Values.dex.enabled -}}
 
-{{- $secret := (lookup "v1" "Secret" .Release.Namespace "dex-client-secret").data -}}
-{{- $clientSecret:= empty $secret | ternary (randAlphaNum 16) (b64dec (default "" $secret.clientSecret)) -}}
-
----
-apiVersion: v1
-kind: Secret
-type: Opaque
-metadata:
-  name: dex-client-secret
-  namespace: {{ .Release.Namespace }}
-stringData:
-  clientSecret: {{ $clientSecret }}
-
 ---
 apiVersion: v1
 kind: Secret
@@ -29,7 +16,6 @@ stringData:
       config:
         inCluster: true
     enablePasswordDB: true
-    # TODO: Move the default Epinio users here
     staticPasswords:
     - email: "admin@epinio.io"
       # bcrypt hash of the string "password": $(echo password | htpasswd -BinC 10 admin | cut -d: -f2)
@@ -37,17 +23,10 @@ stringData:
       username: "admin"
       userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
     - email: "epinio@epinio.io"
-      # bcrypt hash of the string "password": $(echo password | htpasswd -BinC 10 admin | cut -d: -f2)
       hash: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"
       userID: "08a8684b-db88-4b73-90a9-3cd1661f5467"
 
     staticClients:
-    # A "public" client for the cli and a non-public for the web UI
-    - id: epinio-ui
-      secret: {{ $clientSecret }}
-      name: 'Epinio Web UI'
-      redirectURIs:
-      - "https://epinio.{{ .Values.global.domain }}/dex/callback"
     - id: epinio-cli
       public: true
       name: 'Epinio cli'

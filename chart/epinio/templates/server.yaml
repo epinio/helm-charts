@@ -292,12 +292,6 @@ spec:
             - name: INGRESS_CLASS_NAME
               value: "{{ .Values.ingress.ingressClassName }}"
             {{- end }}
-            - name: DEX_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: dex-client-secret
-                  key: clientSecret
-                  optional: false
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 -}}
             {{- end }}
