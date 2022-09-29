@@ -27,9 +27,18 @@ stringData:
       userID: "08a8684b-db88-4b73-90a9-3cd1661f5467"
 
     staticClients:
-    - id: epinio-cli
+    - id: epinio-api
+      name: 'Epinio API'
       public: true
+      # The 'Epinio API' lets the 'Epinio cli' issue ID tokens on its behalf.
+      # https://dexidp.io/docs/custom-scopes-claims-clients/#cross-client-trust-and-authorized-party
+      trustedPeers:
+      - epinio-cli
+
+    - id: epinio-cli
       name: 'Epinio cli'
+      public: true
+      
 
 ---
 apiVersion: v1
