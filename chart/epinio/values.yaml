@@ -61,6 +61,16 @@ api:
       role: user
       workspaces:
         - workspace
+
+# Dex subchart values -- None for now, and sub chart disabled
+dex:
+  enabled: true
+  # hardcode this, to avoid problems with release name
+  fullnameOverride: "dex"
+  configSecret:
+    create: false
+    name: "dex-config"
+
 # Extra environment variables passed to the epinio-server pod.
 # extraEnv:
 # - name: MY_ENV_VAR

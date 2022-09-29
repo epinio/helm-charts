@@ -8,4 +8,5 @@ chart-repos:
   - minio=https://charts.min.io
   - appscode=https://charts.appscode.com/stable
   - epinio=https://epinio.github.io/helm-charts
+  - dex=https://charts.dexidp.io
 helm-extra-args: --timeout 600s
