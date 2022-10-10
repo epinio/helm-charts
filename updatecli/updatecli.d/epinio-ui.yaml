@@ -25,6 +25,9 @@ sources:
     name: "Get latest Epinio UI backend git tag"
     kind: "gittag"
     scmid: ui-backend
+    spec:
+      versionfilter:
+        kind: semver
 
   epinio:
     name: "Get Latest epinio version"
@@ -66,8 +69,6 @@ pullrequests:
   helm-charts:
     kind: "github"
     scmid: "helm-charts"
-    targets:
-      - "epinio-ui-chart"
     spec:
       automerge: true
       labels:
