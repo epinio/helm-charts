@@ -85,6 +85,7 @@ If the above dependencies are available or going to be installed by this chart,
 Epinio can be installed with the following:
 
 ```
+$ helm repo add epinio https://epinio.github.io/helm-charts/
 $ helm install epinio -n epinio --create-namespace epinio/epinio --values epinio-values.yaml --set global.domain=myepiniodomain.org
 ```
 
