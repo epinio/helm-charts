@@ -12,4 +12,4 @@ dependencies:
   repository: https://epinio.github.io/helm-charts
   version: 1.2.0
 digest: sha256:7ebc167e119730be9125cf4b76c6e637b8fe43e8847e710a707efd3852fdc5cd
-generated: "2022-10-11T06:38:45.676416566Z"
+generated: "2022-10-19T11:46:17.157510099+02:00"
