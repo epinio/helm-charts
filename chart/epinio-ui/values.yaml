@@ -2,7 +2,7 @@ epinioUI:
   image:
     registry: ghcr.io
     repository: epinio/epinio-ui
-    tag: v1.2.0-0.0.1
+    tag: v1.2.0
   imagePullPolicy: IfNotPresent
 ingress:
   enabled: true
