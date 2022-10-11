@@ -4,12 +4,12 @@ dependencies:
   version: 0.11.0
 - name: minio
   repository: https://charts.min.io/
-  version: 4.0.2
+  version: 4.0.15
 - name: kubed
   repository: https://charts.appscode.com/stable/
   version: v0.13.2
 - name: epinio-ui
   repository: https://epinio.github.io/helm-charts
   version: 1.2.0
-digest: sha256:32f874f097685eec3fe27c806812310840c13e33445b326019c55f11526c4875
-generated: "2022-09-22T11:43:50.172487348+02:00"
+digest: sha256:7ebc167e119730be9125cf4b76c6e637b8fe43e8847e710a707efd3852fdc5cd
+generated: "2022-10-11T06:38:45.676416566Z"
