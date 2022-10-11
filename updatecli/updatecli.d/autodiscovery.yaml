@@ -1,0 +1,31 @@
+---
+name: "Autodiscovery"
+
+autodiscovery:
+  groupby: individual
+  scmid: default
+  pullrequestid: default
+  crawlers:
+    helm:
+
+scms:
+  default:
+    kind: "github"
+    spec:
+      user: "{{ .github.epinio.user }}"
+      email: "{{ .github.epinio.email }}"
+      owner: "{{ .github.epinio.owner }}"
+      repository: "{{ .github.epinio.repository }}"
+      token: '{{ requiredEnv .github.epinio.token }}'
+      username: "{{ .github.epinio.username }}"
+      branch: "{{ .github.epinio.branch }}"
+
+pullrequests:
+  default:
+    kind: "github"
+    scmid: "default"
+    spec:
+      automerge: true
+      labels:
+        - "dependencies"
+        - "helm"
