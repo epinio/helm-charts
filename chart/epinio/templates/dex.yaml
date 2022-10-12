@@ -9,6 +9,8 @@ metadata:
   name: dex-config
   namespace: {{ .Release.Namespace }}
 stringData:
+  issuer: "https://auth.{{ .Values.global.domain }}"
+  endpoint: {{ printf "http://%s.%s.svc.cluster.local:5556" .Values.dex.fullnameOverride .Release.Namespace }}
   config.yaml: |-
     issuer: "https://auth.{{ .Values.global.domain }}"
     storage:
