@@ -10,8 +10,8 @@ metadata:
   name: {{ include "epinio-truncate" (print "user-" .username) }}
   namespace: {{ $.Release.Namespace }}
 stringData:
-  username: {{ .username }}
-  password: {{ .passwordBcrypt }}
+  username: {{ .username | quote }}
+  password: {{ .passwordBcrypt | quote }}
   namespaces: |
     {{ join "\n" .workspaces -}}
 {{- end }}
