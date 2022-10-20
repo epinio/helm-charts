@@ -1,7 +1,7 @@
 annotations:
   artifacthub.io/license: Apache-2.0
 apiVersion: v2
-appVersion: v1.3.0
+appVersion: v1.4.0
 dependencies:
 - condition: dex.enabled, global.dex.enabled
   name: dex
@@ -39,4 +39,4 @@ maintainers:
 name: epinio
 sources:
 - https://github.com/epinio/epinio
-version: 1.3.2
+version: 1.4.0

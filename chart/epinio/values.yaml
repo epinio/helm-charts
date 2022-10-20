@@ -99,7 +99,7 @@ minio:
 epinio-ui:
   enabled: true
   epinioTheme: light
-  epinioVersion: "v1.3.0"
+  epinioVersion: "v1.4.0"
   ingress:
     enabled: false
 kubed:
