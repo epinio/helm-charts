@@ -17,6 +17,53 @@ entries:
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
+    appVersion: v1.4.0
+    created: "2022-10-20T13:26:21.5711567Z"
+    dependencies:
+    - condition: dex.enabled, global.dex.enabled
+      name: dex
+      repository: https://charts.dexidp.io
+      tags:
+      - dex
+      version: 0.12.1
+    - condition: minio.enabled, global.minio.enabled
+      name: minio
+      repository: https://charts.min.io/
+      tags:
+      - minio
+      version: 4.0.15
+    - condition: kubed.enabled, global.kubed.enabled
+      name: kubed
+      repository: https://charts.appscode.com/stable/
+      tags:
+      - kubed
+      version: 0.13.2
+    - condition: epinio-ui.enabled
+      name: epinio-ui
+      repository: https://epinio.github.io/helm-charts
+      tags:
+      - epinio-ui
+      version: 1.2.0
+    description: Epinio deploys Kubernetes applications directly from source code
+      in one step.
+    digest: c85ef288f99213309d64cc523a174284fc4b6437fa9c0168cc729a90f2846b36
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio
+    sources:
+    - https://github.com/epinio/epinio
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-1.4.0/epinio-1.4.0.tgz
+    version: 1.4.0
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
     appVersion: v1.3.0
     created: "2022-10-05T12:09:28.63213631Z"
     dependencies:
@@ -1748,4 +1795,4 @@ entries:
     urls:
     - https://github.com/epinio/helm-charts/releases/download/epinio-ui-0.0.1/epinio-ui-0.0.1.tgz
     version: 0.0.1
-generated: "2022-10-05T12:09:28.633373695Z"
+generated: "2022-10-20T13:26:21.572477711Z"
