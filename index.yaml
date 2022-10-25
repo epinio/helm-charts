@@ -1362,6 +1362,27 @@ entries:
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
+    created: "2022-10-25T08:10:17.736408889Z"
+    description: The helm chart for epinio applications to be deployed by
+    digest: b6bcf6f8929ecd3d5dd6b7d7f7611f15b42686cd285e2d3bec18de9161aa3b1e
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio-application
+    sources:
+    - https://github.com/epinio/helm-charts
+    type: application
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.23/epinio-application-0.1.23.tgz
+    version: 0.1.23
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
     created: "2022-09-08T10:47:48.265316693Z"
     description: The helm chart for epinio applications to be deployed by
     digest: 044014393b68c03256f6ee42b3ae6ac345715b29fa99a7ab3deb8456d2791238
@@ -1795,4 +1816,4 @@ entries:
     urls:
     - https://github.com/epinio/helm-charts/releases/download/epinio-ui-0.0.1/epinio-ui-0.0.1.tgz
     version: 0.0.1
-generated: "2022-10-20T13:26:21.572477711Z"
+generated: "2022-10-25T08:10:17.736919116Z"
