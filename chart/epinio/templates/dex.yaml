@@ -36,10 +36,18 @@ stringData:
       # https://dexidp.io/docs/custom-scopes-claims-clients/#cross-client-trust-and-authorized-party
       trustedPeers:
       - epinio-cli
+      - epinio-ui
 
     - id: epinio-cli
       name: 'Epinio cli'
       public: true
+
+    - id: epinio-ui
+      name: 'Epinio UI'
+      secret: 'jetstream-dex-epinio-ui'
+      # Shouldn't be public, https://dexidp.io/docs/custom-scopes-claims-clients/#public-clients
+      redirectURIs:
+      - {{ .Values.dex.ui.redirectURI | default (printf "https://epinio.%s/verify-auth" .Values.global.domain) | quote }}
 
 ---
 apiVersion: v1
