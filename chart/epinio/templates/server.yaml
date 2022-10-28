@@ -260,6 +260,9 @@ spec:
       volumes:
       - name: tmp-volume
         emptyDir: {}
+      - name: image-export-volume
+        persistentVolumeClaim:
+          claimName: image-export-pvc
       - name: dex-tls
         secret:
           secretName: dex-tls
@@ -306,6 +309,8 @@ spec:
           volumeMounts:
           - name: tmp-volume
             mountPath: /tmp
+          - name: image-export-volume
+            mountPath: /image-export
           - name: dex-tls
             mountPath: /etc/ssl/certs/dex-tls.pem
             subPath: tls.crt
@@ -321,6 +326,18 @@ spec:
         runAsUser: 1000
         runAsGroup: 3000
 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: image-export-pvc
+  namespace: epinio
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
 ---
 apiVersion: v1
 kind: Service
