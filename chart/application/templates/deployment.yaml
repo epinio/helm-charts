@@ -28,13 +28,13 @@ spec:
       serviceAccount: {{ .Release.Namespace }}
       serviceAccountName: {{ .Release.Namespace }}
       automountServiceAccountToken: true
-      {{- with .Values.epinio.configpaths }}
+      {{- with .Values.epinio.configurations }}
       volumes:
       {{- range . }}
-      - name: {{ .name }}
+      - name: {{ . }}
         secret:
           defaultMode: 420
-          secretName: {{ .name }}
+          secretName: {{ . }}
       {{- end }}
       {{- end }}
       containers:
