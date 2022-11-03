@@ -283,6 +283,8 @@ spec:
               value: "{{ .Values.global.tlsIssuer }}"
             - name: TRACE_LEVEL
               value: "{{ .Values.server.traceLevel }}"
+            - name: APP_IMAGE_EXPORTER
+              value: "{{ default .Values.image.skopeo.registry (include "registry-url" .) }}{{ .Values.image.skopeo.repository}}:{{ .Values.image.skopeo.tag }}"
             {{- if or .Values.s3.certificateSecret .Values.minio.enabled }}
             - name: S3_CERTIFICATE_SECRET
               value: {{ default "minio-tls" .Values.s3.certificateSecret }}
