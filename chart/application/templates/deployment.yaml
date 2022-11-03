@@ -42,11 +42,11 @@ spec:
         ports:
         - containerPort: 8080
           protocol: TCP
-        {{- with .Values.epinio.configurations }}
+        {{- with .Values.epinio.configpaths }}
         volumeMounts:
         {{- range . }}
-        - mountPath: /configurations/{{ . }}
-          name: {{ . }}
+        - mountPath: /configurations/{{ .path }}
+          name: {{ .name }}
           readOnly: true
         {{- end }}
         {{- end }}
