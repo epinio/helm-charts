@@ -16,6 +16,10 @@ image:
   awscli:
     repository: amazon/aws-cli
     tag: 2.8.5
+  skopeo:
+    registry: quay.io/
+    repository: skopeo/stable
+    tag: v1.10
   kubectl:
     repository: rancher/kubectl
     tag: v1.22.6

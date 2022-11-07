@@ -260,6 +260,9 @@ spec:
       volumes:
       - name: tmp-volume
         emptyDir: {}
+      - name: image-export-volume
+        persistentVolumeClaim:
+          claimName: image-export-pvc
       - name: dex-tls
         secret:
           secretName: dex-tls
@@ -280,6 +283,11 @@ spec:
               value: "{{ .Values.global.tlsIssuer }}"
             - name: TRACE_LEVEL
               value: "{{ .Values.server.traceLevel }}"
+            {{- $imageSkopeo := .Values.image.skopeo -}}
+            {{- if $imageSkopeo }}
+            - name: APP_IMAGE_EXPORTER
+              value: "{{ default $imageSkopeo.registry (include "registry-url" .) }}{{ $imageSkopeo.repository}}:{{ $imageSkopeo.tag }}"
+            {{- end }}
             {{- if or .Values.s3.certificateSecret .Values.minio.enabled }}
             - name: S3_CERTIFICATE_SECRET
               value: {{ default "minio-tls" .Values.s3.certificateSecret }}
@@ -306,6 +314,8 @@ spec:
           volumeMounts:
           - name: tmp-volume
             mountPath: /tmp
+          - name: image-export-volume
+            mountPath: /image-export
           - name: dex-tls
             mountPath: /etc/ssl/certs/dex-tls.pem
             subPath: tls.crt
@@ -321,6 +331,18 @@ spec:
         runAsUser: 1000
         runAsGroup: 3000
 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: image-export-pvc
+  namespace: epinio
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
 ---
 apiVersion: v1
 kind: Service
