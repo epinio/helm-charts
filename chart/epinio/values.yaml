@@ -25,7 +25,7 @@ image:
     tag: v1.22.6
   builder:
     repository: paketobuildpacks/builder
-    tag: full
+    tag: 0.2.220-full
 server:
   # Domain which serves the Rancher UI (to access the API)
   accessControlAllowOrigin: ""
