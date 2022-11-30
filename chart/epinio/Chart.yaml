@@ -26,7 +26,7 @@ dependencies:
   repository: https://epinio.github.io/helm-charts
   tags:
   - epinio-ui
-  version: 1.5.2
+  version: 1.5.3
 description: Epinio deploys Kubernetes applications directly from source code in one
   step.
 home: https://github.com/epinio/epinio
