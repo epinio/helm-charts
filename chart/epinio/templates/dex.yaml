@@ -77,10 +77,12 @@ metadata:
   namespace: {{ .Release.Namespace }}
   annotations:
     cert-manager.io/cluster-issuer: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
-    kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
+  {{- if .Values.dex.ingress.className }}
+  ingressClassName: "{{ .Values.dex.ingress.className }}"
+  {{- end }}
   rules:
   - host: "auth.{{ .Values.global.domain }}"
     http:
