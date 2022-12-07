@@ -99,8 +99,14 @@ grafana:
         options:
           path: /var/lib/grafana/dashboards/standard
 
+  # This will enable the loading of the dashboards from the ConfigMaps
+  sidecar:
+    dashboards:
+      enabled: true
+
   dashboards:
     default:
+      # This is the default upgrade-responder dashboard
       upgrade-responder-dashboard:
         gnetId: 14429
         datasource: InfluxDB

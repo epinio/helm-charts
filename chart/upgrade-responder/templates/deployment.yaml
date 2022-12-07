@@ -62,6 +62,8 @@ spec:
           - $(INFLUXDB_PASSWORD)
           - --port
           - $(PORT)
+          - --query-period
+          - 5m
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
