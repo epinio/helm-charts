@@ -6,7 +6,7 @@ metadata:
 data:
   builderImage:  "{{ default .Values.image.builder.registry (include "registry-url" .) }}{{ .Values.image.builder.repository}}:{{ .Values.image.builder.tag }}"
   downloadImage: "{{ default .Values.image.awscli.registry (include "registry-url" .) }}{{ .Values.image.awscli.repository}}:{{ .Values.image.awscli.tag }}"
-  unpackImage:   "{{ default .Values.image.bash.registry (include "registry-url" .) }}{{ .Values.image.bash.repository}}:{{ .Values.image.bash.tag }}"
+  unpackImage:   "{{ default .Values.image.bash.registry (include "registry-url" .) }}{{ .Values.image.bash.repository}}:{{ default .Chart.AppVersion .Values.image.bash.tag }}"
   download: |-
     # Parameters
     # - PROTOCOL # s3 protocol
