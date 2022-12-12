@@ -271,23 +271,11 @@
             "create",
             "name"
           ]
-        },
-        "ingress": {
-          "type": "object",
-          "properties": {
-            "className": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "className"
-          ]
         }
       },
       "required": [
         "enabled",
         "configSecret",
-        "ingress",
         "fullnameOverride"
       ]
     },
