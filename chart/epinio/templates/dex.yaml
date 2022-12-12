@@ -80,8 +80,8 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
-  {{- if .Values.ingressClassName }}
-  ingressClassName: "{{ .Values.ingressClassName }}"
+  {{- if .Values.ingress.ingressClassName }}
+  ingressClassName: "{{ .Values.ingress.ingressClassName }}"
   {{- end }}
   rules:
   - host: "auth.{{ .Values.global.domain }}"
