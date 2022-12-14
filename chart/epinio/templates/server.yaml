@@ -296,7 +296,10 @@ spec:
             - name: REGISTRY_CERTIFICATE_SECRET
               value: "epinio-registry-tls"
             {{- end }}
-            {{- if .Values.ingress.ingressClassName }}
+            {{- if .Values.server.ingressClassName }}
+            - name: INGRESS_CLASS_NAME
+              value: "{{ .Values.server.ingressClassName }}"
+            {{- else if .Values.ingress.ingressClassName }}
             - name: INGRESS_CLASS_NAME
               value: "{{ .Values.ingress.ingressClassName }}"
             {{- end }}
