@@ -4,6 +4,7 @@
 
 # The email address you are planning to use for getting notifications about your certificates.
 email: "epinio@suse.com"
+
 image:
   epinio:
     registry: ghcr.io/
@@ -26,6 +27,7 @@ image:
   builder:
     repository: paketobuildpacks/builder
     tag: full
+
 server:
   # Domain which serves the Rancher UI (to access the API)
   accessControlAllowOrigin: ""
@@ -33,8 +35,9 @@ server:
   timeoutMultiplier: 1
   # Increase this value to instruct the API server to produce more debug output
   traceLevel: 0
-  # The ingressClassName is used to select the ingress controller for apps. If empty no class will be added to their ingresseses.
+  # The ingressClassName is used to select the ingress controller for apps. If empty ingress.ingressClassName (see below) is used
   ingressClassName: ""
+
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
@@ -43,7 +46,9 @@ ingress:
   annotations: {}
   # nginxSSLRedirect to controll https->http redirects
   nginxSSLRedirect: "true"
+
 certManagerNamespace: cert-manager
+
 # Connection details for the S3 storage
 s3:
   endpoint: s3.amazonaws.com
@@ -54,6 +59,7 @@ s3:
   useSSL: true
   # Set it to an existing secret if S3 is using a self signed cert
   certificateSecret: ""
+
 api:
   # Default users
   users:
@@ -100,16 +106,19 @@ minio:
   makeUserJob:
     podAnnotations:
       linkerd.io/inject: disabled
+
 epinio-ui:
   enabled: true
   epinioTheme: light
   epinioVersion: "v1.5.1"
   ingress:
     enabled: false
+
 kubed:
   enabled: true
   fullnameOverride: kubed
   enableAnalytics: false
+
 containerregistry:
   enabled: true
   image:
@@ -123,9 +132,11 @@ containerregistry:
   # The ingressClassName is used to select the ingress controller. If
   # empty no class will be added to the ingresses.
   ingressClassName: ""
+
 serviceCatalog:
   # Enable service catalog service for development
   enableDevServices: true
+
 global:
   # The domain that will be used to access the epinio API server and the registry
   domain: ""
