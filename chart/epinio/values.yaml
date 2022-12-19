@@ -4,7 +4,6 @@
 
 # The email address you are planning to use for getting notifications about your certificates.
 email: "epinio@suse.com"
-
 image:
   epinio:
     registry: ghcr.io/
@@ -27,7 +26,6 @@ image:
   builder:
     repository: paketobuildpacks/builder
     tag: full
-
 server:
   # Domain which serves the Rancher UI (to access the API)
   accessControlAllowOrigin: ""
@@ -37,7 +35,6 @@ server:
   traceLevel: 0
   # The ingressClassName is used to select the ingress controller for apps. If empty ingress.ingressClassName (see below) is used
   ingressClassName: ""
-
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
@@ -46,9 +43,7 @@ ingress:
   annotations: {}
   # nginxSSLRedirect to controll https->http redirects
   nginxSSLRedirect: "true"
-
 certManagerNamespace: cert-manager
-
 # Connection details for the S3 storage
 s3:
   endpoint: s3.amazonaws.com
@@ -59,7 +54,6 @@ s3:
   useSSL: true
   # Set it to an existing secret if S3 is using a self signed cert
   certificateSecret: ""
-
 api:
   # Default users
   users:
@@ -71,7 +65,6 @@ api:
       role: user
       workspaces:
         - workspace
-
 # Dex subchart values -- None for now, and sub chart disabled
 dex:
   enabled: true
@@ -80,7 +73,6 @@ dex:
   configSecret:
     create: false
     name: "dex-config"
-
 # Extra environment variables passed to the epinio-server pod.
 # extraEnv:
 # - name: MY_ENV_VAR
@@ -106,19 +98,16 @@ minio:
   makeUserJob:
     podAnnotations:
       linkerd.io/inject: disabled
-
 epinio-ui:
   enabled: true
   epinioTheme: light
-  epinioVersion: "v1.5.1"
+  epinioVersion: "v1.5.2"
   ingress:
     enabled: false
-
 kubed:
   enabled: true
   fullnameOverride: kubed
   enableAnalytics: false
-
 containerregistry:
   enabled: true
   image:
@@ -132,19 +121,17 @@ containerregistry:
   # The ingressClassName is used to select the ingress controller. If
   # empty no class will be added to the ingresses.
   ingressClassName: ""
-
 serviceCatalog:
   # Enable service catalog service for development
   enableDevServices: true
-
 global:
   # The domain that will be used to access the epinio API server and the registry
   domain: ""
   # Connection details for the container registry.
-  registryURL: ""  # Skip if containerregistry.enabled is true
+  registryURL: "" # Skip if containerregistry.enabled is true
   registryUsername: "admin"
   registryPassword: "changeme"
-  registryNamespace: "apps"  # Used in registry path when pushing -> "external.tld/apps/APPNAME"
+  registryNamespace: "apps" # Used in registry path when pushing -> "external.tld/apps/APPNAME"
   # The name of the cluster issuer to use.
   # Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'.
   tlsIssuer: "epinio-ca"
