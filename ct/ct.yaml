@@ -11,4 +11,5 @@ chart-repos:
   - dex=https://charts.dexidp.io
   - grafana=https://grafana.github.io/helm-charts
   - influxdata=https://helm.influxdata.com
+  - s3gw=https://aquarist-labs.github.io/s3gw-charts
 helm-extra-args: --timeout 600s
