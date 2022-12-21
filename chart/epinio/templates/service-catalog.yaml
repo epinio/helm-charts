@@ -15,9 +15,9 @@ spec:
     This database is running inside the cluster so it's probably not a good choice for production
     environments, at least with this default configuration.
   chart: postgresql
-  chartVersion: 11.1.28
+  chartVersion: 11.9.13
   serviceIcon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-220x234.png
-  appVersion: 14.2.0
+  appVersion: 14.5.0
   helmRepo:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
@@ -38,7 +38,7 @@ spec:
     This database is running inside the cluster so it's probably not a good choice for production
     environments, at least with this default configuration.
   chart: mysql
-  chartVersion: 8.9.6
+  chartVersion: 9.2.1
   serviceIcon: https://bitnami.com/assets/stacks/mysql/img/mysql-stack-220x234.png
   appVersion: 8.0.29
   helmRepo:
@@ -61,7 +61,7 @@ spec:
     This database is running inside the cluster so it's probably not a good choice for production
     environments, at least with this default configuration.
   chart: redis
-  chartVersion: 16.9.2
+  chartVersion: 16.13.2
   serviceIcon: https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png
   appVersion: 6.2.7
   helmRepo:
@@ -84,9 +84,9 @@ spec:
     This instance is running inside the cluster so it's probably not a good choice for production
     environments, at least with this default configuration.
   chart: rabbitmq
-  chartVersion: 9.0.5
+  chartVersion: 10.1.19
   serviceIcon: https://bitnami.com/assets/stacks/rabbitmq/img/rabbitmq-stack-220x234.png
-  appVersion: 3.9.17
+  appVersion: 3.10.7
   helmRepo:
     name: bitnami
     url: https://charts.bitnami.com/bitnami
@@ -107,9 +107,9 @@ spec:
     This instance is running inside the cluster so it's probably not a good choice for production
     environments, at least with this default configuration.
   chart: mongodb
-  chartVersion: 13.1.0
+  chartVersion: 13.6.2
   serviceIcon: https://bitnami.com/assets/stacks/mongodb/img/mongodb-stack-220x234.png
-  appVersion: 6.0.1
+  appVersion: 6.0.3
   helmRepo:
     name: bitnami
     url: https://charts.bitnami.com/bitnami
