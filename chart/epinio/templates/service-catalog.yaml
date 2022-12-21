@@ -20,7 +20,7 @@ spec:
   appVersion: 14.2.0
   helmRepo:
     name: bitnami
-    url: "https://charts.bitnami.com/bitnami"
+    url: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
   values: |-
     {{- template "epinio.catalog-service-values" . }}
 ---
@@ -43,7 +43,7 @@ spec:
   appVersion: 8.0.29
   helmRepo:
     name: bitnami
-    url: "https://charts.bitnami.com/bitnami"
+    url: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
   values: |-
     {{- template "epinio.catalog-service-values" . }}
 ---
@@ -66,7 +66,7 @@ spec:
   appVersion: 6.2.7
   helmRepo:
     name: bitnami
-    url: "https://charts.bitnami.com/bitnami"
+    url: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
   values: |-
     {{- template "epinio.catalog-service-values" . }}
 ---
@@ -89,7 +89,7 @@ spec:
   appVersion: 3.9.17
   helmRepo:
     name: bitnami
-    url: https://charts.bitnami.com/bitnami
+    url: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
   values: |-
     {{- template "epinio.catalog-service-values" . }}
 ---
@@ -107,12 +107,12 @@ spec:
     This instance is running inside the cluster so it's probably not a good choice for production
     environments, at least with this default configuration.
   chart: mongodb
-  chartVersion: 13.1.0
+  chartVersion: 12.1.15
   serviceIcon: https://bitnami.com/assets/stacks/mongodb/img/mongodb-stack-220x234.png
-  appVersion: 6.0.1
+  appVersion: 5.0.9
   helmRepo:
     name: bitnami
-    url: https://charts.bitnami.com/bitnami
+    url: https://raw.githubusercontent.com/bitnami/charts/pre-2022/bitnami
   values: |-
     {{- template "epinio.catalog-service-values" . }}
 {{- end }}
