@@ -47,7 +47,7 @@ stringData:
       secret: 'jetstream-dex-epinio-ui'
       # Shouldn't be public, https://dexidp.io/docs/custom-scopes-claims-clients/#public-clients
       redirectURIs:
-      - {{ .Values.dex.ui.redirectURI | default (printf "https://epinio.%s/verify-auth" .Values.global.domain) | quote }}
+      - {{ .Values.dex.ui.redirectURI | default (printf "https://epinio.%s/auth/verify" .Values.global.domain) | quote }}
 
 ---
 apiVersion: v1
