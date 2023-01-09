@@ -11,5 +11,5 @@ dependencies:
 - name: epinio-ui
   repository: https://epinio.github.io/helm-charts
   version: 1.5.3
-digest: sha256:76d3bd8b03799fd0c4eae8218e34b95c1866eb58a1a4a69ffc8d65dcc59e6022
-generated: "2022-11-30T14:46:21.570668778Z"
+digest: sha256:470461cb8ea8ce695655970908a069cb05c0f10d71a0826b9bf81ae166c2c2db
+generated: "2023-01-09T19:01:24.098214831Z"
