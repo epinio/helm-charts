@@ -263,10 +263,12 @@ spec:
       - name: image-export-volume
         persistentVolumeClaim:
           claimName: image-export-pvc
+{{- if .Values.dex.enabled }}
       - name: dex-tls
         secret:
           secretName: dex-tls
           optional: false
+{{- end }}
       containers:
         - command: ["/epinio", "server"]
           args: ["--port", "8030"]
@@ -319,9 +321,11 @@ spec:
             mountPath: /tmp
           - name: image-export-volume
             mountPath: /image-export
+{{- if .Values.dex.enabled }}
           - name: dex-tls
             mountPath: /etc/ssl/certs/dex-tls.pem
             subPath: tls.crt
+{{- end }}
           readinessProbe:
             httpGet:
               path: /ready
