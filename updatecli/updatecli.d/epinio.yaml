@@ -12,6 +12,12 @@ scms:
       token: '{{ requiredEnv .github.epinio.token }}'
       username: "{{ .github.epinio.username }}"
       branch: "{{ .github.epinio.branch }}"
+  
+  epinio:
+    kind: "git"
+    spec:
+      url: "git@github.com:epinio/epinio.git"
+      branch: "main"
 
 # Define pullrequest configuration if one needs to be created
 pullrequests:
@@ -27,12 +33,10 @@ pullrequests:
 sources:
   epinio:
     name: "Get Latest epinio version"
-    kind: "githubrelease"
+    kind: "gittag"
+    scmid: "epinio"
     spec:
-      owner: "epinio"
-      repository: "epinio"
-      username: '{{ requiredEnv .github.epinio.username }}'
-      token: '{{ requiredEnv .github.epinio.token }}'
+      path: "./epinio/"
 
 # Defines condition that must pass in order to update targets
 conditions:
