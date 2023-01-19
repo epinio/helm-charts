@@ -1,7 +1,7 @@
 dependencies:
 - name: dex
   repository: https://charts.dexidp.io
-  version: 0.12.1
+  version: 0.13.0
 - name: minio
   repository: https://charts.min.io/
   version: 5.0.4
@@ -11,5 +11,5 @@ dependencies:
 - name: epinio-ui
   repository: https://epinio.github.io/helm-charts
   version: 1.5.3
-digest: sha256:edaf7fec6b9567423ca0175493c21a542afe293e3a48d853acf9eb0b3d36024a
-generated: "2023-01-12T09:59:16.775081808+01:00"
+digest: sha256:960f3b87aac2c937458b4114e061d06f9e6b6e7c36d32d93b07df6a7272bb700
+generated: "2023-01-19T13:15:00.02184347Z"
