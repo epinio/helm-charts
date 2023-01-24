@@ -335,7 +335,7 @@ data:
                 "fillGradient": 0,
                 "gridPos": {
                     "h": 9,
-                    "w": 8,
+                    "w": 12,
                     "x": 0,
                     "y": 12
                 },
@@ -466,9 +466,140 @@ data:
                 "fillGradient": 0,
                 "gridPos": {
                     "h": 9,
-                    "w": 8,
-                    "x": 8,
+                    "w": 12,
+                    "x": 12,
                     "y": 12
+                },
+                "hiddenSeries": false,
+                "id": 20,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "links": [],
+                "nullPointMode": "null",
+                "options": {
+                    "alertThreshold": true
+                },
+                "percentage": false,
+                "pluginVersion": "9.3.0",
+                "pointradius": 5,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": true,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "alias": "$tag_epinio_server_version",
+                        "datasource": {
+                            "type": "influxdb",
+                            "uid": "P951FEA4DE68E13C5"
+                        },
+                        "groupBy": [
+                            {
+                                "params": [
+                                    "5m"
+                                ],
+                                "type": "time"
+                            },
+                            {
+                                "params": [
+                                    "epinio_server_version"
+                                ],
+                                "type": "tag"
+                            },
+                            {
+                                "params": [
+                                    "null"
+                                ],
+                                "type": "fill"
+                            }
+                        ],
+                        "measurement": "by_epinio_server_version_down_sampling",
+                        "orderByTime": "ASC",
+                        "policy": "default",
+                        "query": "SELECT last(\"total\") FROM \"by_epinio_server_version_down_sampling\" WHERE $timeFilter GROUP BY time(1h), \"epinio_server_version\" fill(null)",
+                        "rawQuery": false,
+                        "refId": "A",
+                        "resultFormat": "time_series",
+                        "select": [
+                            [
+                                {
+                                    "params": [
+                                        "total"
+                                    ],
+                                    "type": "field"
+                                },
+                                {
+                                    "params": [],
+                                    "type": "last"
+                                }
+                            ]
+                        ],
+                        "tags": []
+                    }
+                ],
+                "thresholds": [],
+                "timeRegions": [],
+                "title": "Active Node By $AppName Server Versions",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    },
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false
+                }
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "datasource": {
+                    "type": "influxdb",
+                    "uid": "P951FEA4DE68E13C5"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    },
+                    "overrides": []
+                },
+                "fill": 1,
+                "fillGradient": 0,
+                "gridPos": {
+                    "h": 9,
+                    "w": 12,
+                    "x": 0,
+                    "y": 21
                 },
                 "hiddenSeries": false,
                 "id": 14,
@@ -597,9 +728,9 @@ data:
                 "fillGradient": 0,
                 "gridPos": {
                     "h": 9,
-                    "w": 8,
-                    "x": 16,
-                    "y": 12
+                    "w": 12,
+                    "x": 12,
+                    "y": 21
                 },
                 "hiddenSeries": false,
                 "id": 19,
@@ -658,7 +789,7 @@ data:
                         "measurement": "by_kubernetes_platform_down_sampling",
                         "orderByTime": "ASC",
                         "policy": "default",
-                        "query": "SELECT last(\"total\") FROM \"by_kubernetes_version_down_sampling\" WHERE $timeFilter GROUP BY time(1h), \"kubernetes_version\" fill(null)",
+                        "query": "SELECT last(\"total\") FROM \"by_kubernetes_platform_down_sampling\" WHERE $timeFilter GROUP BY time(1h), \"kubernetes_platform\" fill(null)",
                         "rawQuery": false,
                         "refId": "A",
                         "resultFormat": "time_series",
