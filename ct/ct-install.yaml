@@ -11,5 +11,5 @@ chart-repos:
   - dex=https://charts.dexidp.io
   - grafana=https://grafana.github.io/helm-charts
   - influxdata=https://helm.influxdata.com
-charts: chart/epinio
+charts: chart/epinio,chart/upgrade-responder
 helm-extra-args: --timeout 600s
