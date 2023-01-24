@@ -2,7 +2,7 @@
 # This will be used to create a database named <application-name>_upgrade_responder
 # in the InfluxDB to store all data for this Upgrade Responder
 # The name must be in snake case format
-applicationName: awesome_app
+applicationName: epinio
 
 secret:
   name: upgrade-responder-secrets
