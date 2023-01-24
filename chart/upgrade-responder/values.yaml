@@ -48,17 +48,17 @@ ingress:
   hosts:
     - example.com
   tls:
-   - secretName: example-com-tls
-     hosts:
-       - example.com
+    - secretName: example-com-tls
+      hosts:
+      - example.com
 
 resources:
   limits:
-   cpu: 200m
-   memory: 256Mi
+    cpu: 200m
+    memory: 256Mi
   requests:
-   cpu: 100m
-   memory: 128Mi
+    cpu: 100m
+    memory: 128Mi
 
 nodeSelector: {}
 
@@ -85,7 +85,7 @@ grafana:
           database: epinio_upgrade_responder
           access: proxy
           isDefault: true
-  
+
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
