@@ -9,4 +9,6 @@ chart-repos:
   - appscode=https://charts.appscode.com/stable
   - epinio=https://epinio.github.io/helm-charts
   - dex=https://charts.dexidp.io
+  - grafana=https://grafana.github.io/helm-charts
+  - influxdata=https://helm.influxdata.com
 helm-extra-args: --timeout 600s
