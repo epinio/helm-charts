@@ -76,7 +76,6 @@ metadata:
   name: dex
   namespace: {{ .Release.Namespace }}
   annotations:
-    cert-manager.io/cluster-issuer: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
     {{- range $key, $value := .Values.ingress.annotations }}
