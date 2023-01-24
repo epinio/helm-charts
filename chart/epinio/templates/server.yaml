@@ -285,6 +285,8 @@ spec:
               value: "{{ .Values.global.tlsIssuer }}"
             - name: TRACE_LEVEL
               value: "{{ .Values.server.traceLevel }}"
+            - name: CHART_VERSION
+              value: "{{ .Chart.Version }}"
             {{- $imageSkopeo := .Values.image.skopeo -}}
             {{- if $imageSkopeo }}
             - name: APP_IMAGE_EXPORTER
