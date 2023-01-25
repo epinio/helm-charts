@@ -24,9 +24,13 @@ ingress:
 global:
   domain: ui.epinio.dev
   tlsIssuer: selfsigned-issuer
+  dex:
+    enabled: true
 dex:
   ui:
-    secret: "dev-secret"
+    # secret should be supplied by dex automatically, this is just a fall back
+    secret: ""
+    # Defaults to https://epinio.{{ .Values.global.domain }}/auth/verify/
     redirectURI: ""
 volumeMounts:
   - name: tmp

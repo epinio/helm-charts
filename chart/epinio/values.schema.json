@@ -274,7 +274,6 @@
         }
       },
       "required": [
-        "enabled",
         "configSecret",
         "fullnameOverride"
       ]
