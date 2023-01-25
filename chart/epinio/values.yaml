@@ -114,8 +114,13 @@ minio:
 
 epinio-ui:
   enabled: true
-  epinioTheme: light
-  epinioVersion: "v1.6.2"
+  epinioUI:
+    theme: light
+    version: "v1.6.1"
+  dex:
+    enabled: true
+    ui:
+      secret: "dev-secret"
   ingress:
     enabled: false
 
