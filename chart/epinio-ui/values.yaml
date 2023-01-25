@@ -12,7 +12,9 @@ global:
   domain: ui.epinio.dev
   tlsIssuer: selfsigned-issuer
 dex:
-  fullnameOverride: dex
+  ui:
+    secret: ""
+    redirectURI: ""
 logLevel: info
 # API URL of epinio instance, for proxied connections, defaults to http://epinio-server.%s.svc.cluster.local"
 epinioAPIURL: ""
