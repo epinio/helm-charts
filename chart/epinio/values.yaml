@@ -82,7 +82,8 @@ dex:
     create: false
     name: "dex-config"
   ui:
-    # Defaults to https://epinio.{{ .Values.global.domain }}/verify-auth
+    secret: ""
+    # Defaults to https://epinio.{{ .Values.global.domain }}/auth/verify/
     redirectURI: ""
 
 # Extra environment variables passed to the epinio-server pod.

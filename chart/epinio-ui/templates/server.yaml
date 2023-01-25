@@ -53,6 +53,10 @@ spec:
           value: {{ (default .Chart.Version .Values.epinioVersion) | quote}}
         - name: EPINIO_THEME
           value: {{ (default "light" .Values.epinioTheme) | quote }}
+        - name: EPINIO_DEX_ENABLED
+          value: {{ (.Values.dex.enabled) }}
+        - name: EPINIO_DEX_SECRET
+          value: {{ (.Values.dex.ui.secret) | quote }}
         - name: HTTP_CLIENT_TIMEOUT_IN_SECS
           value: "120"
         - name: SESSION_STORE_SECRET
