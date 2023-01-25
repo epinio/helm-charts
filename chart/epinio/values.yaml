@@ -82,7 +82,7 @@ dex:
     create: false
     name: "dex-config"
   ui:
-    secret: ""
+    secret: "dev-secret"
     # Defaults to https://epinio.{{ .Values.global.domain }}/auth/verify/
     redirectURI: ""
 
