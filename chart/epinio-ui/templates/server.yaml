@@ -46,7 +46,7 @@ spec:
         - name: EPINIO_UI_URL
           value: {{ default (printf "https://epinio.%s" .Values.global.domain) .Values.epinioUIURL }}
         - name: EPINIO_API_SKIP_SSL
-          value: {{ .Values.epinioAPISkipSSL | quote }}
+          value: {{ (default "false" .Values.epinioAPISkipSSL) | quote }}
         - name: EPINIO_DEX_AUTH_URL
           value: {{ default (printf "https://auth.%s" .Values.global.domain) .Values.epinioDexURL }}
         - name: EPINIO_VERSION
@@ -54,9 +54,9 @@ spec:
         - name: EPINIO_THEME
           value: {{ (default "light" .Values.epinioTheme) | quote }}
         - name: EPINIO_DEX_ENABLED
-          value: {{ (.Values.dex.enabled) }}
+          value: {{ (default false .Values.dex.enabled) | quote }}
         - name: EPINIO_DEX_SECRET
-          value: {{ (.Values.dex.ui.secret) | quote }}
+          value: {{ (default "" .Values.dex.ui.secret) | quote }}
         - name: HTTP_CLIENT_TIMEOUT_IN_SECS
           value: "120"
         - name: SESSION_STORE_SECRET
