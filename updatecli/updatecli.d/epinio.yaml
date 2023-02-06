@@ -27,12 +27,11 @@ pullrequests:
 sources:
   epinio:
     name: "Get Latest epinio version"
-    kind: "githubrelease"
+    kind: "gittag"
     spec:
-      owner: "epinio"
-      repository: "epinio"
-      username: '{{ requiredEnv .github.epinio.username }}'
-      token: '{{ requiredEnv .github.epinio.token }}'
+      path: "./epinio/"
+      versionfilter:
+        kind: semver
 
 # Defines condition that must pass in order to update targets
 conditions:
