@@ -30,6 +30,10 @@ sources:
     name: "Get Latest epinio version"
     kind: "gittag"
     spec:
+      # Needed due to this bug https://github.com/updatecli/updatecli/issues/1098
+      # Updatecli which relies on go-git fails when used with git submodule using ssh protocol
+      # so it's a temporary workaround
+      # Epinio must be cloned manually
       path: "./epinio/"
       versionfilter:
         kind: semver
