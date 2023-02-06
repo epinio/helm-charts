@@ -1,5 +1,6 @@
 ---
 name: "Bump epinio server version"
+
 # Define git repository configuration to know where to push changes
 scms:
   helm-charts:
@@ -14,9 +15,9 @@ scms:
       branch: "{{ .github.epinio.branch }}"
 
 # Define pullrequest configuration if one needs to be created
-pullrequests:
+actions:
   helm-charts:
-    kind: "github"
+    kind: "github/pullrequest"
     scmid: "helm-charts"
     spec:
       labels:
@@ -38,7 +39,6 @@ conditions:
   dockerImage:
     name: 'Check that ghcr.io/epinio/epinio-server:{{ source "epinio" }} is published'
     kind: "dockerimage"
-    sourceid: "epinio"
     spec:
       image: "ghcr.io/epinio/epinio-server"
       architecture: "amd64"
@@ -69,7 +69,6 @@ targets:
     name: "Update epinio version in chart epinio"
     kind: "helmchart"
     scmid: "helm-charts"
-    sourceid: "epinio"
     spec:
       name: "chart/epinio"
       file: "Chart.yaml"
@@ -80,7 +79,6 @@ targets:
     name: "Update epinio version in chart epinio"
     kind: "helmchart"
     scmid: "helm-charts"
-    sourceid: "epinio"
     spec:
       name: "chart/epinio"
       file: "values.yaml"

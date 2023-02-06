@@ -4,7 +4,7 @@ name: "Autodiscovery"
 autodiscovery:
   groupby: individual
   scmid: default
-  pullrequestid: default
+  actionid: default
   crawlers:
     helm:
 
@@ -20,9 +20,9 @@ scms:
       username: "{{ .github.epinio.username }}"
       branch: "{{ .github.epinio.branch }}"
 
-pullrequests:
+actions:
   default:
-    kind: "github"
+    kind: "github/pullrequest"
     scmid: "default"
     spec:
       automerge: true
