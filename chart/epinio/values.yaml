@@ -81,6 +81,7 @@ dex:
   configSecret:
     create: false
     name: "dex-config"
+
 # Extra environment variables passed to the epinio-server pod.
 # extraEnv:
 # - name: MY_ENV_VAR
