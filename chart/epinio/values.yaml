@@ -39,6 +39,8 @@ server:
   ingressClassName: ""
   # Disable tracking of the Epinio and Kubernetes cluster version
   disableTracking: false
+  # Name of the Service Account used by the staging job
+  stagingServiceAccountName: ""
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""

@@ -311,6 +311,10 @@ spec:
             - name: INGRESS_CLASS_NAME
               value: "{{ .Values.ingress.ingressClassName }}"
             {{- end }}
+            {{- if .Values.server.stagingServiceAccountName }}
+            - name: STAGING_SERVICE_ACCOUNT_NAME
+              value: "{{ .Values.server.stagingServiceAccountName }}"
+            {{- end }}
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 -}}
             {{- end }}
