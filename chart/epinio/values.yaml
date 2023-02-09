@@ -116,7 +116,6 @@ epinio-ui:
   enabled: true
   epinioUI:
     theme: light
-    version: "v1.6.1"
   ingress:
     enabled: false
 

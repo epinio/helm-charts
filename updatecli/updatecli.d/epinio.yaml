@@ -78,13 +78,3 @@ targets:
       file: "Chart.yaml"
       key: "appVersion"
       versionincrement: "minor"
-
-  epinioui:
-    name: "Update epinio version in chart epinio"
-    kind: "helmchart"
-    scmid: "helm-charts"
-    spec:
-      name: "chart/epinio"
-      file: "values.yaml"
-      key: "epinio-ui.epinioVersion"
-      versionincrement: "minor"

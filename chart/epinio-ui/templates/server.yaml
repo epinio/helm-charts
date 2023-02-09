@@ -52,8 +52,6 @@ spec:
           value: {{ (default "false" .Values.epinioUI.apiSkipSSL) | quote }}
         - name: EPINIO_DEX_AUTH_URL
           value: {{ default (printf "https://auth.%s" .Values.global.domain) .Values.epinioUI.dexURL }}
-        - name: EPINIO_VERSION
-          value: {{ (default .Chart.Version .Values.epinioUI.version) | quote}}
         - name: EPINIO_THEME
           value: {{ (default "light" .Values.epinioUI.theme) | quote }}
         - name: EPINIO_DEX_ENABLED
