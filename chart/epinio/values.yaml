@@ -77,12 +77,16 @@ api:
 
 # Dex subchart values -- None for now, and sub chart disabled
 dex:
-  enabled: true
   # hardcode this, to avoid problems with release name
   fullnameOverride: "dex"
   configSecret:
     create: false
     name: "dex-config"
+  ui:
+    # secret should be supplied by dex automatically, this is just a fall back
+    secret: ""
+    # Defaults to https://epinio.{{ .Values.global.domain }}/auth/verify/
+    redirectURI: ""
 
 # Extra environment variables passed to the epinio-server pod.
 # extraEnv:
@@ -112,8 +116,8 @@ minio:
 
 epinio-ui:
   enabled: true
-  epinioTheme: light
-  epinioVersion: "v1.6.2"
+  epinioUI:
+    theme: light
   ingress:
     enabled: false
 
@@ -141,6 +145,8 @@ serviceCatalog:
   enableDevServices: true
 
 global:
+  dex:
+    enabled: true
   # The domain that will be used to access the epinio API server and the registry
   domain: ""
   # Connection details for the container registry.

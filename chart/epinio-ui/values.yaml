@@ -4,6 +4,19 @@ epinioUI:
     repository: epinio/epinio-ui
     tag: v1.5.1-0.0.3
   imagePullPolicy: IfNotPresent
+  uiURL: ""
+  # Epinio standalone only supports a single theme, either light or dark
+  theme: "light"
+  # API URL of epinio instance, for proxied connections, defaults to http://epinio-server.%s.svc.cluster.local"
+  apiURL: ""
+  wssURL: ""
+  dexURL: ""
+  # Skip checking for valid SSL cert when making requests to `EPINIO_API_URL`
+  apiSkipSSL: "true"
+  # version: ""
+  logLevel: info
+  # Domain that will serve the UI and be the origin of browser requests, used by CORS process
+  allowedOrigins: ""
 ingress:
   enabled: true
   # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
@@ -11,18 +24,14 @@ ingress:
 global:
   domain: ui.epinio.dev
   tlsIssuer: selfsigned-issuer
-logLevel: info
-# API URL of epinio instance, for proxied connections, defaults to http://epinio-server.%s.svc.cluster.local"
-epinioAPIURL: ""
-epinioWSSURL: ""
-# Domain that will serve the UI and be the origin of browser requests, used by CORS process
-epinioAllowedOrigins: ""
-# Skip checking for valid SSL cert when making requests to `EPINIO_API_URL`
-# epinioAPISkipSSL: "true"
-# This is the version that is displayed in the ui and should match that of the epinio it's targetting
-# epinioVersion: "v0.8.0"
-# Epinio standalone only supports a single theme, either light or dark
-epinioTheme: "light"
+  dex:
+    enabled: true
+dex:
+  ui:
+    # secret should be supplied by dex automatically, this is just a fall back
+    secret: ""
+    # Defaults to https://epinio.{{ .Values.global.domain }}/auth/verify/
+    redirectURI: ""
 volumeMounts:
   - name: tmp
     mountPath: /tmp

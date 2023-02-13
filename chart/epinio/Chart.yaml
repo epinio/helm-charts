@@ -3,7 +3,7 @@ annotations:
 apiVersion: v2
 appVersion: v1.6.2
 dependencies:
-- condition: dex.enabled, global.dex.enabled
+- condition: global.dex.enabled
   name: dex
   repository: https://charts.dexidp.io
   tags:
