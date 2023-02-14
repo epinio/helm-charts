@@ -30,6 +30,7 @@ jobs:
           helm repo add influxdata https://helm.influxdata.com
           helm repo add dex https://charts.dexidp.io
           helm repo add epinio https://epinio.github.io/helm-charts
+          helm repo add s3gw https://aquarist-labs.github.io/s3gw-charts
           helm repo update
 
       - name: Run chart-releaser

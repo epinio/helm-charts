@@ -55,7 +55,7 @@ certManagerNamespace: cert-manager
 # Connection details for the S3 storage
 s3:
   endpoint: s3.amazonaws.com
-  bucket: ""
+  bucket: "epinio"
   region: ""
   accessKeyID: ""
   secretAccessKey: ""
@@ -125,6 +125,20 @@ kubed:
   enabled: true
   fullnameOverride: kubed
   enableAnalytics: false
+
+# s3gw subchart values
+s3gw:
+  enabled: false
+  ingress:
+    enabled: false
+  ui:
+    enabled: false
+  serviceName: s3gw
+  useExistingSecret: true
+  storageSize: 2Gi
+  storageClass:
+    create: false
+    name: ""
 
 containerregistry:
   enabled: true

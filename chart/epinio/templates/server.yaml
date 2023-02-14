@@ -296,9 +296,15 @@ spec:
             - name: DISABLE_TRACKING
               value: "true"
             {{- end }}
-            {{- if or .Values.s3.certificateSecret .Values.minio.enabled }}
+            {{- if .Values.minio.enabled }}
             - name: S3_CERTIFICATE_SECRET
               value: {{ default "minio-tls" .Values.s3.certificateSecret }}
+            {{- else if .Values.s3gw.enabled }}
+            - name: S3_CERTIFICATE_SECRET
+              value: {{ default "s3gw-cluster-ip-tls" .Values.s3.certificateSecret }}
+            {{- else if .Values.s3.certificateSecret }}
+            - name: S3_CERTIFICATE_SECRET
+              value: {{ .Values.s3.certificateSecret }}
             {{- end }}
             {{- if .Values.containerregistry.enabled }}
             - name: REGISTRY_CERTIFICATE_SECRET

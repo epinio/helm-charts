@@ -414,6 +414,69 @@
         "resources",
         "tls"
       ]
+    },
+    "s3gw": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "ingress": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled"
+          ]
+        },
+        "ui": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled"
+          ]
+        },
+        "serviceName": {
+          "type": "string"
+        },
+        "useExistingSecret": {
+          "type": "boolean"
+        },
+        "storageSize": {
+          "type": "string"
+        },
+        "storageClass": {
+          "type": "object",
+          "properties": {
+            "create": {
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "create",
+            "name"
+          ]
+        }
+      },
+      "required": [
+        "enabled",
+        "ingress",
+        "ui",
+        "serviceName",
+        "useExistingSecret",
+        "storageSize",
+        "storageClass"
+      ]
     }
   },
   "required": [
