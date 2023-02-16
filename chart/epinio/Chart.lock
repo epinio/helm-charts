@@ -10,9 +10,9 @@ dependencies:
   version: v0.13.2
 - name: epinio-ui
   repository: https://epinio.github.io/helm-charts
-  version: 1.5.3
+  version: 1.7.0
 - name: s3gw
   repository: https://aquarist-labs.github.io/s3gw-charts
   version: 0.11.0
-digest: sha256:6c04fbe5181ba474ba38fec814f01a66141ec29da1f7c403faa994223996694b
-generated: "2023-02-14T15:19:37.34393201+01:00"
+digest: sha256:d01942d15653ad84d4888a5342e7306f20d901a38b1c1234c37cf4368174254e
+generated: "2023-02-16T16:45:09.386791333Z"
