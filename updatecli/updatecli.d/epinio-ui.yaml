@@ -28,7 +28,7 @@ sources:
     scmid: ui-backend
     spec:
       versionfilter:
-        kind: semver
+        kind: latest
 
 conditions:
   dockerImage:
