@@ -1,54 +1,54 @@
 epinioUI:
-  image:
-    registry: ghcr.io
-    repository: epinio/epinio-ui
-    tag: v1.5.1-0.0.3
-  imagePullPolicy: IfNotPresent
-  uiURL: ""
-  # Epinio standalone only supports a single theme, either light or dark
-  theme: "light"
-  # API URL of epinio instance, for proxied connections, defaults to http://epinio-server.%s.svc.cluster.local"
-  apiURL: ""
-  wssURL: ""
-  dexURL: ""
-  # Skip checking for valid SSL cert when making requests to `EPINIO_API_URL`
-  apiSkipSSL: "true"
-  # version: ""
-  logLevel: info
-  # Domain that will serve the UI and be the origin of browser requests, used by CORS process
-  allowedOrigins: ""
+    image:
+        registry: ghcr.io
+        repository: epinio/epinio-ui
+        tag: v1.7.0-0.0.1
+    imagePullPolicy: IfNotPresent
+    uiURL: ""
+    # Epinio standalone only supports a single theme, either light or dark
+    theme: "light"
+    # API URL of epinio instance, for proxied connections, defaults to http://epinio-server.%s.svc.cluster.local"
+    apiURL: ""
+    wssURL: ""
+    dexURL: ""
+    # Skip checking for valid SSL cert when making requests to `EPINIO_API_URL`
+    apiSkipSSL: "true"
+    # version: ""
+    logLevel: info
+    # Domain that will serve the UI and be the origin of browser requests, used by CORS process
+    allowedOrigins: ""
 ingress:
-  enabled: true
-  # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
-  ingressClassName: ""
-global:
-  domain: ui.epinio.dev
-  tlsIssuer: selfsigned-issuer
-  dex:
     enabled: true
+    # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
+    ingressClassName: ""
+global:
+    domain: ui.epinio.dev
+    tlsIssuer: selfsigned-issuer
+    dex:
+        enabled: true
 dex:
-  ui:
-    # secret should be supplied by dex automatically, this is just a fall back
-    secret: ""
-    # Defaults to https://epinio.{{ .Values.global.domain }}/auth/verify/
-    redirectURI: ""
+    ui:
+        # secret should be supplied by dex automatically, this is just a fall back
+        secret: ""
+        # Defaults to https://epinio.{{ .Values.global.domain }}/auth/verify/
+        redirectURI: ""
 volumeMounts:
-  - name: tmp
-    mountPath: /tmp
-    readOnly: false
-  - name: db
-    mountPath: /db
-    readOnly: false
+    - name: tmp
+      mountPath: /tmp
+      readOnly: false
+    - name: db
+      mountPath: /db
+      readOnly: false
 # - name: ui
 #   mountPath: /ui
 #   subPath: dist
 #   readOnly: true
 
 volumes:
-  - name: tmp
-    emptyDir: {}
-  - name: db
-    emptyDir: {}
+    - name: tmp
+      emptyDir: {}
+    - name: db
+      emptyDir: {}
 # - name: ui
 #   persistentVolumeClaim:
 #     claimName: ui
