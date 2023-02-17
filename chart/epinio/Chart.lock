@@ -4,7 +4,7 @@ dependencies:
   version: 0.12.1
 - name: minio
   repository: https://charts.min.io/
-  version: 5.0.4
+  version: 5.0.7
 - name: kubed
   repository: https://charts.appscode.com/stable/
   version: v0.13.2
@@ -14,5 +14,5 @@ dependencies:
 - name: s3gw
   repository: https://aquarist-labs.github.io/s3gw-charts
   version: 0.11.0
-digest: sha256:d01942d15653ad84d4888a5342e7306f20d901a38b1c1234c37cf4368174254e
-generated: "2023-02-16T16:45:09.386791333Z"
+digest: sha256:3743216cf9c1c714e7f35a61d411b5ab6e9e8295fb72d475be05b1d1f1a22270
+generated: "2023-02-17T10:17:14.454385257Z"
