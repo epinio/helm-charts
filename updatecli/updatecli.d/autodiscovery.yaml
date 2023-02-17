@@ -25,7 +25,6 @@ actions:
     kind: "github/pullrequest"
     scmid: "default"
     spec:
-      automerge: true
       labels:
         - "dependencies"
         - "helm"

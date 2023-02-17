@@ -59,7 +59,6 @@ actions:
     kind: "github/pullrequest"
     scmid: "helm-charts"
     spec:
-      automerge: true
       labels:
         - "dependencies"
         - "epinio-ui"
