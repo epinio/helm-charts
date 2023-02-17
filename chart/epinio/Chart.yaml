@@ -26,7 +26,7 @@ dependencies:
   repository: https://epinio.github.io/helm-charts
   tags:
   - epinio-ui
-  version: 1.5.3
+  version: 1.7.0
 - condition: s3gw.enabled, global.s3gw.enabled
   name: s3gw
   repository: https://aquarist-labs.github.io/s3gw-charts
