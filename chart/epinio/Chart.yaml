@@ -20,7 +20,7 @@ dependencies:
   repository: https://charts.appscode.com/stable/
   tags:
   - kubed
-  version: 0.13.2
+  version: v0.13.2
 - condition: epinio-ui.enabled
   name: epinio-ui
   repository: https://epinio.github.io/helm-charts
@@ -46,4 +46,4 @@ maintainers:
 name: epinio
 sources:
 - https://github.com/epinio/epinio
-version: 1.6.2
+version: 1.7.0
