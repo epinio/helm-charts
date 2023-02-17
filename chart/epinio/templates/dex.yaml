@@ -1,4 +1,7 @@
-{{- if .Values.dex.enabled -}}
+{{- if .Values.global.dex.enabled -}}
+
+{{- $dexSecret := (lookup "v1" "Secret" .Release.Namespace "dex-config").data -}}
+{{- $uiClientSecret := empty $dexSecret | ternary (randAlphaNum 16) (b64dec (default "" $dexSecret.uiClientSecret)) -}}
 
 ---
 apiVersion: v1
@@ -11,6 +14,7 @@ metadata:
 stringData:
   issuer: "https://auth.{{ .Values.global.domain }}"
   endpoint: {{ printf "http://%s.%s.svc.cluster.local:5556" .Values.dex.fullnameOverride .Release.Namespace }}
+  uiClientSecret: {{ $uiClientSecret }}
   config.yaml: |-
     issuer: "https://auth.{{ .Values.global.domain }}"
     storage:
@@ -36,10 +40,18 @@ stringData:
       # https://dexidp.io/docs/custom-scopes-claims-clients/#cross-client-trust-and-authorized-party
       trustedPeers:
       - epinio-cli
+      - epinio-ui
 
     - id: epinio-cli
       name: 'Epinio cli'
       public: true
+
+    - id: epinio-ui
+      name: 'Epinio UI'
+      secret: {{ $uiClientSecret | quote }}
+      # Shouldn't be public, https://dexidp.io/docs/custom-scopes-claims-clients/#public-clients
+      redirectURIs:
+      - {{ .Values.dex.ui.redirectURI | default (printf "https://epinio.%s/auth/verify/" .Values.global.domain) | quote }}
 
 ---
 apiVersion: v1

@@ -1,4 +1,3 @@
-apiVersion: v2
 dependencies:
 - name: influxdb
   repository: https://helm.influxdata.com
@@ -6,9 +5,5 @@ dependencies:
 - name: grafana
   repository: https://grafana.github.io/helm-charts
   version: 6.50.7
-description: A Helm chart for Kubernetes
-maintainers:
-- email: team@epinio.io
-  name: SUSE
-name: upgrade-responder
-version: 0.1.5
+digest: sha256:e6c72e24bc0c7203aad45dab3a597272cd85f0f2c65703b479e9c2deda258734
+generated: "2023-02-14T14:28:53.752568578Z"

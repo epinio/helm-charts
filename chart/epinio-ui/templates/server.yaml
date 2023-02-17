@@ -2,6 +2,9 @@
 {{- $encryptionKey := empty $secret | ternary (printf "%x" (randAscii 32)) (b64dec (default "" $secret.encryptionKey)) -}}
 {{- $sessionSecret := empty $secret | ternary (randAlphaNum 16) (b64dec (default "" $secret.sessionSecret)) -}}
 
+{{- $dexSecret := (lookup "v1" "Secret" .Release.Namespace "dex-config") -}}
+{{- $uiClientSecret := empty $dexSecret | ternary (.Values.dex.ui.secret) (b64dec (default "" $dexSecret.uiClientSecret)) -}}
+
 ---
 apiVersion: v1
 kind: Secret
@@ -38,17 +41,26 @@ spec:
 
         env:
         - name: ALLOWED_ORIGINS
-          value: {{ default (printf "https://epinio.%s" .Values.global.domain) .Values.epinioAllowedOrigins }}
+          value: {{ default (printf "https://epinio.%s" .Values.global.domain) .Values.epinioUI.allowedOrigins }}
         - name: EPINIO_API_URL
-          value: {{ default (printf "http://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioAPIURL }}
+          value: {{ default (printf "http://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioUI.apiURL }}
         - name: EPINIO_WSS_URL
-          value: {{ default (printf "ws://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioWSSURL }}
+          value: {{ default (printf "ws://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioUI.wssURL }}
+        - name: EPINIO_UI_URL
+          value: {{ default (printf "https://epinio.%s" .Values.global.domain) .Values.epinioUI.uiURL }}
         - name: EPINIO_API_SKIP_SSL
-          value: {{ .Values.epinioAPISkipSSL | quote }}
-        - name: EPINIO_VERSION
-          value: {{ (default .Chart.Version .Values.epinioVersion) | quote}}
+          value: {{ (default "false" .Values.epinioUI.apiSkipSSL) | quote }}
+        - name: EPINIO_DEX_AUTH_URL
+          value: {{ default (printf "https://auth.%s" .Values.global.domain) .Values.epinioUI.dexURL }}
         - name: EPINIO_THEME
-          value: {{ (default "light" .Values.epinioTheme) | quote }}
+          value: {{ (default "light" .Values.epinioUI.theme) | quote }}
+        - name: EPINIO_DEX_ENABLED
+          value: {{ (default false .Values.global.dex.enabled) | quote }}
+        - name: EPINIO_DEX_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: dex-config
+              key: uiClientSecret
         - name: HTTP_CLIENT_TIMEOUT_IN_SECS
           value: "120"
         - name: SESSION_STORE_SECRET
@@ -75,7 +87,7 @@ spec:
         - name: CONSOLE_PROXY_TLS_ADDRESS
           value: 0.0.0.0:8000
         - name: LOG_LEVEL
-          value: {{ .Values.logLevel | quote }}
+          value: {{ .Values.epinioUI.logLevel | quote }}
 
         {{- with .Values.volumeMounts }}
         volumeMounts:

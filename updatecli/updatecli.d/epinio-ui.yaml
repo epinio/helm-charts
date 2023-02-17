@@ -1,5 +1,6 @@
 ---
-title: "Bump epinio ui version"
+name: "Bump epinio ui version"
+
 # Define git repository configuration to know where to push changes
 scms:
   helm-charts:
@@ -27,23 +28,12 @@ sources:
     scmid: ui-backend
     spec:
       versionfilter:
-        kind: semver
-
-  epinio:
-    name: "Get Latest epinio version"
-    kind: "githubrelease"
-    spec:
-      owner: "epinio"
-      repository: "epinio"
-      username: '{{ requiredEnv .github.epinio.username }}'
-      token: '{{ requiredEnv .github.epinio.token }}'
-
+        kind: latest
 
 conditions:
   dockerImage:
     name: 'Check that ghcr.io/epinio/epinio-ui:{{ source "ui-backend-tag" }} exists'
     kind: "dockerimage"
-    sourceid: "ui-backend-tag"
     spec:
       image: "ghcr.io/epinio/epinio-ui"
       architecture: "amd64"
@@ -53,7 +43,6 @@ targets:
     name: "Update Epinio UI backend image for Helm Chart chart/epinio-ui"
     kind: "helmchart"
     scmid: "helm-charts"
-    sourceid: "ui-backend-tag"
     transformers:
       - addprefix: "ghcr.io/epinio/epinio-ui:"
     spec:
@@ -65,9 +54,9 @@ targets:
       appversion: true
 
 # Define pullrequest configuration if one needs to be created
-pullrequests:
+actions:
   helm-charts:
-    kind: "github"
+    kind: "github/pullrequest"
     scmid: "helm-charts"
     spec:
       automerge: true

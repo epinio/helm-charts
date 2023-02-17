@@ -36,6 +36,23 @@ Host name of the minio epinio installed
 {{- printf "%s.%s.svc.cluster.local" .Values.minio.fullnameOverride .Release.Namespace }}
 {{- end -}}
 
+{{/*
+URL of the s3gw epinio installed
+*/}}
+{{- define "epinio.s3gw-url" -}}
+{{- if .Values.s3gw.enabled -}}
+{{-   printf "%s.%s.svc.cluster.local" .Values.s3gw.serviceName .Release.Namespace }}
+{{- else -}}
+{{-  .Values.s3.endpoint }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Host name of the s3gw epinio installed
+*/}}
+{{- define "epinio.s3gw-hostname" -}}
+{{- printf "%s.%s.svc.cluster.local" .Values.s3gw.serviceName .Release.Namespace }}
+{{- end -}}
 
 {{/*
 PVC cleanup hooks for bitnami helm chart based catalog services

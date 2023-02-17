@@ -1,5 +1,6 @@
 ---
 name: "Bump epinio server version"
+
 # Define git repository configuration to know where to push changes
 scms:
   helm-charts:
@@ -14,9 +15,9 @@ scms:
       branch: "{{ .github.epinio.branch }}"
 
 # Define pullrequest configuration if one needs to be created
-pullrequests:
+actions:
   helm-charts:
-    kind: "github"
+    kind: "github/pullrequest"
     scmid: "helm-charts"
     spec:
       labels:
@@ -27,19 +28,21 @@ pullrequests:
 sources:
   epinio:
     name: "Get Latest epinio version"
-    kind: "githubrelease"
+    kind: "gittag"
     spec:
-      owner: "epinio"
-      repository: "epinio"
-      username: '{{ requiredEnv .github.epinio.username }}'
-      token: '{{ requiredEnv .github.epinio.token }}'
+      # Needed due to this bug https://github.com/updatecli/updatecli/issues/1098
+      # Updatecli which relies on go-git fails when used with git submodule using ssh protocol
+      # so it's a temporary workaround
+      # Epinio must be cloned manually
+      path: "./epinio/"
+      versionfilter:
+        kind: semver
 
 # Defines condition that must pass in order to update targets
 conditions:
   dockerImage:
     name: 'Check that ghcr.io/epinio/epinio-server:{{ source "epinio" }} is published'
     kind: "dockerimage"
-    sourceid: "epinio"
     spec:
       image: "ghcr.io/epinio/epinio-server"
       architecture: "amd64"
@@ -70,20 +73,8 @@ targets:
     name: "Update epinio version in chart epinio"
     kind: "helmchart"
     scmid: "helm-charts"
-    sourceid: "epinio"
     spec:
       name: "chart/epinio"
       file: "Chart.yaml"
       key: "appVersion"
-      versionincrement: "minor"
-
-  epinioui:
-    name: "Update epinio version in chart epinio"
-    kind: "helmchart"
-    scmid: "helm-charts"
-    sourceid: "epinio"
-    spec:
-      name: "chart/epinio"
-      file: "values.yaml"
-      key: "epinio-ui.epinioVersion"
       versionincrement: "minor"

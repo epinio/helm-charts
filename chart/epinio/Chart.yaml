@@ -1,9 +1,9 @@
 annotations:
   artifacthub.io/license: Apache-2.0
 apiVersion: v2
-appVersion: v1.6.1
+appVersion: v1.6.2
 dependencies:
-- condition: dex.enabled, global.dex.enabled
+- condition: global.dex.enabled
   name: dex
   repository: https://charts.dexidp.io
   tags:
@@ -26,7 +26,13 @@ dependencies:
   repository: https://epinio.github.io/helm-charts
   tags:
   - epinio-ui
-  version: 1.5.3
+  version: 1.7.0
+- condition: s3gw.enabled, global.s3gw.enabled
+  name: s3gw
+  repository: https://aquarist-labs.github.io/s3gw-charts
+  tags:
+  - s3gw
+  version: 0.11.0
 description: Epinio deploys Kubernetes applications directly from source code in one
   step.
 home: https://github.com/epinio/epinio
@@ -40,4 +46,4 @@ maintainers:
 name: epinio
 sources:
 - https://github.com/epinio/epinio
-version: 1.6.1
+version: 1.6.2
