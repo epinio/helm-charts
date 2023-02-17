@@ -263,10 +263,12 @@ spec:
       - name: image-export-volume
         persistentVolumeClaim:
           claimName: image-export-pvc
+{{- if .Values.global.dex.enabled }}
       - name: dex-tls
         secret:
           secretName: dex-tls
           optional: false
+{{- end }}
       containers:
         - command: ["/epinio", "server"]
           args: ["--port", "8030"]
@@ -283,14 +285,26 @@ spec:
               value: "{{ .Values.global.tlsIssuer }}"
             - name: TRACE_LEVEL
               value: "{{ .Values.server.traceLevel }}"
+            - name: CHART_VERSION
+              value: "{{ .Chart.Version }}"
             {{- $imageSkopeo := .Values.image.skopeo -}}
             {{- if $imageSkopeo }}
             - name: APP_IMAGE_EXPORTER
               value: "{{ default $imageSkopeo.registry (include "registry-url" .) }}{{ $imageSkopeo.repository}}:{{ $imageSkopeo.tag }}"
             {{- end }}
-            {{- if or .Values.s3.certificateSecret .Values.minio.enabled }}
+            {{- if .Values.server.disableTracking }}
+            - name: DISABLE_TRACKING
+              value: "true"
+            {{- end }}
+            {{- if .Values.minio.enabled }}
             - name: S3_CERTIFICATE_SECRET
               value: {{ default "minio-tls" .Values.s3.certificateSecret }}
+            {{- else if .Values.s3gw.enabled }}
+            - name: S3_CERTIFICATE_SECRET
+              value: {{ default "s3gw-cluster-ip-tls" .Values.s3.certificateSecret }}
+            {{- else if .Values.s3.certificateSecret }}
+            - name: S3_CERTIFICATE_SECRET
+              value: {{ .Values.s3.certificateSecret }}
             {{- end }}
             {{- if .Values.containerregistry.enabled }}
             - name: REGISTRY_CERTIFICATE_SECRET
@@ -302,6 +316,10 @@ spec:
             {{- else if .Values.ingress.ingressClassName }}
             - name: INGRESS_CLASS_NAME
               value: "{{ .Values.ingress.ingressClassName }}"
+            {{- end }}
+            {{- if .Values.server.stagingServiceAccountName }}
+            - name: STAGING_SERVICE_ACCOUNT_NAME
+              value: "{{ .Values.server.stagingServiceAccountName }}"
             {{- end }}
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 -}}
@@ -319,9 +337,11 @@ spec:
             mountPath: /tmp
           - name: image-export-volume
             mountPath: /image-export
+{{- if .Values.global.dex.enabled }}
           - name: dex-tls
             mountPath: /etc/ssl/certs/dex-tls.pem
             subPath: tls.crt
+{{- end }}
           readinessProbe:
             httpGet:
               path: /ready

@@ -1,0 +1,894 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: epinio-upgrade-responder-grafana-dashboard
+  labels:
+     grafana_dashboard: "1"
+data:
+  my-dashboard.json: |
+    {
+        "annotations": {
+            "list": [
+                {
+                    "builtIn": 1,
+                    "datasource": {
+                        "type": "datasource",
+                        "uid": "grafana"
+                    },
+                    "enable": true,
+                    "hide": true,
+                    "iconColor": "rgba(0, 211, 255, 1)",
+                    "name": "Annotations & Alerts",
+                    "target": {
+                        "limit": 100,
+                        "matchAny": false,
+                        "tags": [],
+                        "type": "dashboard"
+                    },
+                    "type": "dashboard"
+                }
+            ]
+        },
+        "description": "",
+        "editable": true,
+        "fiscalYearStartMonth": 0,
+        "gnetId": 14429,
+        "graphTooltip": 0,
+        "links": [],
+        "liveNow": false,
+        "panels": [
+            {
+                "datasource": {
+                    "type": "influxdb",
+                    "uid": "P951FEA4DE68E13C5"
+                },
+                "description": "",
+                "gridPos": {
+                    "h": 3,
+                    "w": 24,
+                    "x": 0,
+                    "y": 0
+                },
+                "id": 16,
+                "options": {
+                    "code": {
+                        "language": "plaintext",
+                        "showLineNumbers": false,
+                        "showMiniMap": false
+                    },
+                    "content": "The metrics we're showing here are collected using ${AppName} Upgrade Responder Service, which will notify the user when a new release of ${AppName} is available.\n\nThe source code is available at https://github.com/longhorn/upgrade-responder .",
+                    "mode": "markdown"
+                },
+                "pluginVersion": "9.3.0",
+                "targets": [
+                    {
+                        "datasource": {
+                            "type": "influxdb",
+                            "uid": "P951FEA4DE68E13C5"
+                        },
+                        "groupBy": [
+                            {
+                                "params": [
+                                    "$__interval"
+                                ],
+                                "type": "time"
+                            },
+                            {
+                                "params": [
+                                    "null"
+                                ],
+                                "type": "fill"
+                            }
+                        ],
+                        "orderByTime": "ASC",
+                        "policy": "default",
+                        "refId": "A",
+                        "resultFormat": "time_series",
+                        "select": [
+                            [
+                                {
+                                    "params": [
+                                        "value"
+                                    ],
+                                    "type": "field"
+                                },
+                                {
+                                    "params": [],
+                                    "type": "mean"
+                                }
+                            ]
+                        ],
+                        "tags": []
+                    }
+                ],
+                "title": "$AppName Public Metrics Dashboard",
+                "type": "text"
+            },
+            {
+                "circleMaxSize": 30,
+                "circleMinSize": 2,
+                "colors": [
+                    "rgba(245, 54, 54, 0.9)",
+                    "rgba(237, 129, 40, 0.89)",
+                    "rgba(50, 172, 45, 0.97)"
+                ],
+                "datasource": {
+                    "type": "influxdb",
+                    "uid": "P951FEA4DE68E13C5"
+                },
+                "decimals": 0,
+                "esMetric": "Count",
+                "gridPos": {
+                    "h": 9,
+                    "w": 12,
+                    "x": 0,
+                    "y": 3
+                },
+                "hideEmpty": false,
+                "hideZero": false,
+                "id": 18,
+                "initialZoom": 1,
+                "locationData": "countries",
+                "mapCenter": "(0°, 0°)",
+                "mapCenterLatitude": 0,
+                "mapCenterLongitude": 0,
+                "maxDataPoints": 1,
+                "mouseWheelZoom": false,
+                "showLegend": true,
+                "stickyLabels": false,
+                "tableQueryOptions": {
+                    "geohashField": "geohash",
+                    "latitudeField": "latitude",
+                    "longitudeField": "longitude",
+                    "metricField": "metric",
+                    "queryType": "geohash"
+                },
+                "targets": [
+                    {
+                        "alias": "$tag_country_isocode",
+                        "datasource": {
+                            "type": "influxdb",
+                            "uid": "P951FEA4DE68E13C5"
+                        },
+                        "groupBy": [
+                            {
+                                "params": [
+                                    "country_isocode"
+                                ],
+                                "type": "tag"
+                            }
+                        ],
+                        "measurement": "by_country_code_down_sampling",
+                        "orderByTime": "ASC",
+                        "policy": "default",
+                        "query": "SELECT last(\"total\") FROM \"by_country_code_down_sampling\" WHERE $timeFilter GROUP BY \"country_isocode\"",
+                        "rawQuery": true,
+                        "refId": "A",
+                        "resultFormat": "time_series",
+                        "select": [
+                            [
+                                {
+                                    "params": [
+                                        "total"
+                                    ],
+                                    "type": "field"
+                                },
+                                {
+                                    "params": [],
+                                    "type": "last"
+                                }
+                            ]
+                        ],
+                        "tags": []
+                    }
+                ],
+                "thresholds": "0,10",
+                "title": "Active Node Map",
+                "type": "grafana-worldmap-panel",
+                "unitPlural": "",
+                "unitSingle": "",
+                "valueName": "total"
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "datasource": {
+                    "type": "influxdb",
+                    "uid": "P951FEA4DE68E13C5"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    },
+                    "overrides": []
+                },
+                "fill": 1,
+                "fillGradient": 0,
+                "gridPos": {
+                    "h": 9,
+                    "w": 12,
+                    "x": 12,
+                    "y": 3
+                },
+                "hiddenSeries": false,
+                "hideTimeOverride": false,
+                "id": 4,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "links": [],
+                "nullPointMode": "null",
+                "options": {
+                    "alertThreshold": true
+                },
+                "percentage": false,
+                "pluginVersion": "9.3.0",
+                "pointradius": 5,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": false,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "alias": "Total",
+                        "datasource": {
+                            "type": "influxdb",
+                            "uid": "P951FEA4DE68E13C5"
+                        },
+                        "groupBy": [
+                            {
+                                "params": [
+                                    "5m"
+                                ],
+                                "type": "time"
+                            },
+                            {
+                                "params": [
+                                    "null"
+                                ],
+                                "type": "fill"
+                            }
+                        ],
+                        "hide": false,
+                        "measurement": "upgrade_request_down_sampling",
+                        "orderByTime": "ASC",
+                        "policy": "default",
+                        "query": "SELECT last(\"total\") FROM \"upgrade_request_down_sampling\" WHERE $timeFilter GROUP BY time(1h) fill(null)",
+                        "rawQuery": false,
+                        "refId": "A",
+                        "resultFormat": "time_series",
+                        "select": [
+                            [
+                                {
+                                    "params": [
+                                        "total"
+                                    ],
+                                    "type": "field"
+                                },
+                                {
+                                    "params": [],
+                                    "type": "last"
+                                }
+                            ]
+                        ],
+                        "tags": []
+                    }
+                ],
+                "thresholds": [],
+                "timeRegions": [],
+                "title": "Active Node Count",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    },
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false
+                }
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "datasource": {
+                    "type": "influxdb",
+                    "uid": "P951FEA4DE68E13C5"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    },
+                    "overrides": []
+                },
+                "fill": 1,
+                "fillGradient": 0,
+                "gridPos": {
+                    "h": 9,
+                    "w": 12,
+                    "x": 0,
+                    "y": 12
+                },
+                "hiddenSeries": false,
+                "id": 12,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "links": [],
+                "nullPointMode": "null",
+                "options": {
+                    "alertThreshold": true
+                },
+                "percentage": false,
+                "pluginVersion": "9.3.0",
+                "pointradius": 5,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": true,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "alias": "$tag_app_version",
+                        "datasource": {
+                            "type": "influxdb",
+                            "uid": "P951FEA4DE68E13C5"
+                        },
+                        "groupBy": [
+                            {
+                                "params": [
+                                    "5m"
+                                ],
+                                "type": "time"
+                            },
+                            {
+                                "params": [
+                                    "app_version"
+                                ],
+                                "type": "tag"
+                            },
+                            {
+                                "params": [
+                                    "null"
+                                ],
+                                "type": "fill"
+                            }
+                        ],
+                        "measurement": "by_app_version_down_sampling",
+                        "orderByTime": "ASC",
+                        "policy": "default",
+                        "query": "SELECT last(\"total\") FROM \"by_app_version_down_sampling\" WHERE $timeFilter GROUP BY time(1h), \"app_version\" fill(null)",
+                        "rawQuery": false,
+                        "refId": "A",
+                        "resultFormat": "time_series",
+                        "select": [
+                            [
+                                {
+                                    "params": [
+                                        "total"
+                                    ],
+                                    "type": "field"
+                                },
+                                {
+                                    "params": [],
+                                    "type": "last"
+                                }
+                            ]
+                        ],
+                        "tags": []
+                    }
+                ],
+                "thresholds": [],
+                "timeRegions": [],
+                "title": "Active Node By $AppName Versions",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    },
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false
+                }
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "datasource": {
+                    "type": "influxdb",
+                    "uid": "P951FEA4DE68E13C5"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    },
+                    "overrides": []
+                },
+                "fill": 1,
+                "fillGradient": 0,
+                "gridPos": {
+                    "h": 9,
+                    "w": 12,
+                    "x": 12,
+                    "y": 12
+                },
+                "hiddenSeries": false,
+                "id": 20,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "links": [],
+                "nullPointMode": "null",
+                "options": {
+                    "alertThreshold": true
+                },
+                "percentage": false,
+                "pluginVersion": "9.3.0",
+                "pointradius": 5,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": true,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "alias": "$tag_epinio_server_version",
+                        "datasource": {
+                            "type": "influxdb",
+                            "uid": "P951FEA4DE68E13C5"
+                        },
+                        "groupBy": [
+                            {
+                                "params": [
+                                    "5m"
+                                ],
+                                "type": "time"
+                            },
+                            {
+                                "params": [
+                                    "epinio_server_version"
+                                ],
+                                "type": "tag"
+                            },
+                            {
+                                "params": [
+                                    "null"
+                                ],
+                                "type": "fill"
+                            }
+                        ],
+                        "measurement": "by_epinio_server_version_down_sampling",
+                        "orderByTime": "ASC",
+                        "policy": "default",
+                        "query": "SELECT last(\"total\") FROM \"by_epinio_server_version_down_sampling\" WHERE $timeFilter GROUP BY time(1h), \"epinio_server_version\" fill(null)",
+                        "rawQuery": false,
+                        "refId": "A",
+                        "resultFormat": "time_series",
+                        "select": [
+                            [
+                                {
+                                    "params": [
+                                        "total"
+                                    ],
+                                    "type": "field"
+                                },
+                                {
+                                    "params": [],
+                                    "type": "last"
+                                }
+                            ]
+                        ],
+                        "tags": []
+                    }
+                ],
+                "thresholds": [],
+                "timeRegions": [],
+                "title": "Active Node By $AppName Server Versions",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    },
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false
+                }
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "datasource": {
+                    "type": "influxdb",
+                    "uid": "P951FEA4DE68E13C5"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    },
+                    "overrides": []
+                },
+                "fill": 1,
+                "fillGradient": 0,
+                "gridPos": {
+                    "h": 9,
+                    "w": 12,
+                    "x": 0,
+                    "y": 21
+                },
+                "hiddenSeries": false,
+                "id": 14,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "links": [],
+                "nullPointMode": "null",
+                "options": {
+                    "alertThreshold": true
+                },
+                "percentage": false,
+                "pluginVersion": "9.3.0",
+                "pointradius": 5,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": false,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "alias": "$tag_kubernetes_version",
+                        "datasource": {
+                            "type": "influxdb",
+                            "uid": "P951FEA4DE68E13C5"
+                        },
+                        "groupBy": [
+                            {
+                                "params": [
+                                    "5m"
+                                ],
+                                "type": "time"
+                            },
+                            {
+                                "params": [
+                                    "kubernetes_version"
+                                ],
+                                "type": "tag"
+                            },
+                            {
+                                "params": [
+                                    "null"
+                                ],
+                                "type": "fill"
+                            }
+                        ],
+                        "measurement": "by_kubernetes_version_down_sampling",
+                        "orderByTime": "ASC",
+                        "policy": "default",
+                        "query": "SELECT last(\"total\") FROM \"by_kubernetes_version_down_sampling\" WHERE $timeFilter GROUP BY time(1h), \"kubernetes_version\" fill(null)",
+                        "rawQuery": false,
+                        "refId": "A",
+                        "resultFormat": "time_series",
+                        "select": [
+                            [
+                                {
+                                    "params": [
+                                        "total"
+                                    ],
+                                    "type": "field"
+                                },
+                                {
+                                    "params": [],
+                                    "type": "last"
+                                }
+                            ]
+                        ],
+                        "tags": []
+                    }
+                ],
+                "thresholds": [],
+                "timeRegions": [],
+                "title": "Active Nodes Kubernetes Version",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    },
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false
+                }
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "datasource": {
+                    "type": "influxdb",
+                    "uid": "P951FEA4DE68E13C5"
+                },
+                "fieldConfig": {
+                    "defaults": {
+                        "links": []
+                    },
+                    "overrides": []
+                },
+                "fill": 1,
+                "fillGradient": 0,
+                "gridPos": {
+                    "h": 9,
+                    "w": 12,
+                    "x": 12,
+                    "y": 21
+                },
+                "hiddenSeries": false,
+                "id": 19,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "links": [],
+                "nullPointMode": "null",
+                "options": {
+                    "alertThreshold": true
+                },
+                "percentage": false,
+                "pluginVersion": "9.3.0",
+                "pointradius": 5,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": false,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "alias": "$tag_kubernetes_platform",
+                        "datasource": {
+                            "type": "influxdb",
+                            "uid": "P951FEA4DE68E13C5"
+                        },
+                        "groupBy": [
+                            {
+                                "params": [
+                                    "5m"
+                                ],
+                                "type": "time"
+                            },
+                            {
+                                "params": [
+                                    "kubernetes_platform"
+                                ],
+                                "type": "tag"
+                            },
+                            {
+                                "params": [
+                                    "null"
+                                ],
+                                "type": "fill"
+                            }
+                        ],
+                        "measurement": "by_kubernetes_platform_down_sampling",
+                        "orderByTime": "ASC",
+                        "policy": "default",
+                        "query": "SELECT last(\"total\") FROM \"by_kubernetes_platform_down_sampling\" WHERE $timeFilter GROUP BY time(1h), \"kubernetes_platform\" fill(null)",
+                        "rawQuery": false,
+                        "refId": "A",
+                        "resultFormat": "time_series",
+                        "select": [
+                            [
+                                {
+                                    "params": [
+                                        "total"
+                                    ],
+                                    "type": "field"
+                                },
+                                {
+                                    "params": [],
+                                    "type": "last"
+                                }
+                            ]
+                        ],
+                        "tags": []
+                    }
+                ],
+                "thresholds": [],
+                "timeRegions": [],
+                "title": "Active Nodes Kubernetes Platform",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 2,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "mode": "time",
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    },
+                    {
+                        "format": "short",
+                        "logBase": 1,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false
+                }
+            }
+        ],
+        "refresh": false,
+        "schemaVersion": 37,
+        "style": "dark",
+        "tags": [],
+        "templating": {
+            "list": [
+                {
+                    "description": "The name of the application that is using this upgrade checker",
+                    "hide": 2,
+                    "name": "AppName",
+                    "query": "Epinio",
+                    "skipUrlSync": false,
+                    "type": "constant"
+                }
+            ]
+        },
+        "time": {
+            "from": "now-3h",
+            "to": "now"
+        },
+        "timepicker": {
+            "nowDelay": "",
+            "refresh_intervals": [
+                "10s",
+                "30s",
+                "1m",
+                "5m",
+                "15m",
+                "30m",
+                "1h",
+                "2h",
+                "1d"
+            ],
+            "time_options": [
+                "5m",
+                "15m",
+                "1h",
+                "6h",
+                "12h",
+                "24h",
+                "2d",
+                "7d",
+                "30d"
+            ]
+        },
+        "timezone": "",
+        "title": "Epinio Upgrade Checker",
+        "uid": "tsrvoC-mzzz",
+        "version": 1,
+        "weekStart": ""
+    }
