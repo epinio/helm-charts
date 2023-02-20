@@ -1,5 +1,5 @@
 questions:
-- variable: global.tlsIssuerMail
+- variable: global.tlsIssuerEmail
   label: Issuer Email Receiver
   description: "Email address to receive the certificate notification emails send by the `letsencrypt-production` issuer"
   type: string
