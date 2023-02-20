@@ -114,51 +114,52 @@ questions:
     required: false
 - variable: minio.enabled
   label: Install Minio
-  description: "Disable Minio to use s3gw."
+  description: "Disable Minio to either use s3gw or to configure an external s3 storage."
   type: boolean
   group: "S3 storage"
   show_subquestion_if: false
-- variable: s3gw.enabled
-  label: Install s3gw
-  description: "Disable s3gw to configure an external s3 storage."
-  type: boolean
-  show_subquestion_if: false
-  group: "S3 storage"
   subquestions:
-  - variable: s3.endpoint
-    label: S3 endpoint
-    description: "Endpoint of your S3 storage"
-    type: string
-    required: false
-  - variable: s3.accessKeyID
-    label: S3 access key id
-    description: "Access key id to authenticate to your S3 storage"
-    type: string
-    required: false
-  - variable: s3.secretAccessKey
-    label: S3 access key secret
-    description: "Secret access key to authenticate to your S3 storage"
-    type: password
-    required: false
-  - variable: s3.bucket
-    label: S3 bucket
-    description: "Bucket of your S3 storage"
-    type: string
-    required: false
-  - variable: s3.region
-    label: S3 region
-    description: "Region of your S3 storage"
-    type: string
-    required: false
-  - variable: s3.useSSL
-    label: S3 use SSL
+  - variable: s3gw.enabled
+    label: Install s3gw
+    description: "Disable s3gw to configure an external s3 storage."
     type: boolean
-    required: false
-  - variable: s3.certificateSecret
-    label: Self signed certificate for S3
-    description: Set it to an existing secret if s3 is using a self signed certificate
-    type: string
-    required: false
+    show_subquestion_if: false
+    group: "S3 storage"
+    subquestions:
+    - variable: s3.endpoint
+      label: S3 endpoint
+      description: "Endpoint of your S3 storage"
+      type: string
+      required: false
+    - variable: s3.accessKeyID
+      label: S3 access key id
+      description: "Access key id to authenticate to your S3 storage"
+      type: string
+      required: false
+    - variable: s3.secretAccessKey
+      label: S3 access key secret
+      description: "Secret access key to authenticate to your S3 storage"
+      type: password
+      required: false
+    - variable: s3.bucket
+      label: S3 bucket
+      description: "Bucket of your S3 storage"
+      type: string
+      required: false
+    - variable: s3.region
+      label: S3 region
+      description: "Region of your S3 storage"
+      type: string
+      required: false
+    - variable: s3.useSSL
+      label: S3 use SSL
+      type: boolean
+      required: false
+    - variable: s3.certificateSecret
+      label: Self signed certificate for S3
+      description: Set it to an existing secret if s3 is using a self signed certificate
+      type: string
+      required: false
 - variable: server.traceLevel
   label: Epinio API Log Level
   required: false
