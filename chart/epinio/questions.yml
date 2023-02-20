@@ -1,7 +1,7 @@
 questions:
-- variable: email
-  label: Email
-  description: "Email to use for getting notifications about your certificates"
+- variable: global.tlsIssuerMail
+  label: Issuer Email Receiver
+  description: "Email address to receive the certificate notification emails send by the `letsencrypt-production` issuer"
   type: string
   required: false
   group: "General settings"

@@ -15,7 +15,7 @@ metadata:
   name: letsencrypt-production
 spec:
   acme:
-    email: {{ .Values.email }}
+    email: {{ .Values.global.tlsIssuerMail | default .Values.email | quote }}
     preferredChain: ""
     privateKeySecretRef:
       name: letsencrypt-production
