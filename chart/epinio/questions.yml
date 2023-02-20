@@ -116,13 +116,14 @@ questions:
   label: Install Minio
   description: "Disable Minio to use s3gw."
   type: boolean
+  group: "S3 storage"
   show_subquestion_if: false
 - variable: s3gw.enabled
   label: Install s3gw
   description: "Disable s3gw to configure an external s3 storage."
   type: boolean
   show_subquestion_if: false
-  group: "External S3 storage"
+  group: "S3 storage"
   subquestions:
   - variable: s3.endpoint
     label: S3 endpoint
