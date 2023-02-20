@@ -1,7 +1,8 @@
 {{- if .Values.global.dex.enabled -}}
 
-{{- $dexSecret := (lookup "v1" "Secret" .Release.Namespace "dex-config").data -}}
-{{- $uiClientSecret := empty $dexSecret | ternary (randAlphaNum 16) (b64dec (default "" $dexSecret.uiClientSecret)) -}}
+{{- $dexSecret := (lookup "v1" "Secret" .Release.Namespace "dex-config").data | default dict -}}
+{{- $prevUiClientSecret := (get $dexSecret "uiClientSecret") -}}
+{{- $uiClientSecret := empty $prevUiClientSecret | ternary (randAlphaNum 32) (b64dec $prevUiClientSecret) -}}
 
 ---
 apiVersion: v1
