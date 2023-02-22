@@ -50,17 +50,19 @@ spec:
           value: {{ default (printf "https://epinio.%s" .Values.global.domain) .Values.epinioUI.uiURL }}
         - name: EPINIO_API_SKIP_SSL
           value: {{ (default "false" .Values.epinioUI.apiSkipSSL) | quote }}
-        - name: EPINIO_DEX_AUTH_URL
-          value: {{ default (printf "https://auth.%s" .Values.global.domain) .Values.epinioUI.dexURL }}
         - name: EPINIO_THEME
           value: {{ (default "light" .Values.epinioUI.theme) | quote }}
+        {{- if .Values.global.dex.enabled }}
+        - name: EPINIO_DEX_AUTH_URL
+          value: {{ default (printf "https://auth.%s" .Values.global.domain) .Values.epinioUI.dexURL }}
         - name: EPINIO_DEX_ENABLED
-          value: {{ (default false .Values.global.dex.enabled) | quote }}
+          value: "true"
         - name: EPINIO_DEX_SECRET
           valueFrom:
             secretKeyRef:
               name: dex-config
               key: uiClientSecret
+        {{- end }}
         - name: HTTP_CLIENT_TIMEOUT_IN_SECS
           value: "120"
         - name: SESSION_STORE_SECRET
