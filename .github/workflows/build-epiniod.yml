@@ -28,7 +28,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: chrisdickinson/setup-yq@latest     # Install yq
-      - uses: WyriHaximus/github-action-helm3@v2 # Install helm
+      - uses: WyriHaximus/github-action-helm3@v3 # Install helm
       - name: Docker image tag
         id: get-tag
         run: |
