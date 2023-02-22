@@ -180,6 +180,9 @@
         "tlsIssuer": {
           "type": "string"
         },
+        "tlsIssuerMail": {
+          "type": "string"
+        },
         "registryURL": {
           "type": "string"
         },

@@ -2,7 +2,12 @@
 ## This is a YAML-formatted file.
 ## Declare variables to be passed into your templates.
 
-# The email address you are planning to use for getting notifications about your certificates.
+# Fall back email address to receive notifications from the `letsencrypt-production` issuer.
+#
+# __SUPERCEDED__ by `global.tlsIssuerMail`.
+#
+# Kept for backward compatibility, here and in the templates.
+
 email: "epinio@suse.com"
 
 image:
@@ -171,6 +176,8 @@ global:
   # The name of the cluster issuer to use.
   # Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'.
   tlsIssuer: "epinio-ca"
+  # Email address to receive the certificate notification emails send by the `letsencrypt-production` issuer.
+  tlsIssuerEmail: "epinio@suse.com"
   # The URL of the container registry from where to pull container images for the various
   # created Pods. Don't confuse this registry with the "Epinio registry" which is the one
   # where Epinio stores the application images.
