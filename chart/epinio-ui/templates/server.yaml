@@ -54,7 +54,9 @@ spec:
           value: {{ (default "light" .Values.epinioUI.theme) | quote }}
         {{- if .Values.global.dex.enabled }}
         - name: EPINIO_DEX_AUTH_URL
-          value: {{ default (printf "https://auth.%s" .Values.global.domain) .Values.epinioUI.dexURL }}
+          value: {{ default (printf "http://dex.%s.svc.cluster.local:5556" .Release.Namespace) .Values.epinioUI.dexURL }}
+        - name: EPINIO_DEX_ISSUER
+          value: {{ printf "https://auth.%s" .Values.global.domain }}
         - name: EPINIO_DEX_ENABLED
           value: "true"
         - name: EPINIO_DEX_SECRET
