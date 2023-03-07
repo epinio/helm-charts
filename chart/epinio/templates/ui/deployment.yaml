@@ -22,7 +22,8 @@ spec:
     spec:
       containers:
       - name: epinio-ui
-        image: "{{ default .Values.image.epinio-ui.registry (include "registry-url" .) }}{{ .Values.image.epinio-ui.repository }}:{{ .Values.image.epinio-ui.tag }}"
+        {{- $epinioUiImage := index .Values "image" "epinio-ui" -}}
+        image: "{{ default $epinioUiImage.registry (include "registry-url" .) }}{{ $epinioUiImage.repository }}:{{ $epinioUiImage.tag }}"
         imagePullPolicy: {{ .Values.epinioUI.imagePullPolicy }}
         workingDir: /db
 
