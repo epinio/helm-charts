@@ -133,8 +133,6 @@ spec:
         image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.registry.repository}}:{{ .Values.containerregistry.image.registry.tag }}"
         imagePullPolicy: {{ .Values.containerregistry.imagePullPolicy }}
         env:
-        - name: REGISTRY_STORAGE_DELETE_ENABLED
-          value: true
         - name: REGISTRY_AUTH
           value: htpasswd
         - name: REGISTRY_AUTH_HTPASSWD_REALM
@@ -145,6 +143,8 @@ spec:
           value: "/certs/tls.crt"
         - name: REGISTRY_HTTP_TLS_KEY
           value: "/certs/tls.key"
+        - name: REGISTRY_STORAGE_DELETE_ENABLED
+          value: true
         volumeMounts:
         - name: registry
           mountPath: /var/lib/registry
