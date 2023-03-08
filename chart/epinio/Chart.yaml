@@ -21,12 +21,6 @@ dependencies:
   tags:
   - kubed
   version: v0.13.2
-- condition: epinio-ui.enabled
-  name: epinio-ui
-  repository: https://epinio.github.io/helm-charts
-  tags:
-  - epinio-ui
-  version: 1.7.2
 - condition: s3gw.enabled, global.s3gw.enabled
   name: s3gw
   repository: https://aquarist-labs.github.io/s3gw-charts

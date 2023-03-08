@@ -53,6 +53,20 @@ targets:
       versionincrement: minor
       appversion: true
 
+  epinio-chart:
+    name: "Update Epinio UI backend image for Helm Chart chart/epinio"
+    kind: "helmchart"
+    scmid: "helm-charts"
+    transformers:
+      - addprefix: "ghcr.io/epinio/epinio-ui:"
+    spec:
+      name: "chart/epinio"
+      file: "values.yaml"
+      key: "image.epinio-ui.tag"
+      value: '{{ source "ui-backend-tag" }}'
+      versionincrement: minor
+      appversion: true
+
 # Define pullrequest configuration if one needs to be created
 actions:
   helm-charts:

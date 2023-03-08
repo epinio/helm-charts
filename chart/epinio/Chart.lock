@@ -8,11 +8,8 @@ dependencies:
 - name: kubed
   repository: https://charts.appscode.com/stable/
   version: v0.13.2
-- name: epinio-ui
-  repository: https://epinio.github.io/helm-charts
-  version: 1.7.2
 - name: s3gw
   repository: https://aquarist-labs.github.io/s3gw-charts
   version: 0.12.0
-digest: sha256:36fc40b77ae5dd1bef839d3927841f17b0ae9a4c9d8d421a5634beacdf8ca821
-generated: "2023-03-03T12:08:51.539540817Z"
+digest: sha256:a4cf335df615af1698b5835931c356a875c9c18539a2ebfa71f5ade16f05354a
+generated: "2023-03-06T16:38:53.430043032+01:00"
