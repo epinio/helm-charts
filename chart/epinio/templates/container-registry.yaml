@@ -143,6 +143,8 @@ spec:
           value: "/certs/tls.crt"
         - name: REGISTRY_HTTP_TLS_KEY
           value: "/certs/tls.key"
+        - name: REGISTRY_STORAGE_DELETE_ENABLED
+          value: "true"
         volumeMounts:
         - name: registry
           mountPath: /var/lib/registry
