@@ -13,7 +13,7 @@ spec:
   ports:
     - port: 8080
       protocol: TCP
-      targetPort: 8080
+      targetPort: {{ include "epinio-app-listening-port" . }}
   selector:
     {{- include "epinio-application.selectorLabels" . | nindent 4 }}
   type: ClusterIP
