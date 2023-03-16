@@ -48,3 +48,10 @@ character removed.
 {{- define "epinio-truncate" -}}
 {{ print "r" (trunc 21 (include "epinio-name-sanitize" .)) "-" (sha1sum .) }}
 {{- end }}
+
+{{/*
+Application listening port
+*/}}
+{{- define "epinio-app-listening-port" -}}
+{{ .Values.userConfig.appListeningPort | default 8080 }}
+{{- end }}

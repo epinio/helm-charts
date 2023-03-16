@@ -41,7 +41,7 @@ spec:
       containers:
       - name: {{ include "epinio-truncate" .Values.epinio.appName }}
         ports:
-        - containerPort: 8080
+        - containerPort: {{ include "epinio-app-listening-port" . }}
           protocol: TCP
         {{- with .Values.epinio.configurations }}
         volumeMounts:
@@ -55,7 +55,7 @@ spec:
         {{- end }}
         env:
         - name: PORT
-          value: "8080"
+          value: {{ include "epinio-app-listening-port" . | quote }}
         {{- range .Values.epinio.env }}
         - name: {{ .name | quote }}
           value: {{ .value | quote }}
