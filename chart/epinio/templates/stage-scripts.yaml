@@ -61,6 +61,9 @@ data:
     find /workspace
     echo _ _ __ ___ _____ Done
   build: |-
+    # Important doc references
+    # - BP general: https://github.com/buildpacks/spec/blob/main/platform.md
+    # - Env setup.: https://github.com/buildpacks/spec/blob/main/platform.md#user-provided-variables
     # Parameters
     # - PREIMAGE # url of previous image
     # - APPIMAGE # url of application image
