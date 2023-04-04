@@ -1791,6 +1791,27 @@ entries:
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
+    created: "2023-04-04T14:11:16.140462415Z"
+    description: The helm chart for epinio applications to be deployed by
+    digest: 82881f4ec51dc4bfb0ba8e61f1e81c7494dcbe8b9e66d8cbe7d3ecba6fa9f3df
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio-application
+    sources:
+    - https://github.com/epinio/helm-charts
+    type: application
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.26/epinio-application-0.1.26.tgz
+    version: 0.1.26
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
     created: "2023-03-27T09:05:44.442655382Z"
     description: The helm chart for epinio applications to be deployed by
     digest: 7533420b22a70c0bb141773c38f308d0315e10d7a74f5c4991cf2a3ca626b78b
@@ -2055,6 +2076,27 @@ entries:
     - https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.13/epinio-application-0.1.13.tgz
     version: 0.1.13
   epinio-application-stateful:
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    created: "2023-04-04T14:11:16.393803991Z"
+    description: The helm chart for epinio applications to be deployed by
+    digest: 3d8b33f0243da92506ad449458598f15079f84590613fb727c33f1bf20d664c6
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio-application-stateful
+    sources:
+    - https://github.com/epinio/helm-charts
+    type: application
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-application-stateful-0.1.23/epinio-application-stateful-0.1.23.tgz
+    version: 0.1.23
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
@@ -2519,4 +2561,4 @@ entries:
     urls:
     - https://github.com/epinio/helm-charts/releases/download/upgrade-responder-v0.1.5/upgrade-responder-v0.1.5.tgz
     version: v0.1.5
-generated: "2023-03-27T09:05:44.695075704Z"
+generated: "2023-04-04T14:11:16.395072369Z"
