@@ -53,5 +53,5 @@ character removed.
 Application listening port
 */}}
 {{- define "epinio-app-listening-port" -}}
-{{ .Values.userConfig.appListeningPort | default 8080 }}
+{{ default 8080 (default (dict "appListeningPort" "8080") .Values.userConfig).appListeningPort }}
 {{- end }}
