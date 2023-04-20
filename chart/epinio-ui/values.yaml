@@ -2,7 +2,7 @@ epinioUI:
   image:
     registry: ghcr.io
     repository: epinio/epinio-ui
-    tag: v1.8.0-0.0.1
+    tag: v1.7.1-0.0.1
   imagePullPolicy: IfNotPresent
   uiURL: ""
   # Epinio standalone only supports a single theme, either light or dark
