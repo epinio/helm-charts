@@ -39,20 +39,6 @@ conditions:
       architecture: "amd64"
 
 targets:
-  epinio-ui-chart:
-    name: "Update Epinio UI backend image for Helm Chart chart/epinio-ui"
-    kind: "helmchart"
-    scmid: "helm-charts"
-    transformers:
-      - addprefix: "ghcr.io/epinio/epinio-ui:"
-    spec:
-      name: "chart/epinio-ui"
-      file: "values.yaml"
-      key: "epinioUI.image.tag"
-      value: '{{ source "ui-backend-tag" }}'
-      versionincrement: minor
-      appversion: true
-
   epinio-chart:
     name: "Update Epinio UI backend image for Helm Chart chart/epinio"
     kind: "helmchart"
@@ -64,8 +50,8 @@ targets:
       file: "values.yaml"
       key: "image.epinio-ui.tag"
       value: '{{ source "ui-backend-tag" }}'
-      versionincrement: minor
-      appversion: true
+      versionincrement: none
+      appversion: false
 
 # Define pullrequest configuration if one needs to be created
 actions:
