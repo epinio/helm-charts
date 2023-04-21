@@ -14,7 +14,7 @@ dependencies:
   repository: https://charts.min.io/
   tags:
   - minio
-  version: 5.0.7
+  version: 5.0.8
 - condition: kubed.enabled, global.kubed.enabled
   name: kubed
   repository: https://charts.appscode.com/stable/
@@ -40,4 +40,4 @@ maintainers:
 name: epinio
 sources:
 - https://github.com/epinio/epinio
-version: 1.7.1
+version: 1.8.0
