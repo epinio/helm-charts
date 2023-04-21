@@ -77,4 +77,4 @@ targets:
       name: "chart/epinio"
       file: "Chart.yaml"
       key: "appVersion"
-      versionincrement: "minor"
+      versionincrement: "none"
