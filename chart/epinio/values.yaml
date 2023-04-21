@@ -9,7 +9,6 @@
 # Kept for backward compatibility, here and in the templates.
 
 email: "epinio@suse.com"
-
 image:
   epinio:
     registry: ghcr.io/
@@ -18,7 +17,7 @@ image:
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.7.1-0.0.1
+    tag: v1.8.0-0.0.1
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
@@ -36,7 +35,6 @@ image:
   builder:
     repository: paketobuildpacks/builder
     tag: full
-
 server:
   # Domain which serves the Rancher UI (to access the API)
   accessControlAllowOrigin: ""
@@ -58,9 +56,7 @@ ingress:
   annotations: {}
   # nginxSSLRedirect to controll https->http redirects
   nginxSSLRedirect: "true"
-
 certManagerNamespace: cert-manager
-
 # Connection details for the S3 storage
 s3:
   endpoint: s3.amazonaws.com
@@ -71,7 +67,6 @@ s3:
   useSSL: true
   # Set it to an existing secret if S3 is using a self signed cert
   certificateSecret: ""
-
 api:
   # Default users
   users:
@@ -83,7 +78,6 @@ api:
       role: user
       workspaces:
         - workspace
-
 # Dex subchart values -- None for now, and sub chart disabled
 dex:
   # hardcode this, to avoid problems with release name
@@ -96,7 +90,6 @@ dex:
     secret: ""
     # Defaults to https://epinio.{{ .Values.global.domain }}/auth/verify/
     redirectURI: ""
-
 # Extra environment variables passed to the epinio-server pod.
 # extraEnv:
 # - name: MY_ENV_VAR
@@ -122,7 +115,6 @@ minio:
   makeUserJob:
     podAnnotations:
       linkerd.io/inject: disabled
-
 epinioUI:
   enabled: true
   # UI theme, either 'light' or 'dark'
@@ -142,12 +134,10 @@ epinioUI:
     enabled: false
     # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
     ingressClassName: ""
-
 kubed:
   enabled: true
   fullnameOverride: kubed
   enableAnalytics: false
-
 # s3gw subchart values
 s3gw:
   enabled: false
@@ -161,7 +151,6 @@ s3gw:
   storageClass:
     create: false
     name: ""
-
 containerregistry:
   enabled: true
   image:
@@ -175,21 +164,21 @@ containerregistry:
   # The ingressClassName is used to select the ingress controller. If
   # empty no class will be added to the ingresses.
   ingressClassName: ""
-
 serviceCatalog:
   # Enable service catalog service for development
   enableDevServices: true
-
 global:
   dex:
     enabled: true
   # The domain that will be used to access the epinio API server and the registry
   domain: ""
   # Connection details for the container registry.
-  registryURL: ""  # Skip if containerregistry.enabled is true
+  # Skip if containerregistry.enabled is true
+  registryURL: ""
   registryUsername: "admin"
   registryPassword: "changeme"
-  registryNamespace: "apps"  # Used in registry path when pushing -> "external.tld/apps/APPNAME"
+  # Used in registry path when pushing -> "external.tld/apps/APPNAME"
+  registryNamespace: "apps"
   # The name of the cluster issuer to use.
   # Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'.
   tlsIssuer: "epinio-ca"
