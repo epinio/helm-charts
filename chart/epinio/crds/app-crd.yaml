@@ -64,10 +64,16 @@ spec:
                 type: string
               origin:
                 properties:
+                  archive:
+                    type: boolean
                   container:
                     type: string
                   git:
                     properties:
+                      branch:
+                        type: string
+                      provider:
+                        type: string
                       repository:
                         type: string
                       revision:
