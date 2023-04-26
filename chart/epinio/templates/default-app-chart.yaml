@@ -16,3 +16,4 @@ spec:
   settings:
     appListeningPort:
       type: 'integer'
+      minimum: '0'
