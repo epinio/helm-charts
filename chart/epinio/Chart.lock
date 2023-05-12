@@ -10,6 +10,6 @@ dependencies:
   version: v0.13.2
 - name: s3gw
   repository: https://aquarist-labs.github.io/s3gw-charts
-  version: 0.15.0
-digest: sha256:a7d8e386c04e95778bc0159d38a83fdf0fd7949590cae28b4a10eeabcae69d7b
-generated: "2023-04-28T16:00:51.862726181Z"
+  version: 0.16.0
+digest: sha256:7175d872a3ec4e55b06e2b8fa143b7a3b42989f713834b33ca52b4c4c59a051a
+generated: "2023-05-12T11:00:56.524573848Z"
