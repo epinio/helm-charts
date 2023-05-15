@@ -5,10 +5,10 @@ dependencies:
   version: 4.12.1
 - name: grafana
   repository: https://grafana.github.io/helm-charts
-  version: 6.56.2
+  version: 6.56.4
 description: A Helm chart for Kubernetes
 maintainers:
 - email: team@epinio.io
   name: SUSE
 name: upgrade-responder
-version: 0.7.0
+version: 0.8.0
