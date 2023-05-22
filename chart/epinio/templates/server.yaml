@@ -376,6 +376,10 @@ metadata:
     app.kubernetes.io/name: epinio-server
     app.kubernetes.io/part-of: epinio
     app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.image.epinio.tag }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   name: epinio-server
   namespace: {{ .Release.Namespace }}
 spec:

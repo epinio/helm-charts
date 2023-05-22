@@ -8,6 +8,10 @@ metadata:
   labels:
     app.kubernetes.io/name: epinio-ui
     app.kubernetes.io/instance: {{ .Release.Name }}
+  {{- with .Values.epinioUI.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   type: ClusterIP
   selector:
