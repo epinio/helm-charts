@@ -17,7 +17,7 @@ image:
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.8.1-0.0.1
+    tag: ghcr.io/epinio/epinio-ui:v1.8.1-0.0.1
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
