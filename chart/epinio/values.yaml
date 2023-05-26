@@ -9,6 +9,7 @@
 # Kept for backward compatibility, here and in the templates.
 
 email: "epinio@suse.com"
+
 image:
   epinio:
     registry: ghcr.io/
@@ -35,6 +36,7 @@ image:
   builder:
     repository: paketobuildpacks/builder
     tag: full
+
 server:
   # Domain which serves the Rancher UI (to access the API)
   accessControlAllowOrigin: ""
@@ -48,6 +50,7 @@ server:
   disableTracking: false
   # Name of the Service Account used by the staging job
   stagingServiceAccountName: ""
+
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
@@ -56,7 +59,13 @@ ingress:
   annotations: {}
   # nginxSSLRedirect to controll https->http redirects
   nginxSSLRedirect: "true"
+
+service:
+  # -- Annotations to be added to the Epinio service.
+  annotations: {}
+
 certManagerNamespace: cert-manager
+
 # Connection details for the S3 storage
 s3:
   endpoint: s3.amazonaws.com
@@ -67,6 +76,7 @@ s3:
   useSSL: true
   # Set it to an existing secret if S3 is using a self signed cert
   certificateSecret: ""
+
 api:
   # Default users
   users:
@@ -78,6 +88,7 @@ api:
       role: user
       workspaces:
         - workspace
+
 # Dex subchart values -- None for now, and sub chart disabled
 dex:
   # hardcode this, to avoid problems with release name
@@ -90,10 +101,15 @@ dex:
     secret: ""
     # Defaults to https://epinio.{{ .Values.global.domain }}/auth/verify/
     redirectURI: ""
+  service:
+    # -- Annotations to be added to the Epinio service.
+    annotations: {}
+
 # Extra environment variables passed to the epinio-server pod.
 # extraEnv:
 # - name: MY_ENV_VAR
 #   value: "1.0"
+
 # Minio subchart values
 minio:
   enabled: true
@@ -115,6 +131,7 @@ minio:
   makeUserJob:
     podAnnotations:
       linkerd.io/inject: disabled
+
 epinioUI:
   enabled: true
   # UI theme, either 'light' or 'dark'
@@ -134,10 +151,15 @@ epinioUI:
     enabled: false
     # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
     ingressClassName: ""
+  service:
+    # -- Annotations to be added to the service.
+    annotations: {}
+
 kubed:
   enabled: true
   fullnameOverride: kubed
   enableAnalytics: false
+
 # s3gw subchart values
 s3gw:
   enabled: false
@@ -151,6 +173,7 @@ s3gw:
   storageClass:
     create: false
     name: ""
+
 containerregistry:
   enabled: true
   image:
@@ -164,9 +187,11 @@ containerregistry:
   # The ingressClassName is used to select the ingress controller. If
   # empty no class will be added to the ingresses.
   ingressClassName: ""
+
 serviceCatalog:
   # Enable service catalog service for development
   enableDevServices: true
+
 global:
   dex:
     enabled: true
