@@ -187,6 +187,10 @@ containerregistry:
   # The ingressClassName is used to select the ingress controller. If
   # empty no class will be added to the ingresses.
   ingressClassName: ""
+  # The certificateSecret is used to load the certificate of the registry in the staging job.
+  # The certificate has to be in PEM format within in a 'tls.crt' key (it can be an Opaque secret).
+  # It also has to be trusted by the kubelet, and it needs to be added in the cluster as well.
+  certificateSecret: ""
 
 serviceCatalog:
   # Enable service catalog service for development
