@@ -246,6 +246,10 @@ spec:
       app.kubernetes.io/instance: default
       app.kubernetes.io/name: epinio-server
       app.kubernetes.io/part-of: epinio
+  {{- with .Values.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   template:
     metadata:
       labels:

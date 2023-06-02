@@ -64,6 +64,15 @@ service:
   # -- Annotations to be added to the Epinio service.
   annotations: {}
 
+# The strategy used to deploy the Epinio server.
+# If you are using a RWO storage the following will avoid a Multi-Attach error during an `helm upgrade`.
+# See https://github.com/epinio/epinio/issues/2253.
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 0
+    maxUnavailable: 1
+
 certManagerNamespace: cert-manager
 
 # Connection details for the S3 storage
