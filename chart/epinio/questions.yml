@@ -112,6 +112,14 @@ questions:
     description: "The organization part of the registry path for an external registry where you have push access"
     type: string
     required: false
+  - variable: containerregistry.certificateSecret
+    label: External registry certificate secret
+    description: |
+      Name of Secret in Epinio's main namespace with PEM formatted certificate found at key 'tls.crt'.
+      Necessary for validating external registry used by Epinio's staging jobs.
+      Must be also trusted by kubelet in the cluster.
+    type: string
+    required: false
 - variable: minio.enabled
   label: Install Minio
   description: "Disable Minio to either use s3gw or to configure an external s3 storage."
