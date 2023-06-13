@@ -115,11 +115,9 @@ questions:
   - variable: containerregistry.certificateSecret
     label: External registry certificate secret
     description: |
-      The name of an (opaque) Secret containing the certificate necessary to validate the external registry.
-      Expected to be found in Epinio's main namespace. This is used by Epinio's staging jobs.
-      The certificate has to be in PEM format and is expected to be in key 'tls.crt'.
-      BEWARE: The certificate has to be trusted by the kubelet.
-      In other words, it has to be added in the cluster as well.
+      Name of Secret in Epinio's main namespace with PEM formatted certificate found at key 'tls.crt'.
+      Necessary for validating external registry used by Epinio's staging jobs.
+      Must be also trusted by kubelet in the cluster.
     type: string
     required: false
 - variable: minio.enabled
