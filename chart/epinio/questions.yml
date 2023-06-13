@@ -116,8 +116,8 @@ questions:
     label: External registry certificate secret
     description: |
       The name of an (opaque) Secret containing the certificate necessary to validate the external registry.
-      This is used by Epinio's staging jobs.
-      The certificate has to be in PEM format and be reachable through key 'tls.crt'.
+      Expected to be found in Epinio's main namespace. This is used by Epinio's staging jobs.
+      The certificate has to be in PEM format and is expected to be in key 'tls.crt'.
       BEWARE: The certificate has to be trusted by the kubelet.
       In other words, it has to be added in the cluster as well.
     type: string
