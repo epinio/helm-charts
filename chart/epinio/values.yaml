@@ -44,12 +44,17 @@ server:
   timeoutMultiplier: 1
   # Increase this value to instruct the API server to produce more debug output
   traceLevel: 0
-  # The ingressClassName is used to select the ingress controller for apps. If empty ingress.ingressClassName (see below) is used
+  # The ingressClassName is used to select the ingress controller for apps.
+  # If empty ingress.ingressClassName (see below) is used
   ingressClassName: ""
   # Disable tracking of the Epinio and Kubernetes cluster version
   disableTracking: false
   # Name of the Service Account used by the staging job
   stagingServiceAccountName: ""
+  # Resources to allocate to the staging job. Default: unbounded
+  stagingResourceRequests:
+    cpu: ""
+    memory: ""
 
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
