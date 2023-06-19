@@ -68,11 +68,28 @@
         "traceLevel": {
           "type": "integer"
         },
+        "disableTracking": {
+          "type": "boolean"
+        },
         "registryCertificateSecret": {
           "type": "string"
         },
         "ingressClassName": {
           "type": "string"
+        },
+        "stagingServiceAccountName": {
+          "type": "string"
+        },
+        "stagingResourceRequests": {
+          "type": "object",
+	  "properties": {
+            "cpu": {
+	       "type": "string"
+            },
+            "memory": {
+	       "type": "string"
+            }
+	  }
         }
       }
     },
