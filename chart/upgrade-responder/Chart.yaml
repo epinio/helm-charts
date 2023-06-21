@@ -2,7 +2,7 @@ apiVersion: v2
 dependencies:
 - name: influxdb
   repository: https://helm.influxdata.com
-  version: 4.12.1
+  version: 4.12.2
 - name: grafana
   repository: https://grafana.github.io/helm-charts
   version: 6.52.9
@@ -11,4 +11,4 @@ maintainers:
 - email: team@epinio.io
   name: SUSE
 name: upgrade-responder
-version: 0.1.7
+version: 0.2.0
