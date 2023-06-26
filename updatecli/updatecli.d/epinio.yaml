@@ -54,7 +54,7 @@ conditions:
     scmid: "helm-charts"
     spec:
       file: "chart/epinio/values.yaml"
-      key: "image.epinio.repository"
+      key: "$.image.epinio.repository"
       value: "epinio/epinio-server"
 
   dockerImageRegistry:
@@ -64,7 +64,7 @@ conditions:
     scmid: "helm-charts"
     spec:
       file: "chart/epinio/values.yaml"
-      key: "image.epinio.registry"
+      key: "$.image.epinio.registry"
       value: "ghcr.io/"
 
 # Defines what needs to be udpated if needed
@@ -76,5 +76,5 @@ targets:
     spec:
       name: "chart/epinio"
       file: "Chart.yaml"
-      key: "appVersion"
+      key: "$.appVersion"
       versionincrement: "none"
