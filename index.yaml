@@ -2714,6 +2714,24 @@ entries:
     version: 0.0.1
   upgrade-responder:
   - apiVersion: v2
+    created: "2023-06-29T13:03:55.291611934Z"
+    dependencies:
+    - name: influxdb
+      repository: https://helm.influxdata.com
+      version: 4.12.3
+    - name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 6.57.4
+    description: A Helm chart for Kubernetes
+    digest: 7102b505f452ca98d742f23ad1a27bd2b88fe69fe2b5827d8091c386e373e417
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: upgrade-responder
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/upgrade-responder-0.1.8/upgrade-responder-0.1.8.tgz
+    version: 0.1.8
+  - apiVersion: v2
     created: "2023-04-07T13:45:50.796970195Z"
     dependencies:
     - name: influxdb
@@ -2767,4 +2785,4 @@ entries:
     urls:
     - https://github.com/epinio/helm-charts/releases/download/upgrade-responder-v0.1.5/upgrade-responder-v0.1.5.tgz
     version: v0.1.5
-generated: "2023-05-26T09:26:53.350269664Z"
+generated: "2023-06-29T13:03:55.29183903Z"
