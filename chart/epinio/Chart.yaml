@@ -1,5 +1,6 @@
 annotations:
   artifacthub.io/license: Apache-2.0
+  artifacthub.io/prerelease: "false"
 apiVersion: v2
 appVersion: v1.8.1
 dependencies:
@@ -8,7 +9,7 @@ dependencies:
   repository: https://charts.dexidp.io
   tags:
   - dex
-  version: 0.14.1
+  version: 0.14.3
 - condition: minio.enabled, global.minio.enabled
   name: minio
   repository: https://charts.min.io/
