@@ -43,12 +43,10 @@ targets:
     name: "Update Epinio UI backend image for Helm Chart chart/epinio"
     kind: "helmchart"
     scmid: "helm-charts"
-    transformers:
-      - addprefix: "ghcr.io/epinio/epinio-ui:"
     spec:
       name: "chart/epinio"
       file: "values.yaml"
-      key: "image.epinio-ui.tag"
+      key: "$.image.epinio-ui.tag"
       value: '{{ source "ui-backend-tag" }}'
       versionincrement: none
       appversion: false
