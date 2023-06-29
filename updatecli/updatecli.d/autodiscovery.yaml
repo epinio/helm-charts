@@ -2,11 +2,14 @@
 name: "Autodiscovery"
 
 autodiscovery:
-  groupby: individual
+  groupby: all
   scmid: default
   actionid: default
   crawlers:
     helm:
+      versionfilter:
+        kind: semver
+        pattern: minor
 
 scms:
   default:
@@ -25,6 +28,7 @@ actions:
     kind: "github/pullrequest"
     scmid: "default"
     spec:
+      title: Bump Minor version of Helm charts
       labels:
         - "dependencies"
         - "helm"
