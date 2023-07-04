@@ -37,6 +37,7 @@ sources:
       path: "./epinio/"
       versionfilter:
         kind: semver
+        pattern: ">=0.0.0-0"
 
 # Defines condition that must pass in order to update targets
 conditions:
