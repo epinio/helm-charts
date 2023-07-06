@@ -33,6 +33,8 @@ image:
   builder:
     repository: paketobuildpacks/builder
     tag: full
+appChart:
+  default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.26/epinio-application-0.1.26.tgz
 server:
   # Domain which serves the Rancher UI (to access the API)
   accessControlAllowOrigin: ""
