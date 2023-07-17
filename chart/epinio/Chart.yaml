@@ -41,4 +41,4 @@ maintainers:
 name: epinio
 sources:
 - https://github.com/epinio/epinio
-version: 1.9.0-rc3
+version: 1.9.0-rc4
