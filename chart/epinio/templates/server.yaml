@@ -305,7 +305,7 @@ spec:
               value: {{ default "minio-tls" .Values.s3.certificateSecret }}
             {{- else if .Values.s3gw.enabled }}
             - name: S3_CERTIFICATE_SECRET
-              value: {{ default "s3gw-cluster-ip-tls" .Values.s3.certificateSecret }}
+              value: {{ default (printf "%s-%s-cluster-ip-tls" .Release.Name .Release.Namespace) .Values.s3.certificateSecret }}
             {{- else if .Values.s3.certificateSecret }}
             - name: S3_CERTIFICATE_SECRET
               value: {{ .Values.s3.certificateSecret }}
