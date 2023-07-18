@@ -169,7 +169,6 @@ s3gw:
     enabled: false
   serviceName: s3gw
   useExistingSecret: true
-  defaultUserCredentialsSecret: s3gw-creds
   storageSize: 2Gi
   storageClass:
     create: false
