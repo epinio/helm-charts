@@ -1,5 +1,5 @@
 ---
-name: "Autodiscovery"
+name: "Autodiscovery - application"
 
 autodiscovery:
   groupby: all
@@ -10,6 +10,8 @@ autodiscovery:
       versionfilter:
         kind: semver
         pattern: minor
+      only:
+        - path: "chart/application/*"
 
 scms:
   default:
@@ -28,7 +30,7 @@ actions:
     kind: "github/pullrequest"
     scmid: "default"
     spec:
-      title: Bump Minor version of Helm charts
+      title: Bump application chart dependencies
       labels:
         - "dependencies"
         - "helm"
