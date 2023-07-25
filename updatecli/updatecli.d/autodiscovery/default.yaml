@@ -1,0 +1,40 @@
+---
+name: "Autodiscovery - Default"
+
+autodiscovery:
+  groupby: all
+  scmid: default
+  actionid: default
+  crawlers:
+    helm:
+      versionfilter:
+        kind: semver
+      # The following helm chart already have specific updatecli manifest
+      ignore:
+        - path: "chart/application-stateful/*"
+        - path: "chart/application/*"
+        - path: "chart/epinio/*"
+        - path: "chart/epinio-ui/*"
+        - path: "chart/upgrade-responder/*"
+
+scms:
+  default:
+    kind: "github"
+    spec:
+      user: "{{ .github.epinio.user }}"
+      email: "{{ .github.epinio.email }}"
+      owner: "{{ .github.epinio.owner }}"
+      repository: "{{ .github.epinio.repository }}"
+      token: '{{ requiredEnv .github.epinio.token }}'
+      username: "{{ .github.epinio.username }}"
+      branch: "{{ .github.epinio.branch }}"
+
+actions:
+  default:
+    kind: "github/pullrequest"
+    scmid: "default"
+    spec:
+      title: Bump chart dependencies
+      labels:
+        - "dependencies"
+        - "helm"
