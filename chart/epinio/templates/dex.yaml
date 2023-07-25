@@ -22,6 +22,8 @@ stringData:
       type: kubernetes
       config:
         inCluster: true
+    oauth2:
+      skipApprovalScreen: true
     enablePasswordDB: true
     staticPasswords:
     - email: "admin@epinio.io"
