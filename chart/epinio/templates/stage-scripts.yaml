@@ -83,7 +83,7 @@ data:
       exit 1
     fi
     find /workspace
-    for path in /workspace/source/env/* ; do export $(basename ${path})=$(cat $path) ; done
+    for path in /workspace/source/env/* ; do export "$(basename "${path}")"="$(cat "${path}")" ; done
     /cnb/lifecycle/creator \
       -app=/workspace/source/app \
       -cache-dir=/workspace/cache \
