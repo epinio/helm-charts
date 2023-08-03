@@ -27,7 +27,7 @@ dependencies:
   repository: https://aquarist-labs.github.io/s3gw-charts
   tags:
   - s3gw
-  version: 0.18.0
+  version: 0.19.0
 description: Epinio deploys Kubernetes applications directly from source code in one
   step.
 home: https://github.com/epinio/epinio
@@ -41,4 +41,4 @@ maintainers:
 name: epinio
 sources:
 - https://github.com/epinio/epinio
-version: 1.11.0
+version: 1.12.0
