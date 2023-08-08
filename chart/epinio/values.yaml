@@ -49,10 +49,11 @@ server:
   disableTracking: false
   # Name of the Service Account used by the staging job
   stagingServiceAccountName: ""
-  # Resources to allocate to the staging job. Default: unbounded
+  # Resources to allocate to the staging job. Default: unbounded cpu/memory, and 1Gi disk
   stagingResourceRequests:
     cpu: ""
     memory: ""
+    disk: "1Gi"
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""

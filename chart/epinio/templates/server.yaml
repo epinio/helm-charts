@@ -337,6 +337,10 @@ spec:
             - name: STAGING_RESOURCE_MEMORY
               value: "{{ . }}"
             {{- end }}
+            {{- with .disk }}
+            - name: STAGING_RESOURCE_DISK
+              value: "{{ . }}"
+            {{- end }}
             {{- end }}
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 -}}
