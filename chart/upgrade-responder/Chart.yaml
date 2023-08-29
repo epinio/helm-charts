@@ -2,7 +2,7 @@ apiVersion: v2
 dependencies:
 - name: influxdb
   repository: https://helm.influxdata.com
-  version: 4.12.4
+  version: 4.12.5
 - name: grafana
   repository: https://grafana.github.io/helm-charts
   version: 6.59.0
