@@ -26,7 +26,7 @@ image:
   skopeo:
     registry: quay.io/
     repository: skopeo/stable
-    tag: v1.10
+    tag: v1.13.2
   kubectl:
     repository: rancher/kubectl
     tag: v1.22.6
