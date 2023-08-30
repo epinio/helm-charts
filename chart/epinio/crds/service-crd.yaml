@@ -59,6 +59,8 @@ spec:
                 properties:
                   name:
                     type: string
+                  secret:
+                    type: string
                   url:
                     type: string
                 type: object
