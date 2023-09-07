@@ -14,25 +14,25 @@ scms:
       username: "{{ .github.epinio.username }}"
       branch: "{{ .github.epinio.branch }}"
 
-  ui-backend:
+  ui:
     kind: "git"
     spec:
-      url: "https://github.com/epinio/ui-backend.git"
+      url: "https://github.com/epinio/ui.git"
       branch: "main"
 
 # Defines where we get source values
 sources:
-  ui-backend-tag:
-    name: "Get latest Epinio UI backend git tag"
+  ui-tag:
+    name: "Get latest Epinio UI git tag"
     kind: "gittag"
-    scmid: ui-backend
+    scmid: ui
     spec:
       versionfilter:
         kind: latest
 
 conditions:
   dockerImage:
-    name: 'Check that ghcr.io/epinio/epinio-ui:{{ source "ui-backend-tag" }} exists'
+    name: 'Check that ghcr.io/epinio/epinio-ui:{{ source "ui-tag" }} exists'
     kind: "dockerimage"
     spec:
       image: "ghcr.io/epinio/epinio-ui"
@@ -40,14 +40,14 @@ conditions:
 
 targets:
   epinio-chart:
-    name: "Update Epinio UI backend image for Helm Chart chart/epinio"
+    name: "Update Epinio UI image for Helm Chart chart/epinio"
     kind: "helmchart"
     scmid: "helm-charts"
     spec:
       name: "chart/epinio"
       file: "values.yaml"
       key: "$.image.epinio-ui.tag"
-      value: '{{ source "ui-backend-tag" }}'
+      value: '{{ source "ui-tag" }}'
       versionincrement: none
       appversion: false
 
