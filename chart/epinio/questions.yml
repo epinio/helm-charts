@@ -56,15 +56,9 @@ questions:
     - "epinio-ca"
     - "selfsigned-issuer"
     - "letsencrypt-production"
-- variable: api.username
-  label: API username
-  description: "The user name for authenticating all API requests"
-  type: string
-  required: false
-  group: "General settings"
-- variable: api.passwordBcrypt
-  label: API password
-  description: "The password for authenticating all API requests (hashed with Bcrypt)"
+- variable: api.adminPassword
+  label: API password for the 'admin' user
+  description: "The password of the 'admin' user"
   type: password
   required: false
   group: "General settings"

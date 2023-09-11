@@ -141,6 +141,14 @@
       "description": "API access configuration",
       "type": "object",
       "properties": {
+        "adminPassword": {
+          "description": "The cleartext password for the 'admin' user",
+          "type": "string"
+        },
+        "epinioPassword": {
+          "description": "The cleartext password for the 'epinio' user",
+          "type": "string"
+        },
         "users": {
           "description": "Default Epinio users",
           "type": "array",
@@ -151,6 +159,9 @@
                 "type": "string"
               },
               "passwordBcrypt": {
+                "type": "string"
+              },
+              "password": {
                 "type": "string"
               },
               "role": {
@@ -165,7 +176,6 @@
             },
             "required": [
               "username",
-              "passwordBcrypt",
               "role"
             ]
           }
