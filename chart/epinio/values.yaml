@@ -86,11 +86,18 @@ s3:
   certificateSecret: ""
 api:
   # Default users
+  # plain password used for the 'admin' user
+  adminPassword: ""
+  # plain password used for the 'epinio' user
+  epinioPassword: ""
   users:
     - username: admin
-      passwordBcrypt: "$2a$10$6bCi5NMstMK781In7JGiL.B44pgoplUb330FQvm6mVXMppbXBPiXS"
+      password: password
+      # or you can provide an already bcrypt hashed password
+      # passwordBcrypt: "$2a$10$6bCi5NMstMK781In7JGiL.B44pgoplUb330FQvm6mVXMppbXBPiXS"
       role: admin
     - username: epinio
+      # the Bcrypt hash for the `password` password
       passwordBcrypt: "$2a$10$6bCi5NMstMK781In7JGiL.B44pgoplUb330FQvm6mVXMppbXBPiXS"
       role: user
       workspaces:
