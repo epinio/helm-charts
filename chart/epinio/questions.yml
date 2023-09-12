@@ -40,7 +40,7 @@ questions:
   group: "General settings"
   show_subquestion_if: true
   subquestions:
-  - variable: customTlsIssuer
+  - variable: global.customTlsIssuer
     label: TLS issuer
     description: "Name of the cluster issuer to use"
     type: string

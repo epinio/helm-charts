@@ -8,6 +8,17 @@ spec:
   selfSigned: {}
 
 ---
+# Private CA (epinio-ca) issuer
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: epinio-ca
+spec:
+  ca:
+    secretName: epinio-ca-root
+
+{{- if eq .Values.tlsIssuer "letsencrypt-production" }}
+---
 # Let's encrypt production issuer
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -32,13 +43,4 @@ spec:
                 traefik.ingress.kubernetes.io/router.entrypoints: websecure
                 traefik.ingress.kubernetes.io/router.tls: "true"
 
----
-# Private CA (epinio-ca) issuer
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: epinio-ca
-spec:
-  ca:
-    secretName: epinio-ca-root
-
+{{- end }}
