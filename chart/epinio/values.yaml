@@ -215,7 +215,7 @@ global:
   # Used in registry path when pushing -> "external.tld/apps/APPNAME"
   registryNamespace: "apps"
   # The name of the cluster issuer to use.
-  # Epinio creates three options: 'epinio-ca', 'letsencrypt-production', and 'selfsigned-issuer'.
+  # Epinio creates three options: 'epinio-ca', 'selfsigned-issuer', 'letsencrypt-staging' and 'letsencrypt-production'.
   tlsIssuer: "epinio-ca"
   # The name of your ClusterIssuer (it will override the tlsIssuer)
   customTlsIssuer: ""
