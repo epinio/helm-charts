@@ -55,6 +55,7 @@ questions:
   options:
     - "epinio-ca"
     - "selfsigned-issuer"
+    - "letsencrypt-staging"
     - "letsencrypt-production"
 - variable: api.adminPassword
   label: API password for the 'admin' user
