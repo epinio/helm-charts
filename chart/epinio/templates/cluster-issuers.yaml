@@ -17,7 +17,7 @@ spec:
   ca:
     secretName: epinio-ca-root
 
-{{- if eq .Values.tlsIssuer "letsencrypt-production" }}
+{{- if eq .Values.global.tlsIssuer "letsencrypt-production" }}
 ---
 # Let's encrypt production issuer
 apiVersion: cert-manager.io/v1
@@ -43,7 +43,7 @@ spec:
                 traefik.ingress.kubernetes.io/router.entrypoints: websecure
                 traefik.ingress.kubernetes.io/router.tls: "true"
 
-{{- else if eq .Values.tlsIssuer "letsencrypt-staging" }}
+{{- else if eq .Values.global.tlsIssuer "letsencrypt-staging" }}
 ---
 # Let's encrypt staging issuer
 apiVersion: cert-manager.io/v1
