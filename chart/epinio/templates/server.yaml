@@ -288,7 +288,7 @@ spec:
             - name: EPINIO_TIMEOUT_MULTIPLIER
               value: "{{ .Values.server.timeoutMultiplier }}"
             - name: TLS_ISSUER
-              value: "{{ .Values.global.tlsIssuer }}"
+              value: "{{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer }}"
             - name: TRACE_LEVEL
               value: "{{ .Values.server.traceLevel }}"
             - name: CHART_VERSION
