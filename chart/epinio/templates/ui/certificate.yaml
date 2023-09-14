@@ -10,6 +10,6 @@ spec:
   - {{ .Values.global.domain }}
   issuerRef:
     kind: ClusterIssuer
-    name: {{ .Values.global.tlsIssuer }}
+    name: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer }}
   secretName: epinio-ui-tls
 {{- end }}
