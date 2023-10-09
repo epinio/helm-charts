@@ -7,6 +7,8 @@ metadata:
   labels:
     epinio.io/api-user-credentials: "true"
     epinio.io/role: {{ .role }}
+  annotations:
+    epinio.io/roles: {{ join "," .roles }}
   name: {{ include "epinio-truncate" (print "user-" .username) }}
   namespace: {{ $.Release.Namespace }}
 stringData:
@@ -23,3 +25,22 @@ stringData:
   namespaces: |
     {{ join "\n" .workspaces -}}
 {{- end }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    epinio.io/role: "true"
+  name: "epinio-user-role"
+  namespace: {{ $.Release.Namespace }}
+data:
+  id: user
+  name: "Epinio User Role"
+  default: "true"
+  actions: |
+    namespace
+    app_read
+    configuration_read
+    service_read
+    gitconfig_read
