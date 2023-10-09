@@ -40,8 +40,6 @@ spec:
           ingressTemplate:
             metadata:
               annotations:
-                traefik.ingress.kubernetes.io/router.entrypoints: websecure
-                traefik.ingress.kubernetes.io/router.tls: "true"
 
 {{- else if eq .Values.global.tlsIssuer "letsencrypt-staging" }}
 ---
@@ -65,7 +63,5 @@ spec:
           ingressTemplate:
             metadata:
               annotations:
-                traefik.ingress.kubernetes.io/router.entrypoints: websecure
-                traefik.ingress.kubernetes.io/router.tls: "true"
 
 {{- end }}
