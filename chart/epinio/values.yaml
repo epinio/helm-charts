@@ -190,7 +190,7 @@ containerregistry:
       tag: 2.8.1
     nginx:
       repository: nginx
-      tag: 1.23.2-alpine
+      tag: 1.25.2-alpine
   imagePullPolicy: IfNotPresent
   # The ingressClassName is used to select the ingress controller. If
   # empty no class will be added to the ingresses.
