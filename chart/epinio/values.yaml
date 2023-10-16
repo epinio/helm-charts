@@ -31,8 +31,8 @@ image:
     repository: rancher/kubectl
     tag: v1.22.6
   builder:
-    repository: paketobuildpacks/builder
-    tag: 0.2.443-full
+    repository: paketobuildpacks/builder-jammy-full
+    tag: 0.3.290
 appChart:
   default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.26/epinio-application-0.1.26.tgz
 server:
