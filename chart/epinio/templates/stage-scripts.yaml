@@ -4,6 +4,8 @@ metadata:
   name: epinio-stage-scripts
   namespace: {{ .Release.Namespace }}
 data:
+  userID: "{{ .Values.image.builder.userid }}"
+  groupID: "{{ .Values.image.builder.groupid }}"
   builderImage:  "{{ default .Values.image.builder.registry (include "registry-url" .) }}{{ .Values.image.builder.repository}}:{{ .Values.image.builder.tag }}"
   downloadImage: "{{ default .Values.image.awscli.registry (include "registry-url" .) }}{{ .Values.image.awscli.repository}}:{{ .Values.image.awscli.tag }}"
   unpackImage:   "{{ default .Values.image.bash.registry (include "registry-url" .) }}{{ .Values.image.bash.repository}}:{{ default .Chart.AppVersion .Values.image.bash.tag }}"
@@ -57,7 +59,7 @@ data:
     rm "/workspace/source/${BLOBID}"
     mkdir -p /workspace/source/env
     cp -vL /workspace/source/appenv/* /workspace/source/env
-    chown -R 1001:1000 /workspace 2> /dev/null
+    chown -R {{ .Values.image.builder.userid }}:{{ .Values.image.builder.groupid }} /workspace 2> /dev/null
     find /workspace
     echo _ _ __ ___ _____ Done
   build: |-
@@ -87,8 +89,8 @@ data:
     /cnb/lifecycle/creator \
       -app=/workspace/source/app \
       -cache-dir=/workspace/cache \
-      -uid=1001 \
-      -gid=1000 \
+      -uid={{ .Values.image.builder.userid }} \
+      -gid={{ .Values.image.builder.groupid }} \
       -layers=/layers \
       -platform=/workspace/source \
       -report=/layers/report.toml \
