@@ -6,7 +6,6 @@ metadata:
 data:
   userID: "{{ .Values.image.builder.userid }}"
   groupID: "{{ .Values.image.builder.groupid }}"
-  builderImage:  "{{ default .Values.image.builder.registry (include "registry-url" .) }}{{ .Values.image.builder.repository}}:{{ .Values.image.builder.tag }}"
   downloadImage: "{{ default .Values.image.awscli.registry (include "registry-url" .) }}{{ .Values.image.awscli.repository}}:{{ .Values.image.awscli.tag }}"
   unpackImage:   "{{ default .Values.image.bash.registry (include "registry-url" .) }}{{ .Values.image.bash.repository}}:{{ default .Chart.AppVersion .Values.image.bash.tag }}"
   download: |-
