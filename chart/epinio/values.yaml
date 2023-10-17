@@ -22,7 +22,7 @@ image:
     tag: ""
   awscli:
     repository: amazon/aws-cli
-    tag: 2.9.14
+    tag: 2.13.26
   skopeo:
     registry: quay.io/
     repository: skopeo/stable
