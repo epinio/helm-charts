@@ -23,7 +23,8 @@ data:
     # This data is set in the chart only for an external s3.  For
     # internal s3 the chart has no information.  Therefore we cannot
     # use helm templating to insert these.
-    echo By _ _ __ ___ _____ $(whoami) $(pwd)
+    echo By _ _ __ ___ _____ $(whoami),$(id -u)/$(id -g) $(pwd)
+    echo Image "{{ default .Values.image.awscli.registry (include "registry-url" .) }}{{ .Values.image.awscli.repository}}:{{ .Values.image.awscli.tag }}"
     cat /etc/ssl/certs/ca-bundle.crt               > /tmp/ca-bundle.pem
     test -f /certs/ca.crt   && cat /certs/ca.crt  >> /tmp/ca-bundle.pem
     test -f /certs/tls.crt  && cat /certs/tls.crt >> /tmp/ca-bundle.pem
@@ -45,7 +46,8 @@ data:
     # command is not available in the `bash` image. The code as written now relies on each
     # unpacker to recognize/reject input properly.
     #
-    echo By _ _ __ ___ _____ $(whoami) $(pwd)
+    echo By _ _ __ ___ _____ $(whoami),$(id -u)/$(id -g) $(pwd)
+    echo Image "{{ default .Values.image.bash.registry (include "registry-url" .) }}{{ .Values.image.bash.repository}}:{{ default .Chart.AppVersion .Values.image.bash.tag }}"
     if test ! -f "/workspace/source/${BLOBID}" ; then
       echo Nothing to unpack
       exit
@@ -82,10 +84,12 @@ data:
     # would confuse users (readers of app staging logs).
     set -e
     trap "curl -X POST http://localhost:4191/shutdown 2> /dev/null || true" EXIT
-    echo By _ _ __ ___ _____ $(whoami) $(pwd)
+    echo By _ _ __ ___ _____ $(whoami),$(id -u)/$(id -g) $(pwd)
+    echo Image "paketobuildpacks/builder:*"
     if test ! -d "/workspace/source/app" ; then
       echo Nothing to build
-      sleep 60 # linkerd is a pain - If we exit to quickly, with the sidecar not ready our curl to shut it down does nothing, and then the sidecar comes up and prevents the pod from ending
+      sleep 60 # linkerd is a pain - If we exit to quickly, with the sidecar not ready our curl to
+      # shut it down does nothing, and then the sidecar comes up and prevents the pod from ending
       exit 1
     fi
     find /workspace
