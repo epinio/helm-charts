@@ -18,6 +18,10 @@ stringData:
   uiClientSecret: {{ $uiClientSecret }}
   config.yaml: |-
     issuer: "https://auth.{{ .Values.global.domain }}"
+{{- if .Values.rancher.url }}
+    web:
+      allowedOrigins: ['{{ .Values.rancher.url }}']
+{{- end }}
     storage:
       type: kubernetes
       config:
@@ -44,6 +48,9 @@ stringData:
       trustedPeers:
       - epinio-cli
       - epinio-ui
+{{- if .Values.rancher.url }}
+      - rancher-dashboard
+{{- end }}
 
     - id: epinio-cli
       name: 'Epinio cli'
@@ -56,6 +63,13 @@ stringData:
       redirectURIs:
       - {{ .Values.dex.ui.redirectURI | default (printf "https://epinio.%s/auth/verify/" .Values.global.domain) | quote }}
 
+{{- if .Values.rancher.url }}
+    - id: rancher-dashboard
+      name: 'Rancher Dashboard'
+      public: true
+      redirectURIs:
+      - "{{ .Values.rancher.url }}/epinio/auth/verify/"
+{{- end }}
 ---
 apiVersion: v1
 kind: Secret

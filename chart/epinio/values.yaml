@@ -260,3 +260,6 @@ global:
   # where Epinio stores the application images.
   cattle:
     systemDefaultRegistry: ""
+rancher:
+  # When Epinio is installed in a cluster connected to Rancher, this is the uri of that Rancher
+  url: ""
