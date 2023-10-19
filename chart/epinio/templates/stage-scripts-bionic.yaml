@@ -33,6 +33,8 @@ data:
   unpack: |-
     # Parameters
     # - BLOBID # blob id / file name for source archive
+    # - USERID  # id of the `cnb` user
+    # - GROUPID # id of the primary group linked to the `cnb` user
     #
     # Attempting to unpack the sources as, in order:
     #    .tar   - epinio cli
@@ -65,7 +67,7 @@ data:
     rm "/workspace/source/${BLOBID}"
     mkdir -p /workspace/source/env
     cp -vL /workspace/source/appenv/* /workspace/source/env
-    chown -R 1000:1000 /workspace 2> /dev/null
+    chown -R ${USERID}:${GROUPID} /workspace 2> /dev/null
     find /workspace
     echo _ _ __ ___ _____ Done
   build: |-
@@ -75,6 +77,8 @@ data:
     # Parameters
     # - PREIMAGE # url of previous image
     # - APPIMAGE # url of application image
+    # - USERID   # id of the `cnb` user
+    # - GROUPID  # id of the primary group linked to the `cnb` user
     #
     # ATTENTION: The `curl localhost:4191` command is used to stop the linkerd proxy
     # container gracefully. We use `|| true` in case linkerd is not deployed.  Further, it
@@ -97,8 +101,8 @@ data:
     /cnb/lifecycle/creator \
       -app=/workspace/source/app \
       -cache-dir=/workspace/cache \
-      -uid=1000 \
-      -gid=1000 \
+      -uid=${USERID} \
+      -gid=${GROUPID} \
       -layers=/layers \
       -platform=/workspace/source \
       -report=/layers/report.toml \
