@@ -89,7 +89,6 @@ data:
     set -e
     trap "curl -X POST http://localhost:4191/shutdown 2> /dev/null || true" EXIT
     echo By _ _ __ ___ _____ $(whoami),$(id -u)/$(id -g) $(pwd)
-    echo Image any
     if test ! -d "/workspace/source/app" ; then
       echo Nothing to build
       sleep 60 # linkerd is a pain - If we exit to quickly, with the sidecar not ready our curl to shut it down does nothing, and then the sidecar comes up and prevents the pod from ending
