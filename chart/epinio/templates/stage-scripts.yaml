@@ -92,7 +92,6 @@ data:
       -layers=/layers \
       -platform=/workspace/source \
       -report=/layers/report.toml \
-      -process-type=web \
       -skip-restore=false \
       "-previous-image=${PREIMAGE}" \
       "${APPIMAGE}"
