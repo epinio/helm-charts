@@ -293,6 +293,8 @@ spec:
               value: "{{ .Values.server.traceLevel }}"
             - name: CHART_VERSION
               value: "{{ .Chart.Version }}"
+            - name: DEFAULT_BUILDER_IMAGE
+              value: "{{ default .Values.image.builder.registry (include "registry-url" .) }}{{ .Values.image.builder.repository}}:{{ .Values.image.builder.tag }}"
             {{- $imageSkopeo := .Values.image.skopeo -}}
             {{- if $imageSkopeo }}
             - name: APP_IMAGE_EXPORTER
