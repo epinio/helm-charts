@@ -43,3 +43,4 @@ data:
     configuration_read
     service_read
     gitconfig_read
+    export_registries_read
