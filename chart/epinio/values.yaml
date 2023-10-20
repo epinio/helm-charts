@@ -126,13 +126,11 @@ api:
       password: password
       # or you can provide an already bcrypt hashed password
       # passwordBcrypt: "$2a$10$6bCi5NMstMK781In7JGiL.B44pgoplUb330FQvm6mVXMppbXBPiXS"
-      role: admin
       roles:
         - admin
     - username: epinio
       # the Bcrypt hash for the `password` password
       passwordBcrypt: "$2a$10$6bCi5NMstMK781In7JGiL.B44pgoplUb330FQvm6mVXMppbXBPiXS"
-      role: user
       roles:
         - user
         - admin::workspace

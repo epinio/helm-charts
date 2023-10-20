@@ -6,7 +6,6 @@ type: BasicAuth
 metadata:
   labels:
     epinio.io/api-user-credentials: "true"
-    epinio.io/role: {{ .role }}
   annotations:
     epinio.io/roles: {{ join "," .roles }}
   name: {{ include "epinio-truncate" (print "user-" .username) }}
