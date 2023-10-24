@@ -133,7 +133,7 @@ api:
       passwordBcrypt: "$2a$10$6bCi5NMstMK781In7JGiL.B44pgoplUb330FQvm6mVXMppbXBPiXS"
       roles:
         - user
-        - admin::workspace
+        - admin:workspace
       workspaces:
         - workspace
 # Dex subchart values -- None for now, and sub chart disabled
