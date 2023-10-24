@@ -3,7 +3,6 @@
 # in the InfluxDB to store all data for this Upgrade Responder
 # The name must be in snake case format
 applicationName: epinio
-
 secret:
   name: upgrade-responder-secrets
   # Set this to true if you want to manage these secrets with helm
@@ -11,7 +10,6 @@ secret:
   influxDBUrl: ""
   influxDBUser: ""
   influxDBPassword: ""
-
 # This configmap contains information about the latest release
 # of the application that is using this Upgrade Responder
 # Replace the information with the latest version of your application
@@ -24,21 +22,16 @@ configMap:
           "Tags": ["latest"]
        }]
     }
-
 replicaCount: 1
-
 image:
   repository: longhornio/upgrade-responder
-  tag: v0.1.5
+  tag: v0.2.0
   pullPolicy: IfNotPresent
-
 nameOverride: ""
 fullnameOverride: ""
-
 service:
   type: ClusterIP
   port: 8314
-
 ingress:
   enabled: false
   annotations:
@@ -51,7 +44,6 @@ ingress:
     - secretName: example-com-tls
       hosts:
       - example.com
-
 resources:
   limits:
     cpu: 200m
@@ -59,13 +51,9 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
-
 # grafana
 grafana:
   plugins:
@@ -74,7 +62,6 @@ grafana:
     enabled: true
     # hosts:
     # - "grafana.172.21.0.4.omg.howdoi.website"
-
   datasources:
     datasources.yaml:
       apiVersion: 1
@@ -85,7 +72,6 @@ grafana:
           database: epinio_upgrade_responder
           access: proxy
           isDefault: true
-
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -98,12 +84,10 @@ grafana:
         editable: true
         options:
           path: /var/lib/grafana/dashboards/standard
-
   # This will enable the loading of the dashboards from the ConfigMaps
   sidecar:
     dashboards:
       enabled: true
-
   dashboards:
     default:
       # This is the default upgrade-responder dashboard
