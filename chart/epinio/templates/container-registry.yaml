@@ -9,6 +9,7 @@ stringData:
   # The only supported password format is bcrypt
   htpasswd:  {{ htpasswd .Values.global.registryUsername .Values.global.registryPassword | quote }}
 
+{{- if .Values.certManager.enabled }}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -24,6 +25,7 @@ spec:
     kind: ClusterIssuer
     name: epinio-ca
   secretName: epinio-registry-tls
+{{- end }}
 
 ---
 apiVersion: v1
