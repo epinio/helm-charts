@@ -44,3 +44,15 @@ data:
     service_read
     gitconfig_read
     export_registries_read
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    epinio.io/role: "true"
+  name: "epinio-blank-role"
+  namespace: {{ $.Release.Namespace }}
+data:
+  id: blank
+  name: "Epinio Blank Role (no permissions)"
