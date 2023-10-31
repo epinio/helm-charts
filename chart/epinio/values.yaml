@@ -109,10 +109,6 @@ certManager:
     cert: ""
     key: ""
     ca: ""
-  caRoot:
-    cert: ""
-    key: ""
-    ca: ""
   s3:
     cert: ""
     key: ""
