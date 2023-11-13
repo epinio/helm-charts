@@ -69,12 +69,6 @@ questions:
   type: string
   required: true
   group: "General settings"
-- variable: server.accessControlAllowOrigin
-  label: Access control allow origin
-  description: "Domain which serves the Rancher UI (to access the API)"
-  type: string
-  required: false
-  group: "General settings"
 - variable: kubed.enabled
   label: Install kubed
   description: "Deploy kubed or skip it if you get it installed already"

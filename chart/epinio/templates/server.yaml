@@ -284,7 +284,7 @@ spec:
             - name: NAMESPACE
               value: "{{ .Release.Namespace }}"
             - name: ACCESS_CONTROL_ALLOW_ORIGIN
-              value: "{{ .Values.server.accessControlAllowOrigin }}"
+              value: "{{ .Values.rancher.url }}"
             - name: EPINIO_TIMEOUT_MULTIPLIER
               value: "{{ .Values.server.timeoutMultiplier }}"
             - name: TLS_ISSUER
