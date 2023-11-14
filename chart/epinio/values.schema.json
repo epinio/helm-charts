@@ -164,8 +164,11 @@
               "password": {
                 "type": "string"
               },
-              "role": {
-                "type": "string"
+              "roles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               },
               "workspaces": {
                 "type": "array",
@@ -176,7 +179,7 @@
             },
             "required": [
               "username",
-              "role"
+              "roles"
             ]
           }
         }
