@@ -79,9 +79,6 @@ strategy:
     maxUnavailable: 1
 certManagerNamespace: cert-manager
 
-#  XXX eXperimental eXperimental eXperimental XXX
-## XXX  X            X            X           XXX
-##
 # Set enabled to false to disable cert manager.
 # With the auto-creation of secrets from Cert request gone the secrets have to specified manually.
 # See below. Leaving out the `ui` falls back to `epinio`. Same for `dex`. No other connections
