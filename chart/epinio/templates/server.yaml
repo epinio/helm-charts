@@ -228,7 +228,6 @@ subjects:
 
 ---
 {{- $rancherUrl := .Values.global.cattle.url | default .Values.rancher.url -}}
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
