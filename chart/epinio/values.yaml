@@ -259,7 +259,8 @@ global:
   cattle:
     systemDefaultRegistry: ""
 rancher:
-  # When Epinio is installed in a cluster connected to Rancher, this is the uri of that Rancher
-  # It's used to ensure Epinio's Rancher UI extension can reach both epinio and dex instances
+  # Epinio's UI extension needs to reach both epinio and dex services.
+  # Configuration for those services to enable this requires the uri of the Rancher instance.
+  # The uri comes from global.cattle.url (provided by rancher), or if that's missing this value (rancher.url)
   # This supersedes server.accessControlAllowOrigin
   url: ""

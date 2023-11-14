@@ -227,6 +227,8 @@ subjects:
   namespace: {{ .Release.Namespace }}
 
 ---
+{{- $rancherUrl := .Values.global.cattle.url | default .Values.rancher.url -}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -284,7 +286,7 @@ spec:
             - name: NAMESPACE
               value: "{{ .Release.Namespace }}"
             - name: ACCESS_CONTROL_ALLOW_ORIGIN
-              value: "{{ .Values.rancher.url }}"
+              value: "{{ $rancherUrl }}"
             - name: EPINIO_TIMEOUT_MULTIPLIER
               value: "{{ .Values.server.timeoutMultiplier }}"
             - name: TLS_ISSUER

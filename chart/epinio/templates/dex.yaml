@@ -3,6 +3,7 @@
 {{- $dexSecret := (lookup "v1" "Secret" .Release.Namespace "dex-config").data | default dict -}}
 {{- $prevUiClientSecret := (get $dexSecret "uiClientSecret") -}}
 {{- $uiClientSecret := empty $prevUiClientSecret | ternary (randAlphaNum 32) (b64dec $prevUiClientSecret) -}}
+{{- $rancherUrl := .Values.global.cattle.url | default .Values.rancher.url -}}
 
 ---
 apiVersion: v1
@@ -18,9 +19,9 @@ stringData:
   uiClientSecret: {{ $uiClientSecret }}
   config.yaml: |-
     issuer: "https://auth.{{ .Values.global.domain }}"
-{{- if .Values.rancher.url }}
+{{- if $rancherUrl }}
     web:
-      allowedOrigins: ['{{ .Values.rancher.url }}']
+      allowedOrigins: ['{{ $rancherUrl }}']
 {{- end }}
     storage:
       type: kubernetes
@@ -48,7 +49,7 @@ stringData:
       trustedPeers:
       - epinio-cli
       - epinio-ui
-{{- if .Values.rancher.url }}
+{{- if $rancherUrl }}
       - rancher-dashboard
 {{- end }}
 
@@ -63,12 +64,12 @@ stringData:
       redirectURIs:
       - {{ .Values.dex.ui.redirectURI | default (printf "https://epinio.%s/auth/verify/" .Values.global.domain) | quote }}
 
-{{- if .Values.rancher.url }}
+{{- if $rancherUrl }}
     - id: rancher-dashboard
       name: 'Rancher Dashboard'
       public: true
       redirectURIs:
-      - "{{ .Values.rancher.url }}/epinio/auth/verify/"
+      - "{{ $rancherUrl }}/epinio/auth/verify/"
 {{- end }}
 ---
 apiVersion: v1

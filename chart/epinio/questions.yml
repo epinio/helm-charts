@@ -167,9 +167,3 @@ questions:
   required: false
   type: string
   group: "Debugging"
-- variable: rancher.url
-  label: Rancher URL
-  description: The URL of Rancher that this cluster is connected to. Required by Epinio's Rancher Extension. This should contain the scheme
-  required: false
-  type: string
-  group: "Rancher"
