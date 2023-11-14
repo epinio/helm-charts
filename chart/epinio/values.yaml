@@ -78,6 +78,39 @@ strategy:
     maxSurge: 0
     maxUnavailable: 1
 certManagerNamespace: cert-manager
+
+# Set enabled to false to disable cert manager.
+# With the auto-creation of secrets from Cert request gone the secrets have to specified manually.
+# See below. Leaving out the `ui` falls back to `epinio`. Same for `dex`. No other connections
+# between them.
+# Further note:
+#  - s3 applies to either minio, or s3gw, whichever is active.
+#    In case of using an external s3 store it does not apply at all.
+#  - ui applies only when enabled
+#  - dex the same
+certManager:
+  enabled: true
+  registry:
+    cert: ""
+    key: ""
+    ca: ""
+  epinio:
+    cert: ""
+    key: ""
+    ca: ""
+  ui:
+    cert: ""
+    key: ""
+    ca: ""
+  dex:
+    cert: ""
+    key: ""
+    ca: ""
+  s3:
+    cert: ""
+    key: ""
+    ca: ""
+
 # Connection details for the S3 storage
 s3:
   endpoint: s3.amazonaws.com
@@ -219,7 +252,7 @@ global:
   # Used in registry path when pushing -> "external.tld/apps/APPNAME"
   registryNamespace: "apps"
   # The name of the cluster issuer to use.
-  # Epinio creates three options: 'epinio-ca', 'selfsigned-issuer', 'letsencrypt-staging' and 'letsencrypt-production'.
+  # Epinio provides four options: 'epinio-ca', 'selfsigned-issuer', 'letsencrypt-staging' and 'letsencrypt-production'.
   tlsIssuer: "epinio-ca"
   # The name of your ClusterIssuer (it will override the tlsIssuer)
   customTlsIssuer: ""

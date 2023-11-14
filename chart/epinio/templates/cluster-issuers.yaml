@@ -1,3 +1,4 @@
+{{- if .Values.certManager.enabled }}
 ---
 # Self-signed issuer
 apiVersion: cert-manager.io/v1
@@ -64,4 +65,5 @@ spec:
             metadata:
               annotations:
 
+{{- end }}
 {{- end }}

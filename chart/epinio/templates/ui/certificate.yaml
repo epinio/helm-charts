@@ -1,3 +1,4 @@
+{{- if .Values.certManager.enabled }}
 {{- if and .Values.epinioUI.enabled .Values.epinioUI.ingress.enabled }}
 ---
 apiVersion: cert-manager.io/v1
@@ -12,4 +13,5 @@ spec:
     kind: ClusterIssuer
     name: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer }}
   secretName: epinio-ui-tls
+{{- end }}
 {{- end }}
