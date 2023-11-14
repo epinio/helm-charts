@@ -26,5 +26,5 @@ spec:
   tls:
   - hosts:
     - {{ .Values.global.domain }}
-    secretName: epinio-ui-tls
+    secretName: epinio-tls
 {{- end }}
