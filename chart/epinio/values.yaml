@@ -81,13 +81,11 @@ certManagerNamespace: cert-manager
 
 # Set enabled to false to disable cert manager.
 # With the auto-creation of secrets from Cert request gone the secrets have to specified manually.
-# See below. Leaving out the `ui` falls back to `epinio`. Same for `dex`. No other connections
-# between them.
+# See below. Leaving out the `dex` falls back to `epinio`. No other connections between them.
 # Further note:
 #  - s3 applies to either minio, or s3gw, whichever is active.
 #    In case of using an external s3 store it does not apply at all.
-#  - ui applies only when enabled
-#  - dex the same
+#  - dex applies only when enabled
 certManager:
   enabled: true
   registry:
@@ -95,10 +93,6 @@ certManager:
     key: ""
     ca: ""
   epinio:
-    cert: ""
-    key: ""
-    ca: ""
-  ui:
     cert: ""
     key: ""
     ca: ""
