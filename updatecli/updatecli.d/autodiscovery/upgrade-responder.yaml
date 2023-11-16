@@ -10,7 +10,7 @@ autodiscovery:
       versionfilter:
         kind: semver
       only:
-        - path: "chart/upgrade-responder/*"
+        - path: "chart/upgrade-responder"
 
 scms:
   default:

@@ -11,7 +11,7 @@ autodiscovery:
         kind: semver
         pattern: minor
       only:
-        - path: "chart/application/*"
+        - path: "chart/application"
 
 scms:
   default:

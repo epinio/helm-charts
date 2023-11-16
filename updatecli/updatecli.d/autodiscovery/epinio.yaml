@@ -11,7 +11,7 @@ autodiscovery:
       versionfilter:
         kind: semver
       only:
-        - path: "chart/epinio/*"
+        - path: "chart/epinio"
 
 scms:
   default:

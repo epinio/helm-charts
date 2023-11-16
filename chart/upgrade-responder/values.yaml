@@ -18,18 +18,25 @@ secret:
 configMap:
   responseConfig: |-
     {
-       "Versions": [{
-          "Name": "v1.0.0",
-          "ReleaseDate": "2020-05-18T12:30:00Z",
-          "Tags": ["latest"]
-       }]
+      "versions": [{
+        "name": "v1.0.0",
+        "releaseDate": "2020-05-18T12:30:00Z",
+        "tags": ["latest"]
+      }]
+    }
+  requestSchema: |-
+    {
+      "appVersionSchema": {
+        "dataType": "string",
+        "maxLen": 200
+      }
     }
 
-replicaCount: 1
+replicaCount: 3
 
 image:
   repository: longhornio/upgrade-responder
-  tag: v0.1.5
+  tag: v0.2.0
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -38,6 +45,10 @@ fullnameOverride: ""
 service:
   type: ClusterIP
   port: 8314
+
+flags:
+  cacheSyncInterval: 1
+  cacheSize: 100
 
 ingress:
   enabled: false
@@ -51,7 +62,6 @@ ingress:
     - secretName: example-com-tls
       hosts:
       - example.com
-
 resources:
   limits:
     cpu: 200m
@@ -65,7 +75,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
 # grafana
 grafana:
   plugins:
@@ -74,7 +83,6 @@ grafana:
     enabled: true
     # hosts:
     # - "grafana.172.21.0.4.omg.howdoi.website"
-
   datasources:
     datasources.yaml:
       apiVersion: 1
@@ -85,7 +93,6 @@ grafana:
           database: epinio_upgrade_responder
           access: proxy
           isDefault: true
-
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -98,12 +105,10 @@ grafana:
         editable: true
         options:
           path: /var/lib/grafana/dashboards/standard
-
   # This will enable the loading of the dashboards from the ConfigMaps
   sidecar:
     dashboards:
       enabled: true
-
   dashboards:
     default:
       # This is the default upgrade-responder dashboard

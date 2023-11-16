@@ -10,7 +10,7 @@ autodiscovery:
       versionfilter:
         kind: semver
       only:
-        - path: "chart/application-stateful/*"
+        - path: "chart/application-stateful"
 
 scms:
   default:
