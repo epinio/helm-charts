@@ -10,7 +10,7 @@ autodiscovery:
       versionfilter:
         kind: semver
       only:
-        - path: "chart/epinio-ui/*"
+        - path: "chart/epinio-ui"
 
 scms:
   default:
