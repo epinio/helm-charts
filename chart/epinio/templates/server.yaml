@@ -283,8 +283,9 @@ spec:
               value: /tmp/settings.yaml
             - name: NAMESPACE
               value: "{{ .Release.Namespace }}"
+            {{ $rancherUrl := .Values.global.cattle.url | default .Values.rancher.url }}
             - name: ACCESS_CONTROL_ALLOW_ORIGIN
-              value: "{{ .Values.server.accessControlAllowOrigin }}"
+              value: "{{ $rancherUrl }}"
             - name: EPINIO_TIMEOUT_MULTIPLIER
               value: "{{ .Values.server.timeoutMultiplier }}"
             - name: TLS_ISSUER

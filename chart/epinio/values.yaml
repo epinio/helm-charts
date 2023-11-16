@@ -40,8 +40,6 @@ image:
 appChart:
   default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.26/epinio-application-0.1.26.tgz
 server:
-  # Domain which serves the Rancher UI (to access the API)
-  accessControlAllowOrigin: ""
   # increase this value to increase all timeouts by the same factor
   timeoutMultiplier: 1
   # Increase this value to instruct the API server to produce more debug output
@@ -260,3 +258,9 @@ global:
   # where Epinio stores the application images.
   cattle:
     systemDefaultRegistry: ""
+rancher:
+  # Epinio's UI extension needs to reach both epinio and dex services.
+  # Configuration for those services to enable this requires the uri of the Rancher instance.
+  # The uri comes from global.cattle.url (provided by rancher), or if that's missing this value (rancher.url)
+  # This supersedes server.accessControlAllowOrigin
+  url: ""

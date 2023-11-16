@@ -59,9 +59,6 @@
       "description": "server configuration",
       "type": "object",
       "properties": {
-        "accessControlAllowOrigin": {
-          "type": "string"
-        },
         "timeoutMultiplier": {
           "type": "integer"
         },
@@ -510,6 +507,14 @@
         "storageSize",
         "storageClass"
       ]
+    },
+    "rancher": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      }
     }
   },
   "required": [
