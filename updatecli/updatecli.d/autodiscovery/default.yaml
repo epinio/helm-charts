@@ -11,11 +11,11 @@ autodiscovery:
         kind: semver
       # The following helm chart already have specific updatecli manifest
       ignore:
-        - path: "chart/application-stateful/*"
-        - path: "chart/application/*"
-        - path: "chart/epinio/*"
-        - path: "chart/epinio-ui/*"
-        - path: "chart/upgrade-responder/*"
+        - path: "chart/application-stateful"
+        - path: "chart/application"
+        - path: "chart/epinio"
+        - path: "chart/epinio-ui"
+        - path: "chart/upgrade-responder"
 
 scms:
   default:
