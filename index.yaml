@@ -16,6 +16,54 @@ entries:
   epinio:
   - annotations:
       artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: v1.11.0-rc1
+    created: "2023-11-16T15:34:40.04451361Z"
+    dependencies:
+    - condition: global.dex.enabled
+      name: dex
+      repository: https://charts.dexidp.io
+      tags:
+      - dex
+      version: 0.15.2
+    - condition: minio.enabled, global.minio.enabled
+      name: minio
+      repository: https://charts.min.io/
+      tags:
+      - minio
+      version: 5.0.13
+    - condition: kubed.enabled, global.kubed.enabled
+      name: kubed
+      repository: https://charts.appscode.com/stable/
+      tags:
+      - kubed
+      version: v0.13.2
+    - condition: s3gw.enabled, global.s3gw.enabled
+      name: s3gw
+      repository: https://aquarist-labs.github.io/s3gw-charts
+      tags:
+      - s3gw
+      version: 0.14.0
+    description: Epinio deploys Kubernetes applications directly from source code
+      in one step.
+    digest: d3e5c7222b3195ec7e9a24ba3e8d7f9919eb93123b0ff7db2f2203353c0e6fe1
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio
+    sources:
+    - https://github.com/epinio/epinio
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-1.11.0-rc1/epinio-1.11.0-rc1.tgz
+    version: 1.11.0-rc1
+  - annotations:
+      artifacthub.io/license: Apache-2.0
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: v1.10.0
@@ -3050,6 +3098,24 @@ entries:
     version: 0.0.1
   upgrade-responder:
   - apiVersion: v2
+    created: "2023-11-16T15:34:40.234313575Z"
+    dependencies:
+    - name: influxdb
+      repository: https://helm.influxdata.com
+      version: 4.12.5
+    - name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 7.0.6
+    description: A Helm chart for Kubernetes
+    digest: d55e025fb0218c23a066ec4d0cd3dc500273ccb673d245fcb73d739f24c6b1c9
+    maintainers:
+    - email: team@epinio.io
+      name: SUSE
+    name: upgrade-responder
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/upgrade-responder-0.2.0/upgrade-responder-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     created: "2023-07-17T10:04:42.53017474Z"
     dependencies:
     - name: influxdb
@@ -3139,4 +3205,4 @@ entries:
     urls:
     - https://github.com/epinio/helm-charts/releases/download/upgrade-responder-v0.1.5/upgrade-responder-v0.1.5.tgz
     version: v0.1.5
-generated: "2023-09-25T09:42:07.166863083Z"
+generated: "2023-11-16T15:34:40.234614183Z"
