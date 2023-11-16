@@ -15,7 +15,7 @@ image:
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.10.0-0.0.1
+    tag: v1.11.0-0.0.1
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
@@ -76,7 +76,6 @@ strategy:
     maxSurge: 0
     maxUnavailable: 1
 certManagerNamespace: cert-manager
-
 # Set enabled to false to disable cert manager.
 # With the auto-creation of secrets from Cert request gone the secrets have to specified manually.
 # See below. Leaving out the `dex` falls back to `epinio`. No other connections between them.
@@ -102,7 +101,6 @@ certManager:
     cert: ""
     key: ""
     ca: ""
-
 # Connection details for the S3 storage
 s3:
   endpoint: s3.amazonaws.com
