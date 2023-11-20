@@ -69,7 +69,7 @@ stringData:
       name: 'Rancher Dashboard'
       public: true
       redirectURIs:
-      - "{{ $rancherUrl }}/epinio/auth/verify/"
+      - "{{ $rancherUrl }}/dashboard/epinio/auth/verify/"
 {{- end }}
 ---
 apiVersion: v1
