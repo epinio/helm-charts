@@ -63,16 +63,13 @@ data:
        ( echo Txz? ; tar -xvJf "../${BLOBID}" ) || \
        ( echo "Unable to unpack. No supported archive file format found" ; exit 1 )
        echo OK
-       if test $(ls|wc -l) == 1 ; then
-         # archive contains single element ...
-         if test -d "$(ls)" 2>/dev/null ; then
-           # ... which is a directory. assume that the actual app sources are
-           # inside it, and lift them out to match paketo's expectations.
-           child="$(ls)"
-           echo Lifting \"${child}\" contents ...
-           mv -v "${child}"/* "${child}"/.??* .
-           rmdir -v "${child}"
-         fi
+       if test $(find . -maxdepth 1 -mindepth 1 -printf %y)  = "d" ; then
+         # archive contains single element which is a directory. assume that the actual
+         # app sources are inside it, and lift them out to match paketo's expectations.
+         child="$(ls)"
+         echo Lifting \"${child}\" contents ...
+         mv -v "${child}"/* "${child}"/.??* .
+         rmdir -v "${child}"
        fi
     )
     rm "/workspace/source/${BLOBID}"
