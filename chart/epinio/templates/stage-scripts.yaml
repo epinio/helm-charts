@@ -74,7 +74,7 @@ data:
     )
     rm "/workspace/source/${BLOBID}"
     mkdir -p /workspace/source/env
-    cp -vL /workspace/source/appenv/* /workspace/source/env
+    cp -vL /workspace/source/appenv/* /workspace/source/env 2>/dev/null
     chown -R ${USERID}:${GROUPID} /workspace 2> /dev/null
     find /workspace
     echo _ _ __ ___ _____ Done
@@ -103,7 +103,7 @@ data:
       exit 1
     fi
     find /workspace
-    for path in /workspace/source/env/* ; do export "$(basename "${path}")"="$(cat "${path}")" ; done
+    for path in $(ls /workspace/source/env/* 2>/dev/null) ; do export "$(basename "${path}")"="$(cat "${path}")" ; done
     /cnb/lifecycle/creator \
       -app=/workspace/source/app \
       -cache-dir=/workspace/cache \
