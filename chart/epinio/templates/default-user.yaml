@@ -38,7 +38,7 @@ data:
   name: "Epinio User Role"
   default: "true"
   actions: |
-    namespace
+    namespace_write
     app_read
     configuration_read
     service_read
