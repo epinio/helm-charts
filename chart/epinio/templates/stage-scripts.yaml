@@ -11,6 +11,8 @@ data:
   builder: "*"
   userID: "{{ .Values.image.builder.userid }}"
   groupID: "{{ .Values.image.builder.groupid }}"
+  env: |-
+    CNB_PLATFORM_API: "0.11"
   downloadImage: "{{ default .Values.image.awscli.registry (include "registry-url" .) }}{{ .Values.image.awscli.repository}}:{{ .Values.image.awscli.tag }}"
   unpackImage:   "{{ default .Values.image.bash.registry (include "registry-url" .) }}{{ .Values.image.bash.repository}}:{{ default .Chart.AppVersion .Values.image.bash.tag }}"
   download: |-
@@ -75,6 +77,7 @@ data:
     rm "/workspace/source/${BLOBID}"
     mkdir -p /workspace/source/env
     cp -vL /workspace/source/appenv/* /workspace/source/env 2>/dev/null
+    for path in $(ls /workspace/source/env/* 2>/dev/null) ; do echo "$(basename "${path}")"="$(cat "${path}")" ; done
     chown -R ${USERID}:${GROUPID} /workspace 2> /dev/null
     find /workspace
     echo _ _ __ ___ _____ Done
