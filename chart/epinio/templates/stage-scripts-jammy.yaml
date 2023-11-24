@@ -11,4 +11,6 @@ data:
   builder: "paketobuildpacks/builder-jammy-*:*"
   userID: "1001"
   groupID: "1000"
+  env: |-
+    CNB_PLATFORM_API: "0.11"
   base: epinio-stage-scripts
