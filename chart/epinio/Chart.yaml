@@ -9,7 +9,7 @@ dependencies:
   repository: https://charts.dexidp.io
   tags:
   - dex
-  version: 0.15.3
+  version: 0.16.0
 - condition: minio.enabled, global.minio.enabled
   name: minio
   repository: https://charts.min.io/
