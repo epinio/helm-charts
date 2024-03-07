@@ -54,7 +54,7 @@ jobs:
       - name: Set up k3d cluster
         uses: nolar/setup-k3d-k3s@v1
         with:
-          version: v1.22
+          version: v1.27 
           github-token: ${{ secrets.GITHUB_TOKEN }}
         if: steps.list-changed.outputs.changed == 'true'
 
