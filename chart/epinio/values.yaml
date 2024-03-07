@@ -198,6 +198,10 @@ kubed:
   enabled: true
   fullnameOverride: kubed
   enableAnalytics: false
+  operator:
+    registry: rancher
+    repository: mirrored-appscode-kubed
+    tag: v0.13.2
 # s3gw subchart values
 s3gw:
   enabled: false
