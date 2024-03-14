@@ -3,7 +3,6 @@
 # in the InfluxDB to store all data for this Upgrade Responder
 # The name must be in snake case format
 applicationName: epinio
-
 secret:
   name: upgrade-responder-secrets
   # Set this to true if you want to manage these secrets with helm
@@ -11,7 +10,6 @@ secret:
   influxDBUrl: ""
   influxDBUser: ""
   influxDBPassword: ""
-
 # This configmap contains information about the latest release
 # of the application that is using this Upgrade Responder
 # Replace the information with the latest version of your application
@@ -31,25 +29,19 @@ configMap:
         "maxLen": 200
       }
     }
-
 replicaCount: 3
-
 image:
   repository: longhornio/upgrade-responder
-  tag: v0.2.0
+  tag: v0.2.0@sha256:5875cef29348fc15302efa19db46422d59d252f481322c611bea832242307443
   pullPolicy: IfNotPresent
-
 nameOverride: ""
 fullnameOverride: ""
-
 service:
   type: ClusterIP
   port: 8314
-
 flags:
   cacheSyncInterval: 1
   cacheSize: 100
-
 ingress:
   enabled: false
   annotations:
@@ -69,11 +61,8 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
 # grafana
 grafana:
