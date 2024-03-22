@@ -239,7 +239,7 @@ metadata:
   name: epinio-server
   namespace: {{ .Release.Namespace }}
 spec:
-  replicas: 5
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/component: epinio-server
