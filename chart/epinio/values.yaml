@@ -53,8 +53,8 @@ server:
   stagingServiceAccountName: ""
   # Resources to allocate to the staging job. Default: unbounded cpu/memory, and 1Gi disk
   stagingResourceRequests:
-    cpu: "200m"
-    memory: "400mi"
+    cpu: ""
+    memory: ""
     disk: "1Gi"
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
