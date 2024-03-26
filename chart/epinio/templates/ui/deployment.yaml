@@ -22,6 +22,15 @@ spec:
     spec:
       containers:
       - name: epinio-ui
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+            ephemeral-storage: "1Gi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+            ephemeral-storage: "2Gi"
         {{ $epinioUiImage := index .Values "image" "epinio-ui" -}}
         image: "{{ default $epinioUiImage.registry (include "registry-url" .) }}{{ $epinioUiImage.repository }}:{{ $epinioUiImage.tag }}"
         imagePullPolicy: {{ .Values.epinioUI.imagePullPolicy }}

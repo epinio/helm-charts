@@ -53,8 +53,8 @@ server:
   stagingServiceAccountName: ""
   # Resources to allocate to the staging job. Default: unbounded cpu/memory, and 1Gi disk
   stagingResourceRequests:
-    cpu: ""
-    memory: ""
+    cpu: "200m"
+    memory: "400mi"
     disk: "1Gi"
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
@@ -147,6 +147,15 @@ dex:
   service:
     # -- Annotations to be added to the Epinio service.
     annotations: {}
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "100Mi"
+      ephemeral-storage: "1Gi"
+    limits:
+      cpu: "200m"
+      memory: "200Mi"
+      ephemeral-storage: "2Gi"
 # Extra environment variables passed to the epinio-server pod.
 # extraEnv:
 # - name: MY_ENV_VAR
@@ -202,6 +211,13 @@ kubed:
     registry: rancher
     repository: mirrored-appscode-kubed
     tag: v0.13.2
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "100Mi"
+      limits:
+        cpu: "200m"
+        memory: "200Mi"
 # s3gw subchart values
 s3gw:
   enabled: false
