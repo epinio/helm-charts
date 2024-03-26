@@ -403,20 +403,20 @@ spec:
   resources:
     requests:
       storage: 2Gi
----
-apiVersion: v1
-kind: ResourceQuota
-metadata:
-  name: compute-resources
-spec:
-  hard:
-    pods: "4"
-    requests.cpu: "1"
-    requests.memory: 1Gi
-    requests.ephemeral-storage: 1Gi
-    limits.cpu: "2"
-    limits.memory: 2Gi 
-    limits.ephemeral-storage: 2Gi
+# ---
+# apiVersion: v1
+# kind: ResourceQuota
+# metadata:
+#   name: compute-resources
+# spec:
+#   hard:
+#     pods: "4"
+#     requests.cpu: "1"
+#     requests.memory: 1Gi
+#     requests.ephemeral-storage: 1Gi
+#     limits.cpu: "2"
+#     limits.memory: 2Gi 
+#     limits.ephemeral-storage: 2Gi
 ---
 apiVersion: v1
 kind: Service

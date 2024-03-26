@@ -108,6 +108,15 @@ spec:
       containers:
 {{ if .Values.containerregistry.enabled }}
       - name: nginx
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+            ephemeral-storage: "1Gi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+            ephemeral-storage: "2Gi"
         image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.nginx.repository}}:{{ .Values.containerregistry.image.nginx.tag }}"
         imagePullPolicy: IfNotPresent
         securityContext:
@@ -132,6 +141,15 @@ spec:
           name: nginx-run
 {{- end }}
       - name: registry
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+            ephemeral-storage: "1Gi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+            ephemeral-storage: "2Gi"
         image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.registry.repository}}:{{ .Values.containerregistry.image.registry.tag }}"
         imagePullPolicy: {{ .Values.containerregistry.imagePullPolicy }}
         env:
