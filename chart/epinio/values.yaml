@@ -177,6 +177,7 @@ minio:
   replicas: 1
   resources:
     requests:
+      cpu: "400m"
       memory: 1Gi
   makeUserJob:
     podAnnotations:

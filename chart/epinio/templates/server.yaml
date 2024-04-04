@@ -410,11 +410,11 @@ metadata:
   name: compute-resources
 spec:
   hard:
-    pods: "4"
-    requests.cpu: "1"
+    pods: "20"
+    requests.cpu: "4"
     requests.memory: 1Gi
     requests.ephemeral-storage: 20Gi
-    limits.cpu: "2"
+    limits.cpu: "8"
     limits.memory: 2Gi 
     limits.ephemeral-storage: 40Gi
 ---
