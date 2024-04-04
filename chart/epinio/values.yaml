@@ -179,6 +179,9 @@ minio:
     requests:
       cpu: "400m"
       memory: 1Gi
+    limits:
+      cpu: "800m"
+      memory: 2Gi
   makeUserJob:
     podAnnotations:
       linkerd.io/inject: disabled
