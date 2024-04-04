@@ -112,11 +112,11 @@ spec:
           requests:
             cpu: "100m"
             memory: "100Mi"
-            ephemeral-storage: "1Gi"
+            ephemeral-storage: "200Mi"
           limits:
             cpu: "200m"
             memory: "200Mi"
-            ephemeral-storage: "2Gi"
+            ephemeral-storage: "400Mi"
         image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.nginx.repository}}:{{ .Values.containerregistry.image.nginx.tag }}"
         imagePullPolicy: IfNotPresent
         securityContext:
@@ -145,11 +145,11 @@ spec:
           requests:
             cpu: "100m"
             memory: "100Mi"
-            ephemeral-storage: "1Gi"
+            ephemeral-storage: "200Mi"
           limits:
             cpu: "200m"
             memory: "200Mi"
-            ephemeral-storage: "2Gi"
+            ephemeral-storage: "400Mi"
         image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.registry.repository}}:{{ .Values.containerregistry.image.registry.tag }}"
         imagePullPolicy: {{ .Values.containerregistry.imagePullPolicy }}
         env:

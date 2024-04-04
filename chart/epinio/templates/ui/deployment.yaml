@@ -26,11 +26,11 @@ spec:
           requests:
             cpu: "100m"
             memory: "100Mi"
-            ephemeral-storage: "1Gi"
+            ephemeral-storage: "200Mi"
           limits:
             cpu: "200m"
             memory: "200Mi"
-            ephemeral-storage: "2Gi"
+            ephemeral-storage: "400Mi"
         {{ $epinioUiImage := index .Values "image" "epinio-ui" -}}
         image: "{{ default $epinioUiImage.registry (include "registry-url" .) }}{{ $epinioUiImage.repository }}:{{ $epinioUiImage.tag }}"
         imagePullPolicy: {{ .Values.epinioUI.imagePullPolicy }}

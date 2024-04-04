@@ -413,10 +413,10 @@ spec:
     pods: "4"
     requests.cpu: "1"
     requests.memory: 1Gi
-    requests.ephemeral-storage: 4Gi
+    requests.ephemeral-storage: 20Gi
     limits.cpu: "2"
     limits.memory: 2Gi 
-    limits.ephemeral-storage: 4Gi
+    limits.ephemeral-storage: 40Gi
 ---
 apiVersion: v1
 kind: Service
