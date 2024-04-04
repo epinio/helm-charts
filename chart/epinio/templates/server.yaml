@@ -412,10 +412,10 @@ spec:
   hard:
     pods: "20"
     requests.cpu: "4"
-    requests.memory: 1Gi
+    requests.memory: 8Gi
     requests.ephemeral-storage: 20Gi
     limits.cpu: "8"
-    limits.memory: 2Gi 
+    limits.memory: 16Gi 
     limits.ephemeral-storage: 40Gi
 ---
 apiVersion: v1
