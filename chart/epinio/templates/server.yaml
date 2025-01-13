@@ -4,6 +4,11 @@ kind: ServiceAccount
 metadata:
   name: epinio-server
   namespace: {{ .Release.Namespace }}
+  {{/*Marsified with serviceAccount flavor!*/}}
+  annotations:
+{{- with .Values.server.serviceAccount.annotations }}
+{{ toYaml . | indent 4 }}
+{{- end }}
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -260,6 +265,19 @@ spec:
         app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.image.epinio.tag }}
       name: epinio-server
     spec:
+      {{/*Marsified with nodeSelector flavor!*/}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       serviceAccountName: epinio-server
       volumes:
       - name: tmp-volume

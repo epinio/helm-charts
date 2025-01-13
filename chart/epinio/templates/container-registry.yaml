@@ -105,6 +105,19 @@ spec:
         app.kubernetes.io/name: "epinio-registry"
         app.kubernetes.io/instance: "epinio-registry"
     spec:
+      {{/*Marsified with nodeSelector flavor!*/}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
 {{ if .Values.containerregistry.enabled }}
       - name: nginx

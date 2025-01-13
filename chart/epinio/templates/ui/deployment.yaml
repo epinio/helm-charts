@@ -20,6 +20,19 @@ spec:
         app.kubernetes.io/name: epinio-ui
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      {{/*Marsified with nodeSelector flavor!*/}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: epinio-ui
         {{ $epinioUiImage := index .Values "image" "epinio-ui" -}}

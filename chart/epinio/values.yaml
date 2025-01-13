@@ -40,6 +40,9 @@ image:
 appChart:
   default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.26/epinio-application-0.1.26.tgz
 server:
+  {{/*Marsified with serviceAccount flavor!*/}}
+  serviceAccount:
+    annotations: {}
   # increase this value to increase all timeouts by the same factor
   timeoutMultiplier: 1
   # Increase this value to instruct the API server to produce more debug output
@@ -240,7 +243,7 @@ global:
   dex:
     enabled: true
   # The domain that will be used to access the epinio API server and the registry
-  domain: ""
+  domain: "test.com"
   # Connection details for the container registry.
   # Skip if containerregistry.enabled is true
   registryURL: ""
@@ -266,3 +269,7 @@ rancher:
   # The uri comes from global.cattle.url (provided by rancher), or if that's missing this value (rancher.url)
   # This supersedes server.accessControlAllowOrigin
   url: ""
+
+
+{{/*Marsified with nodeSelector flavor!*/}}
+nodeSelector: {}
