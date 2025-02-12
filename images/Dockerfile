@@ -8,7 +8,7 @@ RUN mv helm/*/helm /bin/helm
 
 
 ## Build the actual container
-FROM rancher/k3d:5.3
+FROM ghcr.io/k3d-io/k3d:5.7
 
 ARG VERSION
 ENV EPINIO_HELM_CHART_VERSION $VERSION
