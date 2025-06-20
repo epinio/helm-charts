@@ -24,7 +24,7 @@ dependencies:
   version: v0.13.2
 - condition: s3gw.enabled, global.s3gw.enabled
   name: s3gw
-  repository: https://aquarist-labs.github.io/s3gw-charts
+  repository: https://s3gw-tech.github.io/s3gw-charts
   tags:
   - s3gw
   version: 0.14.0

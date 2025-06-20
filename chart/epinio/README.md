@@ -60,6 +60,8 @@ Kubed is installed as a subchart when `.Values.kubed.enabled` is true (default).
 If you already have kubed running, you can skip the installation by setting
 the helm value "kubed.enabled" to "false".
 
+NOTE: Kubed has been rebranded and is now only available via commercial license. Epinio is using an older version via mirror from the Rancher image registry.
+
 ### S3 storage
 
 Epinio is using an S3 compatible storage to store the application source code.
@@ -67,12 +69,16 @@ Epinio is using an S3 compatible storage to store the application source code.
 This chart will install [Minio](https://min.io/) when `.Values.minio.enabled` is
 true (default).
 
+For additional values that are available, please see the helm chart source: https://github.com/minio/minio/tree/master/helm/minio
+
 This chart will install [s3gw](https://s3gw.io/) when `.Values.s3gw.enabled` is
 true.
 
 Any S3 compatible solution can be used instead by setting the aforementioned values
 to `false` and using [the values under `s3`](https://github.com/epinio/helm-charts/blob/main/chart/epinio/values.yaml#L44)
 to point to the desired S3 server.
+
+For additional values that are available, please see the helm chart source: https://github.com/s3gw-tech/s3gw-charts/tree/main/charts/s3gw
 
 ### Container Registry
 
@@ -84,6 +90,8 @@ Any container registry that supports basic auth authentication can be used (e.g.
 instead by setting this value to `false` and using
 [the values under `registry`](https://github.com/epinio/helm-charts/blob/main/chart/epinio/values.yaml#L104-L107)
 to point to the desired container registry.
+
+The registry image and associated documentation can be found here: https://hub.docker.com/_/registry
 
 ## Install Epinio
 

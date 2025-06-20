@@ -230,37 +230,43 @@ subjects:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+
   labels:
-    app.kubernetes.io/component: epinio
-    app.kubernetes.io/instance: default
-    app.kubernetes.io/name: epinio-server
-    app.kubernetes.io/part-of: epinio
-    app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.image.epinio.tag }}
+    {{- include "epinio.labels" . | nindent 4 }}
   name: epinio-server
   namespace: {{ .Release.Namespace }}
 spec:
-  replicas: 1
+  {{- if not .Values.server.autoscaling.enabled }}
+  replicas: {{ .Values.server.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
-      app.kubernetes.io/component: epinio-server
-      app.kubernetes.io/instance: default
-      app.kubernetes.io/name: epinio-server
-      app.kubernetes.io/part-of: epinio
+      {{- include "epinio.selectorLabels" . | nindent 6 }}
   {{- with .Values.strategy }}
   strategy:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   template:
     metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        app.kubernetes.io/component: epinio-server
-        app.kubernetes.io/instance: default
-        app.kubernetes.io/name: epinio-server
-        app.kubernetes.io/part-of: epinio
-        app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.image.epinio.tag }}
-      name: epinio-server
+        {{- include "epinio.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
-      serviceAccountName: epinio-server
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "epinio.serviceAccountName" . }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 3000
       volumes:
       - name: tmp-volume
         emptyDir: {}
@@ -277,6 +283,7 @@ spec:
 {{- end }}
       containers:
         - command: ["/epinio", "server"]
+          name: epinio-server
           args: ["--port", "8030"]
           env:
             - name: EPINIO_SETTINGS
@@ -349,15 +356,25 @@ spec:
             {{- end }}
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 -}}
-            {{- end }}
+          {{- end }}
           image: "{{ default .Values.image.epinio.registry (include "registry-url" .) }}{{ .Values.image.epinio.repository }}:{{ default .Chart.AppVersion .Values.image.epinio.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
           livenessProbe:
+             httpGet:
+              path: /ready
+              port: {{ .Values.service.port }}
+          readinessProbe:
             httpGet:
               path: /ready
-              port: 8030
-          name: epinio-server
-          ports:
-            - containerPort: 8030
+              port: {{ .Values.service.port }}
+          {{- with .Values.server.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           volumeMounts:
           - name: tmp-volume
             mountPath: /tmp
@@ -370,17 +387,21 @@ spec:
             mountPath: /etc/ssl/certs/dex-tls.pem
             subPath: tls.crt
 {{- end }}
-          readinessProbe:
-            httpGet:
-              path: /ready
-              port: 8030
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 3000
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 
 ---
 apiVersion: v1

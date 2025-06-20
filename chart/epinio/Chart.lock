@@ -9,7 +9,7 @@ dependencies:
   repository: https://charts.appscode.com/stable/
   version: v0.13.2
 - name: s3gw
-  repository: https://aquarist-labs.github.io/s3gw-charts
+  repository: https://s3gw-tech.github.io/s3gw-charts
   version: 0.14.0
-digest: sha256:7b80527ba85ac4c5a5eaf9c69bc9802b3d70fba4ac64fe6677db13778e7909c3
-generated: "2023-07-25T10:32:27.725169768+02:00"
+digest: sha256:e79cdcac5ddf7d8cad359e123de136784ebab0a6db2a1f4c1b4cd1f5c39f831c
+generated: "2025-06-20T18:02:38.67582011-04:00"

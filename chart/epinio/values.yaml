@@ -6,6 +6,17 @@
 # __SUPERCEDED__ by `global.tlsIssuerMail`.
 #
 # Kept for backward compatibility, here and in the templates.
+# This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "epinio-server"
 email: "epinio@suse.com"
 image:
   epinio:
@@ -56,6 +67,21 @@ server:
     cpu: ""
     memory: ""
     disk: "1Gi"
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+  replicaCount: 1
+  # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
@@ -67,6 +93,7 @@ ingress:
 service:
   # -- Annotations to be added to the Epinio service.
   annotations: {}
+  port: 8030
 # The strategy used to deploy the Epinio server.
 # If you are using a RWO storage the following will avoid a Multi-Attach error during an `helm upgrade`.
 # See https://github.com/epinio/epinio/issues/2253.
@@ -164,6 +191,7 @@ minio:
     privateKey: tls.key
   persistence:
     size: 2Gi
+    storageClass: ""
   drivesPerNode: 4
   replicas: 1
   resources:
@@ -221,10 +249,10 @@ containerregistry:
   image:
     registry:
       repository: registry
-      tag: 2.8.1
+      tag: "3"
     nginx:
       repository: nginx
-      tag: 1.25.2-alpine
+      tag: 1.27-alpine
   imagePullPolicy: IfNotPresent
   # The ingressClassName is used to select the ingress controller. If
   # empty no class will be added to the ingresses.
