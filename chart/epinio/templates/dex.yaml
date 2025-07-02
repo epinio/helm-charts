@@ -14,11 +14,19 @@ metadata:
   name: dex-config
   namespace: {{ .Release.Namespace }}
 stringData:
-  issuer: "https://auth.{{ .Values.global.domain }}"
+{{- if .Values.dex.issuer.port }}
+  issuer: {{ printf "https://auth.%s:%s" .Values.global.domain (toString .Values.dex.issuer.port) }}
+{{- else }}
+  issuer: {{ printf "https://auth.%s" .Values.global.domain }}
+{{- end }}
   endpoint: {{ printf "http://%s.%s.svc.cluster.local:5556" .Values.dex.fullnameOverride .Release.Namespace }}
   uiClientSecret: {{ $uiClientSecret }}
   config.yaml: |-
-    issuer: "https://auth.{{ .Values.global.domain }}"
+{{- if .Values.dex.issuer.port }}
+    issuer: {{ printf "https://auth.%s:%s" .Values.global.domain (toString .Values.dex.issuer.port) }}
+{{- else }}
+    issuer: {{ printf "https://auth.%s" .Values.global.domain }}
+{{- end }}
 {{- if $rancherUrl }}
     web:
       allowedOrigins: ['{{ $rancherUrl }}']
