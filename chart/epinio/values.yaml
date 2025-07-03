@@ -87,7 +87,16 @@ ingress:
   ingressClassName: ""
   # Annotations to add to the API ingress
   # e.g.: --set 'ingress.annotations.nginx\.ingress\.kubernetes\.io/ssl-redirect=false'
+  # or:
+  # --set ingress.annotations.nginx\.org/proxy-connect-timeout="180s" \
+  # --set ingress.annotations.nginx\.org/proxy-read-timeout="180s" \
+  # --set ingress.annotations.nginx\.ingress\.kubernetes\.io/proxy-connect-timeout="180s" \
+  # --set ingress.annotations.nginx\.ingress\.kubernetes\.io/proxy-read-timeout="180s"
   annotations: {}
+    # nginx.org/proxy-connect-timeout: "180s"
+    # nginx.org/proxy-read-timeout: "180s"
+    # nginx.ingress.kubernetes.io/proxy-connect-timeout: "180s"
+    # nginx.ingress.kubernetes.io/proxy-read-timeout: "180s"
   # nginxSSLRedirect to controll https->http redirects
   nginxSSLRedirect: "true"
 service:
