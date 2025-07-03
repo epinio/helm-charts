@@ -35,9 +35,12 @@ Common labels
 */}}
 {{- define "epinio.labels" -}}
 helm.sh/chart: {{ include "epinio.chart" . }}
-{{ include "epinio.selectorLabels" . }}
+app.kubernetes.io/component: epinio
+app.kubernetes.io/instance: default
+app.kubernetes.io/name: epinio-server
+app.kubernetes.io/part-of: epinio
 {{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.image.epinio.tag }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
@@ -46,9 +49,8 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "epinio.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "epinio.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: epinio-server
+app.kubernetes.io/instance: default
 app.kubernetes.io/name: epinio-server
 app.kubernetes.io/part-of: epinio
 {{- end }}
