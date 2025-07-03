@@ -183,6 +183,13 @@ dex:
   service:
     # -- Annotations to be added to the Epinio service.
     annotations: {}
+  # The issuer URL for the Dex OIDC provider
+  # This configuration value is currently not in use
+  issuer:
+    url: "https://auth.{{ .Values.global.domain }}"
+    port: null
+    # The issuer CA certificate
+    ca: ""
 # Extra environment variables passed to the epinio-server pod.
 # extraEnv:
 # - name: MY_ENV_VAR
