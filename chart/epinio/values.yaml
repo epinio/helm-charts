@@ -22,7 +22,7 @@ image:
   epinio:
     registry: ghcr.io/
     repository: epinio/epinio-server
-    tag: ""
+    tag: v1.12.0-rc1
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
