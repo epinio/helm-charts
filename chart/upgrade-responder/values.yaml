@@ -82,7 +82,7 @@ grafana:
   ingress:
     enabled: true
     # hosts:
-    # - "grafana.172.21.0.4.omg.howdoi.website"
+    # - "grafana.172.21.0.4.sslip.io"
   datasources:
     datasources.yaml:
       apiVersion: 1
