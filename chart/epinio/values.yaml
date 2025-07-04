@@ -26,7 +26,7 @@ image:
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.11.0-0.0.2
+    tag: v1.12.0-rc3
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
@@ -68,12 +68,12 @@ server:
     memory: ""
     disk: "1Gi"
   resources: {}
-    # limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
   replicaCount: 1
   # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
   autoscaling:
@@ -93,10 +93,10 @@ ingress:
   # --set ingress.annotations.nginx\.ingress\.kubernetes\.io/proxy-connect-timeout="180s" \
   # --set ingress.annotations.nginx\.ingress\.kubernetes\.io/proxy-read-timeout="180s"
   annotations: {}
-    # nginx.org/proxy-connect-timeout: "180s"
-    # nginx.org/proxy-read-timeout: "180s"
-    # nginx.ingress.kubernetes.io/proxy-connect-timeout: "180s"
-    # nginx.ingress.kubernetes.io/proxy-read-timeout: "180s"
+  # nginx.org/proxy-connect-timeout: "180s"
+  # nginx.org/proxy-read-timeout: "180s"
+  # nginx.ingress.kubernetes.io/proxy-connect-timeout: "180s"
+  # nginx.ingress.kubernetes.io/proxy-read-timeout: "180s"
   # nginxSSLRedirect to controll https->http redirects
   nginxSSLRedirect: "true"
 service:
