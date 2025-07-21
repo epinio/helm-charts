@@ -26,7 +26,7 @@ image:
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.12.0-rc5
+    tag: v1.12.0-rc6
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
@@ -43,7 +43,7 @@ image:
     tag: v1.22.6
   builder:
     repository: paketobuildpacks/builder-jammy-full
-    tag: 0.3.290
+    tag: 0.3.495
     # The user/group combination to use when running
     # the builder image (and in supporting scripts).
     userid: 1001
