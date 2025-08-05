@@ -22,7 +22,7 @@ image:
   epinio:
     registry: ghcr.io/
     repository: epinio/epinio-server
-    tag: v1.12.0-rc1
+    tag: v1.12.0-rc2
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
@@ -30,7 +30,7 @@ image:
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
-    tag: v1.12.0-rc1
+    tag: v1.12.0-rc2
   awscli:
     repository: amazon/aws-cli
     tag: 2.13.26
