@@ -253,10 +253,17 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "epinio.labels" . | nindent 8 }}
+        app.kubernetes.io/component: epinio-server
+        app.kubernetes.io/instance: default
+        app.kubernetes.io/name: epinio-server
+        app.kubernetes.io/part-of: epinio
+        {{- if .Chart.AppVersion }}
+        app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.image.epinio.tag }}
+        {{- end }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
+      name: epinio-server
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
