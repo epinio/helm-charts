@@ -8,6 +8,8 @@ dependencies:
   version: 7.0.6
 description: A Helm chart for Kubernetes
 maintainers:
+- email: epinio@krum.io
+  name: Krumware
 - email: team@epinio.io
   name: SUSE
 name: upgrade-responder

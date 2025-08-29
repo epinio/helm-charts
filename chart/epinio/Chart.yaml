@@ -2,7 +2,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/prerelease: "false"
 apiVersion: v2
-appVersion: v1.12.0-rc4
+appVersion: v1.12.0-rc7
 dependencies:
 - condition: global.dex.enabled
   name: dex
@@ -35,9 +35,11 @@ keywords:
 - epinio
 - paas
 maintainers:
-- email: team@epinio.io
+- email: epinio@krum.io
+  name: Krumware
+- email: epinio@epinio.io
   name: SUSE
 name: epinio
 sources:
 - https://github.com/epinio/epinio
-version: 1.12.0-rc4
+version: 1.12.0-rc7
