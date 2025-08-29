@@ -22,13 +22,13 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Needed due to this bug https://github.com/updatecli/updatecli/issues/1098
       # Updatecli which relies on go-git fails when used with git submodule using ssh protocol
       # so it's a temporary workaround
       - name: Checkout Epinio
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: 'epinio/epinio'
           path: epinio
