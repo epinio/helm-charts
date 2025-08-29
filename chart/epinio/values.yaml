@@ -30,7 +30,7 @@ image:
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
-    tag: v1.12.0-rc2
+    tag: v1.12.0
   awscli:
     repository: amazon/aws-cli
     tag: 2.13.26
