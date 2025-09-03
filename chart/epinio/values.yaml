@@ -17,20 +17,20 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: "epinio-server"
-email: "epinio@suse.com"
+email: "epinio@krum.io"
 image:
   epinio:
     registry: ghcr.io/
     repository: epinio/epinio-server
-    tag: v1.12.0-rc1
+    tag: v1.12.0
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.12.0-rc6
+    tag: v1.12.0
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
-    tag: v1.12.0-rc1
+    tag: v1.12.0
   awscli:
     repository: amazon/aws-cli
     tag: 2.13.26

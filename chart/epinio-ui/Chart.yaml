@@ -9,6 +9,8 @@ keywords:
 - epinio
 - paas
 maintainers:
+- email: epinio@krum.io
+  name: Krumware
 - email: team@epinio.io
   name: SUSE
 name: epinio-ui
