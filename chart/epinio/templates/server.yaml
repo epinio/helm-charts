@@ -343,24 +343,6 @@ spec:
             - name: INGRESS_CLASS_NAME
               value: "{{ .Values.ingress.ingressClassName }}"
             {{- end }}
-            {{- if .Values.server.stagingServiceAccountName }}
-            - name: STAGING_SERVICE_ACCOUNT_NAME
-              value: "{{ .Values.server.stagingServiceAccountName }}"
-            {{- end }}
-            {{- with .Values.server.stagingResourceRequests }}
-            {{- with .cpu }}
-            - name: STAGING_RESOURCE_CPU
-              value: "{{ . }}"
-            {{- end }}
-            {{- with .memory }}
-            - name: STAGING_RESOURCE_MEMORY
-              value: "{{ . }}"
-            {{- end }}
-            {{- with .disk }}
-            - name: STAGING_RESOURCE_DISK
-              value: "{{ . }}"
-            {{- end }}
-            {{- end }}
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 -}}
           {{- end }}
