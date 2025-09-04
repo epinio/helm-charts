@@ -75,8 +75,8 @@ server:
       #   memory: ""
     storage:
       disk: "1Gi"
-    nodeSelector:
-      kubernetes.io/os: linux
+    nodeSelector: {}
+      # kubernetes.io/os: linux
     affinity: {}
       # nodeAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
