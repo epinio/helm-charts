@@ -93,7 +93,7 @@ to point to the desired container registry.
 
 The registry image and associated documentation can be found here: https://hub.docker.com/_/registry
 
-### Epinio Staging Workloads
+## Epinio Staging Workloads
 
 Epinio uses staging workloads to build container images from source code.  As you can imagine, container builds can consume varying amounts of CPU, Memory, and Disk space depending on the application.  Because of this, it is important that these staging workloads can not only specify those resource amounts but also specify scheduling constraints so that your running applications can be protected from any buildtime resource consumption.  For example, you may configure your staging workloads to schedule to a particular node pool within your Kubernetes cluster that is dedicated to builds.
 
