@@ -93,6 +93,28 @@ to point to the desired container registry.
 
 The registry image and associated documentation can be found here: https://hub.docker.com/_/registry
 
+### Epinio Staging Workloads
+
+Epinio uses staging workloads to build container images from source code.  As you can imagine, container builds can consume varying amounts of CPU, Memory, and Disk space depending on the application.  Because of this, it is important that these staging workloads can not only specify those resource amounts but also specify scheduling constraints so that your running applications can be protected from any buildtime resource consumption.  For example, you may configure your staging workloads to schedule to a particular node pool within your Kubernetes cluster that is dedicated to builds.
+
+These configurations can be set using the `stagingWorkloads` section of the `values.yaml` file with which you may configure the following details:
+- Resource Consumption
+    - `stagingWorkloads.resources`
+        - Provide Requests/Limits on CPU & Memory
+    - `stagingWorkloads.storage`
+        - Provide Disk Size parameters for the staging workload's designated PVC
+- Scheduling Constraints
+    - `stagingWorkloads.nodeSelector`
+        - Provide Node Selector labels to constrain scheduling to nodes that contain the specified label/value.
+    - `stagingWorkloads.affinity`
+        - Provide Affinity rules to constrain scheduling to nodes that meet the specified criteria.
+    - `stagingWorkloads.tolerations`
+        - Provide Tolerations to allow scheduling to nodes with matching taints.
+
+There exists examples within the `values.yaml` file under the `stagingWorkloads` key.  Please review and modify these examples to suit your environmental needs.
+
+The configurations under `stagingWorkloads` gets mapped to the build script ConfigMaps which is then processed by the Epinio Server when builds are kicked off.  These specifications are supplied to the newly created staging jobs.
+
 ## Install Epinio
 
 If the above dependencies are available or going to be installed by this chart,
