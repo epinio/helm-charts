@@ -14,3 +14,7 @@ data:
   env: |-
     CNB_PLATFORM_API: "0.11"
   base: epinio-stage-scripts
+  {{- with .Values.server.stagingWorkloads }}
+  staging-values.json: |-
+    {{- toJson . | nindent 4 }}
+  {{- end }}
