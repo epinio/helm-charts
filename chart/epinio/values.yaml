@@ -60,7 +60,6 @@ server:
   ingressClassName: ""
   # Disable tracking of the Epinio and Kubernetes cluster version
   disableTracking: false
-  
 
   # Configure staging jobs performing builds and deployment
   stagingWorkloads:
@@ -75,8 +74,8 @@ server:
       #   memory: ""
     storage:
       disk: "1Gi"
-    nodeSelector:
-      kubernetes.io/os: linux
+    nodeSelector: {}
+      # kubernetes.io/os: linux
     affinity: {}
       # nodeAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
