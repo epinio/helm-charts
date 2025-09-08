@@ -93,6 +93,28 @@ to point to the desired container registry.
 
 The registry image and associated documentation can be found here: https://hub.docker.com/_/registry
 
+## Epinio Staging Workloads
+
+Epinio uses staging workloads to build container images from source code.  As you can imagine, container builds can consume varying amounts of CPU, Memory, and Disk space depending on the application.  Because of this, it is important that these staging workloads can not only specify those resource amounts but also specify scheduling constraints so that your running applications can be protected from any buildtime resource consumption.  For example, you may configure your staging workloads to schedule to a particular node pool within your Kubernetes cluster that is dedicated to builds.
+
+These configurations can be set using the `server.stagingWorkloads` section of the `values.yaml` file with which you may configure the following details:
+- Resource Consumption
+    - `server.stagingWorkloads.resources`
+        - Provide Requests/Limits on CPU & Memory
+    - `server.stagingWorkloads.storage`
+        - Provide Disk Size parameters for the staging workload's designated PVC
+- Scheduling Constraints
+    - `server.stagingWorkloads.nodeSelector`
+        - Provide Node Selector labels to constrain scheduling to nodes that contain the specified label/value.
+    - `server.stagingWorkloads.affinity`
+        - Provide Affinity rules to constrain scheduling to nodes that meet the specified criteria.
+    - `server.stagingWorkloads.tolerations`
+        - Provide Tolerations to allow scheduling to nodes with matching taints.
+
+There exists examples within the `values.yaml` file under the `server.stagingWorkloads` key.  Please review and modify these examples to suit your environmental needs.
+
+The configurations under `server.stagingWorkloads` gets mapped to the build script ConfigMaps which is then processed by the Epinio Server when builds are kicked off.  These specifications are supplied to the newly created staging jobs.
+
 ## Install Epinio
 
 If the above dependencies are available or going to be installed by this chart,
@@ -106,3 +128,59 @@ $ helm install epinio -n epinio --create-namespace epinio/epinio --values epinio
 The only value that is mandatory is the `.Values.global.domain` which
 should be a wildcard domain, pointing to the IP address of your running
 Ingress controller.
+
+## Breaking Changes & Migrations
+
+### 1.12 to 1.13
+
+Epinio 1.13 rehomes configurations for the staging workloads to a more standardized format that supports a larger variety of configs.  These are no longer configured directly on the Epinio container's ENV variables but rather read from the ConfigMap at staging time.
+
+To summarize, in 1.12, you would previously supply in your `values.yaml`:
+
+```yaml
+server:
+  # Name of the Service Account used by the staging job
+  stagingServiceAccountName: ""
+  # Resources to allocate to the staging job. Default: unbounded cpu/memory, and 1Gi disk
+  stagingResourceRequests:
+    cpu: ""
+    memory: ""
+    disk: "1Gi"
+```
+
+There are some deficiencies in the previous configuration, considering you can't specify requests vs limits hence why we focused on pushing towards following the standard Kubernetes structure more closely while also expanding the configuration capabilities.  Now, instead of repeating the prefix `staging` before each individual setting, they are housed under an encompassing `server.stagingWorkloads` like so:
+
+```yaml
+server:
+  # Configure staging jobs performing builds and deployment
+  stagingWorkloads:
+    # Name of the Service Account used by the staging job
+    serviceAccountName: "epinio-server"
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "1Gi"
+      # limits:
+      #   cpu: ""
+      #   memory: ""
+    storage:
+      disk: "1Gi"
+    nodeSelector: {}
+      # kubernetes.io/os: linux
+    affinity: {}
+      # nodeAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     nodeSelectorTerms:
+      #     - matchExpressions:
+      #       - key: kubernetes.io/os
+      #         operator: In
+      #         values:
+      #         - linux
+    tolerations: []
+      # - key: "kubernetes.io/os"
+      #   operator: "Equal"
+      #   value: "linux"
+      #   effect: "NoSchedule"
+```
+
+Previously ENV variables were populated, but now a ConfigMap is populated instead and read at staging time.
