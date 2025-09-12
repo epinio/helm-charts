@@ -65,6 +65,8 @@ server:
   stagingWorkloads:
     # Name of the Service Account used by the staging job
     serviceAccountName: "epinio-server"
+    # Time to live for the deployed staging job
+    ttlSecondsAfterFinished: 300
     resources:
       requests:
         cpu: "200m"
@@ -73,7 +75,24 @@ server:
       #   cpu: ""
       #   memory: ""
     storage:
-      disk: "1Gi"
+      # Configure PVC or EmptyDir values for build cache
+      cache:
+        # If set to false, the values below will be used or defaulted
+        emptyDir: false
+        size: 1Gi
+        storageClassName: ""
+        volumeMode: Filesystem
+        accessModes:
+        - ReadWriteOnce
+      # Configure PVC or EmptyDir values for source blob storage
+      sourceBlobs:
+        # If set to false, the values below will be used or defaulted
+        emptyDir: true
+        # size: 1Gi
+        # storageClassName: ""
+        # volumeMode: Filesystem
+        # accessModes:
+        # - ReadWriteOnce
     nodeSelector: {}
       # kubernetes.io/os: linux
     affinity: {}

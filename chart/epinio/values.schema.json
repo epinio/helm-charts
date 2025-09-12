@@ -74,19 +74,125 @@
         "ingressClassName": {
           "type": "string"
         },
-        "stagingServiceAccountName": {
-          "type": "string"
-        },
-        "stagingResourceRequests": {
+        "stagingWorkloads": {
           "type": "object",
-	  "properties": {
-            "cpu": {
-	       "type": "string"
+          "properties": {
+            "serviceAccountName": {
+              "type": "string",
+              "default": "epinio-server"
             },
-            "memory": {
-	       "type": "string"
+            "ttlSecondsAfterFinished": {
+              "type": "integer",
+              "default": 300
+            },
+            "resources": {
+              "type": "object",
+              "properties": {
+                "requests": {
+                  "type": "object",
+                  "properties": {
+                    "cpu": {
+                      "type": "string",
+                      "default": "200m"
+                    },
+                    "memory": {
+                      "type": "string",
+                      "default": "1Gi"
+                    }
+                  }
+                },
+                "limits": {
+                  "type": "object",
+                  "properties": {
+                    "cpu": {
+                      "type": "string",
+                      "default": ""
+                    },
+                    "memory": {
+                      "type": "string",
+                      "default": ""
+                    }
+                  }
+                }
+              }
+            },
+            "storage": {
+              "type": "object",
+              "properties": {
+                "cache": {
+                  "type": "object",
+                  "properties": {
+                    "emptyDir": {
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "size": {
+                      "type": "string",
+                      "default": "1Gi"
+                    },
+                    "storageClassName": {
+                      "type": "string",
+                      "default": ""
+                    },
+                    "volumeMode": {
+                      "type": "string",
+                      "default": "Filesystem"
+                    },
+                    "accessModes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "default": ["ReadWriteOnce"]
+                    }
+                  }
+                },
+                "sourceBlobs": {
+                  "type": "object",
+                  "properties": {
+                    "emptyDir": {
+                      "type": "boolean",
+                      "default": true
+                    },
+                    "size": {
+                      "type": "string",
+                      "default": "1Gi"
+                    },
+                    "storageClassName": {
+                      "type": "string",
+                      "default": ""
+                    },
+                    "volumeMode": {
+                      "type": "string",
+                      "default": "Filesystem"
+                    },
+                    "accessModes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "default": ["ReadWriteOnce"]
+                    }
+                  }
+                }
+              }
+            },
+            "nodeSelector": {
+              "type": "object",
+              "default": {}
+            },
+            "affinity": {
+              "type": "object",
+              "default": {}
+            },
+            "tolerations": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "default": []
             }
-	  }
+          }
         }
       }
     },
