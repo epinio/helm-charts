@@ -8,7 +8,6 @@ metadata:
 stringData:
   # The only supported password format is bcrypt
   htpasswd:  {{ htpasswd .Values.global.registryUsername .Values.global.registryPassword | quote }}
-
 {{- if .Values.certManager.enabled }}
 ---
 apiVersion: cert-manager.io/v1
@@ -26,7 +25,6 @@ spec:
     name: epinio-ca
   secretName: epinio-registry-tls
 {{- end }}
-
 ---
 apiVersion: v1
 kind: Service
@@ -45,8 +43,6 @@ spec:
   - name: registry
     port: 5000
     targetPort: 5000
-
-{{ if .Values.containerregistry.enabled }}
 ---
 apiVersion: v1
 kind: Service
@@ -82,8 +78,6 @@ data:
         proxy_pass https://localhost:5000/;
       }
     }
-{{- end }}
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -106,7 +100,6 @@ spec:
         app.kubernetes.io/instance: "epinio-registry"
     spec:
       containers:
-{{ if .Values.containerregistry.enabled }}
       - name: nginx
         image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.nginx.repository}}:{{ .Values.containerregistry.image.nginx.tag }}"
         imagePullPolicy: IfNotPresent
@@ -130,7 +123,6 @@ spec:
           name: nginx-run
         - mountPath: /var/run/
           name: nginx-run
-{{- end }}
       - name: registry
         image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.registry.repository}}:{{ .Values.containerregistry.image.registry.tag }}"
         imagePullPolicy: {{ .Values.containerregistry.imagePullPolicy }}
@@ -174,16 +166,24 @@ spec:
             scheme: HTTPS
           initialDelaySeconds: 5
           periodSeconds: 5
+        {{- with .Values.containerregistry.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
       volumes:
       - name: registry
+        {{- if .Values.containerregistry.storage.emptyDir }}
         emptyDir: {}
+        {{ else }}
+        persistentVolumeClaim:
+          claimName: {{ include "epinio.fullname" . }}-registry
+        {{- end }}
       - name: auth
         secret:
           secretName: auth
       - name: certs
         secret:
           secretName: epinio-registry-tls
-{{ if .Values.containerregistry.enabled }}
       - name: nginx-conf
         configMap:
           name: nginx-conf
@@ -191,5 +191,16 @@ spec:
         emptyDir: {}
       - name: nginx-run
         emptyDir: {}
-{{- end }}
+      {{- with .Values.containerregistry.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.containerregistry.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.containerregistry.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 {{- end }}
