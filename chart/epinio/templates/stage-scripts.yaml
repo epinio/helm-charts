@@ -8,6 +8,10 @@ metadata:
   name: epinio-stage-scripts
   namespace: {{ .Release.Namespace }}
 data:
+  {{- with .Values.server.stagingWorkloads }}
+  staging-values.json: |-
+    {{- toJson . | nindent 4 }}
+  {{- end }}
   builder: "*"
   userID: "{{ .Values.image.builder.userid }}"
   groupID: "{{ .Values.image.builder.groupid }}"
