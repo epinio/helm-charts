@@ -6,7 +6,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.tls: "true"
     nginx.ingress.kubernetes.io/ssl-redirect: {{ .Values.ingress.nginxSSLRedirect | quote }}
     nginx.ingress.kubernetes.io/proxy-body-size: 100m
-    nginx.org/websocket-service: "epinio-server"
+    nginx.org/websocket-services: "epinio-server"
     {{- range $key, $value := .Values.ingress.annotations }}
     {{ $key | quote }}: {{ $value | quote }}
     {{- end }}
