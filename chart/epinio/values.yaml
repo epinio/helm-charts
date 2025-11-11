@@ -26,7 +26,7 @@ image:
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.13.2-rc8
+    tag: v1.13.2
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
@@ -94,21 +94,21 @@ server:
         # accessModes:
         # - ReadWriteOnce
     nodeSelector: {}
-      # kubernetes.io/os: linux
+    # kubernetes.io/os: linux
     affinity: {}
-      # nodeAffinity:
-      #   requiredDuringSchedulingIgnoredDuringExecution:
-      #     nodeSelectorTerms:
-      #     - matchExpressions:
-      #       - key: kubernetes.io/os
-      #         operator: In
-      #         values:
-      #         - linux
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #     - matchExpressions:
+    #       - key: kubernetes.io/os
+    #         operator: In
+    #         values:
+    #         - linux
     tolerations: []
-      # - key: "kubernetes.io/os"
-      #   operator: "Equal"
-      #   value: "linux"
-      #   effect: "NoSchedule"
+    # - key: "kubernetes.io/os"
+    #   operator: "Equal"
+    #   value: "linux"
+    #   effect: "NoSchedule"
 
   resources: {}
   # limits:
@@ -330,28 +330,28 @@ containerregistry:
     # accessModes:
     # - ReadWriteOnce
   resources: {}
-    # requests:
-    #   cpu: "200m"
-    #   memory: "1Gi"
-    # limits:
-    #   cpu: ""
-    #   memory: ""
+  # requests:
+  #   cpu: "200m"
+  #   memory: "1Gi"
+  # limits:
+  #   cpu: ""
+  #   memory: ""
   nodeSelector: {}
-    # kubernetes.io/os: linux
+  # kubernetes.io/os: linux
   affinity: {}
-    # nodeAffinity:
-    #   requiredDuringSchedulingIgnoredDuringExecution:
-    #     nodeSelectorTerms:
-    #     - matchExpressions:
-    #       - key: kubernetes.io/os
-    #         operator: In
-    #         values:
-    #         - linux
+  # nodeAffinity:
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #     - matchExpressions:
+  #       - key: kubernetes.io/os
+  #         operator: In
+  #         values:
+  #         - linux
   tolerations: []
-    # - key: "kubernetes.io/os"
-    #   operator: "Equal"
-    #   value: "linux"
-    #   effect: "NoSchedule"
+  # - key: "kubernetes.io/os"
+  #   operator: "Equal"
+  #   value: "linux"
+  #   effect: "NoSchedule"
 serviceCatalog:
   # Enable service catalog service for development
   enableDevServices: true
