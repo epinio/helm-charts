@@ -22,6 +22,9 @@ spec:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
   values: |-
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/postgresql
     {{- template "epinio.catalog-service-values" . }}
 ---
 apiVersion: application.epinio.io/v1
@@ -45,6 +48,9 @@ spec:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
   values: |-
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/mysql
     {{- template "epinio.catalog-service-values" . }}
 ---
 apiVersion: application.epinio.io/v1
@@ -68,6 +74,9 @@ spec:
     name: bitnami
     url: "https://charts.bitnami.com/bitnami"
   values: |-
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/redis
     {{- template "epinio.catalog-service-values" . }}
 ---
 apiVersion: application.epinio.io/v1
@@ -91,6 +100,9 @@ spec:
     name: bitnami
     url: https://charts.bitnami.com/bitnami
   values: |-
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/rabbitmq
     {{- template "epinio.catalog-service-values" . }}
 ---
 apiVersion: application.epinio.io/v1
@@ -114,5 +126,8 @@ spec:
     name: bitnami
     url: https://charts.bitnami.com/bitnami
   values: |-
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/mongodb
     {{- template "epinio.catalog-service-values" . }}
 {{- end }}
