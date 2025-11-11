@@ -1,4 +1,3 @@
-# These are three simple Services to fill the Service Catalog
 {{ if .Values.serviceCatalog.enableDevServices }}
 ---
 apiVersion: application.epinio.io/v1
@@ -23,6 +22,12 @@ spec:
     url: "https://charts.bitnami.com/bitnami"
   values: |-
     {{- template "epinio.catalog-service-values" . }}
+    image:
+      registry: docker.io
+      repository: postgres
+      tag: "18.0"
+      digest: ""
+      pullPolicy: IfNotPresent
 ---
 apiVersion: application.epinio.io/v1
 kind: Service
@@ -46,6 +51,12 @@ spec:
     url: "https://charts.bitnami.com/bitnami"
   values: |-
     {{- template "epinio.catalog-service-values" . }}
+    image:
+      registry: docker.io
+      repository: mysql
+      tag: "9.4.0"
+      digest: ""
+      pullPolicy: IfNotPresent
 ---
 apiVersion: application.epinio.io/v1
 kind: Service
@@ -69,6 +80,12 @@ spec:
     url: "https://charts.bitnami.com/bitnami"
   values: |-
     {{- template "epinio.catalog-service-values" . }}
+    image:
+      registry: docker.io
+      repository: valkey/valkey
+      tag: "9.0-alpine"
+      digest: ""
+      pullPolicy: IfNotPresent
 ---
 apiVersion: application.epinio.io/v1
 kind: Service
@@ -92,6 +109,12 @@ spec:
     url: https://charts.bitnami.com/bitnami
   values: |-
     {{- template "epinio.catalog-service-values" . }}
+    image:
+      registry: docker.io
+      repository: rabbitmq
+      tag: "4.1.4"
+      digest: ""
+      pullPolicy: IfNotPresent
 ---
 apiVersion: application.epinio.io/v1
 kind: Service
@@ -115,4 +138,11 @@ spec:
     url: https://charts.bitnami.com/bitnami
   values: |-
     {{- template "epinio.catalog-service-values" . }}
+    image:
+      registry: docker.io
+      repository: mongo
+      tag: "noble"
+      digest: ""
+      pullPolicy: IfNotPresent
+
 {{- end }}
