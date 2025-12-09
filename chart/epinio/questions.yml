@@ -69,9 +69,9 @@ questions:
   type: string
   required: true
   group: "General settings"
-- variable: kubed.enabled
-  label: Install kubed
-  description: "Deploy kubed or skip it if you get it installed already"
+- variable: config-syncer.enabled
+  label: Install config-syncer
+  description: "Deploy config-syncer or skip it if you get it installed already"
   type: boolean
   group: "Advanced settings"
 - variable: containerregistry.enabled

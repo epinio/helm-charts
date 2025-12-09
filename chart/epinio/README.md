@@ -54,13 +54,13 @@ $ helm install cert-manager --namespace cert-manager jetstack/cert-manager \
 		--set extraArgs[0]=--enable-certificate-owner-ref=true
 ```
 
-### Kubed
+### Config Syncer
 
-Kubed is installed as a subchart when `.Values.kubed.enabled` is true (default).
-If you already have kubed running, you can skip the installation by setting
-the helm value "kubed.enabled" to "false".
+Config Syncer is installed as a subchart when `.Values.config-syncer.enabled` is true (default).
+If you already have config-syncer running, you can skip the installation by setting
+the helm value "config-syncer.enabled" to "false".
 
-NOTE: Kubed has been rebranded and is now only available via commercial license. Epinio is using an older version via mirror from the Rancher image registry.
+NOTE: Config Syncer is the replacement for kubed (which is EOL). Config Syncer requires a license for commercial use. Users should provide their license file when installing.
 
 ### S3 storage
 

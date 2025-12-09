@@ -30,7 +30,7 @@ spec:
   secretName: minio-tls
   secretTemplate:
     annotations:
-      kubed.appscode.com/sync: "kubed-s3-tls-from={{ .Release.Namespace }}"
+      config-syncer.appscode.com/sync: "config-syncer-s3-tls-from={{ .Release.Namespace }}"
 {{- end }}
 
 ---

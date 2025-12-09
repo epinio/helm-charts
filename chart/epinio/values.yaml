@@ -281,14 +281,17 @@ epinioUI:
   service:
     # -- Annotations to be added to the service.
     annotations: {}
-kubed:
+config-syncer:
   enabled: true
-  fullnameOverride: kubed
+  fullnameOverride: config-syncer
   enableAnalytics: false
   operator:
-    registry: rancher
-    repository: mirrored-appscode-kubed
-    tag: v0.13.2
+    registry: ghcr.io
+    repository: appscode/config-syncer
+    tag: v0.15.3
+  # License file path for config-syncer (required for commercial use)
+  # Users should provide their license file when installing
+  license: ""
 # s3gw subchart values
 s3gw:
   enabled: false
