@@ -1,4 +1,5 @@
 ---
+{{- if .Values.serviceAccount.create }}
 apiVersion: v1
 kind: ServiceAccount
 automountServiceAccountToken: {{ .Values.serviceAccount.automount | default false }}
@@ -9,6 +10,7 @@ metadata:
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+{{- end }}
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
