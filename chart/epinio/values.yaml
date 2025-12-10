@@ -288,7 +288,7 @@ config-syncer:
   operator:
     registry: ghcr.io
     repository: appscode/config-syncer
-    tag: v0.15.3
+    tag: v0.14.0-rc.0-11-g22f31b10-dbg_linux_amd64
   # License file path for config-syncer (required for commercial use)
   # Users should provide their license file when installing
   license: ""
