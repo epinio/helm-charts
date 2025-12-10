@@ -437,7 +437,7 @@
         "ingress"
       ]
     },
-    "kubed": {
+    "config-syncer": {
       "type": "object",
       "properties": {
         "enabled": {
@@ -447,6 +447,23 @@
           "type": "boolean"
         },
         "fullnameOverride": {
+          "type": "string"
+        },
+        "operator": {
+          "type": "object",
+          "properties": {
+            "registry": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
+        },
+        "license": {
           "type": "string"
         }
       },

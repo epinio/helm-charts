@@ -16,12 +16,12 @@ dependencies:
   tags:
   - minio
   version: 5.0.13
-- condition: kubed.enabled, global.kubed.enabled
-  name: kubed
-  repository: https://charts.appscode.com/stable/
+- condition: config-syncer.enabled, global.config-syncer.enabled
+  name: config-syncer
+  repository: oci://ghcr.io/appscode-charts
   tags:
-  - kubed
-  version: v0.13.2
+  - config-syncer
+  version: v0.15.3
 - condition: s3gw.enabled, global.s3gw.enabled
   name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts

@@ -7,8 +7,8 @@ metadata:
   annotations:
     linkerd.io/inject: enabled
   labels:
-    # Instruct kubed to copy image pull secrets over.
-    kubed-sync: "registry-creds"
+    # Instruct config-syncer to copy image pull secrets over.
+    config-syncer-sync: "registry-creds"
     app.kubernetes.io/component: "epinio-namespace"
 
 ---
