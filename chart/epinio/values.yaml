@@ -22,11 +22,11 @@ image:
   epinio:
     registry: ghcr.io/
     repository: epinio/epinio-server
-    tag: v1.13.2
+    tag: v1.13.3-rc3
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.13.2
+    tag: v1.13.3-rc3
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
