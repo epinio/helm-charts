@@ -18,6 +18,56 @@ entries:
       artifacthub.io/license: Apache-2.0
       artifacthub.io/prerelease: "false"
     apiVersion: v2
+    appVersion: v1.13.5
+    created: "2025-12-16T17:07:35.141172468Z"
+    dependencies:
+    - condition: global.dex.enabled
+      name: dex
+      repository: https://charts.dexidp.io
+      tags:
+      - dex
+      version: 0.15.2
+    - condition: minio.enabled, global.minio.enabled
+      name: minio
+      repository: https://charts.min.io/
+      tags:
+      - minio
+      version: 5.0.13
+    - condition: kubed.enabled, global.kubed.enabled
+      name: kubed
+      repository: https://charts.appscode.com/stable/
+      tags:
+      - kubed
+      version: v0.13.2
+    - condition: s3gw.enabled, global.s3gw.enabled
+      name: s3gw
+      repository: https://s3gw-tech.github.io/s3gw-charts
+      tags:
+      - s3gw
+      version: 0.14.0
+    description: Epinio deploys Kubernetes applications directly from source code
+      in one step.
+    digest: 95ce353d159175fedb5911fc3ea110958a3bec22a34c3d55fcc16b50ab8c0a40
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: epinio@krum.io
+      name: Krumware
+    - email: epinio@epinio.io
+      name: SUSE
+    name: epinio
+    sources:
+    - https://github.com/epinio/epinio
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-1.13.5/epinio-1.13.5.tgz
+    version: 1.13.5
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "false"
+    apiVersion: v2
     appVersion: v1.13.4
     created: "2025-12-16T15:30:22.478635023Z"
     dependencies:
@@ -4137,4 +4187,4 @@ entries:
     urls:
     - https://github.com/epinio/helm-charts/releases/download/upgrade-responder-v0.1.5/upgrade-responder-v0.1.5.tgz
     version: v0.1.5
-generated: "2025-12-16T15:30:22.478987013Z"
+generated: "2025-12-16T17:07:35.141734329Z"
