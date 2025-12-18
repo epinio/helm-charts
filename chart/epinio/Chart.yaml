@@ -16,12 +16,12 @@ dependencies:
   tags:
   - minio
   version: 5.0.13
-- condition: config-syncer.enabled, global.config-syncer.enabled
-  name: config-syncer
-  repository: oci://ghcr.io/appscode-charts
+- condition: reflector.enabled, global.reflector.enabled
+  name: reflector
+  repository: oci://ghcr.io/emberstack/helm-charts
   tags:
-  - config-syncer
-  version: v0.15.3
+  - reflector
+  version: 9.1.45
 - condition: s3gw.enabled, global.s3gw.enabled
   name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts

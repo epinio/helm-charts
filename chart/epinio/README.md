@@ -54,13 +54,13 @@ $ helm install cert-manager --namespace cert-manager jetstack/cert-manager \
 		--set extraArgs[0]=--enable-certificate-owner-ref=true
 ```
 
-### Config Syncer
+### Kubernetes Reflector
 
-Config Syncer is installed as a subchart when `.Values.config-syncer.enabled` is true (default).
-If you already have config-syncer running, you can skip the installation by setting
-the helm value "config-syncer.enabled" to "false".
+Kubernetes Reflector is installed as a subchart when `.Values.reflector.enabled` is true (default).
+If you already have reflector running, you can skip the installation by setting
+the helm value "reflector.enabled" to "false".
 
-NOTE: Config Syncer is the replacement for kubed (which is EOL). Config Syncer requires a license for commercial use. Users should provide their license file when installing.
+NOTE: Kubernetes Reflector is an open-source (MIT license) replacement for kubed (which is EOL) and config-syncer (which requires a license). Reflector replicates secrets, configmaps, and certificates across namespaces without requiring any license.
 
 ### S3 storage
 

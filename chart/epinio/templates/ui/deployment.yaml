@@ -54,7 +54,7 @@ spec:
               key: uiClientSecret
         {{- end }}
         - name: HTTP_CLIENT_TIMEOUT_IN_SECS
-          value: "120"
+          value: {{ default "300" .Values.epinioUI.httpClientTimeout | quote }}
         - name: SESSION_STORE_SECRET
           valueFrom:
             secretKeyRef:

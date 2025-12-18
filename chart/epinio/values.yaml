@@ -279,6 +279,9 @@ epinioUI:
   logLevel: info
   # Domain that will serve the UI and be the origin of browser requests, used by CORS process
   allowedOrigins: ""
+  # HTTP client timeout in seconds for UI requests to Epinio API
+  # Should match or exceed ingress timeout to prevent "context deadline exceeded" errors
+  httpClientTimeout: 300
   ingress:
     enabled: false
     # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
@@ -286,17 +289,21 @@ epinioUI:
   service:
     # -- Annotations to be added to the service.
     annotations: {}
-config-syncer:
+reflector:
   enabled: true
-  fullnameOverride: config-syncer
-  enableAnalytics: false
-  operator:
-    registry: ghcr.io
-    repository: appscode/config-syncer
-    tag: v0.14.0-rc.0-11-g22f31b10-dbg_linux_amd64
-  # License file path for config-syncer (required for commercial use)
-  # Users should provide their license file when installing
-  license: ""
+  fullnameOverride: reflector
+  # Kubernetes Reflector is an open-source (MIT) alternative to config-syncer
+  # It replicates secrets, configmaps, and certificates across namespaces
+  # No license required - fully open source
+  image:
+    repository: emberstack/kubernetes-reflector
+    tag: ""  # Uses chart version by default
+    pullPolicy: IfNotPresent
+  rbac:
+    enabled: true
+  serviceAccount:
+    create: true
+    name: ""  # Uses release name by default
 # s3gw subchart values
 s3gw:
   enabled: false

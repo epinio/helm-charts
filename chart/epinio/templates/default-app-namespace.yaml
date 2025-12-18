@@ -7,8 +7,8 @@ metadata:
   annotations:
     linkerd.io/inject: enabled
   labels:
-    # Instruct config-syncer to copy image pull secrets over.
-    config-syncer-sync: "registry-creds"
+    # Reflector will automatically create mirrors of secrets/configmaps
+    # that have reflection-auto-enabled annotation (no label needed)
     app.kubernetes.io/component: "epinio-namespace"
 
 ---
