@@ -60,8 +60,6 @@ Kubernetes Reflector is installed as a subchart when `.Values.reflector.enabled`
 If you already have reflector running, you can skip the installation by setting
 the helm value "reflector.enabled" to "false".
 
-NOTE: Kubernetes Reflector is an open-source (MIT license) replacement for kubed (which is EOL) and config-syncer (which requires a license). Reflector replicates secrets, configmaps, and certificates across namespaces without requiring any license.
-
 ### S3 storage
 
 Epinio is using an S3 compatible storage to store the application source code.
