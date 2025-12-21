@@ -489,22 +489,51 @@
         "ingress"
       ]
     },
-    "kubed": {
+    "reflector": {
       "type": "object",
       "properties": {
         "enabled": {
           "type": "boolean"
         },
-        "enableAnalytics": {
-          "type": "boolean"
-        },
         "fullnameOverride": {
           "type": "string"
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            },
+            "pullPolicy": {
+              "type": "string"
+            }
+          }
+        },
+        "rbac": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          }
+        },
+        "serviceAccount": {
+          "type": "object",
+          "properties": {
+            "create": {
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
         }
       },
       "required": [
         "enabled",
-        "enableAnalytics",
         "fullnameOverride"
       ]
     },

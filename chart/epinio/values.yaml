@@ -135,7 +135,7 @@ ingress:
   # --set ingress.annotations.nginx\.org/proxy-read-timeout="180s" \
   # --set ingress.annotations.nginx\.ingress\.kubernetes\.io/proxy-connect-timeout="180s" \
   # --set ingress.annotations.nginx\.ingress\.kubernetes\.io/proxy-read-timeout="180s"
-  annotations: {}
+  annotations:
   # nginx.org/proxy-connect-timeout: "180s"
   # nginx.org/proxy-read-timeout: "180s"
   # nginx.ingress.kubernetes.io/proxy-connect-timeout: "180s"
@@ -281,39 +281,18 @@ epinioUI:
   service:
     # -- Annotations to be added to the service.
     annotations: {}
-  resources: {}
-    # requests:
-    #   cpu: "200m"
-    #   memory: "500Mi"
-    # limits:
-    #   cpu: ""
-    #   memory: ""
-  nodeSelector: {}
-    # kubernetes.io/os: linux
-  affinity: {}
-    # nodeAffinity:
-    #   requiredDuringSchedulingIgnoredDuringExecution:
-    #     nodeSelectorTerms:
-    #     - matchExpressions:
-    #       - key: kubernetes.io/os
-    #         operator: In
-    #         values:
-    #         - linux
-  tolerations: []
-    # - key: "kubernetes.io/os"
-    #   operator: "Equal"
-    #   value: "linux"
-    #   effect: "NoSchedule"
-
-
-kubed:
+reflector:
   enabled: true
-  fullnameOverride: kubed
-  enableAnalytics: false
-  operator:
-    registry: rancher
-    repository: mirrored-appscode-kubed
-    tag: v0.13.2
+  fullnameOverride: reflector
+  image:
+    repository: emberstack/kubernetes-reflector
+    tag: ""  # Uses chart version by default
+    pullPolicy: IfNotPresent
+  rbac:
+    enabled: true
+  serviceAccount:
+    create: true
+    name: ""  # Uses release name by default
 # s3gw subchart values
 s3gw:
   enabled: false

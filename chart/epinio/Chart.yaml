@@ -16,12 +16,12 @@ dependencies:
   tags:
   - minio
   version: 5.0.13
-- condition: kubed.enabled, global.kubed.enabled
-  name: kubed
-  repository: https://charts.appscode.com/stable/
+- condition: reflector.enabled, global.reflector.enabled
+  name: reflector
+  repository: oci://ghcr.io/emberstack/helm-charts
   tags:
-  - kubed
-  version: v0.13.2
+  - reflector
+  version: 9.1.45
 - condition: s3gw.enabled, global.s3gw.enabled
   name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts

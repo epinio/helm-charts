@@ -54,13 +54,11 @@ $ helm install cert-manager --namespace cert-manager jetstack/cert-manager \
 		--set extraArgs[0]=--enable-certificate-owner-ref=true
 ```
 
-### Kubed
+### Kubernetes Reflector
 
-Kubed is installed as a subchart when `.Values.kubed.enabled` is true (default).
-If you already have kubed running, you can skip the installation by setting
-the helm value "kubed.enabled" to "false".
-
-NOTE: Kubed has been rebranded and is now only available via commercial license. Epinio is using an older version via mirror from the Rancher image registry.
+Kubernetes Reflector is installed as a subchart when `.Values.reflector.enabled` is true (default).
+If you already have reflector running, you can skip the installation by setting
+the helm value "reflector.enabled" to "false".
 
 ### S3 storage
 
