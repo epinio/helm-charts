@@ -22,15 +22,15 @@ image:
   epinio:
     registry: ghcr.io/
     repository: epinio/epinio-server
-    tag: v1.13.2
+    tag: v1.13.5
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.13.2
+    tag: v1.13.5
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
-    tag: v1.13.2
+    tag: v1.13.5
   awscli:
     repository: amazon/aws-cli
     tag: 2.13.26
@@ -359,6 +359,32 @@ containerregistry:
 serviceCatalog:
   # Enable service catalog service for development
   enableDevServices: true
+# Scheduling configurations for the Helm Controller
+helmController:
+  resources: {}
+    # requests:
+    #   cpu: "200m"
+    #   memory: "500Mi"
+    # limits:
+    #   cpu: ""
+    #   memory: ""
+  nodeSelector: {}
+    # kubernetes.io/os: linux
+  affinity: {}
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #     - matchExpressions:
+    #       - key: kubernetes.io/os
+    #         operator: In
+    #         values:
+    #         - linux
+  tolerations: []
+    # - key: "kubernetes.io/os"
+    #   operator: "Equal"
+    #   value: "linux"
+    #   effect: "NoSchedule"
+
 global:
   dex:
     enabled: true
