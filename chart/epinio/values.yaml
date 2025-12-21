@@ -136,11 +136,6 @@ ingress:
   # --set ingress.annotations.nginx\.ingress\.kubernetes\.io/proxy-connect-timeout="180s" \
   # --set ingress.annotations.nginx\.ingress\.kubernetes\.io/proxy-read-timeout="180s"
   annotations:
-    # Increase timeout to prevent 504 Gateway Timeout errors during namespace creation
-    # Default nginx timeout is 60s, which may be too short for namespace operations
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
   # nginx.org/proxy-connect-timeout: "180s"
   # nginx.org/proxy-read-timeout: "180s"
   # nginx.ingress.kubernetes.io/proxy-connect-timeout: "180s"
@@ -279,9 +274,6 @@ epinioUI:
   logLevel: info
   # Domain that will serve the UI and be the origin of browser requests, used by CORS process
   allowedOrigins: ""
-  # HTTP client timeout in seconds for UI requests to Epinio API
-  # Should match or exceed ingress timeout to prevent "context deadline exceeded" errors
-  httpClientTimeout: 300
   ingress:
     enabled: false
     # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
@@ -292,9 +284,6 @@ epinioUI:
 reflector:
   enabled: true
   fullnameOverride: reflector
-  # Kubernetes Reflector is an open-source (MIT) alternative to config-syncer
-  # It replicates secrets, configmaps, and certificates across namespaces
-  # No license required - fully open source
   image:
     repository: emberstack/kubernetes-reflector
     tag: ""  # Uses chart version by default
