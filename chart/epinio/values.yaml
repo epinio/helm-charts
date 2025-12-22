@@ -233,6 +233,16 @@ dex:
     port: null
     # The issuer CA certificate
     ca: ""
+  # Security context configuration to prevent privilege escalation and run as root
+  # See: https://github.com/epinio/epinio/issues/2730
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
 # Extra environment variables passed to the epinio-server pod.
 # extraEnv:
 # - name: MY_ENV_VAR
@@ -256,6 +266,16 @@ minio:
   resources:
     requests:
       memory: 1Gi
+  # Security context configuration to prevent privilege escalation and run as root
+  # See: https://github.com/epinio/helm-charts/issues/2732
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
   makeUserJob:
     podAnnotations:
       linkerd.io/inject: disabled
@@ -293,6 +313,7 @@ reflector:
   serviceAccount:
     create: true
     name: ""  # Uses release name by default
+
 # s3gw subchart values
 s3gw:
   enabled: false
