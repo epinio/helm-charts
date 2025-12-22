@@ -296,6 +296,58 @@
       "description": "the domain that will be used to access the Epinio API",
       "type": "string"
     },
+    "helmController": {
+      "description": "server configuration",
+      "type": "object",
+      "properties": {
+        "nodeSelector": {
+          "type": "object",
+          "default": {}
+        },
+        "affinity": {
+          "type": "object",
+          "default": {}
+        },
+        "tolerations": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "default": []
+        },
+        "resources": {
+          "type": "object",
+          "properties": {
+            "requests": {
+              "type": "object",
+              "properties": {
+                "cpu": {
+                  "type": "string",
+                  "default": "200m"
+                },
+                "memory": {
+                  "type": "string",
+                  "default": "1Gi"
+                }
+              }
+            },
+            "limits": {
+              "type": "object",
+              "properties": {
+                "cpu": {
+                  "type": "string",
+                  "default": ""
+                },
+                "memory": {
+                  "type": "string",
+                  "default": ""
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "global": {
       "type": "object",
       "properties": {
@@ -437,22 +489,51 @@
         "ingress"
       ]
     },
-    "kubed": {
+    "reflector": {
       "type": "object",
       "properties": {
         "enabled": {
           "type": "boolean"
         },
-        "enableAnalytics": {
-          "type": "boolean"
-        },
         "fullnameOverride": {
           "type": "string"
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            },
+            "pullPolicy": {
+              "type": "string"
+            }
+          }
+        },
+        "rbac": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            }
+          }
+        },
+        "serviceAccount": {
+          "type": "object",
+          "properties": {
+            "create": {
+              "type": "boolean"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
         }
       },
       "required": [
         "enabled",
-        "enableAnalytics",
         "fullnameOverride"
       ]
     },

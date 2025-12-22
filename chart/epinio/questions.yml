@@ -69,9 +69,9 @@ questions:
   type: string
   required: true
   group: "General settings"
-- variable: kubed.enabled
-  label: Install kubed
-  description: "Deploy kubed or skip it if you get it installed already"
+- variable: reflector.enabled
+  label: Install reflector
+  description: "Deploy kubernetes-reflector (open-source secret/configmap replicator) or skip it if you have it installed already"
   type: boolean
   group: "Advanced settings"
 - variable: containerregistry.enabled
