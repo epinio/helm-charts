@@ -128,6 +128,16 @@ server:
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
+  # Maximum size of the client request body. This setting is important for deploying applications
+  # with larger source code or assets. The default value is set to 500m (500 megabytes) to handle
+  # larger deployments. You can override this value if needed for your specific use case.
+  # Format: number followed by unit (k, m, g) e.g., "100m", "1g"
+  proxyBodySize: "500m"
+  # Maximum time to read a response from the proxied server. This setting is important for
+  # deployments that take longer to complete, especially on instances with lower compute power.
+  # The default value is set to 600s (10 minutes) to handle longer-running deployments.
+  # Format: number followed by unit (s, m, h) e.g., "180s", "5m", "1h"
+  proxyReadTimeout: "600s"
   # Annotations to add to the API ingress
   # e.g.: --set 'ingress.annotations.nginx\.ingress\.kubernetes\.io/ssl-redirect=false'
   # or:

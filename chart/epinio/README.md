@@ -38,6 +38,26 @@ $ helm install traefik --namespace traefik "https://helm.traefik.io/traefik/trae
 		--set-string service.spec.loadBalancerIP=$LOAD_BALANCER_IP
 ```
 
+#### Ingress Configuration
+
+Epinio configures the ingress with settings that are important for application deployments:
+
+- **`proxy-body-size`**: Controls the maximum size of the client request body. This is critical when deploying applications with larger source code or assets. The default is set to `500m` (500 megabytes) to handle larger deployments. If you encounter errors about request body size being too large, you can increase this value in your `values.yaml`:
+
+  ```yaml
+  ingress:
+    proxyBodySize: "1g"  # Example: increase to 1 gigabyte
+  ```
+
+- **`proxy-read-timeout`**: Controls the maximum time to read a response from the proxied server. This is especially important for deployments that take longer to complete, particularly on instances with lower compute power. The default is set to `600s` (10 minutes) to handle longer-running deployments. If you experience timeout errors during deployments, you can increase this value:
+
+  ```yaml
+  ingress:
+    proxyReadTimeout: "900s"  # Example: increase to 15 minutes
+  ```
+
+These settings can be adjusted in the `ingress` section of your `values.yaml` file to match your specific deployment requirements and cluster capabilities.
+
 ### Cert Manager
 
 Epinio needs [cert-manager](https://cert-manager.io/) in order to create TLS
