@@ -26,7 +26,7 @@ image:
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.13.5
+    tag: v1.13.7
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
@@ -316,13 +316,13 @@ reflector:
   fullnameOverride: reflector
   image:
     repository: emberstack/kubernetes-reflector
-    tag: ""  # Uses chart version by default
+    tag: "" # Uses chart version by default
     pullPolicy: IfNotPresent
   rbac:
     enabled: true
   serviceAccount:
     create: true
-    name: ""  # Uses release name by default
+    name: "" # Uses release name by default
 
 # s3gw subchart values
 s3gw:
@@ -393,28 +393,28 @@ serviceCatalog:
 # Scheduling configurations for the Helm Controller
 helmController:
   resources: {}
-    # requests:
-    #   cpu: "200m"
-    #   memory: "500Mi"
-    # limits:
-    #   cpu: ""
-    #   memory: ""
+  # requests:
+  #   cpu: "200m"
+  #   memory: "500Mi"
+  # limits:
+  #   cpu: ""
+  #   memory: ""
   nodeSelector: {}
-    # kubernetes.io/os: linux
+  # kubernetes.io/os: linux
   affinity: {}
-    # nodeAffinity:
-    #   requiredDuringSchedulingIgnoredDuringExecution:
-    #     nodeSelectorTerms:
-    #     - matchExpressions:
-    #       - key: kubernetes.io/os
-    #         operator: In
-    #         values:
-    #         - linux
+  # nodeAffinity:
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #     - matchExpressions:
+  #       - key: kubernetes.io/os
+  #         operator: In
+  #         values:
+  #         - linux
   tolerations: []
-    # - key: "kubernetes.io/os"
-    #   operator: "Equal"
-    #   value: "linux"
-    #   effect: "NoSchedule"
+  # - key: "kubernetes.io/os"
+  #   operator: "Equal"
+  #   value: "linux"
+  #   effect: "NoSchedule"
 
 global:
   dex:
