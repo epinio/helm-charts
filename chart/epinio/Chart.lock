@@ -10,6 +10,6 @@ dependencies:
   version: 9.1.45
 - name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts
-  version: 0.14.0
-digest: sha256:6f8822fb9b88a4e3eeb1262b94ec4a93d72460859c2683b48667b4b92f385e43
-generated: "2026-01-12T14:07:53.965591596Z"
+  version: 0.23.1
+digest: sha256:290c4976d406c619c8b487de09bed2942380874e13ded765ae5be00334da0f16
+generated: "2026-01-12T14:07:57.852455206Z"
