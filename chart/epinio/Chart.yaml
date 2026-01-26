@@ -2,7 +2,7 @@ annotations:
   artifacthub.io/license: Apache-2.0
   artifacthub.io/prerelease: "false"
 apiVersion: v2
-appVersion: v1.13.5
+appVersion: v1.13.8-rc1
 dependencies:
 - condition: global.dex.enabled
   name: dex
