@@ -22,7 +22,7 @@ image:
   epinio:
     registry: ghcr.io/
     repository: epinio/epinio-server
-    tag: v1.13.5
+    tag: v1.13.8-rc1
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
@@ -30,7 +30,7 @@ image:
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
-    tag: v1.13.5
+    tag: v1.13.8-rc1
   awscli:
     repository: amazon/aws-cli
     tag: 2.13.26
@@ -316,13 +316,13 @@ reflector:
   fullnameOverride: reflector
   image:
     repository: emberstack/kubernetes-reflector
-    tag: "" # Uses chart version by default
+    tag: ""
     pullPolicy: IfNotPresent
   rbac:
     enabled: true
   serviceAccount:
     create: true
-    name: "" # Uses release name by default
+    name: ""
 
 # s3gw subchart values
 s3gw:

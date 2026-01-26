@@ -42,4 +42,4 @@ maintainers:
 name: epinio
 sources:
 - https://github.com/epinio/epinio
-version: 1.13.5
+version: 1.13.8-rc1
