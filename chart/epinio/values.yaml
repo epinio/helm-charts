@@ -316,13 +316,13 @@ reflector:
   fullnameOverride: reflector
   image:
     repository: emberstack/kubernetes-reflector
-    tag: "" # Uses chart version by default
+    tag: ""
     pullPolicy: IfNotPresent
   rbac:
     enabled: true
   serviceAccount:
     create: true
-    name: "" # Uses release name by default
+    name: ""
 
 # s3gw subchart values
 s3gw:
