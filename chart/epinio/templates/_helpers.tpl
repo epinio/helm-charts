@@ -244,3 +244,56 @@ character removed.
 {{- define "epinio-truncate" -}}
 {{ print "r" (trunc 21 (include "epinio-name-sanitize" .)) "-" (sha1sum .) }}
 {{- end }}
+
+{{/*
+Generate a stage scripts ConfigMap.
+Parameters:
+  - name: ConfigMap name
+  - builder: Glob pattern for builder images
+  - userID: User ID for the build script
+  - groupID: Group ID for the build script
+  - env: Environment variables (YAML string)
+  - base: Optional base ConfigMap name to inherit scripts from
+  - downloadImage: Optional download image (if not using base)
+  - unpackImage: Optional unpack image (if not using base)
+  - download: Optional download script (if not using base)
+  - unpack: Optional unpack script (if not using base)
+  - build: Optional build script (if not using base)
+  - context: Root context (.)
+*/}}
+{{- define "epinio.stage-script" -}}
+{{- $ctx := .context }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/component: epinio-staging
+    app.kubernetes.io/part-of: epinio
+    app.kubernetes.io/version: {{ default $ctx.Chart.AppVersion $ctx.Values.image.epinio.tag }}
+  name: {{ .name }}
+  namespace: {{ $ctx.Release.Namespace }}
+data:
+  {{- with .stagingValues }}
+  {{- if ne (len .) 0 }}
+  staging-values.json: |-
+    {{- toJson . | nindent 4 }}
+  {{- end }}
+  {{- end }}
+  builder: {{ .builder | quote }}
+  userID: {{ .userID | quote }}
+  groupID: {{ .groupID | quote }}
+  env: |-
+    {{- .env | nindent 4 }}
+  {{- if .base }}
+  base: {{ .base | quote }}
+  {{- else }}
+  downloadImage: {{ .downloadImage | quote }}
+  unpackImage: {{ .unpackImage | quote }}
+  download: |-
+    {{- .download | nindent 4 }}
+  unpack: |-
+    {{- .unpack | nindent 4 }}
+  build: |-
+    {{- .build | nindent 4 }}
+  {{- end }}
+{{- end }}
