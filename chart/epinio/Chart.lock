@@ -1,7 +1,7 @@
 dependencies:
 - name: dex
   repository: https://charts.dexidp.io
-  version: 0.15.2
+  version: 0.24.0
 - name: minio
   repository: https://charts.min.io/
   version: 5.0.13
@@ -11,5 +11,5 @@ dependencies:
 - name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts
   version: 0.14.0
-digest: sha256:0fb8374fa442e2cbd6280cd542bc2208767593a115130ab33c7708f4699d91e8
-generated: "2025-12-20T19:48:55.30875847-05:00"
+digest: sha256:b8821314b17c948eecdc82ada66799901227946732d4d00b16e454375e3aa982
+generated: "2026-02-03T22:07:32.195425818Z"
