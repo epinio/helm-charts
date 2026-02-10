@@ -21,7 +21,7 @@ dependencies:
   repository: oci://ghcr.io/emberstack/helm-charts
   tags:
   - reflector
-  version: 10.0.5
+  version: 10.0.6
 - condition: s3gw.enabled, global.s3gw.enabled
   name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts
