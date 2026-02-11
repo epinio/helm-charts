@@ -201,6 +201,11 @@ s3:
   # Set it to an existing secret if S3 is using a self signed cert
   certificateSecret: ""
 api:
+  # Install RBAC role ConfigMaps (application_manager, application_developer, view_only, system_manager).
+  # When true, end users can create Secrets with epinio.io/roles: "application_manager" etc.
+  # When false, only the default "user" and "blank" roles are available.
+  rbac:
+    enabled: true
   # Default users
   # plain password used for the 'admin' user
   adminPassword: ""
