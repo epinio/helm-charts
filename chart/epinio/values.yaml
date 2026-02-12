@@ -55,6 +55,9 @@ server:
   timeoutMultiplier: 1
   # Increase this value to instruct the API server to produce more debug output
   traceLevel: 0
+  # Default expiry time for auth tokens (e.g. "30s", "60s", "2m"). Use to mitigate clock drift
+  # in environments where short-lived tokens may expire before use. Capped at 5 minutes.
+  defaultTokenExpiry: "30s"
   # The ingressClassName is used to select the ingress controller for apps.
   # If empty ingress.ingressClassName (see below) is used
   ingressClassName: ""
