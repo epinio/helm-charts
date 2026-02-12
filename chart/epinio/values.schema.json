@@ -65,6 +65,10 @@
         "traceLevel": {
           "type": "integer"
         },
+        "defaultTokenExpiry": {
+          "type": "string",
+          "description": "Default expiry time for auth tokens (e.g. 30s, 60s, 2m). Use to mitigate clock drift."
+        },
         "disableTracking": {
           "type": "boolean"
         },
