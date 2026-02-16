@@ -223,6 +223,11 @@ api:
         - workspace
 # Dex subchart values -- None for now, and sub chart disabled
 dex:
+  # Target fork that supports pkce for oidc providers
+  image:
+    repository: ghcr.io/epinio/dex
+    tag: v2.37.0-epinio-pkce
+    pullPolicy: IfNotPresent
   # hardcode this, to avoid problems with release name
   fullnameOverride: "dex"
   configSecret:
