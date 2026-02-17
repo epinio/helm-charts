@@ -84,10 +84,10 @@ the helm value "reflector.enabled" to "false".
 
 Epinio is using an S3 compatible storage to store the application source code.
 
-This chart will install [Minio](https://min.io/) when `.Values.minio.enabled` is
+This chart will install [SeaweedFS](https://github.com/seaweedfs/seaweedfs) when `.Values.seaweedfs.enabled` is
 true (default).
 
-For additional values that are available, please see the helm chart source: https://github.com/minio/minio/tree/master/helm/minio
+For additional values that are available, please see the helm chart source: https://github.com/seaweedfs/seaweedfs/tree/master/helm/seaweedfs
 
 This chart will install [s3gw](https://s3gw.io/) when `.Values.s3gw.enabled` is
 true.

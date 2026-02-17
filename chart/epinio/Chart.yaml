@@ -10,12 +10,12 @@ dependencies:
   tags:
   - dex
   version: 0.15.2
-- condition: minio.enabled, global.minio.enabled
-  name: minio
-  repository: https://charts.min.io/
+- condition: seaweedfs.enabled, global.seaweedfs.enabled
+  name: seaweedfs
+  repository: https://seaweedfs.github.io/seaweedfs/helm
   tags:
-  - minio
-  version: 5.0.13
+  - seaweedfs
+  version: 4.0.412
 - condition: reflector.enabled, global.reflector.enabled
   name: reflector
   repository: oci://ghcr.io/emberstack/helm-charts
