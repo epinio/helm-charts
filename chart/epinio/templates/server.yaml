@@ -326,9 +326,9 @@ spec:
             - name: DISABLE_TRACKING
               value: "true"
             {{- end }}
-            {{- if .Values.minio.enabled }}
+            {{- if .Values.seaweedfs.enabled }}
             - name: S3_CERTIFICATE_SECRET
-              value: {{ default "minio-tls" .Values.s3.certificateSecret }}
+              value: {{ default "seaweedfs-tls" .Values.s3.certificateSecret }}
             {{- else if .Values.s3gw.enabled }}
             - name: S3_CERTIFICATE_SECRET
               value: {{ default "s3gw-cluster-ip-tls" .Values.s3.certificateSecret }}

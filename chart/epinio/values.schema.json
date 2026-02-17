@@ -537,12 +537,9 @@
         "fullnameOverride"
       ]
     },
-    "minio": {
+    "seaweedfs": {
       "type": "object",
       "properties": {
-        "drivesPerNode": {
-          "type": "integer"
-        },
         "enabled": {
           "type": "boolean"
         },
@@ -552,84 +549,41 @@
         "fullnameOverride": {
           "type": "string"
         },
-        "makeUserJob": {
-          "type": "object",
-          "properties": {
-            "podAnnotations": {
-              "type": "object"
-            }
-          },
-          "required": [
-            "podAnnotations"
-          ]
+        "s3ServiceName": {
+          "type": "string"
+        },
+        "s3Port": {
+          "type": "integer"
         },
         "persistence": {
           "type": "object",
           "properties": {
             "size": {
               "type": "string"
+            },
+            "storageClass": {
+              "type": "string"
             }
-          },
-          "required": [
-            "size"
-          ]
-        },
-        "replicas": {
-          "type": "integer"
-        },
-        "resources": {
-          "type": "object",
-          "properties": {
-            "requests": {
-              "type": "object",
-              "properties": {
-                "memory": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "memory"
-              ]
-            }
-          },
-          "required": [
-            "requests"
-          ]
+          }
         },
         "tls": {
           "type": "object",
           "properties": {
-            "certSecret": {
-              "type": "string"
-            },
             "enabled": {
               "type": "boolean"
             },
-            "privateKey": {
-              "type": "string"
-            },
-            "publicCrt": {
+            "certSecret": {
               "type": "string"
             }
-          },
-          "required": [
-            "certSecret",
-            "enabled",
-            "privateKey",
-            "publicCrt"
-          ]
+          }
         }
       },
       "required": [
-        "drivesPerNode",
         "enabled",
-        "existingSecret",
         "fullnameOverride",
-        "makeUserJob",
-        "persistence",
-        "replicas",
-        "resources",
-        "tls"
+        "s3ServiceName",
+        "s3Port",
+        "existingSecret"
       ]
     },
     "s3gw": {

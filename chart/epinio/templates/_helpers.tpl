@@ -88,21 +88,21 @@ URL of the registry epinio uses to store workload images
 {{- end -}}
 
 {{/*
-URL of the minio epinio installed
+URL of the SeaweedFS S3 endpoint epinio installed
 */}}
-{{- define "epinio.minio-url" -}}
-{{- if .Values.minio.enabled -}}
-{{-   printf "%s.%s.svc.cluster.local:9000" .Values.minio.fullnameOverride .Release.Namespace }}
+{{- define "epinio.seaweedfs-url" -}}
+{{- if .Values.seaweedfs.enabled -}}
+{{-   printf "%s.%s.svc.cluster.local:%d" .Values.seaweedfs.s3ServiceName .Release.Namespace (int .Values.seaweedfs.s3Port) }}
 {{- else -}}
 {{-  .Values.s3.endpoint }}
 {{- end -}}
 {{- end -}}
 
 {{/*
-Host name of the minio epinio installed
+Host name of the SeaweedFS S3 service epinio installed
 */}}
-{{- define "epinio.minio-hostname" -}}
-{{- printf "%s.%s.svc.cluster.local" .Values.minio.fullnameOverride .Release.Namespace }}
+{{- define "epinio.seaweedfs-hostname" -}}
+{{- printf "%s.%s.svc.cluster.local" .Values.seaweedfs.s3ServiceName .Release.Namespace }}
 {{- end -}}
 
 {{/*

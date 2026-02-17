@@ -169,7 +169,7 @@ certManagerNamespace: cert-manager
 # With the auto-creation of secrets from Cert request gone the secrets have to specified manually.
 # See below. Leaving out the `dex` falls back to `epinio`. No other connections between them.
 # Further note:
-#  - s3 applies to either minio, or s3gw, whichever is active.
+#  - s3 applies to either seaweedfs, or s3gw, whichever is active.
 #    In case of using an external s3 store it does not apply at all.
 #  - dex applies only when enabled
 certManager:
@@ -257,38 +257,19 @@ dex:
 # extraEnv:
 # - name: MY_ENV_VAR
 #   value: "1.0"
-# Minio subchart values
-minio:
+# SeaweedFS subchart values (S3-compatible storage)
+seaweedfs:
   enabled: true
-  # hardcode this, to avoid problems with release name
-  fullnameOverride: minio
-  existingSecret: minio-creds
+  fullnameOverride: seaweedfs
+  s3ServiceName: seaweedfs-s3
+  s3Port: 8333
+  existingSecret: seaweedfs-creds
   tls:
     enabled: true
-    certSecret: minio-tls
-    publicCrt: tls.crt
-    privateKey: tls.key
+    certSecret: seaweedfs-tls
   persistence:
     size: 2Gi
     storageClass: ""
-  drivesPerNode: 4
-  replicas: 1
-  resources:
-    requests:
-      memory: 1Gi
-  # Security context configuration to prevent privilege escalation and run as root
-  # See: https://github.com/epinio/helm-charts/issues/2732
-  podSecurityContext:
-    runAsNonRoot: true
-    runAsUser: 1000
-    runAsGroup: 1000
-    fsGroup: 1000
-    fsGroupChangePolicy: OnRootMismatch
-  containerSecurityContext:
-    allowPrivilegeEscalation: false
-  makeUserJob:
-    podAnnotations:
-      linkerd.io/inject: disabled
 epinioUI:
   enabled: true
   # UI theme, either 'light' or 'dark'

@@ -12,22 +12,22 @@ spec:
     name: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
   secretName: epinio-tls
 
-{{- if .Values.minio.enabled }}
+{{- if .Values.seaweedfs.enabled }}
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: minio-cert
+  name: seaweedfs-cert
   namespace: {{ .Release.Namespace }}
 spec:
   dnsNames:
-  - {{ include "epinio.minio-hostname" . }}
+  - {{ include "epinio.seaweedfs-hostname" . }}
   issuerRef:
     kind: ClusterIssuer
-    # We always trust the CA for minio so we can always use selfsigned certs
+    # We always trust the CA for SeaweedFS so we can always use selfsigned certs
     # Because Letsencrypt doesn't create certs for non public domains
     name: epinio-ca
-  secretName: minio-tls
+  secretName: seaweedfs-tls
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
