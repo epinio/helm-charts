@@ -92,7 +92,7 @@ URL of the SeaweedFS S3 endpoint epinio installed
 */}}
 {{- define "epinio.seaweedfs-url" -}}
 {{- if .Values.seaweedfs.enabled -}}
-{{-   printf "%s.%s.svc.cluster.local:%d" .Values.seaweedfs.s3ServiceName .Release.Namespace (int .Values.seaweedfs.s3Port) }}
+{{-   printf "%s-s3.%s.svc.cluster.local:%d" (default "seaweedfs" .Values.seaweedfs.fullnameOverride) .Release.Namespace (int (default 8333 .Values.seaweedfs.s3.port)) }}
 {{- else -}}
 {{-  .Values.s3.endpoint }}
 {{- end -}}
@@ -102,7 +102,7 @@ URL of the SeaweedFS S3 endpoint epinio installed
 Host name of the SeaweedFS S3 service epinio installed
 */}}
 {{- define "epinio.seaweedfs-hostname" -}}
-{{- printf "%s.%s.svc.cluster.local" .Values.seaweedfs.s3ServiceName .Release.Namespace }}
+{{- printf "%s-s3.%s.svc.cluster.local" (default "seaweedfs" .Values.seaweedfs.fullnameOverride) .Release.Namespace }}
 {{- end -}}
 
 {{/*

@@ -326,9 +326,9 @@ spec:
             - name: DISABLE_TRACKING
               value: "true"
             {{- end }}
-            {{- if .Values.seaweedfs.enabled }}
+            {{- if and .Values.seaweedfs.enabled .Values.seaweedfs.tls.enabled .Values.seaweedfs.global.enableSecurity }}
             - name: S3_CERTIFICATE_SECRET
-              value: {{ default "seaweedfs-tls" .Values.s3.certificateSecret }}
+              value: {{ default (default "seaweedfs-tls" .Values.seaweedfs.tls.certSecret) .Values.s3.certificateSecret }}
             {{- else if .Values.s3gw.enabled }}
             - name: S3_CERTIFICATE_SECRET
               value: {{ default "s3gw-cluster-ip-tls" .Values.s3.certificateSecret }}

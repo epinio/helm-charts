@@ -549,22 +549,36 @@
         "fullnameOverride": {
           "type": "string"
         },
-        "s3ServiceName": {
-          "type": "string"
-        },
-        "s3Port": {
-          "type": "integer"
-        },
-        "persistence": {
+        "global": {
           "type": "object",
           "properties": {
-            "size": {
-              "type": "string"
-            },
-            "storageClass": {
-              "type": "string"
+            "enableSecurity": {
+              "type": "boolean"
             }
           }
+        },
+        "s3": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "port": {
+              "type": "integer"
+            },
+            "enableAuth": {
+              "type": "boolean"
+            },
+            "existingConfigSecret": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "enabled",
+            "port",
+            "enableAuth",
+            "existingConfigSecret"
+          ]
         },
         "tls": {
           "type": "object",
@@ -581,9 +595,8 @@
       "required": [
         "enabled",
         "fullnameOverride",
-        "s3ServiceName",
-        "s3Port",
-        "existingSecret"
+        "existingSecret",
+        "s3"
       ]
     },
     "s3gw": {

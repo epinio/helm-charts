@@ -261,15 +261,18 @@ dex:
 seaweedfs:
   enabled: true
   fullnameOverride: seaweedfs
-  s3ServiceName: seaweedfs-s3
-  s3Port: 8333
   existingSecret: seaweedfs-creds
-  tls:
+  global:
+    # Set to true to enable SeaweedFS internal TLS. When enabled, also set `seaweedfs.tls.enabled=true`.
+    enableSecurity: false
+  s3:
     enabled: true
+    port: 8333
+    enableAuth: true
+    existingConfigSecret: seaweedfs-creds
+  tls:
+    enabled: false
     certSecret: seaweedfs-tls
-  persistence:
-    size: 2Gi
-    storageClass: ""
 epinioUI:
   enabled: true
   # UI theme, either 'light' or 'dark'
