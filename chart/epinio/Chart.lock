@@ -1,15 +1,15 @@
 dependencies:
 - name: dex
   repository: https://charts.dexidp.io
-  version: 0.15.2
+  version: 0.24.0
 - name: minio
   repository: https://charts.min.io/
-  version: 5.0.13
+  version: 5.4.0
 - name: reflector
   repository: oci://ghcr.io/emberstack/helm-charts
-  version: 9.1.45
+  version: 10.0.10
 - name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts
-  version: 0.14.0
-digest: sha256:0fb8374fa442e2cbd6280cd542bc2208767593a115130ab33c7708f4699d91e8
-generated: "2025-12-20T19:48:55.30875847-05:00"
+  version: 0.23.1
+digest: sha256:d7961e3d6d8ee42709dc4dfc5f11d69aa4cb169faeb2c07ce7ba63f2b1ba09ca
+generated: "2026-02-19T22:17:28.440598351Z"
