@@ -61,8 +61,24 @@ server:
   # Disable tracking of the Epinio and Kubernetes cluster version
   disableTracking: false
 
+  # Use Pack CLI for staging (buildpack builds) instead of direct lifecycle/creator.
+  # When true, Paketo jammy builder uses Pack-based staging; epinio-stage-scripts-jammy is not installed.
+  # Requires a build container image with Pack (see pack.image). Optional: set stagingWorkloads.dockerSocketPath
+  # for environments where Pack must run the builder in a container (Docker socket or DinD).
+  stagingUsePack: false
+
+  # Pack image and options (used when stagingUsePack is true)
+  pack:
+    # Image containing the Pack CLI (e.g. buildpacksio/pack). Must have Pack and may need Docker client
+    # when builder is run as a container (dockerSocketPath set).
+    image: buildpacksio/pack:0.36.0
+
   # Configure staging jobs performing builds and deployment
   stagingWorkloads:
+    # When using Pack (stagingUsePack: true), optional path to Docker socket on the host
+    # (e.g. /var/run/docker.sock) so Pack can run the builder container. Leave empty for
+    # daemonless or when using a DinD sidecar with a different socket path.
+    dockerSocketPath: ""
     # Name of the Service Account used by the staging job
     serviceAccountName: "epinio-server"
     # Time to live for the deployed staging job
