@@ -13,6 +13,8 @@ data:
     {{- toJson . | nindent 4 }}
   {{- end }}
   builder: "*"
+  buildEngine: "pack"
+  buildImage: "{{ default .Values.image.pack.registry (include "registry-url" .) }}{{ .Values.image.pack.repository}}:{{ .Values.image.pack.tag }}"
   userID: "{{ .Values.image.builder.userid }}"
   groupID: "{{ .Values.image.builder.groupid }}"
   env: |-
@@ -90,6 +92,8 @@ data:
     # - BP general: https://github.com/buildpacks/spec/blob/main/platform.md
     # - Env setup.: https://github.com/buildpacks/spec/blob/main/platform.md#user-provided-variables
     # Parameters
+    # - BUILDENGINE  # lifecycle or pack
+    # - BUILDERIMAGE # cnb builder image
     # - PREIMAGE # url of previous image
     # - APPIMAGE # url of application image
     # - USERID   # id of the `cnb` user
@@ -111,15 +115,30 @@ data:
     fi
     find /workspace
     for path in $(ls /workspace/source/env/* 2>/dev/null) ; do export "$(basename "${path}")"="$(cat "${path}")" ; done
-    /cnb/lifecycle/creator \
-      -app=/workspace/source/app \
-      -cache-dir=/workspace/cache \
-      -uid=${USERID} \
-      -gid=${GROUPID} \
-      -layers=/layers \
-      -platform=/workspace/source \
-      -report=/layers/report.toml \
-      -skip-restore=false \
-      "-previous-image=${PREIMAGE}" \
-      "${APPIMAGE}"
-      echo _ _ __ ___ _____ Done
+    if test "${BUILDENGINE}" = "lifecycle" ; then
+      /cnb/lifecycle/creator \
+        -app=/workspace/source/app \
+        -cache-dir=/workspace/cache \
+        -uid=${USERID} \
+        -gid=${GROUPID} \
+        -layers=/layers \
+        -platform=/workspace/source \
+        -report=/layers/report.toml \
+        -skip-restore=false \
+        "-previous-image=${PREIMAGE}" \
+        "${APPIMAGE}"
+    else
+      export DOCKER_CONFIG=/home/cnb/.docker
+      pack_args=(
+        build "${APPIMAGE}"
+        --publish
+        --builder "${BUILDERIMAGE}"
+        --path /workspace/source/app
+        --cache-dir /workspace/cache
+      )
+      if test -n "${PREIMAGE}" ; then
+        pack_args+=(--previous-image "${PREIMAGE}")
+      fi
+      pack "${pack_args[@]}"
+    fi
+    echo _ _ __ ___ _____ Done

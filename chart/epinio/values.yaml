@@ -38,6 +38,10 @@ image:
     registry: quay.io/
     repository: skopeo/stable
     tag: v1.13.2
+  pack:
+    registry: ""
+    repository: buildpacksio/pack
+    tag: 0.38.2
   kubectl:
     repository: rancher/kubectl
     tag: v1.22.6

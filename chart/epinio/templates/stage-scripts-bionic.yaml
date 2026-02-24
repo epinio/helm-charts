@@ -9,6 +9,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   builder: "paketobuildpacks/builder:*"
+  buildEngine: "lifecycle"
   userID: "1000"
   groupID: "1000"
   env: |-
@@ -18,4 +19,3 @@ data:
   staging-values.json: |-
     {{- toJson . | nindent 4 }}
   {{- end }}
-
