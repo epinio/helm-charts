@@ -387,6 +387,20 @@ containerregistry:
   #   operator: "Equal"
   #   value: "linux"
   #   effect: "NoSchedule"
+# Optional automated cleanup of stale application build caches (PVCs).
+# When enabled, a CronJob calls the Epinio maintenance API periodically.
+# Requires a Secret with keys "username" and "password" (e.g. admin API credentials).
+staleCacheCleanup:
+  enabled: false
+  # Cron schedule (e.g. "0 2 * * *" for daily at 2 AM)
+  schedule: "0 2 * * *"
+  # Days after which a cache is considered stale (default: 30)
+  staleDays: 30
+  # If true, only delete caches for applications that no longer exist (default: true for safety)
+  checkAppExists: true
+  # Name of existing Secret (in release namespace) with "username" and "password" keys for API auth
+  credentialsSecret: "epinio-cache-cleanup-credentials"
+
 serviceCatalog:
   # Enable service catalog service for development
   enableDevServices: true

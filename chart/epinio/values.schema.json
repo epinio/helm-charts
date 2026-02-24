@@ -288,6 +288,36 @@
         }
       }
     },
+    "staleCacheCleanup": {
+      "description": "Optional automated cleanup of stale application build caches (PVCs) via a CronJob",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "schedule": {
+          "type": "string",
+          "description": "Cron schedule (e.g. 0 2 * * * for daily at 2 AM)",
+          "default": "0 2 * * *"
+        },
+        "staleDays": {
+          "type": "integer",
+          "description": "Days after which a cache is considered stale",
+          "default": 30
+        },
+        "checkAppExists": {
+          "type": "boolean",
+          "description": "If true, only delete caches for applications that no longer exist",
+          "default": true
+        },
+        "credentialsSecret": {
+          "type": "string",
+          "description": "Name of Secret with username and password keys for API authentication",
+          "default": "epinio-cache-cleanup-credentials"
+        }
+      }
+    },
     "certManagerNamespace": {
       "description": "the namespace there cert-manager controller is deployed",
       "type": "string"

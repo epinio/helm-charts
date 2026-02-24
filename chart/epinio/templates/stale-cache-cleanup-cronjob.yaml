@@ -1,0 +1,47 @@
+{{- if .Values.staleCacheCleanup.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "epinio.fullname" . }}-stale-cache-cleanup
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "epinio.labels" . | nindent 4 }}
+    app.kubernetes.io/component: stale-cache-cleanup
+spec:
+  schedule: {{ .Values.staleCacheCleanup.schedule | quote }}
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: epinio-server
+            app.kubernetes.io/component: stale-cache-cleanup
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: cleanup
+            image: curlimages/curl:latest
+            command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              API_URL="http://epinio-server.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.port }}/api/v1/maintenance/cleanup-stale-caches"
+              PARAMS="staleDays={{ .Values.staleCacheCleanup.staleDays }}&checkAppExists={{ .Values.staleCacheCleanup.checkAppExists }}"
+              curl -sf -u "${EPINIO_USERNAME}:${EPINIO_PASSWORD}" "${API_URL}?${PARAMS}"
+            env:
+            - name: EPINIO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.staleCacheCleanup.credentialsSecret }}
+                  key: username
+            - name: EPINIO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.staleCacheCleanup.credentialsSecret }}
+                  key: password
+{{- end }}

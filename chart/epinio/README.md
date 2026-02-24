@@ -133,6 +133,10 @@ There exists examples within the `values.yaml` file under the `server.stagingWor
 
 The configurations under `server.stagingWorkloads` gets mapped to the build script ConfigMaps which is then processed by the Epinio Server when builds are kicked off.  These specifications are supplied to the newly created staging jobs.
 
+### Stale cache cleanup (optional)
+
+You can enable automated cleanup of stale application build caches (PVCs) by setting `staleCacheCleanup.enabled: true` in your values. This creates a CronJob that calls the Epinio maintenance API on a schedule. You must create a Secret with `username` and `password` keys (e.g. admin API credentials) and set `staleCacheCleanup.credentialsSecret` to its name. See the [stale cache cleanup howto](https://docs.epinio.io/howtos/operations/cleanup_stale_caches/) for details.
+
 ## Install Epinio
 
 If the above dependencies are available or going to be installed by this chart,
