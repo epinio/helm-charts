@@ -115,7 +115,10 @@ data:
     fi
     find /workspace
     for path in $(ls /workspace/source/env/* 2>/dev/null) ; do export "$(basename "${path}")"="$(cat "${path}")" ; done
+    echo "Build engine selected: ${BUILDENGINE}"
+    echo "Builder image: ${BUILDERIMAGE}"
     if test "${BUILDENGINE}" = "lifecycle" ; then
+      echo "Running build with lifecycle creator"
       /cnb/lifecycle/creator \
         -app=/workspace/source/app \
         -cache-dir=/workspace/cache \
@@ -128,6 +131,7 @@ data:
         "-previous-image=${PREIMAGE}" \
         "${APPIMAGE}"
     else
+      echo "Running build with pack CLI"
       export DOCKER_CONFIG=/home/cnb/.docker
       pack_args=(
         build "${APPIMAGE}"
