@@ -9,7 +9,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   builder: "paketobuildpacks/builder:*"
-  buildEngine: "lifecycle"
+  buildEngine: "pack"
   userID: "1000"
   groupID: "1000"
   env: |-

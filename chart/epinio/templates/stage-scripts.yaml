@@ -92,7 +92,7 @@ data:
     # - BP general: https://github.com/buildpacks/spec/blob/main/platform.md
     # - Env setup.: https://github.com/buildpacks/spec/blob/main/platform.md#user-provided-variables
     # Parameters
-    # - BUILDENGINE  # lifecycle or pack
+    # - BUILDENGINE  # expected value: pack
     # - BUILDERIMAGE # cnb builder image
     # - PREIMAGE # url of previous image
     # - APPIMAGE # url of application image
@@ -117,32 +117,17 @@ data:
     for path in $(ls /workspace/source/env/* 2>/dev/null) ; do export "$(basename "${path}")"="$(cat "${path}")" ; done
     echo "Build engine selected: ${BUILDENGINE}"
     echo "Builder image: ${BUILDERIMAGE}"
-    if test "${BUILDENGINE}" = "lifecycle" ; then
-      echo "Running build with lifecycle creator"
-      /cnb/lifecycle/creator \
-        -app=/workspace/source/app \
-        -cache-dir=/workspace/cache \
-        -uid=${USERID} \
-        -gid=${GROUPID} \
-        -layers=/layers \
-        -platform=/workspace/source \
-        -report=/layers/report.toml \
-        -skip-restore=false \
-        "-previous-image=${PREIMAGE}" \
-        "${APPIMAGE}"
-    else
-      echo "Running build with pack CLI"
-      export DOCKER_CONFIG=/home/cnb/.docker
-      pack_args=(
-        build "${APPIMAGE}"
-        --publish
-        --builder "${BUILDERIMAGE}"
-        --path /workspace/source/app
-        --cache-dir /workspace/cache
-      )
-      if test -n "${PREIMAGE}" ; then
-        pack_args+=(--previous-image "${PREIMAGE}")
-      fi
-      pack "${pack_args[@]}"
+    echo "Running build with pack CLI"
+    export DOCKER_CONFIG=/home/cnb/.docker
+    pack_args=(
+      build "${APPIMAGE}"
+      --publish
+      --builder "${BUILDERIMAGE}"
+      --path /workspace/source/app
+      --cache-dir /workspace/cache
+    )
+    if test -n "${PREIMAGE}" ; then
+      pack_args+=(--previous-image "${PREIMAGE}")
     fi
+    pack "${pack_args[@]}"
     echo _ _ __ ___ _____ Done
