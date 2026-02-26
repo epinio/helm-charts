@@ -69,6 +69,9 @@ server:
   stagingWorkloads:
     # Name of the Service Account used by the staging job
     serviceAccountName: "epinio-server"
+    # Optional host[:port] override for registry references used by staging jobs
+    # when Docker socket is mounted (e.g. minikube NodePort: "<minikube-ip>:30500").
+    registryHostOverride: ""
     # Time to live for the deployed staging job
     ttlSecondsAfterFinished: 300
     resources:
