@@ -14,7 +14,7 @@ data:
   {{- end }}
   builder: "*"
   buildEngine: "pack"
-  buildImage: "{{ default .Values.image.pack.registry (include "registry-url" .) }}{{ .Values.image.pack.repository}}:{{ .Values.image.pack.tag }}"
+  buildImage: "{{ default .Values.image.builder.registry (include "registry-url" .) }}{{ .Values.image.builder.repository}}:{{ .Values.image.builder.tag }}"
   userID: "{{ .Values.image.builder.userid }}"
   groupID: "{{ .Values.image.builder.groupid }}"
   env: |-
