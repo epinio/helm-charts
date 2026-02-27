@@ -103,7 +103,8 @@ data:
     LAUNCHCACHEIMAGE="${APPIMAGE}-cache-launch"
     for path in $(ls /workspace/source/env/* 2>/dev/null) ; do export "$(basename "${path}")"="$(cat "${path}")" ; done
     export DOCKER_CONFIG=/home/cnb/.docker
-    PACK_DIR=/workspace/.pack/bin
+    # Cache the binary between runs to reduce repeated downloads.
+    PACK_DIR=/workspace/cache/.pack/bin
     PACK_BIN="${PACK_DIR}/pack"
     mkdir -p "$PACK_DIR"
     if [ ! -x "$PACK_BIN" ]; then
@@ -147,11 +148,19 @@ data:
         --cache "type=launch;format=image;name=${LAUNCHCACHEIMAGE}" \
         --pull-policy if-not-present
     else
-      "$PACK_BIN" build "${APPIMAGE}" --publish --builder "${BUILDERIMAGE}" \
-        --path /workspace/source/app \
-        --cache "type=build;format=image;name=${BUILDCACHEIMAGE}" \
-        --cache "type=launch;format=image;name=${LAUNCHCACHEIMAGE}" \
-        --pull-policy if-not-present \
-        ${PREIMAGE:+--previous-image "${PREIMAGE}"}
+      if [ -n "${PREIMAGE}" ] ; then
+        "$PACK_BIN" build "${APPIMAGE}" --publish --builder "${BUILDERIMAGE}" \
+          --path /workspace/source/app \
+          --cache "type=build;format=image;name=${BUILDCACHEIMAGE}" \
+          --cache "type=launch;format=image;name=${LAUNCHCACHEIMAGE}" \
+          --pull-policy if-not-present \
+          --previous-image "${PREIMAGE}"
+      else
+        "$PACK_BIN" build "${APPIMAGE}" --publish --builder "${BUILDERIMAGE}" \
+          --path /workspace/source/app \
+          --cache "type=build;format=image;name=${BUILDCACHEIMAGE}" \
+          --cache "type=launch;format=image;name=${LAUNCHCACHEIMAGE}" \
+          --pull-policy if-not-present
+      fi
     fi
     echo _ _ __ ___ _____ Done
