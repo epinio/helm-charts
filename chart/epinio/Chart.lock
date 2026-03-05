@@ -7,9 +7,9 @@ dependencies:
   version: 5.4.0
 - name: reflector
   repository: oci://ghcr.io/emberstack/helm-charts
-  version: 9.1.45
+  version: 10.0.16
 - name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts
   version: 0.14.0
-digest: sha256:6f8822fb9b88a4e3eeb1262b94ec4a93d72460859c2683b48667b4b92f385e43
-generated: "2026-03-05T22:26:50.781510266Z"
+digest: sha256:61daa3e6755260f8464d3fff36669a231eafb382c03aa7dbbbf438946a754c25
+generated: "2026-03-05T22:26:52.334941634Z"
