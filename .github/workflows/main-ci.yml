@@ -1,16 +1,59 @@
-name: CI
+name: Lint and test chart installation
 
-on:
-  push:
-    branches:
-      - main
+on: pull_request
 
 jobs:
-  build:
+  lint-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up k3d
-        run: |  
-          k3d cluster create --image rancher/k3s:v1.27.0
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.8.0
+
+      - name: Run chart-testing (lint)
+        run: ct lint --config ct/ct.yaml
+
+  installation-test:
+    runs-on: ubuntu-latest
+    needs: lint-test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.7.0
+
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --config ct/ct.yaml)
+          if [[ -n "$changed" ]]; then
+            echo "::set-output name=changed::true"
+          fi
+
+      - name: Set up k3d cluster
+        uses: nolar/setup-k3d-k3s@v1
+        with:
+          version: v1.27 
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.list-changed.outputs.changed == 'true'
+
+      - name: Prepare CI env before installing epinio
+        run: make prepare-ci-env
+        if: steps.list-changed.outputs.changed == 'true'
+
+      - name: Run chart-testing
+        run: ct install --debug --config ct/ct-install.yaml --namespace epinio
+        if: steps.list-changed.outputs.changed == 'true'
