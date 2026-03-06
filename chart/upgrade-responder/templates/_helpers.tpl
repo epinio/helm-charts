@@ -39,6 +39,25 @@ Create configMap name used to store the information for the upgrade responder se
 {{- printf "%s-%s" "upgrade-responder-configmap" $fullName  | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{/*
+Common labels
+*/}}
+{{- define "upgradeResponder.labels" -}}
+helm.sh/chart: {{ include "upgradeResponder.chart" . }}
+app.kubernetes.io/name: {{ include "upgradeResponder.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/component: upgrade-responder
+app.kubernetes.io/part-of: epinio
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
 
-
-
+{{/*
+Selector labels
+*/}}
+{{- define "upgradeResponder.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "upgradeResponder.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
