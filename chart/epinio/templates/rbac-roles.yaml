@@ -34,6 +34,10 @@ data:
     app_restart
     app_exec
     app_portforward
+    configuration_read
+    configuration_write
+    service_read
+    service_write
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -62,6 +66,10 @@ data:
     app_stage
     app_deploy
     app_export
+    configuration_read
+    configuration_write
+    service_read
+    service_write
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -114,7 +122,9 @@ data:
     app_exec
     app_portforward
     configuration_read
+    configuration_write
     service_read
+    service_write
     gitconfig_read
     export_registries_read
 {{- end }}
