@@ -3,10 +3,7 @@ kind: Service
 metadata:
   name: {{ include "upgradeResponder.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "upgradeResponder.name" . }}
-    helm.sh/chart: {{ include "upgradeResponder.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "upgradeResponder.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -15,5 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "upgradeResponder.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "upgradeResponder.selectorLabels" . | nindent 4 }}
