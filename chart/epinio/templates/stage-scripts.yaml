@@ -13,6 +13,8 @@ data:
     {{- toJson . | nindent 4 }}
   {{- end }}
   builder: "*"
+  buildEngine: "pack"
+  buildImage: "{{ default .Values.image.builder.registry (include "registry-url" .) }}{{ .Values.image.builder.repository}}:{{ .Values.image.builder.tag }}"
   userID: "{{ .Values.image.builder.userid }}"
   groupID: "{{ .Values.image.builder.groupid }}"
   env: |-
@@ -86,40 +88,79 @@ data:
     find /workspace
     echo _ _ __ ___ _____ Done
   build: |-
-    # Important doc references
-    # - BP general: https://github.com/buildpacks/spec/blob/main/platform.md
-    # - Env setup.: https://github.com/buildpacks/spec/blob/main/platform.md#user-provided-variables
-    # Parameters
-    # - PREIMAGE # url of previous image
-    # - APPIMAGE # url of application image
-    # - USERID   # id of the `cnb` user
-    # - GROUPID  # id of the primary group linked to the `cnb` user
-    #
-    # ATTENTION: The `curl localhost:4191` command is used to stop the linkerd proxy
-    # container gracefully. We use `|| true` in case linkerd is not deployed.  Further, it
-    # is placed into a trap to ensure that it will always run, even for a staging failure.
-    # Error output generated when linkerd is not present/up is squashed (dev/null).
-    # These messages are irrelevant, the situation is not an error, and allowing them through
-    # would confuse users (readers of app staging logs).
+    # Build using pack CLI only. Install to writable dir and run by full path (no PATH dependency).
     set -e
     trap "curl -X POST http://localhost:4191/shutdown 2> /dev/null || true" EXIT
     echo By _ _ __ ___ _____ $(whoami),$(id -u)/$(id -g) $(pwd)
     if test ! -d "/workspace/source/app" || [ -z "$(ls -A /workspace/source/app)" ]; then
       echo Nothing to build
-      sleep 60 # linkerd is a pain - If we exit to quickly, with the sidecar not ready our curl to shut it down does nothing, and then the sidecar comes up and prevents the pod from ending
+      sleep 60
       exit 1
     fi
     find /workspace
+    # For --publish builds against a remote/host Docker daemon, use registry cache images.
+    BUILDCACHEIMAGE="${APPIMAGE}-cache-build"
+    LAUNCHCACHEIMAGE="${APPIMAGE}-cache-launch"
     for path in $(ls /workspace/source/env/* 2>/dev/null) ; do export "$(basename "${path}")"="$(cat "${path}")" ; done
-    /cnb/lifecycle/creator \
-      -app=/workspace/source/app \
-      -cache-dir=/workspace/cache \
-      -uid=${USERID} \
-      -gid=${GROUPID} \
-      -layers=/layers \
-      -platform=/workspace/source \
-      -report=/layers/report.toml \
-      -skip-restore=false \
-      "-previous-image=${PREIMAGE}" \
-      "${APPIMAGE}"
-      echo _ _ __ ___ _____ Done
+    export DOCKER_CONFIG=/home/cnb/.docker
+    # Cache the binary between runs to reduce repeated downloads.
+    PACK_DIR=/workspace/cache/.pack/bin
+    PACK_BIN="${PACK_DIR}/pack"
+    mkdir -p "$PACK_DIR"
+    if [ ! -x "$PACK_BIN" ]; then
+      echo "Installing pack CLI to ${PACK_DIR} ..."
+      PACK_VER=0.38.2
+      ARCH=$(uname -m)
+      case "$ARCH" in
+        x86_64)   PACK_SUFFIX="" ;;
+        aarch64)  PACK_SUFFIX=".arm64" ;;
+        arm64)    PACK_SUFFIX=".arm64" ;;
+        *)        PACK_SUFFIX="" ;;
+      esac
+      curl -fsSL "https://github.com/buildpacks/pack/releases/download/v${PACK_VER}/pack-v${PACK_VER}-linux${PACK_SUFFIX}.tgz" -o /tmp/pack.tgz
+      tar -xzf /tmp/pack.tgz -C /tmp
+      PACK_FOUND=$(find /tmp -name pack -type f 2>/dev/null | head -1)
+      if [ -z "$PACK_FOUND" ]; then
+        echo "ERROR: pack binary not found in tarball (extracted under /tmp)"
+        find /tmp -type f 2>/dev/null || true
+        exit 1
+      fi
+      cp -f "$PACK_FOUND" "$PACK_BIN"
+      chmod 755 "$PACK_BIN"
+      rm -rf /tmp/pack.tgz /tmp/pack-v*
+      echo "Pack CLI installed at $PACK_BIN"
+    fi
+    if [ ! -x "$PACK_BIN" ]; then
+      echo "ERROR: pack binary missing at $PACK_BIN"
+      exit 1
+    fi
+    if [ -z "${BUILDERIMAGE}" ]; then
+      export BUILDERIMAGE="paketobuildpacks/builder-jammy-full:latest"
+      echo "Using default builder: ${BUILDERIMAGE}"
+    fi
+    echo "Running pack build ..."
+    # When Docker socket is mounted (host Docker), lifecycle containers can't resolve cluster DNS
+    # (e.g. registry.epinio.svc.cluster.local). Omit --previous-image so analyzer doesn't need registry.
+    if [ -S /var/run/docker.sock ] ; then
+      "$PACK_BIN" build "${APPIMAGE}" --publish --builder "${BUILDERIMAGE}" \
+        --path /workspace/source/app \
+        --cache "type=build;format=image;name=${BUILDCACHEIMAGE}" \
+        --cache "type=launch;format=image;name=${LAUNCHCACHEIMAGE}" \
+        --pull-policy if-not-present
+    else
+      if [ -n "${PREIMAGE}" ] ; then
+        "$PACK_BIN" build "${APPIMAGE}" --publish --builder "${BUILDERIMAGE}" \
+          --path /workspace/source/app \
+          --cache "type=build;format=image;name=${BUILDCACHEIMAGE}" \
+          --cache "type=launch;format=image;name=${LAUNCHCACHEIMAGE}" \
+          --pull-policy if-not-present \
+          --previous-image "${PREIMAGE}"
+      else
+        "$PACK_BIN" build "${APPIMAGE}" --publish --builder "${BUILDERIMAGE}" \
+          --path /workspace/source/app \
+          --cache "type=build;format=image;name=${BUILDCACHEIMAGE}" \
+          --cache "type=launch;format=image;name=${LAUNCHCACHEIMAGE}" \
+          --pull-policy if-not-present
+      fi
+    fi
+    echo _ _ __ ___ _____ Done
