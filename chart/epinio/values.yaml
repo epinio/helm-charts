@@ -390,6 +390,40 @@ containerregistry:
 serviceCatalog:
   # Enable service catalog service for development
   enableDevServices: true
+# Custom staging scripts for different buildpacks
+# See docs/references/customization/staging-scripts.md for detailed documentation
+stagingScripts:
+  # Custom stage script definitions
+  # Each entry creates a ConfigMap with staging scripts for a specific builder image pattern
+  custom: []
+    # Example: Add support for Paketo Tiny builder
+    # - name: epinio-stage-scripts-tiny
+    #   builder: "paketobuildpacks/builder-tiny:*"
+    #   userID: 1001
+    #   groupID: 1000
+    #   env: |
+    #     CNB_PLATFORM_API: "0.11"
+    #   base: epinio-stage-scripts  # Inherit download/unpack/build scripts from base
+    #
+    # Example: Fully custom stage scripts
+    # - name: epinio-stage-scripts-custom
+    #   builder: "myorg/my-builder:*"
+    #   userID: 1002
+    #   groupID: 1000
+    #   env: |
+    #     CNB_PLATFORM_API: "0.12"
+    #     MY_CUSTOM_VAR: "value"
+    #   downloadImage: "ghcr.io/epinio/epinio-awscli:latest"
+    #   unpackImage: "ghcr.io/epinio/epinio-unpacker:latest"
+    #   download: |-
+    #     # Custom download script
+    #     echo "Downloading from custom source..."
+    #   unpack: |-
+    #     # Custom unpack script
+    #     echo "Unpacking with custom logic..."
+    #   build: |-
+    #     # Custom build script
+    #     echo "Building with custom process..."
 # Scheduling configurations for the Helm Controller
 helmController:
   resources: {}
