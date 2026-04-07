@@ -22,15 +22,15 @@ image:
   epinio:
     registry: ghcr.io/
     repository: epinio/epinio-server
-    tag: v1.13.9
+    tag: v1.13.10-rc3
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.13.9
+    tag: v1.13.10-rc3
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
-    tag: v1.13.9
+    tag: v1.13.10-rc3
   awscli:
     repository: amazon/aws-cli
     tag: 2.13.26
@@ -169,7 +169,7 @@ certManagerNamespace: cert-manager
 # With the auto-creation of secrets from Cert request gone the secrets have to specified manually.
 # See below. Leaving out the `dex` falls back to `epinio`. No other connections between them.
 # Further note:
-#  - s3 applies to either minio, or s3gw, whichever is active.
+#  - s3 applies to either seaweedfs, or s3gw, whichever is active.
 #    In case of using an external s3 store it does not apply at all.
 #  - dex applies only when enabled
 certManager:
@@ -228,6 +228,11 @@ api:
         - workspace
 # Dex subchart values -- None for now, and sub chart disabled
 dex:
+  # Target fork that supports pkce for oidc providers
+  image:
+    repository: ghcr.io/epinio/dex
+    tag: v2.37.0-epinio-pkce
+    pullPolicy: IfNotPresent
   # hardcode this, to avoid problems with release name
   fullnameOverride: "dex"
   configSecret:
@@ -262,38 +267,22 @@ dex:
 # extraEnv:
 # - name: MY_ENV_VAR
 #   value: "1.0"
-# Minio subchart values
-minio:
+# SeaweedFS subchart values (S3-compatible storage)
+seaweedfs:
   enabled: true
-  # hardcode this, to avoid problems with release name
-  fullnameOverride: minio
-  existingSecret: minio-creds
-  tls:
+  fullnameOverride: seaweedfs
+  existingSecret: seaweedfs-creds
+  global:
+    # Set to true to enable SeaweedFS internal TLS. When enabled, also set `seaweedfs.tls.enabled=true`.
+    enableSecurity: false
+  s3:
     enabled: true
-    certSecret: minio-tls
-    publicCrt: tls.crt
-    privateKey: tls.key
-  persistence:
-    size: 2Gi
-    storageClass: ""
-  drivesPerNode: 4
-  replicas: 1
-  resources:
-    requests:
-      memory: 1Gi
-  # Security context configuration to prevent privilege escalation and run as root
-  # See: https://github.com/epinio/helm-charts/issues/2732
-  podSecurityContext:
-    runAsNonRoot: true
-    runAsUser: 1000
-    runAsGroup: 1000
-    fsGroup: 1000
-    fsGroupChangePolicy: OnRootMismatch
-  containerSecurityContext:
-    allowPrivilegeEscalation: false
-  makeUserJob:
-    podAnnotations:
-      linkerd.io/inject: disabled
+    port: 8333
+    enableAuth: true
+    existingConfigSecret: seaweedfs-creds
+  tls:
+    enabled: false
+    certSecret: seaweedfs-tls
 epinioUI:
   enabled: true
   # UI theme, either 'light' or 'dark'
