@@ -9,7 +9,7 @@ dependencies:
   repository: https://charts.dexidp.io
   tags:
   - dex
-  version: 0.15.2
+  version: 0.24.0
 - condition: seaweedfs.enabled, global.seaweedfs.enabled
   name: seaweedfs
   repository: https://seaweedfs.github.io/seaweedfs/helm
@@ -43,4 +43,4 @@ maintainers:
 name: epinio
 sources:
 - https://github.com/epinio/epinio
-version: 1.13.10
+version: 1.14.0
