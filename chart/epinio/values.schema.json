@@ -42,6 +42,20 @@
             }
           }
         },
+        "pack": {
+          "type": "object",
+          "properties": {
+            "registry": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
+        },
         "kubectl": {
           "type": "object",
           "properties": {
