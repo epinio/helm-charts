@@ -1,0 +1,52 @@
+{{- if .Values.stagingScripts.custom }}
+{{- range .Values.stagingScripts.custom }}
+{{- $downloadImage := .downloadImage | default (printf "%s%s:%s" (default $.Values.image.awscli.registry (include "registry-url" $)) $.Values.image.awscli.repository $.Values.image.awscli.tag) }}
+{{- $unpackImage := .unpackImage | default (printf "%s%s:%s" (default $.Values.image.bash.registry (include "registry-url" $)) $.Values.image.bash.repository (default $.Chart.AppVersion $.Values.image.bash.tag)) }}
+{{- $downloadScript := .download | default "" }}
+{{- $unpackScript := .unpack | default "" }}
+{{- $buildScript := .build | default "" }}
+{{- $stagingValues := .stagingValues }}
+{{- /* Generate name with fallback for edge cases where builder pattern produces empty string */}}
+{{- $generatedName := regexReplaceAll "[^a-z0-9-]" .builder "" }}
+{{- $nameSuffix := $generatedName }}
+{{- if or (not $nameSuffix) (eq (len $nameSuffix) 0) }}
+  {{- /* Fallback: use hash of builder pattern if sanitized name is empty */}}
+  {{- $nameSuffix = (sha256sum .builder | trunc 8) }}
+{{- end }}
+{{- $finalName := .name | default (printf "epinio-stage-scripts-%s" $nameSuffix) }}
+{{- if .base }}
+{{- /* Using base ConfigMap - only need builder, userID, groupID, env, and base */}}
+{{- include "epinio.stage-script" (dict
+  "name" $finalName
+  "builder" .builder
+  "userID" (.userID | toString)
+  "groupID" (.groupID | toString)
+  "env" (.env | default "CNB_PLATFORM_API: \"0.11\"")
+  "base" .base
+  "stagingValues" $stagingValues
+  "context" $
+) }}
+{{- else }}
+{{- /* Fully custom - need all scripts */}}
+{{- if and $downloadScript $unpackScript $buildScript }}
+{{- include "epinio.stage-script" (dict
+  "name" $finalName
+  "builder" .builder
+  "userID" (.userID | toString)
+  "groupID" (.groupID | toString)
+  "env" (.env | default "CNB_PLATFORM_API: \"0.11\"")
+  "downloadImage" $downloadImage
+  "unpackImage" $unpackImage
+  "download" $downloadScript
+  "unpack" $unpackScript
+  "build" $buildScript
+  "stagingValues" $stagingValues
+  "context" $
+) }}
+{{- else }}
+{{- fail (printf "Custom stage script for builder '%s' must either specify 'base' or provide all of 'download', 'unpack', and 'build' scripts" .builder) }}
+{{- end }}
+{{- end }}
+---
+{{- end }}
+{{- end }}
