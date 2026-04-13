@@ -1,4 +1,4 @@
-{{- if .Values.certManager.enabled }}
+{{- if .Values.cert-manager.enabled }}
 ---
 # Self-signed issuer
 apiVersion: cert-manager.io/v1

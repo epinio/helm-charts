@@ -1,0 +1,54 @@
+{{- if .Values.cert-manager.enabled }}
+
+{{- if .Values.minio.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: minio-cert
+  namespace: {{ .Release.Namespace }}
+spec:
+  dnsNames:
+  - {{ include "epinio.minio-hostname" . }}
+  issuerRef:
+    kind: ClusterIssuer
+    # We always trust the CA for minio so we can always use selfsigned certs
+    # Because Letsencrypt doesn't create certs for non public domains
+    name: epinio-ca
+  secretName: minio-tls
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""  # Empty = all namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: ""  # Auto-create mirrors in all namespaces
+{{- end }}
+
+{{ else }}
+
+{{- if .Values.minio.enabled }}
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/tls
+metadata:
+  annotations:
+  name: minio-tls
+  namespace: {{ .Release.Namespace }}
+stringData:
+  ca.crt: {{ .Values.cert-manager.s3.ca | quote }}
+  tls.key: {{ .Values.cert-manager.s3.key | quote }}
+  tls.crt: {{ .Values.cert-manager.s3.cert | quote }}
+{{- else if .Values.s3gw.enabled }}
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/tls
+metadata:
+  annotations:
+  name: s3gw-cluster-ip-tls
+  namespace: {{ .Release.Namespace }}
+stringData:
+  ca.crt: {{ .Values.cert-manager.s3.ca | quote }}
+  tls.key: {{ .Values.cert-manager.s3.key | quote }}
+  tls.crt: {{ .Values.cert-manager.s3.cert | quote }}
+{{- end }}
+
+{{- end }}

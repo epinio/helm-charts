@@ -1,0 +1,56 @@
+{{- if .Values.cert-manager.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: epinio
+  namespace: {{ .Release.Namespace }}
+spec:
+  dnsNames:
+  - epinio.{{ .Values.global.domain }}
+  issuerRef:
+    kind: ClusterIssuer
+    name: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
+  secretName: epinio-tls
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: epinio-ca
+  namespace: {{ .Values.cert-manager.namespace }}
+spec:
+  commonName: epinio-ca
+  isCA: true
+  issuerRef:
+    kind: ClusterIssuer
+    name: selfsigned-issuer
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  secretName: epinio-ca-root
+{{ else }}
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/tls
+metadata:
+  annotations:
+  name: epinio-tls
+  namespace: {{ .Release.Namespace }}
+stringData:
+  ca.crt: {{ .Values.cert-manager.epinio.ca | quote }}
+  tls.key: {{ .Values.cert-manager.epinio.key | quote }}
+  tls.crt: {{ .Values.cert-manager.epinio.cert | quote }}
+{{- if .Values.global.dex.enabled }}
+---
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/tls
+metadata:
+  annotations:
+  name: dex-tls
+  namespace: {{ .Release.Namespace }}
+stringData:
+  ca.crt:  {{ .Values.cert-manager.dex.ca   | default .Values.cert-manager.epinio.ca   | quote }}
+  tls.key: {{ .Values.cert-manager.dex.key  | default .Values.cert-manager.epinio.key  | quote }}
+  tls.crt: {{ .Values.cert-manager.dex.cert | default .Values.cert-manager.epinio.cert | quote }}
+{{- end }}
+{{- end }}
