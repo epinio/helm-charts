@@ -103,14 +103,93 @@ data:
     # would confuse users (readers of app staging logs).
     set -e
     trap "curl -X POST http://localhost:4191/shutdown 2> /dev/null || true" EXIT
-    echo By _ _ __ ___ _____ $(whoami),$(id -u)/$(id -g) $(pwd)
+    echo "By _ _ __ ___ _____ $(whoami),$(id -u)/$(id -g) $(pwd)"
     if test ! -d "/workspace/source/app" || [ -z "$(ls -A /workspace/source/app)" ]; then
       echo Nothing to build
       sleep 60 # linkerd is a pain - If we exit to quickly, with the sidecar not ready our curl to shut it down does nothing, and then the sidecar comes up and prevents the pod from ending
       exit 1
     fi
     find /workspace
+
+    # ---------- translate: project.toml -> lifecycle inputs ----------
+    # Downloads the translate binary (cached in the build cache PVC) and runs it
+    # against the unpacked source if a project.toml is present. This produces:
+    #   - $STAGE/cnb/order.toml               (from [[io.buildpacks.group]])
+    #   - $STAGE/platform/env/<NAME>          (from [[io.buildpacks.build.env]])
+    #   - $STAGE/layers/project-metadata.toml (from [_])
+    # We then merge those into the lifecycle's expected locations and add the
+    # corresponding -order / -project-metadata flags to the creator invocation.
+    # If no project.toml exists, this whole block is a no-op and creator runs
+    # exactly as it does today, against the builder's default order.
+    TRANSLATE_VERSION=0.1.0
+    TRANSLATE_DIR=/workspace/cache/.translate/bin
+    TRANSLATE_BIN="${TRANSLATE_DIR}/translate"
+    mkdir -p "$TRANSLATE_DIR"
+
+    if [ ! -x "$TRANSLATE_BIN" ]; then
+      echo "Installing translate v${TRANSLATE_VERSION} to ${TRANSLATE_DIR} ..."
+      ARCH=$(uname -m)
+      case "$ARCH" in
+        x86_64)        TRANSLATE_ARCH="amd64" ;;
+        aarch64|arm64) TRANSLATE_ARCH="arm64" ;;
+        *) echo "unsupported arch: $ARCH" ; exit 1 ;;
+      esac
+      curl -fsSL \
+        "https://github.com/grudra7714/cnb-translate/releases/download/v${TRANSLATE_VERSION}/translate-linux-${TRANSLATE_ARCH}" \
+        -o "$TRANSLATE_BIN"
+      chmod +x "$TRANSLATE_BIN"
+      echo "translate installed at $TRANSLATE_BIN"
+    fi
+
+    EXTRA_ARGS=""
+    if [ -f "/workspace/source/app/project.toml" ]; then
+      echo "Found project.toml — translating descriptor into lifecycle inputs"
+      STAGE=/workspace/cnb-stage
+      rm -rf "$STAGE"
+      mkdir -p "$STAGE"
+      "$TRANSLATE_BIN" -app=/workspace/source/app -stage="$STAGE"
+
+      # Merge translate's platform env files into the dir creator already reads.
+      # Epinio populates /workspace/source/env from the user's appenv secret in
+      # the unpack step. Translate writes its descriptor-derived env vars into
+      # $STAGE/platform/env. User-supplied appenv values win on conflict, which
+      # mirrors pack's "CLI env vars override descriptor env vars" precedence.
+      if [ -d "$STAGE/platform/env" ]; then
+        for f in "$STAGE/platform/env/"*; do
+          [ -e "$f" ] || continue
+          name=$(basename "$f")
+          if [ ! -e "/workspace/source/env/$name" ]; then
+            echo "  + env/$name (from project.toml)"
+            cp "$f" "/workspace/source/env/$name"
+          else
+            echo "  - env/$name (kept user value, descriptor overridden)"
+          fi
+        done
+      fi
+
+      # Stage project-metadata.toml so the exporter embeds [_] fields as OCI labels.
+      if [ -f "$STAGE/layers/project-metadata.toml" ]; then
+        mkdir -p /layers
+        cp "$STAGE/layers/project-metadata.toml" /layers/project-metadata.toml
+        EXTRA_ARGS="$EXTRA_ARGS -project-metadata=/layers/project-metadata.toml"
+        echo "  + project-metadata.toml staged for exporter"
+      fi
+
+      # Use translate's order.toml if it produced one. The lifecycle's default
+      # is /cnb/order.toml inside the builder image — we override by pointing
+      # -order at our generated file.
+      if [ -f "$STAGE/cnb/order.toml" ]; then
+        EXTRA_ARGS="$EXTRA_ARGS -order=$STAGE/cnb/order.toml"
+        echo "  + order.toml override:"
+        sed 's/^/    /' "$STAGE/cnb/order.toml"
+      fi
+    else
+      echo "No project.toml found — using builder's default order"
+    fi
+    # -----------------------------------------------------------------
+
     for path in $(ls /workspace/source/env/* 2>/dev/null) ; do export "$(basename "${path}")"="$(cat "${path}")" ; done
+
     /cnb/lifecycle/creator \
       -app=/workspace/source/app \
       -cache-dir=/workspace/cache \
@@ -120,6 +199,7 @@ data:
       -platform=/workspace/source \
       -report=/layers/report.toml \
       -skip-restore=false \
+      $EXTRA_ARGS \
       "-previous-image=${PREIMAGE}" \
       "${APPIMAGE}"
-      echo _ _ __ ___ _____ Done
+      echo "_ _ __ ___ _____ Done"
