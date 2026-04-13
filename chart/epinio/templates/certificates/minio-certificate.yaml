@@ -1,4 +1,4 @@
-{{- if .Values.cert-manager.enabled }}
+{{- if .Values.certManager.enabled }}
 
 {{- if .Values.minio.enabled }}
 apiVersion: cert-manager.io/v1
@@ -34,9 +34,9 @@ metadata:
   name: minio-tls
   namespace: {{ .Release.Namespace }}
 stringData:
-  ca.crt: {{ .Values.cert-manager.s3.ca | quote }}
-  tls.key: {{ .Values.cert-manager.s3.key | quote }}
-  tls.crt: {{ .Values.cert-manager.s3.cert | quote }}
+  ca.crt: {{ .Values.certManager.s3.ca | quote }}
+  tls.key: {{ .Values.certManager.s3.key | quote }}
+  tls.crt: {{ .Values.certManager.s3.cert | quote }}
 {{- else if .Values.s3gw.enabled }}
 apiVersion: v1
 kind: Secret
@@ -46,9 +46,9 @@ metadata:
   name: s3gw-cluster-ip-tls
   namespace: {{ .Release.Namespace }}
 stringData:
-  ca.crt: {{ .Values.cert-manager.s3.ca | quote }}
-  tls.key: {{ .Values.cert-manager.s3.key | quote }}
-  tls.crt: {{ .Values.cert-manager.s3.cert | quote }}
+  ca.crt: {{ .Values.certManager.s3.ca | quote }}
+  tls.key: {{ .Values.certManager.s3.key | quote }}
+  tls.crt: {{ .Values.certManager.s3.cert | quote }}
 {{- end }}
 
 {{- end }}

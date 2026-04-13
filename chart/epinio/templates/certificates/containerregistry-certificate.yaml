@@ -1,5 +1,5 @@
 {{- if .Values.containerregistry.enabled }}
-{{- if .Values.cert-manager.enabled }}
+{{- if .Values.certManager.enabled }}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -23,8 +23,8 @@ metadata:
   name: epinio-registry-tls
   namespace: {{ .Release.Namespace }}
 stringData:
-  ca.crt: {{ .Values.cert-manager.registry.ca | quote }}
-  tls.key: {{ .Values.cert-manager.registry.key | quote }}
-  tls.crt: {{ .Values.cert-manager.registry.cert | quote }}
+  ca.crt: {{ .Values.certManager.registry.ca | quote }}
+  tls.key: {{ .Values.certManager.registry.key | quote }}
+  tls.crt: {{ .Values.certManager.registry.cert | quote }}
 {{- end }}
 {{- end }}

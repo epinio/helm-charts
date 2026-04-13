@@ -1,4 +1,4 @@
-{{- if .Values.cert-manager.enabled }}
+{{- if .Values.certManager.enabled }}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -16,7 +16,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: epinio-ca
-  namespace: {{ .Values.cert-manager.namespace }}
+  namespace: {{ .Values.certManager.namespace }}
 spec:
   commonName: epinio-ca
   isCA: true
@@ -36,9 +36,9 @@ metadata:
   name: epinio-tls
   namespace: {{ .Release.Namespace }}
 stringData:
-  ca.crt: {{ .Values.cert-manager.epinio.ca | quote }}
-  tls.key: {{ .Values.cert-manager.epinio.key | quote }}
-  tls.crt: {{ .Values.cert-manager.epinio.cert | quote }}
+  ca.crt: {{ .Values.certManager.epinio.ca | quote }}
+  tls.key: {{ .Values.certManager.epinio.key | quote }}
+  tls.crt: {{ .Values.certManager.epinio.cert | quote }}
 {{- if .Values.global.dex.enabled }}
 ---
 apiVersion: v1
@@ -49,8 +49,8 @@ metadata:
   name: dex-tls
   namespace: {{ .Release.Namespace }}
 stringData:
-  ca.crt:  {{ .Values.cert-manager.dex.ca   | default .Values.cert-manager.epinio.ca   | quote }}
-  tls.key: {{ .Values.cert-manager.dex.key  | default .Values.cert-manager.epinio.key  | quote }}
-  tls.crt: {{ .Values.cert-manager.dex.cert | default .Values.cert-manager.epinio.cert | quote }}
+  ca.crt:  {{ .Values.certManager.dex.ca   | default .Values.certManager.epinio.ca   | quote }}
+  tls.key: {{ .Values.certManager.dex.key  | default .Values.certManager.epinio.key  | quote }}
+  tls.crt: {{ .Values.certManager.dex.cert | default .Values.certManager.epinio.cert | quote }}
 {{- end }}
 {{- end }}
