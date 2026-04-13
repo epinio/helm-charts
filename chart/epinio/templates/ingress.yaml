@@ -12,7 +12,7 @@ metadata:
     {{ $key | quote }}: {{ $value | quote }}
     {{- end }}
   labels:
-    app.kubernetes.io/name: epinio
+    {{- include "epinio.labels" . | nindent 4 }}
   name: epinio
   namespace: {{ .Release.Namespace }}
 spec:

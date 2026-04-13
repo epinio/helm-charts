@@ -12,7 +12,7 @@ spec:
   replicas: {{ .Values.epinio.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Values.epinio.appName }}
+      {{- include "epinio-application.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
