@@ -231,7 +231,7 @@ dex:
   # Target fork that supports pkce for oidc providers
   image:
     repository: ghcr.io/epinio/dex
-    tag: v2.37.0-epinio-pkce
+    tag: v2.45.1-epinio-pkce
     pullPolicy: IfNotPresent
   # hardcode this, to avoid problems with release name
   fullnameOverride: "dex"
