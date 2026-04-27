@@ -1,15 +1,15 @@
 dependencies:
 - name: dex
   repository: https://charts.dexidp.io
-  version: 0.15.2
+  version: 0.24.0
 - name: seaweedfs
   repository: https://seaweedfs.github.io/seaweedfs/helm
-  version: 4.0.412
+  version: 4.22.0
 - name: reflector
   repository: oci://ghcr.io/emberstack/helm-charts
-  version: 10.0.21
+  version: 10.0.39
 - name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts
-  version: 0.14.0
-digest: sha256:28b9c79c155989f1f573bce71eef54e172d0c3ce179a57f1f84bf3de9e644d96
-generated: "2026-03-31T17:16:44.679077849-04:00"
+  version: 0.23.1
+digest: sha256:808c619c63325cd79b1a65c55a1c1a199af954f745fe179437f0b2b2fd1a2909
+generated: "2026-04-27T04:55:02.575943837Z"
