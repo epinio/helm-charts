@@ -8,6 +8,12 @@ metadata:
   labels:
     app.kubernetes.io/name: epinio-ui
     app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: ui
+    app.kubernetes.io/part-of: epinio
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- if .Chart.AppVersion }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    {{- end }}
   {{- with .Values.epinioUI.service.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

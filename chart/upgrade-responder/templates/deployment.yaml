@@ -3,23 +3,18 @@ kind: Deployment
 metadata:
   name: {{ include "upgradeResponder.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "upgradeResponder.name" . }}
-    helm.sh/chart: {{ include "upgradeResponder.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "upgradeResponder.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "upgradeResponder.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- include "upgradeResponder.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
         checksum/upgradeResponderConfigMap: {{ include (print $.Template.BasePath "/upgradeResponderConfigMap.yaml") . | sha256sum }}
       labels:
-        app.kubernetes.io/name: {{ include "upgradeResponder.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- include "upgradeResponder.labels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}

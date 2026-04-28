@@ -10,9 +10,16 @@ Common labels
 */}}
 {{- define "epinio-application.labels" -}}
 app.kubernetes.io/managed-by: epinio
-app.kubernetes.io/part-of: {{ .Release.Namespace }}
+app.kubernetes.io/part-of: epinio-applications
+app.kubernetes.io/instance: {{ .Values.epinio.appName | quote }}
 helm.sh/chart: {{ include "epinio-application.chart" . }}
 {{ include "epinio-application.selectorLabels" . }}
+epinio.io/app-name: {{ .Values.epinio.appName | quote }}
+epinio.io/app-namespace: {{ .Release.Namespace | quote }}
+epinio.io/workload-type: application
+{{- if .Values.epinio.appVersion }}
+app.kubernetes.io/version: {{ .Values.epinio.appVersion | quote }}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -26,7 +33,7 @@ epinio.io/created-by: {{ .Values.epinio.username }}
 Selector labels
 */}}
 {{- define "epinio-application.selectorLabels" -}}
-app.kubernetes.io/name: {{ .Values.epinio.appName }}
+app.kubernetes.io/name: {{ .Values.epinio.appName | quote }}
 app.kubernetes.io/component: application
 {{- end }}
 

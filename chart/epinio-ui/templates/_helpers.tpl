@@ -36,6 +36,8 @@ Common labels
 {{- define "epinio-ui.labels" -}}
 helm.sh/chart: {{ include "epinio-ui.chart" . }}
 {{ include "epinio-ui.selectorLabels" . }}
+app.kubernetes.io/component: ui
+app.kubernetes.io/part-of: epinio
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
