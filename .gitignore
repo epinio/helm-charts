@@ -1,0 +1,2 @@
+# helm template output — never commit rendered manifests
+*-rendered.yaml

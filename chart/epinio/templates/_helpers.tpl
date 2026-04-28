@@ -50,7 +50,6 @@ Selector labels
 */}}
 {{- define "epinio.selectorLabels" -}}
 app.kubernetes.io/component: epinio-server
-app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/name: epinio-server
 app.kubernetes.io/part-of: epinio
 {{- end }}

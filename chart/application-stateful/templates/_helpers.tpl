@@ -34,7 +34,6 @@ Selector labels
 */}}
 {{- define "epinio-application.selectorLabels" -}}
 app.kubernetes.io/name: {{ .Values.epinio.appName | quote }}
-app.kubernetes.io/instance: {{ .Values.epinio.appName | quote }}
 app.kubernetes.io/component: application
 {{- end }}
 
