@@ -93,10 +93,10 @@ the helm value "reflector.enabled" to "false".
 
 Epinio is using an S3 compatible storage to store the application source code.
 
-This chart will install [Minio](https://min.io/) when `.Values.minio.enabled` is
+This chart will install [SeaweedFS](https://github.com/seaweedfs/seaweedfs) when `.Values.seaweedfs.enabled` is
 true (default).
 
-For additional values that are available, please see the helm chart source: https://github.com/minio/minio/tree/master/helm/minio
+For additional values that are available, please see the helm chart source: https://github.com/seaweedfs/seaweedfs/tree/master/helm/seaweedfs
 
 This chart will install [s3gw](https://s3gw.io/) when `.Values.s3gw.enabled` is
 true.
@@ -119,6 +119,16 @@ instead by setting this value to `false` and using
 to point to the desired container registry.
 
 The registry image and associated documentation can be found here: https://hub.docker.com/_/registry
+
+### RBAC Roles
+
+By default, the chart installs RBAC role ConfigMaps (`application_manager`, `application_developer`, `view_only`, `system_manager`). End users can then be assigned these roles via Kubernetes Secrets. See [Epinio RBAC documentation](https://docs.epinio.io) for details.
+
+To disable and use only the default `user` and `blank` roles:
+
+```
+--set api.rbac.enabled=false
+```
 
 ## Epinio Staging Workloads
 

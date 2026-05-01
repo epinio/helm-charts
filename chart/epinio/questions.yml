@@ -109,9 +109,9 @@ questions:
       Must be also trusted by kubelet in the cluster.
     type: string
     required: false
-- variable: minio.enabled
-  label: Install Minio
-  description: "Disable Minio to either use s3gw or to configure an external s3 storage."
+- variable: seaweedfs.enabled
+  label: Install SeaweedFS
+  description: "Disable SeaweedFS to either use s3gw or to configure an external s3 storage."
   type: boolean
   group: "S3 storage"
   show_subquestion_if: false
