@@ -152,10 +152,26 @@ ingress:
   # nginx.ingress.kubernetes.io/proxy-read-timeout: "180s"
   # nginxSSLRedirect to controll https->http redirects
   nginxSSLRedirect: "true"
+
+gateway:
+  enabled: false
+  gatewayClassName: "traefik"
+  ports:
+    http: 8000
+    https: 8443
+  additionalListeners: []
+  tls:
+    terminate: false
+    secretName: epinio-tls
+httpRoute:
+  enabled: false
+  annotations: {}
+
 service:
   # -- Annotations to be added to the Epinio service.
   annotations: {}
   port: 8030
+
 # The strategy used to deploy the Epinio server.
 # If you are using a RWO storage the following will avoid a Multi-Attach error during an `helm upgrade`.
 # See https://github.com/epinio/epinio/issues/2253.
