@@ -15,7 +15,7 @@ dependencies:
   repository: https://seaweedfs.github.io/seaweedfs/helm
   tags:
   - seaweedfs
-  version: 4.22.0
+  version: 4.23.0
 - condition: reflector.enabled, global.reflector.enabled
   name: reflector
   repository: oci://ghcr.io/emberstack/helm-charts

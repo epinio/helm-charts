@@ -4,12 +4,12 @@ dependencies:
   version: 0.24.0
 - name: seaweedfs
   repository: https://seaweedfs.github.io/seaweedfs/helm
-  version: 4.22.0
+  version: 4.23.0
 - name: reflector
   repository: oci://ghcr.io/emberstack/helm-charts
   version: 10.0.40
 - name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts
   version: 0.23.1
-digest: sha256:8592f74d2f8d159edef1709d3455233f721a11b0b50604bd0a02c8d514c5349e
-generated: "2026-04-28T21:45:57.333306089Z"
+digest: sha256:99d426651667255592aae6119485fdcc0e19be6dc6fc4f88e7c560af64231c07
+generated: "2026-05-04T08:09:33.954925383Z"
