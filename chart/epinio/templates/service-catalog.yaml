@@ -42,7 +42,7 @@ spec:
     environments, at least with this default configuration.
   chart: mysql
   chartVersion: 9.4.5
-  serviceIcon: https://bitnami.com/assets/stacks/mysql/img/mysql-stack-220x234.png
+  serviceIcon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/mysql/img/mysql-stack-110x117.png
   appVersion: 8.0.31
   helmRepo:
     name: bitnami
@@ -94,7 +94,7 @@ spec:
     environments, at least with this default configuration.
   chart: rabbitmq
   chartVersion: 11.2.2
-  serviceIcon: https://bitnami.com/assets/stacks/rabbitmq/img/rabbitmq-stack-220x234.png
+  serviceIcon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/mysql/img/mysql-stack-110x117.png
   appVersion: 3.11.5
   helmRepo:
     name: bitnami
@@ -120,7 +120,7 @@ spec:
     environments, at least with this default configuration.
   chart: mongodb
   chartVersion: 13.6.2
-  serviceIcon: https://bitnami.com/assets/stacks/mongodb/img/mongodb-stack-220x234.png
+  serviceIcon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/mongodb/img/mongodb-stack-110x117.png
   appVersion: 6.0.3
   helmRepo:
     name: bitnami
