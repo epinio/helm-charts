@@ -16,7 +16,7 @@ spec:
     environments, at least with this default configuration.
   chart: postgresql
   chartVersion: 12.1.6
-  serviceIcon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-220x234.png
+  serviceIcon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/postgresql/img/postgresql-stack-110x117.png
   appVersion: 15.1.0
   helmRepo:
     name: bitnami
@@ -68,7 +68,7 @@ spec:
     environments, at least with this default configuration.
   chart: redis
   chartVersion: 17.3.17
-  serviceIcon: https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png
+  serviceIcon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/redis/img/redis-stack-75x80.png
   appVersion: 7.0.7
   helmRepo:
     name: bitnami
