@@ -47,6 +47,11 @@ spec:
                 description: ShortDescription of the builder image. To be used in list
                   displays.
                 type: string
+              default:
+                description: Default marks this builder image as the cluster default,
+                  used by staging when no explicit builder image is selected. Set by
+                  the helm-managed seed; not exposed through the public API.
+                type: boolean
             required:
             - image
             type: object
