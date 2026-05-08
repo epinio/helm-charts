@@ -5,7 +5,7 @@ set -e
 # Install cert-manager
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
-helm upgrade --install cert-manager jetstack/cert-manager -n cert-manager --create-namespace --set installCRDs=true --set extraArgs[0]=--enable-certificate-owner-ref=true
+helm upgrade --install cert-manager jetstack/cert-manager -n cert-manager --create-namespace --version v1.19.4 --set installCRDs=true --set extraArgs[0]=--enable-certificate-owner-ref=true
 
 # Set localhost to domain
 sed -i 's/domain: ""/domain: "localhost"/g' chart/epinio/values.yaml 

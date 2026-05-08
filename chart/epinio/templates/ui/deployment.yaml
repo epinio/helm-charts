@@ -26,7 +26,10 @@ spec:
         image: "{{ default $epinioUiImage.registry (include "registry-url" .) }}{{ $epinioUiImage.repository }}:{{ $epinioUiImage.tag }}"
         imagePullPolicy: {{ .Values.epinioUI.imagePullPolicy }}
         workingDir: /db
-
+        {{- with .Values.epinioUI.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}   
+        {{- end }}
         env:
         - name: ALLOWED_ORIGINS
           value: {{ default (printf "https://epinio.%s" .Values.global.domain) .Values.epinioUI.allowedOrigins }}
@@ -54,7 +57,7 @@ spec:
               key: uiClientSecret
         {{- end }}
         - name: HTTP_CLIENT_TIMEOUT_IN_SECS
-          value: "120"
+          value: {{ default "300" .Values.epinioUI.httpClientTimeout | quote }}
         - name: SESSION_STORE_SECRET
           valueFrom:
             secretKeyRef:
@@ -108,5 +111,17 @@ spec:
           emptyDir: {}
         - name: db
           emptyDir: {}
+      {{- with .Values.epinioUI.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.epinioUI.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.epinioUI.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
 
 {{- end }}
