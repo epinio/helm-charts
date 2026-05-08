@@ -38,6 +38,26 @@ $ helm install traefik --namespace traefik "https://helm.traefik.io/traefik/trae
 		--set-string service.spec.loadBalancerIP=$LOAD_BALANCER_IP
 ```
 
+#### Ingress Configuration
+
+Epinio configures the ingress with settings that are important for application deployments:
+
+- **`proxy-body-size`**: Controls the maximum size of the client request body. This is critical when deploying applications with larger source code or assets. The default is set to `500m` (500 megabytes) to handle larger deployments. If you encounter errors about request body size being too large, you can increase this value in your `values.yaml`:
+
+  ```yaml
+  ingress:
+    proxyBodySize: "1g"  # Example: increase to 1 gigabyte
+  ```
+
+- **`proxy-read-timeout`**: Controls the maximum time to read a response from the proxied server. This is especially important for deployments that take longer to complete, particularly on instances with lower compute power. The default is set to `600s` (10 minutes) to handle longer-running deployments. If you experience timeout errors during deployments, you can increase this value:
+
+  ```yaml
+  ingress:
+    proxyReadTimeout: "900s"  # Example: increase to 15 minutes
+  ```
+
+These settings can be adjusted in the `ingress` section of your `values.yaml` file to match your specific deployment requirements and cluster capabilities.
+
 ### Cert Manager
 
 Epinio needs [cert-manager](https://cert-manager.io/) in order to create TLS
@@ -54,22 +74,20 @@ $ helm install cert-manager --namespace cert-manager jetstack/cert-manager \
 		--set extraArgs[0]=--enable-certificate-owner-ref=true
 ```
 
-### Kubed
+### Kubernetes Reflector
 
-Kubed is installed as a subchart when `.Values.kubed.enabled` is true (default).
-If you already have kubed running, you can skip the installation by setting
-the helm value "kubed.enabled" to "false".
-
-NOTE: Kubed has been rebranded and is now only available via commercial license. Epinio is using an older version via mirror from the Rancher image registry.
+Kubernetes Reflector is installed as a subchart when `.Values.reflector.enabled` is true (default).
+If you already have reflector running, you can skip the installation by setting
+the helm value "reflector.enabled" to "false".
 
 ### S3 storage
 
 Epinio is using an S3 compatible storage to store the application source code.
 
-This chart will install [Minio](https://min.io/) when `.Values.minio.enabled` is
+This chart will install [SeaweedFS](https://github.com/seaweedfs/seaweedfs) when `.Values.seaweedfs.enabled` is
 true (default).
 
-For additional values that are available, please see the helm chart source: https://github.com/minio/minio/tree/master/helm/minio
+For additional values that are available, please see the helm chart source: https://github.com/seaweedfs/seaweedfs/tree/master/helm/seaweedfs
 
 This chart will install [s3gw](https://s3gw.io/) when `.Values.s3gw.enabled` is
 true.
@@ -92,6 +110,16 @@ instead by setting this value to `false` and using
 to point to the desired container registry.
 
 The registry image and associated documentation can be found here: https://hub.docker.com/_/registry
+
+### RBAC Roles
+
+By default, the chart installs RBAC role ConfigMaps (`application_manager`, `application_developer`, `view_only`, `system_manager`). End users can then be assigned these roles via Kubernetes Secrets. See [Epinio RBAC documentation](https://docs.epinio.io) for details.
+
+To disable and use only the default `user` and `blank` roles:
+
+```
+--set api.rbac.enabled=false
+```
 
 ## Epinio Staging Workloads
 

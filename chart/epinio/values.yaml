@@ -22,15 +22,15 @@ image:
   epinio:
     registry: ghcr.io/
     repository: epinio/epinio-server
-    tag: v1.13.2
+    tag: v1.13.10
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.13.2
+    tag: v1.13.10
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
-    tag: v1.13.2
+    tag: v1.13.10
   awscli:
     repository: amazon/aws-cli
     tag: 2.13.26
@@ -128,6 +128,16 @@ server:
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
+  # Maximum size of the client request body. This setting is important for deploying applications
+  # with larger source code or assets. The default value is set to 500m (500 megabytes) to handle
+  # larger deployments. You can override this value if needed for your specific use case.
+  # Format: number followed by unit (k, m, g) e.g., "100m", "1g"
+  proxyBodySize: "500m"
+  # Maximum time to read a response from the proxied server. This setting is important for
+  # deployments that take longer to complete, especially on instances with lower compute power.
+  # The default value is set to 600s (10 minutes) to handle longer-running deployments.
+  # Format: number followed by unit (s, m, h) e.g., "180s", "5m", "1h"
+  proxyReadTimeout: "600s"
   # Annotations to add to the API ingress
   # e.g.: --set 'ingress.annotations.nginx\.ingress\.kubernetes\.io/ssl-redirect=false'
   # or:
@@ -135,7 +145,7 @@ ingress:
   # --set ingress.annotations.nginx\.org/proxy-read-timeout="180s" \
   # --set ingress.annotations.nginx\.ingress\.kubernetes\.io/proxy-connect-timeout="180s" \
   # --set ingress.annotations.nginx\.ingress\.kubernetes\.io/proxy-read-timeout="180s"
-  annotations: {}
+  annotations:
   # nginx.org/proxy-connect-timeout: "180s"
   # nginx.org/proxy-read-timeout: "180s"
   # nginx.ingress.kubernetes.io/proxy-connect-timeout: "180s"
@@ -159,7 +169,7 @@ certManagerNamespace: cert-manager
 # With the auto-creation of secrets from Cert request gone the secrets have to specified manually.
 # See below. Leaving out the `dex` falls back to `epinio`. No other connections between them.
 # Further note:
-#  - s3 applies to either minio, or s3gw, whichever is active.
+#  - s3 applies to either seaweedfs, or s3gw, whichever is active.
 #    In case of using an external s3 store it does not apply at all.
 #  - dex applies only when enabled
 certManager:
@@ -191,6 +201,11 @@ s3:
   # Set it to an existing secret if S3 is using a self signed cert
   certificateSecret: ""
 api:
+  # Install RBAC role ConfigMaps (application_manager, application_developer, view_only, system_manager).
+  # When true, end users can create Secrets with epinio.io/roles: "application_manager" etc.
+  # When false, only the default "user" and "blank" roles are available.
+  rbac:
+    enabled: true
   # Default users
   # plain password used for the 'admin' user
   adminPassword: ""
@@ -213,6 +228,11 @@ api:
         - workspace
 # Dex subchart values -- None for now, and sub chart disabled
 dex:
+  # Target fork that supports pkce for oidc providers
+  image:
+    repository: ghcr.io/epinio/dex
+    tag: v2.37.0-epinio-pkce
+    pullPolicy: IfNotPresent
   # hardcode this, to avoid problems with release name
   fullnameOverride: "dex"
   configSecret:
@@ -233,32 +253,36 @@ dex:
     port: null
     # The issuer CA certificate
     ca: ""
+  # Security context configuration to prevent privilege escalation and run as root
+  # See: https://github.com/epinio/epinio/issues/2730
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
 # Extra environment variables passed to the epinio-server pod.
 # extraEnv:
 # - name: MY_ENV_VAR
 #   value: "1.0"
-# Minio subchart values
-minio:
+# SeaweedFS subchart values (S3-compatible storage)
+seaweedfs:
   enabled: true
-  # hardcode this, to avoid problems with release name
-  fullnameOverride: minio
-  existingSecret: minio-creds
-  tls:
+  fullnameOverride: seaweedfs
+  existingSecret: seaweedfs-creds
+  global:
+    # Set to true to enable SeaweedFS internal TLS. When enabled, also set `seaweedfs.tls.enabled=true`.
+    enableSecurity: false
+  s3:
     enabled: true
-    certSecret: minio-tls
-    publicCrt: tls.crt
-    privateKey: tls.key
-  persistence:
-    size: 2Gi
-    storageClass: ""
-  drivesPerNode: 4
-  replicas: 1
-  resources:
-    requests:
-      memory: 1Gi
-  makeUserJob:
-    podAnnotations:
-      linkerd.io/inject: disabled
+    port: 8333
+    enableAuth: true
+    existingConfigSecret: seaweedfs-creds
+  tls:
+    enabled: false
+    certSecret: seaweedfs-tls
 epinioUI:
   enabled: true
   # UI theme, either 'light' or 'dark'
@@ -281,14 +305,19 @@ epinioUI:
   service:
     # -- Annotations to be added to the service.
     annotations: {}
-kubed:
+reflector:
   enabled: true
-  fullnameOverride: kubed
-  enableAnalytics: false
-  operator:
-    registry: rancher
-    repository: mirrored-appscode-kubed
-    tag: v0.13.2
+  fullnameOverride: reflector
+  image:
+    repository: emberstack/kubernetes-reflector
+    tag: ""
+    pullPolicy: IfNotPresent
+  rbac:
+    enabled: true
+  serviceAccount:
+    create: true
+    name: ""
+
 # s3gw subchart values
 s3gw:
   enabled: false
@@ -355,6 +384,32 @@ containerregistry:
 serviceCatalog:
   # Enable service catalog service for development
   enableDevServices: true
+# Scheduling configurations for the Helm Controller
+helmController:
+  resources: {}
+  # requests:
+  #   cpu: "200m"
+  #   memory: "500Mi"
+  # limits:
+  #   cpu: ""
+  #   memory: ""
+  nodeSelector: {}
+  # kubernetes.io/os: linux
+  affinity: {}
+  # nodeAffinity:
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #     - matchExpressions:
+  #       - key: kubernetes.io/os
+  #         operator: In
+  #         values:
+  #         - linux
+  tolerations: []
+  # - key: "kubernetes.io/os"
+  #   operator: "Equal"
+  #   value: "linux"
+  #   effect: "NoSchedule"
+
 global:
   dex:
     enabled: true

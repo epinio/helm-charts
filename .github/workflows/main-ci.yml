@@ -15,7 +15,7 @@ jobs:
         uses: azure/setup-helm@v4
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.7.0
+        uses: helm/chart-testing-action@v2.8.0
 
       - name: Run chart-testing (lint)
         run: ct lint --config ct/ct.yaml
@@ -33,7 +33,7 @@ jobs:
         uses: azure/setup-helm@v4
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.7.0
+        uses: helm/chart-testing-action@v2.8.0
 
       - name: Run chart-testing (list-changed)
         id: list-changed
@@ -46,7 +46,7 @@ jobs:
       - name: Set up k3d cluster
         uses: nolar/setup-k3d-k3s@v1
         with:
-          version: v1.27 
+          version: v1.28.12+k3s1
           github-token: ${{ secrets.GITHUB_TOKEN }}
         if: steps.list-changed.outputs.changed == 'true'
 
