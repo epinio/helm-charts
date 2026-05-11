@@ -288,6 +288,11 @@
         }
       }
     },
+    "certManager": {
+      "type": "object",
+      "description": "Values for the cert-manager subchart",
+      "additionalProperties": true
+    },
     "certManagerNamespace": {
       "description": "the namespace there cert-manager controller is deployed",
       "type": "string"
