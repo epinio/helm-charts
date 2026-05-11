@@ -126,6 +126,7 @@ server:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 ingress:
+  enabled: true
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
   # Maximum size of the client request body. This setting is important for deploying applications
