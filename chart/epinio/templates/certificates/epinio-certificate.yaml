@@ -16,7 +16,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: epinio-ca
-  namespace: {{ .Values.certManager.namespace }}
+  namespace: {{ .Values.certManagerNamespace | default .Values.certManager.namespace | default "cert-manager" }}
 spec:
   commonName: epinio-ca
   isCA: true

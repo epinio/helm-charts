@@ -165,6 +165,8 @@ strategy:
     maxSurge: 0
     maxUnavailable: 1
 
+# DEPRECATED: Use .Values.certManager.namespace instead
+certManagerNamespace: cert-manager
 # Set enabled to false to disable cert manager.
 # With the auto-creation of secrets from Cert request gone the secrets have to specified manually.
 # See below. Leaving out the `dex` falls back to `epinio`. No other connections between them.
