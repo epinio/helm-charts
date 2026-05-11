@@ -28,9 +28,8 @@ dependencies:
   tags:
   - s3gw
   version: 0.14.0
-- condition: certManager.enabled
+- condition: certManager.install
   name: cert-manager
-  alias: certManager
   repository: https://charts.jetstack.io
   version: 1.19.3
   tags:
