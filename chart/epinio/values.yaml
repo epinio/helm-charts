@@ -179,23 +179,22 @@ certManager:
   enabled: true
   namespace: cert-manager
   # If you do not wish to install cert-manager, you may manually provide your own certificates for relevant components
-  manualCertificates:
-    registry:
-      cert: ""
-      key: ""
-      ca: ""
-    epinio:
-      cert: ""
-      key: ""
-      ca: ""
-    dex:
-      cert: ""
-      key: ""
-      ca: ""
-    s3:
-      cert: ""
-      key: ""
-      ca: ""
+  registry:
+    cert: ""
+    key: ""
+    ca: ""
+  epinio:
+    cert: ""
+    key: ""
+    ca: ""
+  dex:
+    cert: ""
+    key: ""
+    ca: ""
+  s3:
+    cert: ""
+    key: ""
+    ca: ""
 # Connection details for the S3 storage
 s3:
   endpoint: s3.amazonaws.com
