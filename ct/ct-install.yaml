@@ -5,7 +5,7 @@ check-version-increment: false
 chart-dirs:
   - chart
 chart-repos:
-  - minio=https://charts.min.io
+  - seaweedfs=https://seaweedfs.github.io/seaweedfs/helm
   - appscode=https://charts.appscode.com/stable
   - epinio=https://epinio.github.io/helm-charts
   - dex=https://charts.dexidp.io

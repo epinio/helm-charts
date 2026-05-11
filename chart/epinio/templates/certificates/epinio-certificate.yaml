@@ -39,18 +39,4 @@ stringData:
   ca.crt: {{ .Values.certManager.epinio.ca | quote }}
   tls.key: {{ .Values.certManager.epinio.key | quote }}
   tls.crt: {{ .Values.certManager.epinio.cert | quote }}
-{{- if .Values.global.dex.enabled }}
----
-apiVersion: v1
-kind: Secret
-type: kubernetes.io/tls
-metadata:
-  annotations:
-  name: dex-tls
-  namespace: {{ .Release.Namespace }}
-stringData:
-  ca.crt:  {{ .Values.certManager.dex.ca   | default .Values.certManager.epinio.ca   | quote }}
-  tls.key: {{ .Values.certManager.dex.key  | default .Values.certManager.epinio.key  | quote }}
-  tls.crt: {{ .Values.certManager.dex.cert | default .Values.certManager.epinio.cert | quote }}
-{{- end }}
 {{- end }}
