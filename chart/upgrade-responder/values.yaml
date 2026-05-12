@@ -36,7 +36,7 @@ replicaCount: 3
 
 image:
   repository: longhornio/upgrade-responder
-  tag: v0.2.0
+  tag: v0.4.0@sha256:7ea622e7fe3ffc25f2a78b77b298b928e6d8811cd0b11351eb2814c9e5c33c3d
   pullPolicy: IfNotPresent
 
 nameOverride: ""
