@@ -167,6 +167,7 @@ strategy:
   rollingUpdate:
     maxSurge: 0
     maxUnavailable: 1
+
 certManagerNamespace: cert-manager
 # Set enabled to false to disable cert manager.
 # With the auto-creation of secrets from Cert request gone the secrets have to specified manually.
@@ -176,7 +177,12 @@ certManagerNamespace: cert-manager
 #    In case of using an external s3 store it does not apply at all.
 #  - dex applies only when enabled
 certManager:
+  # install cert-manager chart alongside Epinio if one does not exist
+  # this will install to the "cert-manager" namespace
+  install: false
+  # utilize cert-manager to sign certificates
   enabled: true
+  # If you do not wish to install cert-manager, you may manually provide your own certificates for relevant components
   registry:
     cert: ""
     key: ""

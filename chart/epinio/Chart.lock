@@ -11,5 +11,8 @@ dependencies:
 - name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts
   version: 0.14.0
-digest: sha256:28b9c79c155989f1f573bce71eef54e172d0c3ce179a57f1f84bf3de9e644d96
-generated: "2026-03-31T17:16:44.679077849-04:00"
+- name: cert-manager
+  repository: https://charts.jetstack.io
+  version: v1.19.3
+digest: sha256:a864ee4d2cd344a75be521bb6127b8c684cd8deb60697019b438e17a64579893
+generated: "2026-05-11T06:22:15.802268372-04:00"
