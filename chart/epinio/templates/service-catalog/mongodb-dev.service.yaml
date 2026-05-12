@@ -15,7 +15,7 @@ spec:
     environments, at least with this default configuration.
   chart: mongodb
   chartVersion: 13.6.2
-  serviceIcon: https://bitnami.com/assets/stacks/mongodb/img/mongodb-stack-220x234.png
+  serviceIcon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/mongodb/img/mongodb-stack-110x117.png
   appVersion: 6.0.3
   helmRepo:
     name: bitnami
