@@ -313,6 +313,8 @@ spec:
               value: "{{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer }}"
             - name: TRACE_LEVEL
               value: "{{ .Values.server.traceLevel }}"
+            - name: AUTH_TOKEN_DEFAULT_EXPIRY
+              value: "{{ .Values.server.defaultTokenExpiry }}"
             - name: CHART_VERSION
               value: "{{ .Chart.Version }}"
             - name: DEFAULT_BUILDER_IMAGE
