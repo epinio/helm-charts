@@ -1,0 +1,16 @@
+apiVersion: application.epinio.io/v1
+kind: BuilderImage
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: standard
+  labels:
+    app.kubernetes.io/component: epinio
+    app.kubernetes.io/instance: default
+    app.kubernetes.io/name: epinio-standard-builderimage
+    app.kubernetes.io/part-of: epinio
+    app.kubernetes.io/version: {{ default .Chart.AppVersion .Values.image.epinio.tag }}
+spec:
+  default: true
+  shortDescription: Epinio standard builder image
+  description: Epinio standard builder image using the Paketo jammy full builder
+  image: "{{ .Values.image.builder.repository }}:{{ .Values.image.builder.tag }}"
