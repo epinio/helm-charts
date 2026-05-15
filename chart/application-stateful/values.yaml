@@ -33,6 +33,7 @@ imagePullSecrets: []
 
 epinio:
   tlsIssuer: ~
+  gateway: ~
   ingress: ~
   appName: placeholder
   # namespace: .Release.Namespace

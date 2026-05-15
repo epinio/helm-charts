@@ -55,3 +55,12 @@ Application listening port
 {{- define "epinio-app-listening-port" -}}
 {{ default 8080 (default (dict "appListeningPort" "8080") .Values.userConfig).appListeningPort }}
 {{- end }}
+
+
+{{/*
+Enable/disable Gateway API
+*/}}
+{{- define "epinio-enable-gateway-api" -}}
+{{- dig "userConfig" "enableGatewayAPI" false .Values | ternary true false }}
+{{- end }}
+

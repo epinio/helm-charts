@@ -352,6 +352,10 @@ spec:
             - name: INGRESS_CLASS_NAME
               value: "{{ .Values.ingress.ingressClassName }}"
             {{- end }}
+            {{- if and .Values.gateway.enabled .Values.gateway.gatewayClassName }}
+            - name: GATEWAY_CLASS_NAME
+              value: "{{ .Values.gateway.gatewayClassName }}"
+            {{- end }}
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 -}}
           {{- end }}

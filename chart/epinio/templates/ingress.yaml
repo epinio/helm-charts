@@ -1,3 +1,5 @@
+# The OR condition here supports pre-existing value configurations missing the ingress enabled flag
+{{- if or .Values.ingress.enabled (not (and .Values.gateway.enabled .Values.httpRoute.enabled)) -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -57,3 +59,4 @@ spec:
   - hosts:
     - "epinio.{{ .Values.global.domain }}"
     secretName: epinio-tls
+{{- end }}

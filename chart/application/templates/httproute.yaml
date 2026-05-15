@@ -1,0 +1,53 @@
+{{- if (include "epinio-enable-gateway-api" .) }}
+{{- range .Values.epinio.routes }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ $.Values.epinio.appName }}-{{ .id }}-httproute
+  labels:
+    {{- include "epinio-application.labels" $ | nindent 4 }}
+  annotations:
+    {{- include "epinio-application.annotations" $ | nindent 4 }}
+spec:
+  parentRefs:
+    - name: {{ $.Values.epinio.appName }}-gateway
+      namespace: {{ .Release.Namespace }}
+      sectionName: {{ .Release.Name }}-https
+      # TODO:  We are redirecting to HTTPS by default and thus handling routes for that listener.
+      #        This should likely be configurable.
+      # sectionName: {{ .Release.Name }}-http
+  hostnames:
+    - {{ .domain }}
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: {{ .path | quote }}
+      backendRefs:
+        - name: {{ include "epinio-truncate" $.Values.epinio.appName }}
+          port: 8080
+---
+# HTTPS Redirect for the route's the HTTP listener
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ $.Values.epinio.appName }}-{{ .id }}-https-redirect
+  labels:
+    {{- include "epinio-application.labels" $ | nindent 4 }}
+  annotations:
+    {{- include "epinio-application.annotations" $ | nindent 4 }}
+spec:
+  parentRefs:
+    - name: {{ $.Values.epinio.appName }}-gateway
+      namespace: {{ .Release.Namespace }}
+      sectionName: {{ .Release.Name }}-http
+  hostnames:
+    - {{ .domain }}
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
+{{- end }} # range on routes
+{{- end }} # gateway conditional
