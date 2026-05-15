@@ -1,0 +1,36 @@
+{{- if (include "epinio-enable-gateway-api" .) }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ $.Values.epinio.appName }}-gateway
+  labels:
+    {{- include "epinio-application.labels" $ | nindent 4 }}
+  annotations:
+    {{- include "epinio-application.annotations" $ | nindent 4 }}
+spec:
+  gatewayClassName: {{ .Values.epinio.gateway }}
+  listeners:
+  {{- range .Values.epinio.routes }}
+    - name: {{ $.Values.epinio.appName }}-{{ .id }}-http
+      protocol: HTTP
+      port: 8000
+      hostname: {{ .domain }}
+      allowedRoutes:
+        namespaces:
+          from: Same
+    # TODO:  We should probably have a conditional on whether or not we leverage HTTPS
+    - name: {{ $.Values.epinio.appName }}-{{ .id }}-https
+      protocol: HTTPS
+      port: 8443
+      hostname: {{ .domain }}
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            group: ""
+            name: {{ .secret | default (include "epinio-truncate" (print $.Values.epinio.appName "-" .id "-tls")) }}
+      allowedRoutes:
+        namespaces:
+          from: Same
+  {{- end }}
+{{- end }}

@@ -17,6 +17,7 @@ spec:
     name : {{ $.Values.epinio.tlsIssuer | quote }}
     kind: ClusterIssuer
 {{- end }}
+{{- if not (include "epinio-enable-gateway-api" .) }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -52,4 +53,6 @@ spec:
 {{- else }}
       secretName: {{ include "epinio-truncate" (print $.Values.epinio.appName "-" .id "-tls") }}
 {{- end }}
-{{- end }}
+
+{{- end }} # gateway API conditional
+{{- end }} # routes range

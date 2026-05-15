@@ -14,6 +14,8 @@ spec:
   description: Epinio standard support chart for application deployment
   helmChart: {{ .Values.appChart.default | quote }}
   settings:
+    enableGatewayAPI:
+      type: 'bool'
     appListeningPort:
       type: 'integer'
       minimum: '0'
