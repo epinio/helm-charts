@@ -58,6 +58,15 @@ Epinio configures the ingress with settings that are important for application d
 
 These settings can be adjusted in the `ingress` section of your `values.yaml` file to match your specific deployment requirements and cluster capabilities.
 
+#### Server Configuration
+
+- **`server.defaultTokenExpiry`**: Controls the default expiry time for auth tokens (e.g. `"30s"`, `"60s"`, `"2m"`). Use this to mitigate clock drift in environments where short-lived tokens may expire before use—for example, in staging workloads or when Kubernetes hosts have time synchronization issues. The value is capped at 5 minutes for security. Default is `"30s"`.
+
+  ```yaml
+  server:
+    defaultTokenExpiry: "60s"  # Example: increase to 1 minute for clock drift
+  ```
+
 ### Cert Manager
 
 Epinio needs [cert-manager](https://cert-manager.io/) in order to create TLS
