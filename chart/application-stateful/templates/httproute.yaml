@@ -49,5 +49,7 @@ spec:
           requestRedirect:
             scheme: https
             statusCode: 301
-{{- end }} # range on routes
-{{- end }} # gateway conditional
+# range on routes
+{{- end }}
+# gateway conditional
+{{- end }}

@@ -54,5 +54,7 @@ spec:
       secretName: {{ include "epinio-truncate" (print $.Values.epinio.appName "-" .id "-tls") }}
 {{- end }}
 
-{{- end }} # gateway API conditional
-{{- end }} # routes range
+# gateway API conditional
+{{- end }}
+# routes range
+{{- end }}
