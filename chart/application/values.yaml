@@ -16,6 +16,7 @@
 # configpaths        :: sequence (config)      :: names and mount paths of the bound configurations
 # start              :: integer                :: time of deployment, nanoseconds
 # ingress            :: string                 :: ingress class name to use, if any
+# gateway            :: string                 :: gateway class name to use, if any
 # tlsIssuer          :: string                 :: name of cert issuer
 ##
 #  assignment :: map ('name' -> string, 'value' -> string)
