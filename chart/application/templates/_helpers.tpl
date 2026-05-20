@@ -61,6 +61,6 @@ Application listening port
 Enable/disable Gateway API
 */}}
 {{- define "epinio-enable-gateway-api" -}}
-{{- dig "userConfig" "enableGatewayAPI" false .Values | ternary true false }}
+{{- dig "enableGatewayAPI" false (.Values.userConfig | default dict) | ternary true false }}
 {{- end }}
 
