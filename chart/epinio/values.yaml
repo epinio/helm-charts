@@ -358,11 +358,17 @@ containerregistry:
   # The certificate has to be in PEM format within in a 'tls.crt' key (it can be an Opaque secret).
   # It also has to be trusted by the kubelet, and it needs to be added in the cluster as well.
   certificateSecret: ""
-  # Configure PVC or EmptyDir values for container registry storage
+  # Configure PVC or EmptyDir values for container registry storage.
+  # Persistent by default: a PVC is created and, with storageClassName left
+  # unset, it inherits the cluster's default StorageClass. Pushed images do NOT
+  # survive a pod restart with emptyDir, so only set emptyDir: true for
+  # ephemeral/dev/CI clusters that have no persistent storage available.
   storage:
-    # If set to false, the values below will be used or defaulted
-    emptyDir: true
-    # size: 1Gi
+    # If set to true, an emptyDir is used and the values below are ignored.
+    emptyDir: false
+    size: 10Gi
+    # Leave storageClassName unset to inherit the cluster default StorageClass.
+    # Set it explicitly to pin a class; do not set "" (that disables the default).
     # storageClassName: ""
     # volumeMode: Filesystem
     # accessModes:
