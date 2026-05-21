@@ -292,6 +292,33 @@ seaweedfs:
   tls:
     enabled: false
     certSecret: seaweedfs-tls
+  # Persist SeaweedFS state on PVCs that inherit the cluster's default
+  # StorageClass. The upstream subchart defaults master/filer/volume to
+  # hostPath, which is tied to a single node and is lost when that node is
+  # replaced -- taking all stored app source blobs with it. Do not revert to
+  # hostPath for any cluster whose data must persist.
+  #
+  # storageClass MUST be null (not "") to inherit the cluster default: the
+  # subchart emits `storageClassName:` unconditionally, and "" would disable
+  # the default-class fallback and leave the PVC unbound. Set a concrete class
+  # name to pin one instead.
+  master:
+    data:
+      type: persistentVolumeClaim
+      size: 1Gi
+      storageClass: null
+  filer:
+    data:
+      type: persistentVolumeClaim
+      size: 2Gi
+      storageClass: null
+  volume:
+    dataDirs:
+      - name: data1
+        type: persistentVolumeClaim
+        size: 8Gi
+        storageClass: null
+        maxVolumes: 0
 epinioUI:
   enabled: true
   # UI theme, either 'light' or 'dark'
