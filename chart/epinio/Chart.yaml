@@ -31,7 +31,7 @@ dependencies:
 - condition: certManager.install
   name: cert-manager
   repository: https://charts.jetstack.io
-  version: 1.19.3
+  version: v1.20.2
   tags:
     - cert-manager
 description: Epinio deploys Kubernetes applications directly from source code in one step.
