@@ -10,7 +10,7 @@ Common labels
 */}}
 {{- define "epinio-application.labels" -}}
 app.kubernetes.io/managed-by: epinio
-app.kubernetes.io/part-of: {{ .Release.Namespace }}
+app.kubernetes.io/part-of: {{ .Release.Namespace | quote }}
 helm.sh/chart: {{ include "epinio-application.chart" . }}
 {{ include "epinio-application.selectorLabels" . }}
 {{- end }}
@@ -19,14 +19,14 @@ helm.sh/chart: {{ include "epinio-application.chart" . }}
 Common annotations
 */}}
 {{- define "epinio-application.annotations" -}}
-epinio.io/created-by: {{ .Values.epinio.username }}
+epinio.io/created-by: {{ .Values.epinio.username | quote }}
 {{- end }}
 
 {{/*
 Selector labels
 */}}
 {{- define "epinio-application.selectorLabels" -}}
-app.kubernetes.io/name: {{ .Values.epinio.appName }}
+app.kubernetes.io/name: {{ .Values.epinio.appName | quote }}
 app.kubernetes.io/component: application
 {{- end }}
 
@@ -46,7 +46,7 @@ Resource name sanitization and truncation.
 character removed.
 */}}
 {{- define "epinio-truncate" -}}
-{{ print "r-" (sha1sum .) }}
+{{ print "r" (trunc 21 (include "epinio-name-sanitize" .)) "-" (sha1sum .) }}
 {{- end }}
 
 {{/*
@@ -54,4 +54,12 @@ Application listening port
 */}}
 {{- define "epinio-app-listening-port" -}}
 {{ default 8080 (default (dict "appListeningPort" "8080") .Values.userConfig).appListeningPort }}
+{{- end }}
+
+
+{{/*
+Enable/disable Gateway API HTTPs Listener Redirect
+*/}}
+{{- define "epinio-enable-https-redirect" -}}
+{{- dig "httpsRedirect" false (.Values.userConfig | default dict) | ternary true false }}
 {{- end }}

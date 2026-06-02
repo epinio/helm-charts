@@ -15,7 +15,7 @@ spec:
       allowedRoutes:
         namespaces:
           from: Same
-{{- if .Values.gateway.tls.terminate }}
+{{- if .Values.gateway.tls.https }}
     - name: {{ .Release.Name }}-https
       protocol: HTTPS
       port: {{ .Values.gateway.ports.https }}

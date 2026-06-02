@@ -50,6 +50,7 @@ image:
     groupid: 1000
 appChart:
   default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.26/epinio-application-0.1.26.tgz
+  gatewayAPI: https://github.com/epinio/helm-charts/releases/download/epinio-application-gateway-api-0.1.26/epinio-application-gateway-api-0.1.26.tgz
 server:
   # increase this value to increase all timeouts by the same factor
   timeoutMultiplier: 1
@@ -129,7 +130,6 @@ server:
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
 ingress:
-  enabled: true
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
   # Maximum size of the client request body. This setting is important for deploying applications
@@ -165,7 +165,7 @@ gateway:
     https: 8443
   additionalListeners: []
   tls:
-    terminate: false
+    https: false
     secretName: epinio-tls
 httpRoute:
   enabled: false
@@ -174,7 +174,10 @@ httpRoute:
 service:
   # -- Annotations to be added to the Epinio service.
   annotations: {}
-  port: 8030
+  # receiving port on the Epinio service
+  port: 80
+  # receiving port on the Epinio deployment container
+  containerPort: 8030
 
 # The strategy used to deploy the Epinio server.
 # If you are using a RWO storage the following will avoid a Multi-Attach error during an `helm upgrade`.
@@ -324,11 +327,11 @@ epinioUI:
   logLevel: info
   # Domain that will serve the UI and be the origin of browser requests, used by CORS process
   allowedOrigins: ""
-  ingress:
-    enabled: false
-    # The ingressClassName is used to select the ingress controller. If empty no class will be added to the ingresses.
-    ingressClassName: ""
   service:
+    # receiving port on the UI service
+    port: 80
+    # receiving port on the UI deployment container
+    containerPort: 8000
     # -- Annotations to be added to the service.
     annotations: {}
 reflector:

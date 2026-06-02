@@ -298,7 +298,7 @@ spec:
       containers:
         - command: ["/epinio", "server"]
           name: epinio-server
-          args: ["--port", "8030"]
+          args: ["--port", "{{ .Values.service.containerPort | default 8030 }}"]
           env:
             - name: EPINIO_SETTINGS
               value: /tmp/settings.yaml
@@ -363,7 +363,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.service.containerPort | default 8030 }}
               protocol: TCP
           livenessProbe:
              httpGet:
@@ -436,8 +436,8 @@ metadata:
 spec:
   ports:
     - name: http
-      port: 80
+      port: {{ .Values.service.port | default 80 }}
       protocol: TCP
-      targetPort: 8030
+      targetPort: {{ .Values.service.containerPort | default 8030 }}
   selector:
     app.kubernetes.io/name: epinio-server
