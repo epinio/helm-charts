@@ -24,6 +24,7 @@ jobs:
 
       - name: Add Helm dependency repos
         run: |
+          helm repo add jetstack https://charts.jetstack.io
           helm repo add seaweedfs https://seaweedfs.github.io/seaweedfs/helm
           helm repo add appscode https://charts.appscode.com/stable/
           helm repo add grafana https://grafana.github.io/helm-charts
