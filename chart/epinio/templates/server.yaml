@@ -368,11 +368,11 @@ spec:
           livenessProbe:
              httpGet:
               path: /ready
-              port: {{ .Values.service.port }}
+              port: {{ .Values.service.containerPort | default 8030 }}
           readinessProbe:
             httpGet:
               path: /ready
-              port: {{ .Values.service.port }}
+              port: {{ .Values.service.containerPort | default 8030 }}
           {{- with .Values.server.resources }}
           resources:
             {{- toYaml . | nindent 12 }}

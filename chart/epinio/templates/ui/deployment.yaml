@@ -98,12 +98,12 @@ spec:
           readOnlyRootFilesystem: true
         livenessProbe:
           tcpSocket:
-            port: 8000
+            port: {{ .Values.epinioUI.service.containerPort | default 8000 }}
           initialDelaySeconds: 15
           periodSeconds: 20
         readinessProbe:
           tcpSocket:
-            port: 8000
+            port: {{ .Values.epinioUI.service.containerPort | default 8000 }}
           initialDelaySeconds: 5
           periodSeconds: 5
       volumes:
