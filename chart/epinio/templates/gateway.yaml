@@ -11,15 +11,15 @@ spec:
     - name: {{ .Release.Name }}-http
       protocol: HTTP
       port: {{ .Values.gateway.ports.http }}
-      hostname: {{ .Values.hostname }}
+      hostname: {{ .Values.gateway.hostname }}
       allowedRoutes:
         namespaces:
           from: Same
-{{- if .Values.gateway.tls.https }}
+{{- if .Values.gateway.tls.enabled }}
     - name: {{ .Release.Name }}-https
       protocol: HTTPS
       port: {{ .Values.gateway.ports.https }}
-      hostname: {{ .Values.hostname }}
+      hostname: {{ .Values.gateway.hostname }}
       tls:
         mode: Terminate
         certificateRefs:

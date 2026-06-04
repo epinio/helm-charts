@@ -13,7 +13,7 @@ spec:
   parentRefs:
     - name: {{ .Release.Name }}-gateway
       namespace: {{ .Release.Namespace }}
-    {{- if .Values.gateway.tls.https }}
+    {{- if .Values.gateway.tls.enabled }}
       # TLS terminates at k8s: attach to HTTPS listeners (redirect route handles HTTP)
       sectionName: {{ .Release.Name }}-https
     {{- else }}
@@ -21,7 +21,7 @@ spec:
       sectionName: {{ .Release.Name }}-http
     {{- end }}
   hostnames:
-    - {{ .Values.hostname }}
+    - {{ .Values.gateway.hostname }}
   rules:
     - matches:
         - path:
@@ -44,7 +44,7 @@ spec:
         - name: epinio-ui
           port: {{ .Values.epinioUI.service.port | default 80 }}
 ---
-{{- if .Values.gateway.tls.https -}}
+{{- if .Values.gateway.tls.enabled -}}
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
@@ -57,7 +57,7 @@ spec:
       namespace: {{ .Release.Namespace }}
       sectionName: {{ .Release.Name }}-http
   hostnames:
-    - {{ .Values.hostname }}
+    - {{ .Values.gateway.hostname }}
   rules:
     - filters:
         - type: RequestRedirect
