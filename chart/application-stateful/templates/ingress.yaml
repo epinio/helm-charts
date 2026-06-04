@@ -1,5 +1,5 @@
 {{- range .Values.epinio.routes }}
-{{- if not .secret }}
+{{- if and (ne $.Values.epinio.tls false) (not .secret) }}
 ---
 apiVersion: "cert-manager.io/v1"
 kind: Certificate
@@ -44,6 +44,7 @@ spec:
                   number: 8080
             path: {{ .path | quote }}
             pathType: ImplementationSpecific
+{{- if ne $.Values.epinio.tls false }}
   tls:
     - hosts:
       - {{ .domain | quote }}
@@ -51,5 +52,6 @@ spec:
       secretName: {{ .secret }}
 {{- else }}
       secretName: {{ include "epinio-truncate" (print $.Values.epinio.appName "-" .id "-tls") }}
+{{- end }}
 {{- end }}
 {{- end }}

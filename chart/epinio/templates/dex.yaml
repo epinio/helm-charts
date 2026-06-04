@@ -101,7 +101,9 @@ metadata:
   name: dex
   namespace: {{ .Release.Namespace }}
   annotations:
+    {{- if .Values.ingress.tls.enabled }}
     cert-manager.io/cluster-issuer: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
+    {{- end }}
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
     {{- range $key, $value := .Values.ingress.annotations }}
@@ -122,9 +124,11 @@ spec:
               number: 5556
         path: /
         pathType: Prefix
+  {{- if .Values.ingress.tls.enabled }}
   tls:
   - hosts:
     - "auth.{{ .Values.global.domain }}"
     secretName: dex-tls
+  {{- end }}
 
 {{- end }}

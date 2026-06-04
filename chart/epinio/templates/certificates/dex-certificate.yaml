@@ -1,6 +1,28 @@
+# When cert-manager is enabled AND Epinio manages the ingress TLS
+# (ingress.tls.enabled), the dex Ingress's cert-manager.io/cluster-issuer
+# annotation is what mints the dex-tls secret. That secret is ALSO mounted by
+# epinio-server with optional:false, so when ingress TLS is handled externally
+# (ingress.tls.enabled=false) the annotation is gone and the secret would never
+# be created — leaving epinio-server stuck in ContainerCreating. Issue it
+# explicitly here (same epinio-ca PKI) for that combination only.
+{{- if and .Values.certManager.enabled (not .Values.ingress.tls.enabled) .Values.global.dex.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dex
+  namespace: {{ .Release.Namespace }}
+spec:
+  dnsNames:
+  - auth.{{ .Values.global.domain }}
+  issuerRef:
+    kind: ClusterIssuer
+    name: epinio-ca
+  secretName: dex-tls
+{{- end }}
 # NOTE:  If cert-manager is enabled, ingress annotations create our Dex certificate by specifying an issuer
 {{- if not .Values.certManager.enabled }}
 {{- if .Values.global.dex.enabled }}
+---
 apiVersion: v1
 kind: Secret
 type: kubernetes.io/tls
