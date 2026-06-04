@@ -131,6 +131,24 @@ server:
 ingress:
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
+  # tls controls whether Epinio manages the TLS for its own ingresses
+  # (epinio, epinio-ui, dex). When `enabled: true` (the default) each ingress
+  # carries a `tls:` stanza referencing an Epinio-managed certificate secret,
+  # and cert-manager (or the supplied PEM) provides that certificate.
+  #
+  # Set `enabled: false` when an EXTERNAL ingress/proxy terminates TLS for you
+  # — e.g. Traefik fronting the tailnet with a wildcard *.<domain> default
+  # certificate, or any edge that already holds a cert for these hosts. The
+  # ingresses are still rendered (routing is unchanged), but WITHOUT a `tls:`
+  # secret, so the ingress controller serves its own/default certificate and
+  # the hop after it is plain HTTP. cert-manager issuance for these public
+  # hosts is skipped (no ACME/self-signed cert is minted for them).
+  #
+  # The internal registry/dex certificates are unaffected — they are still
+  # issued via the epinio-ca PKI (see certManager.enabled), so nothing that
+  # mounts a cert (e.g. epinio-server's dex-tls) breaks.
+  tls:
+    enabled: true
   # Maximum size of the client request body. This setting is important for deploying applications
   # with larger source code or assets. The default value is set to 500m (500 megabytes) to handle
   # larger deployments. You can override this value if needed for your specific use case.

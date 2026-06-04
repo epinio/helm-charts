@@ -16,6 +16,12 @@
 # start              :: integer                :: time of deployment, nanoseconds
 # ingress            :: string                 :: ingress class name to use, if any
 # tlsIssuer          :: string                 :: name of cert issuer
+# tls                :: boolean                 :: render TLS on the route ingresses (default true).
+#                                                  Set false when an external ingress/proxy
+#                                                  terminates TLS (e.g. a wildcard *.<domain>
+#                                                  default cert): the route Ingress is still
+#                                                  created, but with no per-route Certificate or
+#                                                  `tls:` secret, so the edge serves its own cert.
 ##
 #  assignment :: map ('name' -> string, 'value' -> string)
 
@@ -34,6 +40,10 @@ imagePullSecrets: []
 epinio:
   tlsIssuer: ~
   ingress: ~
+  # Whether Epinio renders TLS on the route ingresses. Default true (per-route
+  # cert-manager Certificate + ingress tls secret). Set false when an external
+  # ingress/proxy terminates TLS for <app>.<domain> with its own/default cert.
+  tls: true
   appName: placeholder
   # namespace: .Release.Namespace
   replicaCount: 1

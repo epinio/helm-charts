@@ -289,7 +289,14 @@ spec:
       - name: image-export-volume
         persistentVolumeClaim:
           claimName: image-export-pvc
-{{- if .Values.global.dex.enabled }}
+{{- if and .Values.global.dex.enabled (or .Values.ingress.tls.enabled (not .Values.certManager.enabled)) }}
+      # dex-tls only exists when Epinio manages the dex ingress TLS (cert-manager
+      # ingress-shim) or when certificates are supplied as PEM
+      # (certManager.enabled=false). In external-TLS mode (ingress.tls.enabled=false
+      # with cert-manager) it is never created, so the mount is omitted entirely and
+      # the server trusts the external edge certificate via the system CA bundle.
+      # (A plain optional:true would not suffice: the subPath mount below fails to
+      # start the container when the secret is absent.)
       - name: dex-tls
         secret:
           secretName: dex-tls
@@ -380,7 +387,7 @@ spec:
             mountPath: /.config
           - name: image-export-volume
             mountPath: /image-export
-{{- if .Values.global.dex.enabled }}
+{{- if and .Values.global.dex.enabled (or .Values.ingress.tls.enabled (not .Values.certManager.enabled)) }}
           - name: dex-tls
             mountPath: /etc/ssl/certs/dex-tls.pem
             subPath: tls.crt

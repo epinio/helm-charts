@@ -53,7 +53,9 @@ spec:
         path: /
         pathType: Prefix
   {{- end }}
+  {{- if .Values.ingress.tls.enabled }}
   tls:
   - hosts:
     - "epinio.{{ .Values.global.domain }}"
     secretName: epinio-tls
+  {{- end }}
