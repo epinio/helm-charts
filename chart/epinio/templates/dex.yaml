@@ -24,7 +24,7 @@ stringData:
     web:
       allowedOrigins: ['{{ $rancherUrl }}']
 {{- end }}
-    issuer: {{ include "epinio-dex-issuer" . }}
+    issuer: auth.{{ .Values.global.domain }}
     storage:
       type: kubernetes
       config:
@@ -97,7 +97,9 @@ metadata:
   name: dex
   namespace: {{ .Release.Namespace }}
   annotations:
+    {{- if .Values.ingress.tls.enabled }}
     cert-manager.io/cluster-issuer: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}
+    {{- end }}
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
     {{- range $key, $value := .Values.ingress.annotations }}
@@ -118,9 +120,11 @@ spec:
               number: {{ .Values.dex.service.ports.http.port | default 5556 | int }}
         path: /
         pathType: Prefix
+  {{- if .Values.ingress.tls.enabled }}
   tls:
   - hosts:
     - {{ (include "epinio-dex-hostname" .) | quote }}
     secretName: dex-tls
+  {{- end }}
 
 {{- end }}
