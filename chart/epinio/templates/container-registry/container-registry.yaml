@@ -82,6 +82,15 @@ spec:
         app.kubernetes.io/name: "epinio-registry"
         app.kubernetes.io/instance: "epinio-registry"
     spec:
+      {{- with .Values.containerregistry.podSecurityContext }}
+      # Pod-level securityContext. Needed when storage is a persistentVolumeClaim:
+      # the registry containers run as uid 1000 (runAsNonRoot) but a freshly
+      # provisioned PV is root-owned, so without an fsGroup they cannot write to
+      # /var/lib/registry ("mkdir .../docker: permission denied"). Set e.g.
+      # `fsGroup: 1000`. Empty by default (no change for emptyDir users).
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: nginx
         image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.nginx.repository}}:{{ .Values.containerregistry.image.nginx.tag }}"

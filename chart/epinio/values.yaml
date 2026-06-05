@@ -369,6 +369,13 @@ containerregistry:
       repository: nginx
       tag: 1.27-alpine
   imagePullPolicy: IfNotPresent
+  # Pod-level securityContext for the registry. The registry containers run as
+  # uid 1000 (runAsNonRoot); when `storage` is a persistentVolumeClaim the PV is
+  # root-owned, so an `fsGroup` is required or the registry can't write to
+  # /var/lib/registry. Leave empty for emptyDir (default). Example:
+  #   podSecurityContext:
+  #     fsGroup: 1000
+  podSecurityContext: {}
   # The ingressClassName is used to select the ingress controller. If
   # empty no class will be added to the ingresses.
   ingressClassName: ""
