@@ -131,6 +131,9 @@ server:
     # targetMemoryUtilizationPercentage: 80
 ingress:
   enabled: true
+  # Hostname for your ingress resource.  If not supplied, it will fallback to epinio.<<.Values.global.domain>> and auth.<<.Values.global.domain>> respectively
+  hostnameOverride: ""
+  dexHostnameOverride: ""
   # The ingressClassName is used to select the ingress controller for the server. If empty no class will be added to the ingresses.
   ingressClassName: ""
   # Maximum size of the client request body. This setting is important for deploying applications
@@ -160,12 +163,15 @@ ingress:
 
 gateway:
   enabled: false
-  hostname: ""
+  # Hostname for your Gateway resources.  If not supplied, it will fallback to epinio.<<.Values.global.domain>> and auth.<<.Values.global.domain>> respectively
+  hostnameOverride: ""
+  dexHostnameOverride: ""
   gatewayClassName: "traefik"
   ports:
     http: 8000
     https: 8443
   additionalListeners: []
+  annotations: {}
   tls:
     enabled: false
     secretName: epinio-tls

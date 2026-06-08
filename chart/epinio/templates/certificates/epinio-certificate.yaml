@@ -6,7 +6,10 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   dnsNames:
-  - epinio.{{ .Values.global.domain }}
+    {{- $rawDomains := list (include "epinio-hostname" .) (include "epinio-ingress-hostname" .) (include "epinio-gateway-hostname" .) }}
+    {{- range $rawDomains | sortAlpha | uniq | compact }}
+    - {{ . }}
+    {{- end }}
   issuerRef:
     kind: ClusterIssuer
     name: {{ default .Values.global.tlsIssuer .Values.global.customTlsIssuer | quote }}

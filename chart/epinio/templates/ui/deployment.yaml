@@ -32,13 +32,13 @@ spec:
         {{- end }}
         env:
         - name: ALLOWED_ORIGINS
-          value: {{ default (printf "https://epinio.%s" .Values.global.domain) .Values.epinioUI.allowedOrigins }}
+          value: {{ default (printf "https://%s" (include "epinio-hostname" .)) .Values.epinioUI.allowedOrigins }}
         - name: EPINIO_API_URL
           value: {{ default (printf "http://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioUI.apiURL }}
         - name: EPINIO_WSS_URL
           value: {{ default (printf "ws://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.epinioUI.wssURL }}
         - name: EPINIO_UI_URL
-          value: {{ default (printf "https://epinio.%s" .Values.global.domain) .Values.epinioUI.uiURL }}
+          value: {{ default (printf "https://%s" (include "epinio-hostname" .)) .Values.epinioUI.uiURL }}
         - name: EPINIO_API_SKIP_SSL
           value: {{ (default "false" .Values.epinioUI.apiSkipSSL) | quote }}
         - name: EPINIO_THEME
@@ -47,7 +47,7 @@ spec:
         - name: EPINIO_DEX_AUTH_URL
           value: {{ default (printf "http://dex.%s.svc.cluster.local:5556" .Release.Namespace) .Values.epinioUI.dexURL }}
         - name: EPINIO_DEX_ISSUER
-          value: {{ printf "https://auth.%s" .Values.global.domain }}
+          value: {{ printf "https://%s" (include "epinio-dex-hostname" .) }}
         - name: EPINIO_DEX_ENABLED
           value: "true"
         - name: EPINIO_DEX_SECRET

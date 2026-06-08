@@ -14,23 +14,15 @@ metadata:
   name: dex-config
   namespace: {{ .Release.Namespace }}
 stringData:
-{{- if .Values.dex.issuer.port }}
-  issuer: {{ printf "https://auth.%s:%s" .Values.global.domain (toString .Values.dex.issuer.port) }}
-{{- else }}
-  issuer: {{ printf "https://auth.%s" .Values.global.domain }}
-{{- end }}
+  issuer: {{ include "epinio-dex-issuer" . }}
   endpoint: {{ printf "http://%s.%s.svc.cluster.local:5556" .Values.dex.fullnameOverride .Release.Namespace }}
   uiClientSecret: {{ $uiClientSecret }}
   config.yaml: |-
-{{- if .Values.dex.issuer.port }}
-    issuer: {{ printf "https://auth.%s:%s" .Values.global.domain (toString .Values.dex.issuer.port) }}
-{{- else }}
-    issuer: {{ printf "https://auth.%s" .Values.global.domain }}
-{{- end }}
 {{- if $rancherUrl }}
     web:
       allowedOrigins: ['{{ $rancherUrl }}']
 {{- end }}
+    issuer: {{ include "epinio-dex-issuer" . }}
     storage:
       type: kubernetes
       config:
@@ -70,7 +62,7 @@ stringData:
       secret: {{ $uiClientSecret | quote }}
       # Shouldn't be public, https://dexidp.io/docs/custom-scopes-claims-clients/#public-clients
       redirectURIs:
-      - {{ .Values.dex.ui.redirectURI | default (printf "https://epinio.%s/auth/verify/" .Values.global.domain) | quote }}
+      - {{ .Values.dex.ui.redirectURI | default (printf "https://%s/auth/verify/" (include "epinio-hostname" .)) | quote }}
 
 {{- if $rancherUrl }}
     - id: rancher-dashboard
@@ -95,6 +87,7 @@ stringData:
   password: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"
 
 ---
+# TODO (Future):  Remove this custom resource and leverage Dex Helm chart values instead
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -112,19 +105,19 @@ spec:
   ingressClassName: "{{ .Values.ingress.ingressClassName }}"
   {{- end }}
   rules:
-  - host: "auth.{{ .Values.global.domain }}"
+  - host: {{ (include "epinio-dex-hostname" .) | quote }}
     http:
       paths:
       - backend:
           service:
             name: dex
             port:
-              number: 5556
+              number: {{ .Values.dex.service.ports.http | default 5556 }}
         path: /
         pathType: Prefix
   tls:
   - hosts:
-    - "auth.{{ .Values.global.domain }}"
+    - {{ (include "epinio-dex-hostname" .) | quote }}
     secretName: dex-tls
 
 {{- end }}
