@@ -112,7 +112,7 @@ spec:
           service:
             name: dex
             port:
-              number: {{ .Values.dex.service.ports.http | default 5556 }}
+              number: {{ .Values.dex.service.ports.http | default 5556 | int }}
         path: /
         pathType: Prefix
   tls:
