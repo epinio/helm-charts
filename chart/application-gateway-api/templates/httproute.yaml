@@ -10,11 +10,11 @@ metadata:
 spec:
   parentRefs:
     - name: {{ $.Values.epinio.appName }}-gateway
-      namespace: {{ .Release.Namespace }}
+      namespace: {{ $.Release.Namespace }}
     {{- if (include "epinio-enable-https-redirect" $) }}
-      sectionName: {{ .Release.Name }}-https
+      sectionName: {{ $.Values.epinio.appName }}-{{ .id }}-https
     {{- else }}
-      sectionName: {{ .Release.Name }}-http
+      sectionName: {{ $.Values.epinio.appName }}-{{ .id }}-http
     {{- end }}
   hostnames:
     - {{ .domain }}
@@ -40,8 +40,8 @@ metadata:
 spec:
   parentRefs:
     - name: {{ $.Values.epinio.appName }}-gateway
-      namespace: {{ .Release.Namespace }}
-      sectionName: {{ .Release.Name }}-http
+      namespace: {{ $.Release.Namespace }}
+      sectionName: {{ $.Values.epinio.appName }}-{{ .id }}-http
   hostnames:
     - {{ .domain }}
   rules:
