@@ -4,7 +4,7 @@ dependencies:
   version: 0.24.1
 - name: seaweedfs
   repository: https://seaweedfs.github.io/seaweedfs/helm
-  version: 4.33.0
+  version: 4.34.0
 - name: reflector
   repository: oci://ghcr.io/emberstack/helm-charts
   version: 10.0.49
@@ -14,5 +14,5 @@ dependencies:
 - name: cert-manager
   repository: https://charts.jetstack.io
   version: v1.20.2
-digest: sha256:c50b6f3fc13f583d72abb51326e8eab9eac1a328438930d6826e753357f06548
-generated: "2026-06-11T09:55:57.689055032Z"
+digest: sha256:e3b8c9314303c8228843213fe66812733394628f9d37f981fd7dc170f8b7c16b
+generated: "2026-06-15T08:41:33.367421447Z"
