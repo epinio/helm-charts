@@ -1,0 +1,20 @@
+{{- if (include "epinio-enable-https-redirect" $) }}
+{{- range .Values.epinio.routes }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "epinio-truncate" (print $.Values.epinio.appName "-" .id) }}
+  labels:
+    {{- include "epinio-application.labels" $ | nindent 4 }}
+  annotations:
+    {{- include "epinio-application.annotations" $ | nindent 4 }}
+spec:
+  secretName: {{ .secret | default (include "epinio-truncate" (print $.Values.epinio.appName "-" .id "-tls")) }}
+  dnsNames:
+  - {{ .domain | quote }}
+  issuerRef:
+    name: {{ $.Values.epinio.tlsIssuer | quote }}
+    kind: ClusterIssuer
+---
+{{- end }}
+{{- end }}
