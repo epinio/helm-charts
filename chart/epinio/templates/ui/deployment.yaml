@@ -53,7 +53,7 @@ spec:
         - name: EPINIO_DEX_SECRET
           valueFrom:
             secretKeyRef:
-              name: dex-config
+              name: {{ .Values.dex.configSecret.name | default "dex-config" }}
               key: uiClientSecret
         {{- end }}
         - name: HTTP_CLIENT_TIMEOUT_IN_SECS
