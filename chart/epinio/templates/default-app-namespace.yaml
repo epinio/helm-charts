@@ -7,8 +7,7 @@ metadata:
   annotations:
     linkerd.io/inject: enabled
   labels:
-    # Reflector will automatically create mirrors of secrets/configmaps
-    # that have reflection-auto-enabled annotation (no label needed)
+    # Epinio app namespaces are targeted by reflector via reflection-*-namespaces-selector
     app.kubernetes.io/component: "epinio-namespace"
 
 ---

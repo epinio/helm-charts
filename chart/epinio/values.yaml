@@ -317,6 +317,12 @@ epinioUI:
 reflector:
   enabled: true
   fullnameOverride: reflector
+  # Label selector matching Epinio app namespaces (set by epinio namespace create).
+  reflectionNamespaceSelector: "app.kubernetes.io/component=epinio-namespace"
+  configuration:
+    watcher:
+      # Force periodic watcher reconnects; avoids reflector silently stopping secret sync.
+      timeout: "900"
   image:
     repository: emberstack/kubernetes-reflector
     tag: ""

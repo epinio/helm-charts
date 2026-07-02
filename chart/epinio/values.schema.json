@@ -502,6 +502,22 @@
         "fullnameOverride": {
           "type": "string"
         },
+        "reflectionNamespaceSelector": {
+          "type": "string"
+        },
+        "configuration": {
+          "type": "object",
+          "properties": {
+            "watcher": {
+              "type": "object",
+              "properties": {
+                "timeout": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
         "image": {
           "type": "object",
           "properties": {
