@@ -7,12 +7,12 @@ dependencies:
   version: 4.37.0
 - name: reflector
   repository: oci://ghcr.io/emberstack/helm-charts
-  version: 10.0.55
+  version: 10.0.56
 - name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts
   version: 0.23.1
 - name: cert-manager
   repository: https://charts.jetstack.io
   version: v1.20.3
-digest: sha256:1e90969a885276fd39a7b3ea5fcac4c991b8ce1dc72116a8c991416099b5ab77
-generated: "2026-06-29T22:00:44.535855483Z"
+digest: sha256:5a3da3e79b7c5887dec571af55c80cb0b74b4aa27c305b6662965be892df4360
+generated: "2026-07-06T22:52:14.748962121Z"
