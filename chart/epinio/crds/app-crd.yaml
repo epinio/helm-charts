@@ -72,6 +72,8 @@ spec:
                     properties:
                       branch:
                         type: string
+                      gitconfig:
+                        type: string
                       provider:
                         type: string
                       repository:
