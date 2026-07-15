@@ -244,3 +244,75 @@ character removed.
 {{- define "epinio-truncate" -}}
 {{ print "r" (trunc 21 (include "epinio-name-sanitize" .)) "-" (sha1sum .) }}
 {{- end }}
+
+
+{{/*
+Return the appropriately configured hostname for Epinio.
+Prioritizes ingress override in the case that both ingress & gateway overrides are enabled.
+Affects fallback ENV variables on Epinio UI
+ - ALLOWED_ORIGINS unless provided .Values.epinioUI.allowedOrigins
+ - EPINIO_UI_URL   unless provided .Values.epinioUI.uiURL
+Affects Dex config's configured redirectURIs unless provided .Values.dex.ui.redirectURI
+*/}}
+{{- define "epinio-hostname" -}}
+{{- if and .Values.ingress .Values.ingress.enabled (hasKey .Values.ingress "hostnameOverride") .Values.ingress.hostnameOverride -}}
+  {{- .Values.ingress.hostnameOverride -}}
+{{- else if and .Values.gateway .Values.gateway.enabled (hasKey .Values.gateway "hostnameOverride") .Values.gateway.hostnameOverride -}}
+  {{- .Values.gateway.hostnameOverride -}}
+{{- else -}}
+  {{- printf "%s.%s" "epinio" .Values.global.domain -}}
+{{- end -}}
+{{- end }}
+
+
+{{/*
+Return the appropriately configured ingress hostname for Epinio
+*/}}
+{{- define "epinio-ingress-hostname" -}}
+{{- if and .Values.ingress .Values.ingress.enabled (hasKey .Values.ingress "hostnameOverride") .Values.ingress.hostnameOverride -}}
+  {{- .Values.ingress.hostnameOverride -}}
+{{- else -}}
+  {{- printf "%s.%s" "epinio" .Values.global.domain -}}
+{{- end -}}
+{{- end }}
+
+
+{{/*
+Return the appropriately configured gateway hostname for Epinio
+*/}}
+{{- define "epinio-gateway-hostname" -}}
+{{- if and .Values.gateway .Values.gateway.enabled (hasKey .Values.gateway "hostnameOverride") .Values.gateway.hostnameOverride -}}
+  {{- .Values.gateway.hostnameOverride -}}
+{{- else -}}
+  {{- printf "%s.%s" "epinio" .Values.global.domain -}}
+{{- end -}}
+{{- end }}
+
+
+{{/*
+Return the appropriately configured hostname for Dex
+Prioritizes ingress override in the case that both ingress & gateway overrides are enabled.
+Affects fallback ENV variables on Epinio UI
+ - EPINIO_DEX_ISSUER
+*/}}
+{{- define "epinio-dex-hostname" -}}
+{{- if and .Values.ingress .Values.ingress.enabled (hasKey .Values.ingress "dexHostnameOverride") .Values.ingress.dexHostnameOverride -}}
+  {{- .Values.ingress.dexHostnameOverride -}}
+{{- else if and .Values.gateway .Values.gateway.enabled (hasKey .Values.gateway "dexHostnameOverride") .Values.gateway.dexHostnameOverride -}}
+  {{- .Values.gateway.dexHostnameOverride -}}
+{{- else -}}
+  {{- printf "%s.%s" "auth" .Values.global.domain -}}
+{{- end -}}
+{{- end }}
+
+
+{{/*
+Return the configured Issuer URL for Dex
+*/}}
+{{- define "epinio-dex-issuer" -}}
+{{- if .Values.dex.issuer.port -}}
+ {{- printf "https://%s:%s" (include "epinio-dex-hostname" .) (toString .Values.dex.issuer.port) -}}
+{{- else -}}
+ {{- printf "https://%s" (include "epinio-dex-hostname" .) -}}
+{{- end -}}
+{{- end }}

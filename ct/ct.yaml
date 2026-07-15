@@ -12,4 +12,5 @@ chart-repos:
   - grafana=https://grafana.github.io/helm-charts
   - influxdata=https://helm.influxdata.com
   - s3gw=https://s3gw-tech.github.io/s3gw-charts
+  - cert-manager=https://charts.jetstack.io
 helm-extra-args: --timeout 600s

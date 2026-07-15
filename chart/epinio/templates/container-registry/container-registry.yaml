@@ -8,23 +8,6 @@ metadata:
 stringData:
   # The only supported password format is bcrypt
   htpasswd:  {{ htpasswd .Values.global.registryUsername .Values.global.registryPassword | quote }}
-{{- if .Values.certManager.enabled }}
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: epinio-registry
-  namespace: {{ .Release.Namespace }}
-spec:
-  dnsNames:
-  - registry.{{ .Release.Namespace }}.svc.cluster.local
-  ipAddresses:
-  - 127.0.0.1
-  issuerRef:
-    kind: ClusterIssuer
-    name: epinio-ca
-  secretName: epinio-registry-tls
-{{- end }}
 ---
 apiVersion: v1
 kind: Service
