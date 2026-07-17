@@ -324,10 +324,6 @@ spec:
             - name: APP_IMAGE_EXPORTER
               value: "{{ default $imageSkopeo.registry (include "registry-url" .) }}{{ $imageSkopeo.repository}}:{{ $imageSkopeo.tag }}"
             {{- end }}
-            {{- if .Values.server.disableTracking }}
-            - name: DISABLE_TRACKING
-              value: "true"
-            {{- end }}
             {{- if and .Values.seaweedfs.enabled .Values.seaweedfs.tls.enabled .Values.seaweedfs.global.enableSecurity }}
             - name: S3_CERTIFICATE_SECRET
               value: {{ default (default "seaweedfs-tls" .Values.seaweedfs.tls.certSecret) .Values.s3.certificateSecret }}

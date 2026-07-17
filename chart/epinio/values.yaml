@@ -61,8 +61,6 @@ server:
   # The ingressClassName is used to select the ingress controller for apps.
   # If empty ingress.ingressClassName (see below) is used
   ingressClassName: ""
-  # Disable tracking of the Epinio and Kubernetes cluster version
-  disableTracking: false
 
   # Configure staging jobs performing builds and deployment
   stagingWorkloads:
