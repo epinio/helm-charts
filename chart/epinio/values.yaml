@@ -273,7 +273,7 @@ dex:
   # hardcode this, to avoid problems with release name
   fullnameOverride: "dex"
   configSecret:
-    create: false
+    create: true
     name: "dex-config"
   ui:
     # secret should be supplied by dex automatically, this is just a fall back

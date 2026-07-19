@@ -1,6 +1,8 @@
 {{- if .Values.global.dex.enabled -}}
 
-{{- $dexSecret := (lookup "v1" "Secret" .Release.Namespace "dex-config").data | default dict -}}
+{{- if .Values.dex.configSecret.create -}}
+{{- $dexConfigSecretName := .Values.dex.configSecret.name | default "dex-config" -}}
+{{- $dexSecret := (lookup "v1" "Secret" .Release.Namespace $dexConfigSecretName).data | default dict -}}
 {{- $prevUiClientSecret := (get $dexSecret "uiClientSecret") -}}
 {{- $uiClientSecret := empty $prevUiClientSecret | ternary (randAlphaNum 32) (b64dec $prevUiClientSecret) -}}
 {{- $rancherUrl := .Values.global.cattle.url | default .Values.rancher.url -}}
@@ -11,7 +13,7 @@ kind: Secret
 type: Opaque
 metadata:
   annotations:
-  name: dex-config
+  name: {{ $dexConfigSecretName }}
   namespace: {{ .Release.Namespace }}
 stringData:
   issuer: {{ include "epinio-dex-issuer" . }}
@@ -70,6 +72,7 @@ stringData:
       public: true
       redirectURIs:
       - "{{ $rancherUrl }}/dashboard/epinio/auth/verify/"
+{{- end }}
 {{- end }}
 ---
 apiVersion: v1
