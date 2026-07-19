@@ -1,0 +1,56 @@
+{{- range .Values.epinio.routes }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ $.Values.epinio.appName }}-{{ .id }}-httproute
+  labels:
+    {{- include "epinio-application.labels" $ | nindent 4 }}
+  annotations:
+    {{- include "epinio-application.annotations" $ | nindent 4 }}
+spec:
+  parentRefs:
+    - name: {{ $.Values.epinio.appName }}-gateway
+      namespace: {{ $.Release.Namespace }}
+    {{- if (include "epinio-enable-https-redirect" $) }}
+      sectionName: {{ $.Values.epinio.appName }}-{{ .id }}-https
+    {{- else }}
+      sectionName: {{ $.Values.epinio.appName }}-{{ .id }}-http
+    {{- end }}
+  hostnames:
+    - {{ .domain }}
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: {{ .path | quote }}
+      backendRefs:
+        - name: {{ include "epinio-truncate" $.Values.epinio.appName }}
+          port: 8080
+---
+{{- if (include "epinio-enable-https-redirect" $) }}
+# HTTPS Redirect for the route's the HTTP listener
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ $.Values.epinio.appName }}-{{ .id }}-https-redirect
+  labels:
+    {{- include "epinio-application.labels" $ | nindent 4 }}
+  annotations:
+    {{- include "epinio-application.annotations" $ | nindent 4 }}
+spec:
+  parentRefs:
+    - name: {{ $.Values.epinio.appName }}-gateway
+      namespace: {{ $.Release.Namespace }}
+      sectionName: {{ $.Values.epinio.appName }}-{{ .id }}-http
+  hostnames:
+    - {{ .domain }}
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
+# https redirect conditional
+{{- end }}
+# range on routes
+{{- end }}
