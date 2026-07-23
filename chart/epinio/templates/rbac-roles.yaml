@@ -112,6 +112,7 @@ data:
     namespace_write
     builderimage_read
     builderimage_write
+    chart_write
     app_read
     app_logs
     app_create
