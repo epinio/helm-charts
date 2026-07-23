@@ -17,6 +17,8 @@ data:
   actions: |
     namespace_read
     namespace_write
+    builderimage_read
+    builderimage_write
     app_read
     app_logs
     app_create
@@ -53,6 +55,8 @@ data:
   actions: |
     namespace_read
     namespace_write
+    builderimage_read
+    builderimage_write
     app_read
     app_logs
     app_create
@@ -84,6 +88,7 @@ data:
   default: "false"
   actions: |
     namespace_read
+    builderimage_read
     app_read
     app_logs
     configuration_read
@@ -105,6 +110,8 @@ data:
   actions: |
     namespace_read
     namespace_write
+    builderimage_read
+    builderimage_write
     app_read
     app_logs
     app_create
