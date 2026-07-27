@@ -15,7 +15,6 @@ data:
   name: Application Manager
   default: "false"
   actions: |
-    namespace_read
     namespace_write
     builderimage_read
     builderimage_write
@@ -53,7 +52,6 @@ data:
   name: Application Developer
   default: "false"
   actions: |
-    namespace_read
     namespace_write
     builderimage_read
     builderimage_write
@@ -87,7 +85,6 @@ data:
   name: View Only
   default: "false"
   actions: |
-    namespace_read
     builderimage_read
     app_read
     app_logs
@@ -108,7 +105,6 @@ data:
   name: System Manager
   default: "false"
   actions: |
-    namespace_read
     namespace_write
     builderimage_read
     builderimage_write
