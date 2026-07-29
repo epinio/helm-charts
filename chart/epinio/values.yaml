@@ -272,8 +272,15 @@ dex:
     pullPolicy: IfNotPresent
   # hardcode this, to avoid problems with release name
   fullnameOverride: "dex"
+  # Epinio renders the Dex config Secret itself (templates/dex.yaml), because it
+  # carries keys the subchart cannot produce: issuer, endpoint, uiClientSecret.
+  # Set false to supply that Secret from an external provider instead.
+  manageConfigSecret: true
   configSecret:
-    create: true
+    # Must stay false: the subchart would emit a second Secret under the same
+    # name and collide with Epinio's on install. Only `name` is consumed here,
+    # to point the Dex deployment at the Secret Epinio renders.
+    create: false
     name: "dex-config"
   ui:
     # secret should be supplied by dex automatically, this is just a fall back
