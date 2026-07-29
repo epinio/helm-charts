@@ -44,7 +44,9 @@ data:
     service_read
     gitconfig_read
     export_registries_read
-
+    builderimage_read
+    builderimage_write
+    
 ---
 apiVersion: v1
 kind: ConfigMap

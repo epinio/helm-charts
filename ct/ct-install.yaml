@@ -13,5 +13,6 @@ chart-repos:
   - influxdata=https://helm.influxdata.com
   - s3gw=https://s3gw-tech.github.io/s3gw-charts
   - cert-manager=https://charts.jetstack.io
+  - reflector=https://emberstack.github.io/helm-charts
 charts: chart/epinio,chart/upgrade-responder
 helm-extra-args: --timeout 600s
