@@ -1,6 +1,6 @@
 {{- if .Values.global.dex.enabled -}}
 
-{{- if .Values.dex.configSecret.create -}}
+{{- if .Values.dex.manageConfigSecret -}}
 {{- $dexConfigSecretName := .Values.dex.configSecret.name | default "dex-config" -}}
 {{- $dexSecret := (lookup "v1" "Secret" .Release.Namespace $dexConfigSecretName).data | default dict -}}
 {{- $prevUiClientSecret := (get $dexSecret "uiClientSecret") -}}
