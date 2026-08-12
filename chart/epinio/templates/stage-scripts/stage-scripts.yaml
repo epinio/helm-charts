@@ -82,6 +82,12 @@ data:
     rm "/workspace/source/${BLOBID}"
     mkdir -p /workspace/source/env
     cp -vL /workspace/source/appenv/* /workspace/source/env 2>/dev/null
+    # Dockerfile builds need env files inside the Kaniko context (/workspace/source/app).
+    # Buildpack mode must not pollute app source with plain env files.
+    if test -n "${DOCKERFILE_PATH}"; then
+      mkdir -p /workspace/source/app/env
+      cp -vL /workspace/source/appenv/* /workspace/source/app/env 2>/dev/null
+    fi
     for path in $(ls /workspace/source/env/* 2>/dev/null) ; do echo "$(basename "${path}")"="$(cat "${path}")" ; done
     chown -R ${USERID}:${GROUPID} /workspace 2> /dev/null
     find /workspace
@@ -144,10 +150,13 @@ data:
       echo "Dockerfile not found: ${DOCKERFILE}"
       exit 1
     fi
-    mkdir -p /kaniko/.docker
+    mkdir -p /kaniko/.docker /workspace/cache
     cp /home/cnb/.docker/config.json /kaniko/.docker/config.json
     REGISTRY="$(echo "${APPIMAGE}" | cut -d/ -f1)"
     /kaniko/executor \
+      --cache=true \
+      --cache-dir=/workspace/cache \
+      --cache-copy-layers=true \
       --context=/workspace/source/app \
       --dockerfile="/workspace/source/app/${DOCKERFILE}" \
       --destination="${APPIMAGE}" \
