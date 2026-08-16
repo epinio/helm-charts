@@ -82,12 +82,6 @@ data:
     rm "/workspace/source/${BLOBID}"
     mkdir -p /workspace/source/env
     cp -vL /workspace/source/appenv/* /workspace/source/env 2>/dev/null
-    # Dockerfile builds need env files inside the Kaniko context (/workspace/source/app).
-    # Buildpack mode must not pollute app source with plain env files.
-    if test -n "${DOCKERFILE_PATH}"; then
-      mkdir -p /workspace/source/app/env
-      cp -vL /workspace/source/appenv/* /workspace/source/app/env 2>/dev/null
-    fi
     for path in $(ls /workspace/source/env/* 2>/dev/null) ; do echo "$(basename "${path}")"="$(cat "${path}")" ; done
     chown -R ${USERID}:${GROUPID} /workspace 2> /dev/null
     find /workspace
@@ -153,7 +147,20 @@ data:
     mkdir -p /kaniko/.docker /workspace/cache
     cp /home/cnb/.docker/config.json /kaniko/.docker/config.json
     REGISTRY="$(echo "${APPIMAGE}" | cut -d/ -f1)"
+    # Pass the app environment as build args, mirroring what buildpack staging
+    # makes available at build time. The env files live outside the build
+    # context on purpose: a Dockerfile only receives a value if it declares a
+    # matching `ARG`, and Kaniko ignores the rest. Kaniko does not record build
+    # arg values in image history (kaniko#1327), unlike `docker build`.
+    # Do not echo "$@" or enable `set -x` here: that would put values in the
+    # staging log.
+    set --
+    for path in /workspace/source/env/* ; do
+      test -f "${path}" || continue
+      set -- "$@" --build-arg "$(basename "${path}")=$(cat "${path}")"
+    done
     /kaniko/executor \
+      "$@" \
       --cache=true \
       --cache-dir=/workspace/cache \
       --cache-copy-layers=true \
