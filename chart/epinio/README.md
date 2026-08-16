@@ -67,6 +67,14 @@ These settings can be adjusted in the `ingress` section of your `values.yaml` fi
     defaultTokenExpiry: "60s"  # Example: increase to 1 minute for clock drift
   ```
 
+#### Default Builder Image
+
+The chart creates a `standard` `BuilderImage` custom resource and marks it as
+the cluster default. Epinio uses this resource when staging an application that
+does not explicitly select a builder image. The `DEFAULT_BUILDER_IMAGE`
+environment variable on the server is retained as a compatibility fallback and
+is used only when no `BuilderImage` resource has `spec.default: true`.
+
 ### Cert Manager
 
 Epinio needs [cert-manager](https://cert-manager.io/) in order to create TLS
