@@ -446,6 +446,9 @@
         "fullnameOverride": {
           "type": "string"
         },
+        "manageConfigSecret": {
+          "type": "boolean"
+        },
         "configSecret": {
           "type": "object",
           "properties": {

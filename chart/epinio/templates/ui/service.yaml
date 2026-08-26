@@ -19,6 +19,6 @@ spec:
     app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
   - name: ui
-    port: 80
-    targetPort: 8000
+    port: {{ .Values.epinioUI.service.port | default 80 }}
+    targetPort: {{ .Values.epinioUI.service.containerPort | default 8000 }}
 {{- end }}
