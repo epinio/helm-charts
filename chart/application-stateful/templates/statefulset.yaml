@@ -85,6 +85,8 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: stateful
+      labels:
+        {{- include "epinio-application.labels" . | nindent 8 }}
     spec: 
       accessModes: [ "ReadWriteOnce" ]
       resources:
