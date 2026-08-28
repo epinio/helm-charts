@@ -18,6 +18,63 @@ entries:
       artifacthub.io/license: Apache-2.0
       artifacthub.io/prerelease: "false"
     apiVersion: v2
+    appVersion: v1.14.2-rc1
+    created: "2026-08-28T21:22:24.312911923Z"
+    dependencies:
+    - condition: global.dex.enabled
+      name: dex
+      repository: https://charts.dexidp.io
+      tags:
+      - dex
+      version: 0.15.2
+    - condition: seaweedfs.enabled, global.seaweedfs.enabled
+      name: seaweedfs
+      repository: https://seaweedfs.github.io/seaweedfs/helm
+      tags:
+      - seaweedfs
+      version: 4.0.412
+    - condition: reflector.enabled, global.reflector.enabled
+      name: reflector
+      repository: https://emberstack.github.io/helm-charts
+      tags:
+      - reflector
+      version: 10.0.58
+    - condition: s3gw.enabled, global.s3gw.enabled
+      name: s3gw
+      repository: https://s3gw-tech.github.io/s3gw-charts
+      tags:
+      - s3gw
+      version: 0.14.0
+    - condition: certManager.install
+      name: cert-manager
+      repository: https://charts.jetstack.io
+      tags:
+      - cert-manager
+      version: 1.19.3
+    description: Epinio deploys Kubernetes applications directly from source code
+      in one step.
+    digest: fbcedcfd8719a807c9d5311688189c57de90b49a7e308f9d2c7de2af64c355ff
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    kubeVersion: '>=1.21-0'
+    maintainers:
+    - email: epinio@krum.io
+      name: Krumware
+    - email: epinio@epinio.io
+      name: SUSE
+    name: epinio
+    sources:
+    - https://github.com/epinio/epinio
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-1.14.2-rc1/epinio-1.14.2-rc1.tgz
+    version: 1.14.2-rc1
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "false"
+    apiVersion: v2
     appVersion: v1.14.1
     created: "2026-07-30T13:39:44.875751321Z"
     dependencies:
@@ -5770,4 +5827,4 @@ entries:
     urls:
     - https://github.com/epinio/helm-charts/releases/download/upgrade-responder-v0.1.5/upgrade-responder-v0.1.5.tgz
     version: v0.1.5
-generated: "2026-08-04T15:08:50.501627024Z"
+generated: "2026-08-28T21:22:24.313433276Z"
