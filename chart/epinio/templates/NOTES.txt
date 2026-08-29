@@ -10,3 +10,7 @@ or go to the dashboard at: https://epinio.{{ .Values.global.domain }}
 If you didn't specify a password the default one is `password`.
 
 For more information about Epinio, feel free to checkout https://epinio.io/ and https://docs.epinio.io/.
+
+Optional Grafana Cloud observability (separate chart, monitoring namespace):
+  github.com/epinio/helm-charts/chart/grafana-cloud-observability
+  Helper script: epinio-helper/install-grafana-cloud-observability.sh

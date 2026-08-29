@@ -1,0 +1,59 @@
+# CI / helm lint — full valid overlay (not for production).
+grafanaCloud:
+  token: &grafanaCloudToken ci-test-token
+
+k8s-monitoring:
+  cluster:
+    name: ci-test
+  collectorCommon:
+    alloy:
+      remoteConfig:
+        enabled: true
+        url: https://fleet.example.com
+        auth:
+          type: basic
+          username: "1"
+          password: *grafanaCloudToken
+  destinations:
+    grafana-cloud-logs:
+      type: loki
+      url: https://loki.example.com/loki/api/v1/push
+      auth:
+        type: basic
+        username: "1"
+        password: *grafanaCloudToken
+    grafana-cloud-metrics:
+      type: prometheus
+      url: https://prom.example.com/api/prom/push
+      auth:
+        type: basic
+        username: "1"
+        password: *grafanaCloudToken
+  podLogsViaLoki:
+    enabled: true
+    collector: alloy-daemonset
+  clusterMetrics:
+    enabled: true
+    collector: alloy-deployment
+  clusterEvents:
+    enabled: true
+    collector: alloy-daemonset
+  annotationAutodiscovery:
+    enabled: true
+    collector: alloy-daemonset
+  telemetryServices:
+    kube-state-metrics:
+      deploy: true
+    node-exporter:
+      deploy: true
+    opencost:
+      opencost:
+        exporter:
+          defaultClusterId: ci-test
+        prometheus:
+          username: "1"
+          password: *grafanaCloudToken
+          external:
+            url: https://prom.example.com/api/prom
+    sdkInjector:
+      allowedConfigMapWriters: system:serviceaccount:default:test-alloy-daemonset,system:serviceaccount:default:test-alloy-deployment

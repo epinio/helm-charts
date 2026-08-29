@@ -1,0 +1,18 @@
+apiVersion: v2
+name: grafana-cloud-observability
+description: Grafana Cloud observability for Kubernetes clusters running Epinio (Alloy / k8s-monitoring).
+type: application
+version: 0.1.0
+appVersion: "4.5.0"
+kubeVersion: '>=1.21-0'
+home: https://github.com/epinio/helm-charts
+sources:
+  - https://github.com/epinio/helm-charts
+  - https://github.com/grafana/k8s-monitoring-helm
+maintainers:
+  - name: SUSE
+    email: epinio@epinio.io
+dependencies:
+  - name: k8s-monitoring
+    version: 4.5.0
+    repository: https://grafana.github.io/helm-charts

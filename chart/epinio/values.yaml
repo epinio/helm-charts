@@ -486,3 +486,9 @@ rancher:
   # The uri comes from global.cattle.url (provided by rancher), or if that's missing this value (rancher.url)
   # This supersedes server.accessControlAllowOrigin
   url: ""
+
+# Optional integration with Grafana Cloud observability (see chart/grafana-cloud-observability).
+observability:
+  serverMetrics:
+    # Add prometheus.io/scrape annotations to epinio-server for Alloy annotation autodiscovery.
+    enabled: false

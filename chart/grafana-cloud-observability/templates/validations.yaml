@@ -1,0 +1,8 @@
+{{- if and .Values.grafanaCloud.token .Values.grafanaCloud.existingSecret }}
+{{- fail "grafanaCloud.token and grafanaCloud.existingSecret are mutually exclusive" }}
+{{- end }}
+{{- $km := index .Values "k8s-monitoring" | default dict -}}
+{{- $logsPass := dig "destinations" "grafana-cloud-logs" "auth" "password" "" $km -}}
+{{- if not $logsPass }}
+{{- fail "Grafana Cloud token missing. Use epinio-helper/install-grafana-cloud-observability.sh or supply k8s-monitoring.destinations with auth passwords." }}
+{{- end }}

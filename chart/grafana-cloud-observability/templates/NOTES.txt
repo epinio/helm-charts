@@ -1,0 +1,16 @@
+Grafana Cloud observability (Alloy / k8s-monitoring) installed in namespace {{ .Release.Namespace }}.
+
+Edit values.yaml, then:
+  helm upgrade --install grafana-cloud . -n monitoring --create-namespace \
+    --set grafanaCloud.token='glc_...'
+
+Helper script (epinio-helper repo, not in this chart):
+  ./install-grafana-cloud-observability.sh
+
+Verify:
+  kubectl get pods -n {{ .Release.Namespace }}
+
+Epinio staging logs (Loki):
+  {namespace="epinio", container="buildpack"}
+
+See README.md in this chart directory.
