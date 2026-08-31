@@ -22,15 +22,15 @@ image:
   epinio:
     registry: ghcr.io/
     repository: epinio/epinio-server
-    tag: v1.14.1
+    tag: v1.14.2-rc1
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.14.1
+    tag: v1.14.2-rc1
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
-    tag: v1.14.1
+    tag: v1.14.2-rc1
   awscli:
     repository: amazon/aws-cli
     tag: 2.13.26
@@ -48,6 +48,10 @@ image:
     # the builder image (and in supporting scripts).
     userid: 1001
     groupid: 1000
+  dockerfileBuilder:
+    registry: gcr.io/
+    repository: kaniko-project/executor
+    tag: v1.23.2-debug
 appChart:
   default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.26/epinio-application-0.1.26.tgz
   gatewayAPI: https://github.com/epinio/helm-charts/releases/download/epinio-application-gateway-api-0.1.26/epinio-application-gateway-api-0.1.26.tgz
@@ -62,8 +66,6 @@ server:
   # The ingressClassName is used to select the ingress controller for apps.
   # If empty ingress.ingressClassName (see below) is used
   ingressClassName: ""
-  # Disable tracking of the Epinio and Kubernetes cluster version
-  disableTracking: false
 
   # Configure staging jobs performing builds and deployment
   stagingWorkloads:
