@@ -52,6 +52,20 @@
               "type": "string"
             }
           }
+        },
+        "curl": {
+          "type": "object",
+          "properties": {
+            "registry": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -195,6 +209,46 @@
                 "type": "object"
               },
               "default": []
+            }
+          }
+        }
+      }
+    },
+    "telemetry": {
+      "description": "daily fleet telemetry push to Grafana Cloud",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "schedule": {
+          "type": "string"
+        },
+        "grafanaCloud": {
+          "type": "object",
+          "properties": {
+            "otlpEndpoint": {
+              "type": "string"
+            },
+            "instanceId": {
+              "type": "string"
+            },
+            "existingSecret": {
+              "type": "string"
+            },
+            "token": {
+              "type": "string"
+            }
+          }
+        },
+        "labels": {
+          "type": "object",
+          "properties": {
+            "cluster": {
+              "type": "string"
+            },
+            "environment": {
+              "type": "string"
             }
           }
         }

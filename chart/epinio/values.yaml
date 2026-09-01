@@ -41,6 +41,10 @@ image:
   kubectl:
     repository: rancher/kubectl
     tag: v1.22.6
+  curl:
+    registry: docker.io/
+    repository: curlimages/curl
+    tag: "8.11.0"
   builder:
     repository: paketobuildpacks/builder-jammy-full
     tag: 0.3.495
@@ -138,6 +142,37 @@ server:
     maxReplicas: 100
     targetCPUUtilizationPercentage: 80
     # targetMemoryUtilizationPercentage: 80
+# Daily fleet telemetry: a CronJob calls an internal epinio-server endpoint
+# which collects Epinio version, Kubernetes version, and app/namespace/service
+# counts, then pushes them to Grafana Cloud over OTLP. This is separate from
+# server.disableTracking above, which controls the upgrade-responder version
+# check-in (a different destination and a different, unrelated feature).
+telemetry:
+  # Master switch. Also controls whether the CronJob and its Secrets are
+  # deployed at all.
+  enabled: true
+  # Standard cron syntax, evaluated in the cluster's local time.
+  schedule: "0 8 * * *"
+  grafanaCloud:
+    # Grafana Cloud OTLP/HTTP metrics endpoint, e.g.
+    # https://otlp-gateway-prod-<region>.grafana.net/otlp/v1/metrics
+    otlpEndpoint: ""
+    # Grafana Cloud stack instance ID, used as the OTLP Basic auth username.
+    instanceId: ""
+    # Name of an existing Secret (key: token) holding the glc_... access
+    # policy token. Preferred over `token` below: create it yourself with
+    # `kubectl create secret generic <name> --from-literal=token=glc_...` so
+    # the token never has to pass through Helm values/CLI history.
+    existingSecret: ""
+    # Only used to seed a chart-managed Secret when existingSecret is empty.
+    # Pass via --set-string on install/upgrade; never commit a real value.
+    token: ""
+  # Optional labels attached to every pushed metric, useful when several
+  # Epinio installs feed the same Grafana Cloud stack.
+  labels:
+    cluster: ""
+    environment: ""
+
 ingress:
   enabled: true
   # Hostname for your ingress resource.  If not supplied, it will fallback to epinio.<<.Values.global.domain>> and auth.<<.Values.global.domain>> respectively

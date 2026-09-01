@@ -332,6 +332,34 @@ spec:
             {{- end }}
             - name: INSTALL_METHOD
               value: "{{ .Values.server.installMethod | default "helm" }}"
+            - name: TELEMETRY_ENABLED
+              value: "{{ .Values.telemetry.enabled }}"
+            {{- if .Values.telemetry.enabled }}
+            - name: TELEMETRY_OTLP_ENDPOINT
+              value: "{{ .Values.telemetry.grafanaCloud.otlpEndpoint }}"
+            - name: TELEMETRY_GRAFANA_INSTANCE_ID
+              value: "{{ .Values.telemetry.grafanaCloud.instanceId }}"
+            - name: TELEMETRY_GRAFANA_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "epinio.telemetryGrafanaCloudSecretName" . }}
+                  key: token
+                  # telemetry.enabled defaults to true, but the Grafana Cloud
+                  # token is only set once someone provides existingSecret or
+                  # token. Without `optional`, an unconfigured default install
+                  # would crash-loop on this missing Secret; PublishTelemetry
+                  # already handles an empty token gracefully (502, logged).
+                  optional: true
+            - name: TELEMETRY_TRIGGER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: epinio-telemetry-trigger
+                  key: token
+            - name: TELEMETRY_CLUSTER_LABEL
+              value: "{{ .Values.telemetry.labels.cluster }}"
+            - name: TELEMETRY_ENVIRONMENT_LABEL
+              value: "{{ .Values.telemetry.labels.environment }}"
+            {{- end }}
             {{- if and .Values.seaweedfs.enabled .Values.seaweedfs.tls.enabled .Values.seaweedfs.global.enableSecurity }}
             - name: S3_CERTIFICATE_SECRET
               value: {{ default (default "seaweedfs-tls" .Values.seaweedfs.tls.certSecret) .Values.s3.certificateSecret }}

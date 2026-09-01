@@ -307,6 +307,16 @@ Affects fallback ENV variables on Epinio UI
 
 
 {{/*
+Name of the Secret (key: token) holding the Grafana Cloud access-policy
+token used by fleet telemetry. Points at the user-supplied existingSecret
+when set, otherwise the chart-managed Secret from telemetry-secret.yaml.
+*/}}
+{{- define "epinio.telemetryGrafanaCloudSecretName" -}}
+{{- default "epinio-telemetry-grafana-cloud" .Values.telemetry.grafanaCloud.existingSecret -}}
+{{- end }}
+
+
+{{/*
 Return the configured Issuer URL for Dex
 */}}
 {{- define "epinio-dex-issuer" -}}
