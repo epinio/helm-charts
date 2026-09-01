@@ -217,6 +217,8 @@ rules:
   - configmaps
   verbs:
   - get
+  - create
+  - update
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -324,6 +326,8 @@ spec:
             - name: APP_IMAGE_EXPORTER
               value: "{{ default $imageSkopeo.registry (include "registry-url" .) }}{{ $imageSkopeo.repository}}:{{ $imageSkopeo.tag }}"
             {{- end }}
+            - name: INSTALL_METHOD
+              value: "{{ .Values.server.installMethod | default "helm" }}"
             {{- if and .Values.seaweedfs.enabled .Values.seaweedfs.tls.enabled .Values.seaweedfs.global.enableSecurity }}
             - name: S3_CERTIFICATE_SECRET
               value: {{ default (default "seaweedfs-tls" .Values.seaweedfs.tls.certSecret) .Values.s3.certificateSecret }}
