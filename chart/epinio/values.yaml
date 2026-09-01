@@ -66,6 +66,15 @@ server:
   # The ingressClassName is used to select the ingress controller for apps.
   # If empty ingress.ingressClassName (see below) is used
   ingressClassName: ""
+  # How this Epinio instance was installed: "helm" (default) or "cli".
+  # Persisted in the epinio-instance ConfigMap and not overwritten on upgrade
+  # when the ConfigMap already exists.
+  #
+  # There is no automatic CLI detection: Helm installs always default to "helm".
+  # Any CLI / installer wrapper that installs Epinio via Helm MUST pass
+  # `--set server.installMethod=cli` (or set this value) so the instance is
+  # recorded as CLI-installed.
+  installMethod: helm
 
   # Configure staging jobs performing builds and deployment
   stagingWorkloads:
