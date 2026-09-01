@@ -356,6 +356,25 @@ spec:
             - name: GATEWAY_CLASS_NAME
               value: "{{ .Values.gateway.gatewayClassName }}"
             {{- end }}
+            {{- if .Values.telemetry.enabled }}
+            - name: TELEMETRY_ENABLED
+              value: "true"
+            {{- if and .Values.telemetry.grafanaCloud.token .Values.telemetry.grafanaCloud.otlpEndpoint .Values.telemetry.grafanaCloud.instanceId }}
+            - name: TELEMETRY_OTLP_ENDPOINT
+              value: {{ .Values.telemetry.grafanaCloud.otlpEndpoint | quote }}
+            - name: TELEMETRY_OTLP_USERNAME
+              value: {{ .Values.telemetry.grafanaCloud.instanceId | quote }}
+            - name: TELEMETRY_CLUSTER_NAME
+              value: {{ default .Release.Name .Values.telemetry.clusterName | quote }}
+            - name: TELEMETRY_ENVIRONMENT
+              value: {{ .Values.telemetry.environment | quote }}
+            - name: TELEMETRY_OTLP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "epinio.fullname" . }}-telemetry
+                  key: otlp-password
+            {{- end }}
+            {{- end }}
             {{- if .Values.extraEnv }}
             {{- toYaml .Values.extraEnv | nindent 12 -}}
           {{- end }}

@@ -495,3 +495,27 @@ rancher:
   # The uri comes from global.cattle.url (provided by rancher), or if that's missing this value (rancher.url)
   # This supersedes server.accessControlAllowOrigin
   url: ""
+
+# Daily fleet telemetry export to Grafana Cloud (OTLP).
+telemetry:
+  enabled: true
+  clusterName: ""
+  environment: ""
+  grafanaCloud:
+    # Grafana Cloud stack instance ID (OTLP basic auth username).
+    instanceId: ""
+    # glc_ access policy token with metrics:write (OTLP basic auth password).
+    token: ""
+    # Full OTLP HTTP metrics endpoint from Grafana Cloud Connections page.
+    otlpEndpoint: ""
+  cronJob:
+    # Daily at 08:00 UTC
+    schedule: "0 8 * * *"
+    credentials:
+      username: admin
+      password: ""
+    image:
+      repository: curlimages/curl
+      tag: "8.11.1"
+      pullPolicy: IfNotPresent
+    resources: {}

@@ -1,0 +1,71 @@
+{{- if and .Values.telemetry.enabled .Values.telemetry.grafanaCloud.token .Values.telemetry.grafanaCloud.otlpEndpoint .Values.telemetry.grafanaCloud.instanceId }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "epinio.fullname" . }}-telemetry
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "epinio.labels" . | nindent 4 }}
+type: Opaque
+stringData:
+  otlp-password: {{ .Values.telemetry.grafanaCloud.token | quote }}
+  username: {{ .Values.telemetry.cronJob.credentials.username | quote }}
+  password: {{ required "telemetry.cronJob.credentials.password is required when Grafana Cloud telemetry is configured" .Values.telemetry.cronJob.credentials.password | quote }}
+{{- if .Values.telemetry.cronJob.credentials.password }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "epinio.fullname" . }}-telemetry-report
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "epinio.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.telemetry.cronJob.schedule | quote }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/component: epinio-telemetry-report
+            {{- include "epinio.selectorLabels" . | nindent 12 }}
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: trigger
+              image: {{ .Values.telemetry.cronJob.image.repository }}:{{ .Values.telemetry.cronJob.image.tag }}
+              imagePullPolicy: {{ .Values.telemetry.cronJob.image.pullPolicy }}
+              command:
+                - /bin/sh
+                - -ec
+                - |
+                  EPINIO_URL="http://epinio-server.${EPINIO_NAMESPACE}.svc:${EPINIO_SERVER_PORT}/api/v1/telemetry/publish"
+                  curl -sf -X POST \
+                    -u "${EPINIO_USERNAME}:${EPINIO_PASSWORD}" \
+                    "${EPINIO_URL}"
+              env:
+                - name: EPINIO_NAMESPACE
+                  value: {{ .Release.Namespace | quote }}
+                - name: EPINIO_SERVER_PORT
+                  value: {{ .Values.service.containerPort | default 8030 | quote }}
+                - name: EPINIO_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "epinio.fullname" . }}-telemetry
+                      key: username
+                - name: EPINIO_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "epinio.fullname" . }}-telemetry
+                      key: password
+              {{- with .Values.telemetry.cronJob.resources }}
+              resources:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+{{- end }}
+{{- end }}
