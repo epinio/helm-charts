@@ -15,7 +15,6 @@ autodiscovery:
         - path: "chart/application"
         - path: "chart/epinio"
         - path: "chart/epinio-ui"
-        - path: "chart/upgrade-responder"
 
 scms:
   default:
