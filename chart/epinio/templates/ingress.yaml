@@ -44,7 +44,7 @@ spec:
               number: 80
         path: /ready
         pathType: Exact
-  {{- if ".Values.epinio-ui.enabled" }}
+  {{- if .Values.epinioUI.enabled }}
       - backend:
           service:
             name: epinio-ui
