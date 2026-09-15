@@ -27,6 +27,11 @@ image:
     registry: ghcr.io/
     repository: epinio/epinio-ui
     tag: v1.14.2
+  mcp:
+    registry: ghcr.io/
+    repository: epinio/mcp
+    # GHCR tags are unprefixed (1.14.1), not v1.14.1. Bump when shipping a newer MCP release.
+    tag: "1.14.1"
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
@@ -229,6 +234,11 @@ certManager:
     cert: ""
     key: ""
     ca: ""
+  # Optional overrides when mcp.enabled and certManager.enabled=false
+  mcp:
+    cert: ""
+    key: ""
+    ca: ""
 # Connection details for the S3 storage
 s3:
   endpoint: s3.amazonaws.com
@@ -351,6 +361,41 @@ epinioUI:
     containerPort: 8000
     # -- Annotations to be added to the service.
     annotations: {}
+# Optional Model Context Protocol server (https://github.com/epinio/mcp).
+# Off by default — enable with `--set mcp.enabled=true` at install/upgrade time.
+mcp:
+  enabled: false
+  imagePullPolicy: IfNotPresent
+  # Opt-in elevated tier (workload adoption via Kubernetes). Requires broader RBAC.
+  elevated: false
+  # Cross-namespace adoption ClusterRole. Only useful when elevated=true.
+  broadRBAC: false
+  # In-cluster Epinio API URL. Empty defaults to http://epinio-server.<namespace>.svc.cluster.local
+  # (TLS terminates at Ingress; the Service is HTTP-only, same as epinioUI.)
+  apiURL: ""
+  # Server-level fallback identity for the MCP → Epinio API client.
+  # Password resolution when empty: api.adminPassword (if username is admin),
+  # then matching api.users[].password, then "password".
+  auth:
+    username: admin
+    password: ""
+  ingress:
+    # Publish https://epinio-mcp.<global.domain> when mcp.enabled is true.
+    enabled: true
+    # Optional hostname override (defaults to epinio-mcp.<global.domain>)
+    hostnameOverride: ""
+    annotations: {}
+  service:
+    port: 80
+    containerPort: 8080
+    annotations: {}
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
 reflector:
   enabled: true
   fullnameOverride: reflector

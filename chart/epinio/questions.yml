@@ -64,6 +64,12 @@ questions:
   type: string
   required: true
   group: "General settings"
+- variable: mcp.enabled
+  label: Install MCP server
+  default: "false"
+  description: "Deploy the optional Epinio Model Context Protocol server for AI agents (off by default)"
+  type: boolean
+  group: "Advanced settings"
 - variable: reflector.enabled
   label: Install reflector
   description: "Deploy kubernetes-reflector (open-source secret/configmap replicator) or skip it if you have it installed already"

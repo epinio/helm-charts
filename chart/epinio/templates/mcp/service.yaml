@@ -1,0 +1,28 @@
+{{- if .Values.mcp.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: epinio-mcp
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: epinio-mcp
+    app.kubernetes.io/part-of: epinio
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: application
+  {{- with .Values.mcp.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: epinio-mcp
+    app.kubernetes.io/component: application
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - name: http
+      port: {{ .Values.mcp.service.port }}
+      targetPort: http
+{{- end }}

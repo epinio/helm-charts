@@ -1,0 +1,32 @@
+{{- if .Values.mcp.enabled }}
+{{- $mcpImage := .Values.image.mcp -}}
+{{- $mcpImageRef := printf "%s%s:%s" (default $mcpImage.registry (include "registry-url" .)) $mcpImage.repository $mcpImage.tag -}}
+---
+# Metadata-only App CR so `epinio app list/show/logs` keep working for the MCP.
+apiVersion: application.epinio.io/v1
+kind: App
+metadata:
+  name: epinio-mcp
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: epinio-mcp
+    app.kubernetes.io/part-of: epinio
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: application
+  annotations:
+    epinio.io/adopted: "true"
+    epinio.io/created-by: "helm"
+spec:
+  origin:
+    container: {{ $mcpImageRef | quote }}
+  chartname: ""
+  stageid: "adopted"
+  {{- if and .Values.mcp.ingress.enabled (or .Values.ingress.enabled (not (hasKey .Values.ingress "enabled"))) }}
+  routes:
+    - {{ include "epinio-mcp-hostname" . | quote }}
+  {{- else }}
+  routes: []
+  {{- end }}
+  settings: {}
+{{- end }}

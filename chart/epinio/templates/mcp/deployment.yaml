@@ -1,0 +1,88 @@
+{{- if .Values.mcp.enabled }}
+{{- $mcpImage := .Values.image.mcp -}}
+{{- $mcpImageRef := printf "%s%s:%s" (default $mcpImage.registry (include "registry-url" .)) $mcpImage.repository $mcpImage.tag -}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: epinio-mcp
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: epinio-mcp
+    app.kubernetes.io/part-of: epinio
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: application
+  annotations:
+    epinio.io/adopted: "true"
+    epinio.io/created-by: "helm"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: epinio-mcp
+      app.kubernetes.io/component: application
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: epinio-mcp
+        app.kubernetes.io/part-of: epinio
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: application
+        epinio.io/app-container: epinio-mcp
+        epinio.io/stage-id: "adopted"
+    spec:
+      serviceAccountName: epinio-mcp
+      containers:
+        - name: epinio-mcp
+          image: {{ $mcpImageRef | quote }}
+          imagePullPolicy: {{ .Values.mcp.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.mcp.service.containerPort }}
+              protocol: TCP
+          env:
+            - name: EPINIO_API_URL
+              # In-cluster epinio-server is HTTP-only (TLS terminates at Ingress), same as epinio-ui.
+              value: {{ default (printf "http://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.mcp.apiURL | quote }}
+            - name: EPINIO_MCP_APP_NAME
+              value: "epinio-mcp"
+            - name: EPINIO_MCP_APP_NAMESPACE
+              value: {{ .Release.Namespace | quote }}
+            - name: PORT
+              value: {{ .Values.mcp.service.containerPort | quote }}
+            {{- if .Values.mcp.elevated }}
+            - name: EPINIO_MCP_ELEVATED
+              value: "true"
+            {{- end }}
+            - name: EPINIO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: epinio-mcp-auth
+                  key: username
+                  optional: true
+            - name: EPINIO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: epinio-mcp-auth
+                  key: password
+                  optional: true
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          {{- with .Values.mcp.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+{{- end }}

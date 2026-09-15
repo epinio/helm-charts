@@ -316,3 +316,41 @@ Return the configured Issuer URL for Dex
  {{- printf "https://%s" (include "epinio-dex-hostname" .) -}}
 {{- end -}}
 {{- end }}
+
+
+{{/*
+Hostname for the optional MCP server ingress.
+*/}}
+{{- define "epinio-mcp-hostname" -}}
+{{- if and .Values.mcp .Values.mcp.ingress .Values.mcp.ingress.hostnameOverride -}}
+  {{- .Values.mcp.ingress.hostnameOverride -}}
+{{- else -}}
+  {{- printf "%s.%s" "epinio-mcp" .Values.global.domain -}}
+{{- end -}}
+{{- end }}
+
+
+{{/*
+Plaintext password the MCP uses to call the Epinio API.
+*/}}
+{{- define "epinio-mcp-password" -}}
+{{- $user := default "admin" .Values.mcp.auth.username -}}
+{{- $pass := .Values.mcp.auth.password -}}
+{{- if $pass -}}
+  {{- $pass -}}
+{{- else if and (eq $user "admin") .Values.api.adminPassword -}}
+  {{- .Values.api.adminPassword -}}
+{{- else -}}
+  {{- $found := "" -}}
+  {{- range .Values.api.users -}}
+    {{- if and (eq .username $user) .password -}}
+      {{- $found = .password -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $found -}}
+    {{- $found -}}
+  {{- else -}}
+    {{- "password" -}}
+  {{- end -}}
+{{- end -}}
+{{- end }}

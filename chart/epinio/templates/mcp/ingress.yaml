@@ -1,0 +1,37 @@
+{{- if and .Values.mcp.enabled .Values.mcp.ingress.enabled (or .Values.ingress.enabled (not (hasKey .Values.ingress "enabled"))) }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: epinio-mcp
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: epinio-mcp
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: {{ .Values.ingress.nginxSSLRedirect | quote }}
+    {{- range $key, $value := .Values.mcp.ingress.annotations }}
+    {{ $key | quote }}: {{ $value | quote }}
+    {{- end }}
+spec:
+  {{- if .Values.ingress.ingressClassName }}
+  ingressClassName: "{{ .Values.ingress.ingressClassName }}"
+  {{- end }}
+  rules:
+  - host: {{ (include "epinio-mcp-hostname" .) | quote }}
+    http:
+      paths:
+      - backend:
+          service:
+            name: epinio-mcp
+            port:
+              number: {{ .Values.mcp.service.port }}
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - {{ (include "epinio-mcp-hostname" .) | quote }}
+    secretName: epinio-mcp-tls
+{{- end }}
