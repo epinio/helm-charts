@@ -319,19 +319,7 @@ Return the configured Issuer URL for Dex
 
 
 {{/*
-Hostname for the optional MCP server ingress.
-*/}}
-{{- define "epinio-mcp-hostname" -}}
-{{- if and .Values.mcp .Values.mcp.ingress .Values.mcp.ingress.hostnameOverride -}}
-  {{- .Values.mcp.ingress.hostnameOverride -}}
-{{- else -}}
-  {{- printf "%s.%s" "epinio-mcp" .Values.global.domain -}}
-{{- end -}}
-{{- end }}
-
-
-{{/*
-Plaintext password the MCP uses to call the Epinio API.
+Plaintext password used by the MCP install Job (CLI settings) and MCP app env.
 */}}
 {{- define "epinio-mcp-password" -}}
 {{- $user := default "admin" .Values.mcp.auth.username -}}

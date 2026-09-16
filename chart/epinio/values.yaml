@@ -234,11 +234,6 @@ certManager:
     cert: ""
     key: ""
     ca: ""
-  # Optional overrides when mcp.enabled and certManager.enabled=false
-  mcp:
-    cert: ""
-    key: ""
-    ca: ""
 # Connection details for the S3 storage
 s3:
   endpoint: s3.amazonaws.com
@@ -362,40 +357,33 @@ epinioUI:
     # -- Annotations to be added to the service.
     annotations: {}
 # Optional Model Context Protocol server (https://github.com/epinio/mcp).
-# Off by default — enable with `--set mcp.enabled=true` at install/upgrade time.
+# Off by default — enable with `--set mcp.enabled=true`.
+# When enabled, a post-install/post-upgrade Helm hook pushes MCP as a normal
+# Epinio application (container image), same flow as `make setup` in epinio/mcp.
 mcp:
   enabled: false
-  imagePullPolicy: IfNotPresent
-  # Opt-in elevated tier (workload adoption via Kubernetes). Requires broader RBAC.
-  elevated: false
-  # Cross-namespace adoption ClusterRole. Only useful when elevated=true.
-  broadRBAC: false
-  # In-cluster Epinio API URL. Empty defaults to http://epinio-server.<namespace>.svc.cluster.local
-  # (TLS terminates at Ingress; the Service is HTTP-only, same as epinioUI.)
+  # Epinio namespace for the MCP app (created if missing)
+  namespace: mcp
+  appName: epinio-mcp
+  # Epinio CLI version downloaded by the install Job (defaults to image.epinio.tag)
+  cliVersion: ""
+  # URL the install Job uses to reach the Epinio API (in-cluster).
+  # Empty defaults to http://epinio-server.<release-namespace>.svc.cluster.local
+  serverURL: ""
+  # URL the MCP app uses to call the Epinio API (from its pod).
+  # Empty defaults to the same in-cluster HTTP URL as serverURL
+  # (http://epinio-server.<release-namespace>.svc.cluster.local).
+  # Do not use the external ingress URL — nip.io/minikube often resolves to 127.0.0.1 inside pods.
   apiURL: ""
-  # Server-level fallback identity for the MCP → Epinio API client.
+  # Credentials used by the install Job (CLI settings) and passed into the MCP app env.
   # Password resolution when empty: api.adminPassword (if username is admin),
   # then matching api.users[].password, then "password".
   auth:
     username: admin
     password: ""
-  ingress:
-    # Publish https://epinio-mcp.<global.domain> when mcp.enabled is true.
-    enabled: true
-    # Optional hostname override (defaults to epinio-mcp.<global.domain>)
-    hostnameOverride: ""
-    annotations: {}
-  service:
-    port: 80
-    containerPort: 8080
-    annotations: {}
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      cpu: 500m
-      memory: 512Mi
+  job:
+    # Alpine has base64 + apk curl; CLI is downloaded at runtime
+    image: alpine:3.20
 reflector:
   enabled: true
   fullnameOverride: reflector

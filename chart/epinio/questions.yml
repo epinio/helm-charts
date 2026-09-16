@@ -67,7 +67,7 @@ questions:
 - variable: mcp.enabled
   label: Install MCP server
   default: "false"
-  description: "Deploy the optional Epinio Model Context Protocol server for AI agents (off by default)"
+  description: "After Epinio installs, push the MCP server as an Epinio app (off by default)"
   type: boolean
   group: "Advanced settings"
 - variable: reflector.enabled
