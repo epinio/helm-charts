@@ -1,0 +1,62 @@
+---
+name: "Bump epinio MCP image version"
+
+scms:
+  helm-charts:
+    kind: "github"
+    spec:
+      user: "{{ .github.epinio.user }}"
+      email: "{{ .github.epinio.email }}"
+      owner: "{{ .github.epinio.owner }}"
+      repository: "{{ .github.epinio.repository }}"
+      token: '{{ requiredEnv .github.epinio.token }}'
+      username: "{{ .github.epinio.username }}"
+      branch: "{{ .github.epinio.branch }}"
+
+actions:
+  helm-charts:
+    kind: "github/pullrequest"
+    scmid: "helm-charts"
+    spec:
+      labels:
+        - "dependencies"
+        - "epinio-mcp"
+
+sources:
+  mcp:
+    name: "Get latest epinio/mcp image tag from GHCR"
+    kind: "dockerimage"
+    spec:
+      image: "ghcr.io/epinio/mcp"
+      # MCP GHCR tags are unprefixed (1.14.1), unlike epinio-server (v1.14.2).
+      versionFilter:
+        kind: semver
+        pattern: ">=0.0.0-0"
+
+conditions:
+  dockerImage:
+    name: 'Check that ghcr.io/epinio/mcp:{{ source "mcp" }} is published'
+    kind: "dockerimage"
+    spec:
+      image: "ghcr.io/epinio/mcp"
+      architecture: "amd64"
+
+  dockerImageRepository:
+    name: "Check that container image repository 'epinio/mcp' is used in Helm chart"
+    kind: "yaml"
+    disablesourceinput: true
+    scmid: "helm-charts"
+    spec:
+      file: "chart/epinio/values.yaml"
+      key: "$.image.mcp.repository"
+      value: "epinio/mcp"
+
+targets:
+  epinio-chart:
+    name: "Update MCP image tag in chart/epinio values.yaml"
+    kind: "yaml"
+    scmid: "helm-charts"
+    spec:
+      file: "chart/epinio/values.yaml"
+      key: "$.image.mcp.tag"
+      value: '{{ source "mcp" }}'

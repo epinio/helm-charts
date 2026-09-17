@@ -1,0 +1,105 @@
+{{- if .Values.mcp.enabled }}
+{{- $epinioImage := .Values.image.epinio -}}
+{{- $epinioImageRef := printf "%s%s:%s" (default $epinioImage.registry (include "registry-url" .)) $epinioImage.repository (default .Chart.AppVersion $epinioImage.tag) -}}
+{{- $svcPort := .Values.service.port | default 80 -}}
+{{- $serverURL := default (printf "http://epinio-server.%s.svc.cluster.local:%v" .Release.Namespace $svcPort) .Values.mcp.serverURL -}}
+{{- $wssURL := $serverURL | replace "https://" "wss://" | replace "http://" "ws://" -}}
+{{- $appNS := default "mcp" .Values.mcp.namespace -}}
+{{- $appName := default "epinio-mcp" .Values.mcp.appName -}}
+---
+# Best-effort cleanup of the MCP Epinio app on helm uninstall.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: epinio-mcp-cleanup
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "epinio.labels" . | nindent 4 }}
+    app.kubernetes.io/name: epinio-mcp-cleanup
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-weight": "-4"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded,hook-failed
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 120
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      labels:
+        {{- include "epinio.labels" . | nindent 8 }}
+        app.kubernetes.io/name: epinio-mcp-cleanup
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: cleanup
+          image: {{ $epinioImageRef | quote }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
+          command:
+            - /epinio
+            - --skip-ssl-verification
+            - --no-colors
+            - app
+            - delete
+            - {{ $appName | quote }}
+          env:
+            - name: HOME
+              value: /tmp
+            - name: EPINIO_SETTINGS
+              value: /settings/settings.yaml
+            - name: EPINIO_API
+              value: {{ $serverURL | quote }}
+            - name: EPINIO_WSS
+              value: {{ $wssURL | quote }}
+            - name: EPINIO_NAMESPACE
+              value: {{ $appNS | quote }}
+            - name: EPINIO_SKIP_SSL_VERIFICATION
+              value: "true"
+            - name: EPINIO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: epinio-mcp-install
+                  key: username
+                  optional: true
+            - name: EPINIO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: epinio-mcp-install
+                  key: pass-b64
+                  optional: true
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: config
+              mountPath: /.config
+            - name: settings
+              mountPath: /settings
+              readOnly: true
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: config
+          emptyDir: {}
+        - name: settings
+          secret:
+            secretName: epinio-mcp-install
+            optional: true
+            items:
+              - key: settings.yaml
+                path: settings.yaml
+{{- end }}

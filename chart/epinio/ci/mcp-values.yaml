@@ -1,0 +1,4 @@
+# Extra values for chart-testing when exercising optional MCP install.
+# ct discovers ci/*-values.yaml automatically.
+mcp:
+  enabled: true

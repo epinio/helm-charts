@@ -97,6 +97,31 @@ Kubernetes Reflector is installed as a subchart when `.Values.reflector.enabled`
 If you already have reflector running, you can skip the installation by setting
 the helm value "reflector.enabled" to "false".
 
+### MCP server (optional)
+
+The [Epinio MCP server](https://github.com/epinio/mcp) is **off by default**.
+Enable it with `--set mcp.enabled=true` to have a post-install/post-upgrade Job
+push MCP as a normal Epinio application (`epinio push`, container-image
+origin), matching the mcp repo's `make setup` flow. See `values.yaml` under
+`mcp` and `image.mcp`.
+
+Because this runs as a Helm hook, a failure in that Job (bad credentials, the
+MCP image unreachable, etc.) fails the whole `helm install`/`upgrade`, even
+though core Epinio installed fine — this is a Helm hook limitation, not a
+core-Epinio problem. The Job retries a couple of times (`mcp.job.backoffLimit`)
+to absorb it firing before `epinio-server` is reachable yet; a genuine failure
+will still surface as a failed release. Re-running `helm upgrade` after fixing
+the cause (e.g. setting `mcp.auth.password`) resolves it — no rollback of core
+Epinio is needed.
+
+Every `helm upgrade` with `mcp.enabled=true` re-runs `epinio push` for the MCP
+app, which will overwrite any changes made directly against it afterwards
+(e.g. via `epinio app update`). If the app was ever moved to a different
+appchart outside of this Job (e.g. the mcp repo's own elevated install flow),
+the next push will fail, since Epinio refuses to change an active app's
+appchart in place — delete the app (`epinio app delete epinio-mcp`) before the
+next `helm upgrade` in that case.
+
 ### S3 storage
 
 Epinio is using an S3 compatible storage to store the application source code.

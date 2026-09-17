@@ -360,30 +360,40 @@ epinioUI:
 # Off by default — enable with `--set mcp.enabled=true`.
 # When enabled, a post-install/post-upgrade Helm hook pushes MCP as a normal
 # Epinio application (container image), same flow as `make setup` in epinio/mcp.
+# The Job uses image.epinio (epinio-server) as the CLI — multi-arch and
+# routed through registry-url, with no Alpine CDN / GitHub download at runtime.
 mcp:
   enabled: false
   # Epinio namespace for the MCP app (created if missing)
   namespace: mcp
   appName: epinio-mcp
-  # Epinio CLI version downloaded by the install Job (defaults to image.epinio.tag)
-  cliVersion: ""
   # URL the install Job uses to reach the Epinio API (in-cluster).
-  # Empty defaults to http://epinio-server.<release-namespace>.svc.cluster.local
+  # Empty defaults to http://epinio-server.<release-namespace>.svc.cluster.local:<service.port>
   serverURL: ""
   # URL the MCP app uses to call the Epinio API (from its pod).
-  # Empty defaults to the same in-cluster HTTP URL as serverURL
-  # (http://epinio-server.<release-namespace>.svc.cluster.local).
+  # Empty defaults to the same in-cluster HTTP URL as serverURL.
   # Do not use the external ingress URL — nip.io/minikube often resolves to 127.0.0.1 inside pods.
   apiURL: ""
-  # Credentials used by the install Job (CLI settings) and passed into the MCP app env.
+  # Credentials for the install Job (EPINIO_USER / EPINIO_PASS) and the MCP app env.
   # Password resolution when empty: api.adminPassword (if username is admin),
-  # then matching api.users[].password, then "password".
+  # then matching api.users[].password. Fails template render if none is set
+  # (passwordBcrypt alone is not enough).
   auth:
     username: admin
     password: ""
   job:
-    # Alpine has base64 + apk curl; CLI is downloaded at runtime
-    image: alpine:3.20
+    # Max seconds for the install Job (includes waits + push)
+    activeDeadlineSeconds: 300
+    # Retries absorb the Job firing before epinio-server is reachable yet.
+    # A genuine failure (bad credentials, bad image) still fails the Job —
+    # and since this runs as a Helm hook, still fails the release. This is
+    # an optional, off-by-default component; a failure here does not mean
+    # core Epinio failed to install.
+    backoffLimit: 2
+    nodeSelector: {}
+    affinity: {}
+    tolerations: []
+    resources: {}
 reflector:
   enabled: true
   fullnameOverride: reflector

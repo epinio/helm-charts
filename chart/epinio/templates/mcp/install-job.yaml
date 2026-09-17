@@ -1,137 +1,224 @@
 {{- if .Values.mcp.enabled }}
 {{- $mcpImage := .Values.image.mcp -}}
 {{- $mcpImageRef := printf "%s%s:%s" (default $mcpImage.registry (include "registry-url" .)) $mcpImage.repository $mcpImage.tag -}}
-{{- $cliVersion := .Values.mcp.cliVersion | default .Values.image.epinio.tag -}}
-{{- $serverURL := default (printf "http://epinio-server.%s.svc.cluster.local" .Release.Namespace) .Values.mcp.serverURL -}}
-{{- /* MCP runs in-cluster; TLS terminates at Ingress — same default as epinio-ui / old mcp Deployment. */ -}}
+{{- $epinioImage := .Values.image.epinio -}}
+{{- $epinioImageRef := printf "%s%s:%s" (default $epinioImage.registry (include "registry-url" .)) $epinioImage.repository (default .Chart.AppVersion $epinioImage.tag) -}}
+{{- $svcPort := .Values.service.port | default 80 -}}
+{{- $serverURL := default (printf "http://epinio-server.%s.svc.cluster.local:%v" .Release.Namespace $svcPort) .Values.mcp.serverURL -}}
 {{- $appAPIURL := default $serverURL .Values.mcp.apiURL -}}
+{{- $wssURL := $serverURL | replace "https://" "wss://" | replace "http://" "ws://" -}}
 {{- $appNS := default "mcp" .Values.mcp.namespace -}}
 {{- $appName := default "epinio-mcp" .Values.mcp.appName -}}
+{{- $username := default "admin" .Values.mcp.auth.username -}}
+{{- $password := include "epinio-mcp-password" . -}}
+{{- $nsObj := lookup "v1" "Namespace" "" $appNS -}}
+{{- $nsExists := and $nsObj (eq (index ($nsObj.metadata.labels | default dict) "app.kubernetes.io/component") "epinio-namespace") -}}
 ---
-# Post-install Job: push MCP as a normal Epinio application (container image),
-# matching the flow in https://github.com/epinio/mcp (`epinio push`).
+# Credentials for the MCP install/cleanup Jobs and app env.
 apiVersion: v1
-kind: ConfigMap
+kind: Secret
 metadata:
   name: epinio-mcp-install
   namespace: {{ .Release.Namespace }}
   labels:
+    {{- include "epinio.labels" . | nindent 4 }}
     app.kubernetes.io/name: epinio-mcp-install
-    app.kubernetes.io/instance: {{ .Release.Name }}
-  annotations:
-    "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-weight": "20"
-    "helm.sh/hook-delete-policy": before-hook-creation
-data:
-  install.sh: |
-    #!/bin/sh
-    set -eu
-
-    echo "Installing curl ..."
-    apk add --no-cache curl ca-certificates >/dev/null
-
-    echo "Waiting for Epinio API at ${EPINIO_SERVER_URL} ..."
-    i=0
-    until curl -sf "${EPINIO_SERVER_URL}/ready" >/dev/null 2>&1; do
-      i=$((i + 1))
-      if [ "$i" -ge 60 ]; then
-        echo "ERROR: Epinio API not ready after waiting"
-        curl -sv "${EPINIO_SERVER_URL}/ready" || true
-        exit 1
-      fi
-      echo "  waiting (${i}/60) ..."
-      sleep 5
-    done
-    echo "Epinio API is ready."
-
-    echo "Downloading epinio CLI ${EPINIO_CLI_VERSION} ..."
-    curl -fsSL -o /tmp/epinio \
-      "https://github.com/epinio/epinio/releases/download/${EPINIO_CLI_VERSION}/epinio-linux-x86_64"
-    chmod +x /tmp/epinio
-    /tmp/epinio version
-
-    echo "Writing Epinio CLI settings (skip login CA check) ..."
-    # epinio login always dials TLS :443 to check the CA, even for http:// URLs.
-    # Write settings.yaml directly for the in-cluster HTTP Service.
-    mkdir -p /tmp/epinio-config
-    PASS_B64=$(printf '%s' "${EPINIO_PASSWORD}" | base64 | tr -d '\n')
-    WSS_URL=$(printf '%s' "${EPINIO_SERVER_URL}" | sed 's|^http://|ws://|;s|^https://|wss://|')
-    printf 'api: %s\nwss: %s\nuser: %s\npass: %s\nnamespace: workspace\ncerts: ""\ncolors: false\n' \
-      "${EPINIO_SERVER_URL}" "${WSS_URL}" "${EPINIO_USERNAME}" "${PASS_B64}" \
-      > /tmp/epinio-config/settings.yaml
-    export EPINIO_SETTINGS=/tmp/epinio-config/settings.yaml
-
-    echo "Checking API access ..."
-    /tmp/epinio --skip-ssl-verification --settings-file "${EPINIO_SETTINGS}" namespace list >/dev/null
-
-    echo "Ensuring namespace ${MCP_NAMESPACE} ..."
-    /tmp/epinio --skip-ssl-verification --settings-file "${EPINIO_SETTINGS}" namespace show "${MCP_NAMESPACE}" >/dev/null 2>&1 \
-      || /tmp/epinio --skip-ssl-verification --settings-file "${EPINIO_SETTINGS}" namespace create "${MCP_NAMESPACE}"
-    /tmp/epinio --skip-ssl-verification --settings-file "${EPINIO_SETTINGS}" target "${MCP_NAMESPACE}"
-
-    echo "Pushing ${MCP_APP_NAME} from ${MCP_IMAGE} ..."
-    /tmp/epinio --skip-ssl-verification --settings-file "${EPINIO_SETTINGS}" push \
-      --name "${MCP_APP_NAME}" \
-      --container-image-url "${MCP_IMAGE}" \
-      --app-chart standard \
-      --env "EPINIO_API_URL=${MCP_EPINIO_API_URL}" \
-      --env "EPINIO_USERNAME=${EPINIO_USERNAME}" \
-      --env "EPINIO_PASSWORD=${EPINIO_PASSWORD}"
-
-    echo "MCP app install complete."
-    /tmp/epinio --skip-ssl-verification --settings-file "${EPINIO_SETTINGS}" app show "${MCP_APP_NAME}"
+type: Opaque
+stringData:
+  username: {{ $username | quote }}
+  password: {{ $password | quote }}
+  # CLI Settings.Password is always base64-decoded (EPINIO_PASS).
+  pass-b64: {{ $password | b64enc | quote }}
+  # Pre-rendered settings file. The CLI refuses every API call unless
+  # Settings.Location is non-empty, and that field is only set when the
+  # settings file exists on disk at startup (internal/cli/settings.LoadFrom) —
+  # `epinio login` would normally create it, but login always TLS-dials the
+  # server to check its CA, even for http:// addresses, so it can't be used
+  # against the in-cluster HTTP Service. Mounting this file sidesteps both.
+  settings.yaml: |
+    api: {{ $serverURL | quote }}
+    wss: {{ $wssURL | quote }}
+    user: {{ $username | quote }}
+    pass: {{ $password | b64enc | quote }}
+    namespace: {{ $appNS | quote }}
+    certs: ""
+    colors: false
+  # Push manifest. Keeping credentials here (instead of `epinio push --env
+  # EPINIO_PASSWORD=...` CLI flags) keeps them out of the Job's pod spec —
+  # `kubectl get pod -o yaml` / `describe pod` would otherwise show the
+  # plaintext password in spec.containers[].command.
+  push.yaml: |
+    name: {{ $appName | quote }}
+    namespace: {{ $appNS | quote }}
+    configuration:
+      appchart: standard
+      environment:
+        EPINIO_API_URL: {{ $appAPIURL | quote }}
+        EPINIO_USERNAME: {{ $username | quote }}
+        EPINIO_PASSWORD: {{ $password | quote }}
+    origin:
+      container: {{ $mcpImageRef | quote }}
 ---
+# Post-install Job: push MCP as a normal Epinio app using the chart's own
+# epinio-server image as the CLI (multi-arch, registry-url, no runtime download).
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: epinio-mcp-install
   namespace: {{ .Release.Namespace }}
   labels:
+    {{- include "epinio.labels" . | nindent 4 }}
     app.kubernetes.io/name: epinio-mcp-install
-    app.kubernetes.io/instance: {{ .Release.Name }}
   annotations:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "21"
     "helm.sh/hook-delete-policy": before-hook-creation
 spec:
-  backoffLimit: 2
+  # A couple of retries absorb a common transient: this hook can fire before
+  # epinio-server's Service is actually reachable. activeDeadlineSeconds below
+  # still bounds the total time regardless of how many attempts run.
+  backoffLimit: {{ .Values.mcp.job.backoffLimit | default 2 }}
+  activeDeadlineSeconds: {{ .Values.mcp.job.activeDeadlineSeconds | default 300 }}
   ttlSecondsAfterFinished: 3600
   template:
     metadata:
       labels:
+        {{- include "epinio.labels" . | nindent 8 }}
         app.kubernetes.io/name: epinio-mcp-install
-        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       restartPolicy: Never
-      containers:
-        - name: install
-          image: {{ .Values.mcp.job.image | default "alpine:3.20" | quote }}
-          imagePullPolicy: IfNotPresent
-          command: ["/bin/sh", "/scripts/install.sh"]
+      automountServiceAccountToken: false
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      {{- with .Values.mcp.job.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.mcp.job.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.mcp.job.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if not $nsExists }}
+      initContainers:
+        - name: ensure-namespace
+          image: {{ $epinioImageRef | quote }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
+          command:
+            - /epinio
+            - --skip-ssl-verification
+            - --no-colors
+            - namespace
+            - create
+            - {{ $appNS | quote }}
           env:
-            - name: EPINIO_SERVER_URL
+            - name: HOME
+              value: /tmp
+            - name: EPINIO_SETTINGS
+              value: /settings/settings.yaml
+            - name: EPINIO_API
               value: {{ $serverURL | quote }}
-            - name: EPINIO_CLI_VERSION
-              value: {{ $cliVersion | quote }}
-            - name: EPINIO_USERNAME
-              value: {{ default "admin" .Values.mcp.auth.username | quote }}
-            - name: EPINIO_PASSWORD
-              value: {{ include "epinio-mcp-password" . | quote }}
-            - name: MCP_NAMESPACE
+            - name: EPINIO_WSS
+              value: {{ $wssURL | quote }}
+            - name: EPINIO_NAMESPACE
               value: {{ $appNS | quote }}
-            - name: MCP_APP_NAME
-              value: {{ $appName | quote }}
-            - name: MCP_IMAGE
-              value: {{ $mcpImageRef | quote }}
-            - name: MCP_EPINIO_API_URL
-              value: {{ $appAPIURL | quote }}
+            - name: EPINIO_SKIP_SSL_VERIFICATION
+              value: "true"
+            - name: EPINIO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: epinio-mcp-install
+                  key: username
+            - name: EPINIO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: epinio-mcp-install
+                  key: pass-b64
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
           volumeMounts:
-            - name: scripts
-              mountPath: /scripts
+            - name: tmp
+              mountPath: /tmp
+            - name: config
+              mountPath: /.config
+            - name: settings
+              mountPath: /settings
+              readOnly: true
+      {{- end }}
+      containers:
+        - name: push
+          image: {{ $epinioImageRef | quote }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
+          command:
+            - /epinio
+            - --skip-ssl-verification
+            - --no-colors
+            - push
+            - /settings/push.yaml
+          env:
+            - name: HOME
+              value: /tmp
+            - name: EPINIO_SETTINGS
+              value: /settings/settings.yaml
+            - name: EPINIO_API
+              value: {{ $serverURL | quote }}
+            - name: EPINIO_WSS
+              value: {{ $wssURL | quote }}
+            - name: EPINIO_NAMESPACE
+              value: {{ $appNS | quote }}
+            - name: EPINIO_SKIP_SSL_VERIFICATION
+              value: "true"
+            - name: EPINIO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: epinio-mcp-install
+                  key: username
+            - name: EPINIO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: epinio-mcp-install
+                  key: pass-b64
+          {{- with .Values.mcp.job.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: config
+              mountPath: /.config
+            - name: settings
+              mountPath: /settings
               readOnly: true
       volumes:
-        - name: scripts
-          configMap:
-            name: epinio-mcp-install
-            defaultMode: 0755
+        - name: tmp
+          emptyDir: {}
+        - name: config
+          emptyDir: {}
+        - name: settings
+          secret:
+            secretName: epinio-mcp-install
+            items:
+              - key: settings.yaml
+                path: settings.yaml
+              - key: push.yaml
+                path: push.yaml
 {{- end }}

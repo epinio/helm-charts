@@ -319,7 +319,9 @@ Return the configured Issuer URL for Dex
 
 
 {{/*
-Plaintext password used by the MCP install Job (CLI settings) and MCP app env.
+Plaintext password used by the MCP install Job (CLI env) and MCP app env.
+Fails at template time when mcp.enabled and no plaintext password is available
+(passwordBcrypt-only users are not usable here).
 */}}
 {{- define "epinio-mcp-password" -}}
 {{- $user := default "admin" .Values.mcp.auth.username -}}
@@ -338,7 +340,7 @@ Plaintext password used by the MCP install Job (CLI settings) and MCP app env.
   {{- if $found -}}
     {{- $found -}}
   {{- else -}}
-    {{- "password" -}}
+    {{- fail (printf "mcp.enabled requires a plaintext password: set mcp.auth.password (or api.adminPassword / api.users[].password for user %q). passwordBcrypt alone is not enough for the MCP install Job." $user) -}}
   {{- end -}}
 {{- end -}}
 {{- end }}
