@@ -393,6 +393,8 @@ mcp:
     nodeSelector: {}
     affinity: {}
     tolerations: []
+    # Applied to the install and cleanup Jobs' containers (not the CLI itself
+    # — this is just container-level requests/limits for the pod).
     resources: {}
 reflector:
   enabled: true

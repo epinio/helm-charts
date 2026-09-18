@@ -21,8 +21,8 @@ metadata:
   name: epinio-mcp-install
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "epinio.labels" . | nindent 4 }}
     app.kubernetes.io/name: epinio-mcp-install
+    app.kubernetes.io/instance: {{ .Release.Name }}
 type: Opaque
 stringData:
   username: {{ $username | quote }}
@@ -67,8 +67,8 @@ metadata:
   name: epinio-mcp-install
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "epinio.labels" . | nindent 4 }}
     app.kubernetes.io/name: epinio-mcp-install
+    app.kubernetes.io/instance: {{ .Release.Name }}
   annotations:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "21"
@@ -83,8 +83,8 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "epinio.labels" . | nindent 8 }}
         app.kubernetes.io/name: epinio-mcp-install
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       restartPolicy: Never
       automountServiceAccountToken: false
@@ -144,8 +144,13 @@ spec:
                 secretKeyRef:
                   name: epinio-mcp-install
                   key: pass-b64
+          {{- with .Values.mcp.job.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
             runAsGroup: 1000
@@ -197,6 +202,7 @@ spec:
           {{- end }}
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
             runAsGroup: 1000

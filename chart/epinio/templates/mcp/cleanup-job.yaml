@@ -14,8 +14,8 @@ metadata:
   name: epinio-mcp-cleanup
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "epinio.labels" . | nindent 4 }}
     app.kubernetes.io/name: epinio-mcp-cleanup
+    app.kubernetes.io/instance: {{ .Release.Name }}
   annotations:
     "helm.sh/hook": pre-delete
     "helm.sh/hook-weight": "-4"
@@ -27,8 +27,8 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "epinio.labels" . | nindent 8 }}
         app.kubernetes.io/name: epinio-mcp-cleanup
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       restartPolicy: Never
       automountServiceAccountToken: false
@@ -77,8 +77,13 @@ spec:
                   name: epinio-mcp-install
                   key: pass-b64
                   optional: true
+          {{- with .Values.mcp.job.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
             runAsGroup: 1000
