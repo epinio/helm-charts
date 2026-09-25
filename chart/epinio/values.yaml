@@ -489,3 +489,37 @@ rancher:
   # The uri comes from global.cattle.url (provided by rancher), or if that's missing this value (rancher.url)
   # This supersedes server.accessControlAllowOrigin
   url: ""
+
+# Grafana Cloud observability (Alloy → Loki logs + Prometheus metrics).
+# Same pattern as telemetry.enabled — short flat values, no nested destinations.*.
+#
+# Example:
+#   helm upgrade --install epinio ... \
+#     --set observability.enabled=true \
+#     --set observability.clusterName=my-cluster \
+#     --set-string observability.grafanaCloud.token=glc_... \
+#     --set observability.grafanaCloud.lokiUrl=https://logs-.../loki/api/v1/push \
+#     --set-string observability.grafanaCloud.lokiUsername=LOKI_USER \
+#     --set observability.grafanaCloud.prometheusUrl=https://prometheus-.../api/prom/push \
+#     --set-string observability.grafanaCloud.prometheusUsername=PROM_USER
+# Prefer --set-string for lokiUsername / prometheusUsername (avoids YAML float / scientific notation).
+observability:
+  # Master switch — deploys Alloy with this Epinio release.
+  enabled: false
+
+  clusterName: ""
+
+  serverMetrics:
+    # prometheus.io scrape annotations on epinio-server (also on when enabled=true).
+    enabled: false
+
+  grafanaCloud:
+    token: ""
+    existingSecret: ""
+    lokiUrl: ""
+    lokiUsername: ""
+    prometheusUrl: ""
+    prometheusUsername: ""
+
+  podLogs: true
+  clusterMetrics: true
