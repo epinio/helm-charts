@@ -22,15 +22,15 @@ image:
   epinio:
     registry: ghcr.io/
     repository: epinio/epinio-server
-    tag: v1.14.1
+    tag: v1.14.2
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.14.1
+    tag: v1.14.2
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
-    tag: v1.14.1
+    tag: v1.14.2
   awscli:
     repository: amazon/aws-cli
     tag: 2.13.26
@@ -52,6 +52,13 @@ image:
     # the builder image (and in supporting scripts).
     userid: 1001
     groupid: 1000
+  dockerfileBuilder:
+    # Built from epinio/kaniko (fork of chainguard-forks/kaniko), like Dex.
+    # Keep the -debug tag: the dockerfile-build stage script needs a shell.
+    # Track version bumps with Dex during release dependency updates.
+    registry: ghcr.io/
+    repository: epinio/kaniko
+    tag: v1.25.19-debug
 appChart:
   default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.26/epinio-application-0.1.26.tgz
   gatewayAPI: https://github.com/epinio/helm-charts/releases/download/epinio-application-gateway-api-0.1.26/epinio-application-gateway-api-0.1.26.tgz
@@ -66,8 +73,6 @@ server:
   # The ingressClassName is used to select the ingress controller for apps.
   # If empty ingress.ingressClassName (see below) is used
   ingressClassName: ""
-  # Disable tracking of the Epinio and Kubernetes cluster version
-  disableTracking: false
   # How this Epinio instance was installed: "helm" (default) or "cli".
   # Persisted in the epinio-instance ConfigMap and not overwritten on upgrade
   # when the ConfigMap already exists.
@@ -144,9 +149,7 @@ server:
     # targetMemoryUtilizationPercentage: 80
 # Daily fleet telemetry: a CronJob calls an internal epinio-server endpoint
 # which collects Epinio version, Kubernetes version, and app/namespace/service
-# counts, then pushes them to Grafana Cloud over OTLP. This is separate from
-# server.disableTracking above, which controls the upgrade-responder version
-# check-in (a different destination and a different, unrelated feature).
+# counts, then pushes them to Grafana Cloud over OTLP.
 telemetry:
   # Master switch. Also controls whether the CronJob and its Secrets are
   # deployed at all.

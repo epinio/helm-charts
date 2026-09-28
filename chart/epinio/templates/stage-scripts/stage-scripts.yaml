@@ -19,6 +19,7 @@ data:
     CNB_PLATFORM_API: "0.11"
   downloadImage: "{{ default .Values.image.awscli.registry (include "registry-url" .) }}{{ .Values.image.awscli.repository}}:{{ .Values.image.awscli.tag }}"
   unpackImage:   "{{ default .Values.image.bash.registry (include "registry-url" .) }}{{ .Values.image.bash.repository}}:{{ default .Chart.AppVersion .Values.image.bash.tag }}"
+  dockerfileBuildImage: "{{ default .Values.image.dockerfileBuilder.registry (include "registry-url" .) }}{{ .Values.image.dockerfileBuilder.repository }}:{{ .Values.image.dockerfileBuilder.tag }}"
   download: |-
     # Parameters
     # - PROTOCOL # s3 protocol
@@ -123,3 +124,48 @@ data:
       "-previous-image=${PREIMAGE}" \
       "${APPIMAGE}"
       echo _ _ __ ___ _____ Done
+  dockerfile-build: |-
+    # Parameters
+    # - APPIMAGE        # url of application image
+    # - DOCKERFILE_PATH # path to Dockerfile within /workspace/source/app
+    #
+    # ATTENTION: The `curl localhost:4191` command is used to stop the linkerd proxy
+    # container gracefully. We use `|| true` in case linkerd is not deployed.
+    set -e
+    trap "wget -q -O - --post-data='' http://localhost:4191/shutdown 2> /dev/null || true" EXIT
+    echo By _ _ __ ___ _____ $(whoami),$(id -u)/$(id -g) $(pwd)
+    if test ! -d "/workspace/source/app" || [ -z "$(ls -A /workspace/source/app)" ]; then
+      echo Nothing to build
+      sleep 60
+      exit 1
+    fi
+    DOCKERFILE="${DOCKERFILE_PATH:-Dockerfile}"
+    if test ! -f "/workspace/source/app/${DOCKERFILE}" ; then
+      echo "Dockerfile not found: ${DOCKERFILE}"
+      exit 1
+    fi
+    mkdir -p /kaniko/.docker /workspace/cache
+    cp /home/cnb/.docker/config.json /kaniko/.docker/config.json
+    REGISTRY="$(echo "${APPIMAGE}" | cut -d/ -f1)"
+    # Pass the app environment as build args, mirroring what buildpack staging
+    # makes available at build time. The env files live outside the build
+    # context on purpose: a Dockerfile only receives a value if it declares a
+    # matching `ARG`, and Kaniko ignores the rest. Kaniko does not record build
+    # arg values in image history (kaniko#1327), unlike `docker build`.
+    # Do not echo "$@" or enable `set -x` here: that would put values in the
+    # staging log.
+    set --
+    for path in /workspace/source/env/* ; do
+      test -f "${path}" || continue
+      set -- "$@" --build-arg "$(basename "${path}")=$(cat "${path}")"
+    done
+    /kaniko/executor \
+      "$@" \
+      --cache=true \
+      --cache-dir=/workspace/cache \
+      --cache-copy-layers=true \
+      --context=/workspace/source/app \
+      --dockerfile="/workspace/source/app/${DOCKERFILE}" \
+      --destination="${APPIMAGE}" \
+      --skip-tls-verify-registry="${REGISTRY}"
+    echo _ _ __ ___ _____ Done

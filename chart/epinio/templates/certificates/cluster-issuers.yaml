@@ -40,7 +40,7 @@ spec:
           {{- end }}
           ingressTemplate:
             metadata:
-              annotations:
+              annotations: {}
 
 {{- else if eq .Values.global.tlsIssuer "letsencrypt-staging" }}
 ---
@@ -63,7 +63,7 @@ spec:
           {{- end }}
           ingressTemplate:
             metadata:
-              annotations:
+              annotations: {}
 
 {{- end }}
 {{- end }}

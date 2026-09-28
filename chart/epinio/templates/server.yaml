@@ -326,10 +326,6 @@ spec:
             - name: APP_IMAGE_EXPORTER
               value: "{{ default $imageSkopeo.registry (include "registry-url" .) }}{{ $imageSkopeo.repository}}:{{ $imageSkopeo.tag }}"
             {{- end }}
-            {{- if .Values.server.disableTracking }}
-            - name: DISABLE_TRACKING
-              value: "true"
-            {{- end }}
             - name: INSTALL_METHOD
               value: "{{ .Values.server.installMethod | default "helm" }}"
             - name: TELEMETRY_ENABLED
