@@ -63,6 +63,11 @@ spec:
                 - build
                 - deployed
                 type: string
+              builtimageurl:
+                description: BuiltImageURL stores the image reference produced by
+                  the last build (stage). It differs from ImageURL, which is the
+                  image of the currently deployed application.
+                type: string
               dockerfilepath:
                 description: Path to the Dockerfile used when buildmode is dockerfile.
                 type: string
