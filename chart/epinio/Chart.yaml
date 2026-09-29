@@ -9,7 +9,7 @@ dependencies:
   repository: https://charts.dexidp.io
   tags:
   - dex
-  version: 0.25.1
+  version: 0.25.2
 - condition: seaweedfs.enabled, global.seaweedfs.enabled
   name: seaweedfs
   repository: https://seaweedfs.github.io/seaweedfs/helm
