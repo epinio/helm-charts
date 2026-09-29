@@ -316,3 +316,14 @@ Return the configured Issuer URL for Dex
  {{- printf "https://%s" (include "epinio-dex-hostname" .) -}}
 {{- end -}}
 {{- end }}
+
+{{/*
+Renders the `helmRepo` line of an AppChart. Nothing is emitted when the chart
+reference is a direct URL, or when no OCI repo is configured.
+Usage: {{ include "epinio.appChartRepo" (dict "chart" .Values.appChart.default "repo" .Values.appChart.repo) }}
+*/}}
+{{- define "epinio.appChartRepo" -}}
+{{- if and .repo (not (hasPrefix "http://" .chart)) (not (hasPrefix "https://" .chart)) -}}
+helmRepo: {{ .repo | quote }}
+{{- end -}}
+{{- end -}}

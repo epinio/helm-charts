@@ -42,3 +42,40 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_SKIP_EXISTING: true
+
+  # Publish the application charts as OCI artifacts, so that Epinio can reference
+  # them as `oci://ghcr.io/<owner>/charts/<chart>` (see `appChart.repo` in the
+  # epinio chart). Runs with a newer helm than the job above, as OCI push needs >= 3.8.
+  publish-oci:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Helm
+        uses: azure/setup-helm@v5
+        with:
+          version: v3.16.4
+
+      - name: Login to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io \
+            --username "${{ github.actor }}" --password-stdin
+
+      - name: Package and push application charts
+        run: |
+          registry="oci://ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/charts"
+          for dir in chart/application chart/application-gateway-api chart/application-stateful; do
+            name=$(helm show chart "$dir" | awk '/^name:/ {print $2}')
+            version=$(helm show chart "$dir" | awk '/^version:/ {print $2}')
+            # Published versions are immutable: never overwrite an existing one.
+            if helm show chart "$registry/$name" --version "$version" >/dev/null 2>&1; then
+              echo "$name $version already published, skipping"
+              continue
+            fi
+            helm package "$dir" --destination /tmp/charts
+            helm push "/tmp/charts/$name-$version.tgz" "$registry"
+          done

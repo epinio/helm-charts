@@ -13,6 +13,9 @@ spec:
   shortDescription: Epinio standard deployment
   description: Epinio standard support chart for application deployment
   helmChart: {{ .Values.appChart.default | quote }}
+  {{- with (include "epinio.appChartRepo" (dict "chart" .Values.appChart.default "repo" .Values.appChart.repo)) }}
+  {{ . }}
+  {{- end }}
   settings:
     appListeningPort:
       type: 'integer'
