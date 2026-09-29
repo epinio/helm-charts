@@ -13,6 +13,9 @@ spec:
   shortDescription: Epinio deployment leveraging Gateway API
   description: Epinio Gateway API support chart for application deployment
   helmChart: {{ .Values.appChart.gatewayAPI | quote }}
+  {{- with (include "epinio.appChartRepo" (dict "chart" .Values.appChart.gatewayAPI "repo" .Values.appChart.repo)) }}
+  {{ . }}
+  {{- end }}
   settings:
     httpsRedirect:
       type: 'bool'
