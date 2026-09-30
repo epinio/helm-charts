@@ -12,11 +12,11 @@ spec:
   replicas: {{ .Values.epinio.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Values.epinio.appName }}
+      app.kubernetes.io/name: {{ .Values.epinio.appName | quote }}
   template:
     metadata:
       annotations:
-        app.kubernetes.io/name: {{ .Values.epinio.appName }}
+        app.kubernetes.io/name: {{ .Values.epinio.appName | quote }}
         {{- include "epinio-application.annotations" . | nindent 8 }}
         {{- with .Values.epinio.start }}
         epinio.io/start: {{ . | quote }}
@@ -46,9 +46,9 @@ spec:
         volumeMounts:
         - name: stateful
           mountPath: /mnt/state
-        {{- range .Values.epinio.configurations }}
-        - mountPath: /configurations/{{ . }}
-          name: {{ . }}
+        {{- range .Values.epinio.configpaths }}
+        - mountPath: /configurations/{{ .path }}
+          name: {{ .name }}
           readOnly: true
         {{- end }}
         env:
