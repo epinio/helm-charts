@@ -8,7 +8,7 @@ metadata:
   labels:
     {{- include "epinio-application.labels" . | nindent 4 }}
   name: {{ include "epinio-truncate" .Values.epinio.appName }}
-  namespace:  {{ .Release.Namespace }}
+  namespace:  {{ .Release.Namespace | quote }}
 spec:
   ports:
     - port: 8080
@@ -28,7 +28,7 @@ metadata:
   labels:
     {{- include "epinio-application.labels" . | nindent 4 }}
   name: {{ include "epinio-truncate" (print .Values.epinio.appName "-headless" )}}
-  namespace:  {{ .Release.Namespace }}
+  namespace:  {{ .Release.Namespace | quote }}
 spec:
   ports:
     - port: 8080
