@@ -1,0 +1,41 @@
+{{- /*
+  Persistent Epinio instance metadata.
+  Reuses an existing ConfigMap id/installMethod across upgrades (lookup).
+  Generates a new UUID only when the ConfigMap (or its id) is missing.
+
+  If a ConfigMap already exists but is not owned by this Helm release
+  (e.g. created by the server on upgrade-from-old), do not emit it in the
+  manifest — that would fail with "exists and cannot be imported".
+*/ -}}
+{{- $cm := (lookup "v1" "ConfigMap" .Release.Namespace "epinio-instance") -}}
+{{- $managed := false -}}
+{{- if and $cm $cm.metadata $cm.metadata.annotations }}
+  {{- if eq (index $cm.metadata.annotations "meta.helm.sh/release-name") .Release.Name }}
+    {{- $managed = true -}}
+  {{- end }}
+{{- end }}
+{{- $id := "" -}}
+{{- $method := (.Values.server.installMethod | default "helm") | toString -}}
+{{- if and $cm $cm.data }}
+  {{- $id = (index $cm.data "id" | default "") -}}
+  {{- if index $cm.data "installMethod" }}
+    {{- $method = index $cm.data "installMethod" -}}
+  {{- end }}
+{{- end }}
+{{- if not $id }}
+  {{- $id = uuidv4 -}}
+{{- end }}
+{{- if or (not $cm) $managed }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: epinio-instance
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "epinio.labels" . | nindent 4 }}
+    epinio.io/instance-metadata: "true"
+data:
+  id: {{ $id | quote }}
+  installMethod: {{ $method | quote }}
+{{- end }}
