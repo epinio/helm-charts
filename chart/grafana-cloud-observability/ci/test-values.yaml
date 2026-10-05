@@ -1,0 +1,10 @@
+# CI / helm lint overlay
+clusterName: ci-test
+grafanaCloud:
+  token: ci-test-token
+  lokiUrl: https://loki.example.com/loki/api/v1/push
+  lokiUsername: "1"
+  prometheusUrl: https://prom.example.com/api/prom/push
+  prometheusUsername: "1"
+podLogs: true
+clusterMetrics: true

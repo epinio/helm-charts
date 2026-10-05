@@ -1,0 +1,21 @@
+{{- if and .Values.grafanaCloud.token .Values.grafanaCloud.existingSecret }}
+{{- fail "grafanaCloud.token and grafanaCloud.existingSecret are mutually exclusive" }}
+{{- end }}
+{{- if not .Values.clusterName }}
+{{- fail "clusterName is required (observability.clusterName)" }}
+{{- end }}
+{{- if and (not .Values.grafanaCloud.token) (not .Values.grafanaCloud.existingSecret) }}
+{{- fail "grafanaCloud.token (or existingSecret) is required" }}
+{{- end }}
+{{- if not .Values.grafanaCloud.lokiUrl }}
+{{- fail "grafanaCloud.lokiUrl is required" }}
+{{- end }}
+{{- if not .Values.grafanaCloud.lokiUsername }}
+{{- fail "grafanaCloud.lokiUsername is required" }}
+{{- end }}
+{{- if not .Values.grafanaCloud.prometheusUrl }}
+{{- fail "grafanaCloud.prometheusUrl is required" }}
+{{- end }}
+{{- if not .Values.grafanaCloud.prometheusUsername }}
+{{- fail "grafanaCloud.prometheusUsername is required" }}
+{{- end }}
