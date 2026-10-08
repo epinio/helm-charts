@@ -85,6 +85,11 @@ stringData:
 {{- with .Values.dex.extraStaticClients }}
 {{ toYaml . | indent 4 }}
 {{- end }}
+{{- with .Values.dex.connectors }}
+
+    connectors:
+{{ toYaml . | indent 4 }}
+{{- end }}
 ---
 apiVersion: v1
 kind: Secret

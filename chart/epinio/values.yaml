@@ -285,6 +285,11 @@ dex:
   # API with its users' tokens needs its client listed here, for example
   # [epinio-appsmith].
   apiTrustedPeers: []
+  # Dex connectors (upstream identity providers), for example an oidc
+  # connector for Rancher. Keep secrets out of values: Dex expands $VARS in
+  # its config, so set clientSecret: $SOME_VAR and supply the variable with
+  # dex.envFrom from a Secret.
+  connectors: []
   service:
     # -- Annotations to be added to the Epinio service.
     annotations: {}
