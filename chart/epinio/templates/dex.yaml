@@ -60,6 +60,9 @@ stringData:
 {{- if $rancherUrl }}
       - rancher-dashboard
 {{- end }}
+{{- range .Values.dex.apiTrustedPeers }}
+      - {{ . | quote }}
+{{- end }}
 
     - id: epinio-cli
       name: 'Epinio cli'

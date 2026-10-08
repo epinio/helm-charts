@@ -280,6 +280,11 @@ dex:
   # Dex reads its config only at startup: change dex.podAnnotations as well to
   # roll Dex when this list changes.
   extraStaticClients: []
+  # Extra Dex clients the Epinio API trusts to request tokens on its behalf
+  # (scope audience:server:client_id:epinio-api). An app that calls the Epinio
+  # API with its users' tokens needs its client listed here, for example
+  # [epinio-appsmith].
+  apiTrustedPeers: []
   service:
     # -- Annotations to be added to the Epinio service.
     annotations: {}
