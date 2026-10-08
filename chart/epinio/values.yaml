@@ -290,6 +290,14 @@ dex:
   # its config, so set clientSecret: $SOME_VAR and supply the variable with
   # dex.envFrom from a Secret.
   connectors: []
+  # Epinio roles for users who sign in through a connector, by the groups in
+  # their token. Read by the Epinio server from dex-config's rolesMapping key.
+  # Without a match a connector user gets only the default `user` role.
+  # - connectorId: rancher
+  #   groups:
+  #     - id: "github_team://1234567"
+  #       roles: [admin]
+  rolesMapping: []
   service:
     # -- Annotations to be added to the Epinio service.
     annotations: {}
