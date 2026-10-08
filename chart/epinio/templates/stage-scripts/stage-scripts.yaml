@@ -91,10 +91,11 @@ data:
     # - BP general: https://github.com/buildpacks/spec/blob/main/platform.md
     # - Env setup.: https://github.com/buildpacks/spec/blob/main/platform.md#user-provided-variables
     # Parameters
-    # - PREIMAGE # url of previous image
-    # - APPIMAGE # url of application image
-    # - USERID   # id of the `cnb` user
-    # - GROUPID  # id of the primary group linked to the `cnb` user
+    # - PREIMAGE     # url of previous image
+    # - APPIMAGE     # url of application image
+    # - USERID       # id of the `cnb` user
+    # - GROUPID      # id of the primary group linked to the `cnb` user
+    # - SOURCE_PATH  # optional subdirectory within /workspace/source/app used as buildpack root
     #
     # ATTENTION: The `curl localhost:4191` command is used to stop the linkerd proxy
     # container gracefully. We use `|| true` in case linkerd is not deployed.  Further, it
@@ -110,10 +111,19 @@ data:
       sleep 60 # linkerd is a pain - If we exit to quickly, with the sidecar not ready our curl to shut it down does nothing, and then the sidecar comes up and prevents the pod from ending
       exit 1
     fi
+    APP_DIR="/workspace/source/app"
+    if test -n "${SOURCE_PATH}" ; then
+      APP_DIR="/workspace/source/app/${SOURCE_PATH}"
+    fi
+    if test ! -d "${APP_DIR}" || [ -z "$(ls -A "${APP_DIR}")" ]; then
+      echo "Buildpack source root not found: ${SOURCE_PATH:-.}"
+      sleep 60
+      exit 1
+    fi
     find /workspace
     for path in $(ls /workspace/source/env/* 2>/dev/null) ; do export "$(basename "${path}")"="$(cat "${path}")" ; done
     /cnb/lifecycle/creator \
-      -app=/workspace/source/app \
+      -app="${APP_DIR}" \
       -cache-dir=/workspace/cache \
       -uid=${USERID} \
       -gid=${GROUPID} \

@@ -58,6 +58,10 @@ spec:
               dockerfilepath:
                 description: Path to the Dockerfile used when buildmode is dockerfile.
                 type: string
+              sourcepath:
+                description: Subdirectory within application sources used as the
+                  buildpack app root (for monorepos). Empty means the sources root.
+                type: string
               chartname:
                 description: ChartName stores the name of the application support
                   chart used to deploy the currently running application. This is
