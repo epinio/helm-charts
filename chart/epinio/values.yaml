@@ -270,6 +270,16 @@ dex:
     secret: ""
     # Defaults to https://epinio.{{ .Values.global.domain }}/auth/verify/
     redirectURI: ""
+  # Extra Dex static clients, added after the built-in ones. Use for apps that
+  # log users in through Epinio's Dex, for example:
+  # - id: epinio-appsmith
+  #   name: 'Epinio Appsmith'
+  #   public: true
+  #   redirectURIs:
+  #   - "https://appsmith.example.com/auth/callback"
+  # Dex reads its config only at startup: change dex.podAnnotations as well to
+  # roll Dex when this list changes.
+  extraStaticClients: []
   service:
     # -- Annotations to be added to the Epinio service.
     annotations: {}

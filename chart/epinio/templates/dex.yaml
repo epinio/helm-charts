@@ -79,6 +79,9 @@ stringData:
       redirectURIs:
       - "{{ $rancherUrl }}/dashboard/epinio/auth/verify/"
 {{- end }}
+{{- with .Values.dex.extraStaticClients }}
+{{ toYaml . | indent 4 }}
+{{- end }}
 ---
 apiVersion: v1
 kind: Secret
