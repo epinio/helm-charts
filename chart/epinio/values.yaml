@@ -288,6 +288,50 @@ dex:
     # to point the Dex deployment at the Secret Epinio renders.
     create: false
     name: "dex-config"
+  # The settings below are rendered into the dex-config Secret, so they
+  # survive upgrades. Edits made to that Secret by hand do not. Dex reads its
+  # config only at startup: after changing any of these, restart it with
+  # `kubectl -n <namespace> rollout restart deployment/dex`.
+  #
+  # Dex expands $VAR in connector config. Keep client secrets out of values by
+  # referencing an env var and feeding it from a Secret through `envVars`:
+  #   connectors:
+  #   - type: github
+  #     id: github
+  #     name: GitHub
+  #     config:
+  #       clientID: <client-id>
+  #       clientSecret: $GITHUB_CLIENT_SECRET
+  #       redirectURI: https://auth.example.com/callback
+  #   envVars:
+  #   - name: GITHUB_CLIENT_SECRET
+  #     valueFrom:
+  #       secretKeyRef:
+  #         name: dex-github
+  #         key: clientSecret
+  #
+  # -- Dex connectors. See https://dexidp.io/docs/connectors/
+  connectors: []
+  # -- Maps connector groups to Epinio roles. Read by the Epinio server, not
+  # by Dex, so changes apply without a Dex restart.
+  #   - connectorId: github
+  #     groups:
+  #     - id: my-org:admins
+  #       roles:
+  #       - admin
+  rolesMapping: []
+  # -- Enables Dex's local password database (static and stored users).
+  enablePasswordDB: true
+  # -- Local users. null keeps the default admin@epinio.io and
+  # epinio@epinio.io users; [] removes them.
+  staticPasswords: null
+  # -- Static clients added after Epinio's own (epinio-api, epinio-cli,
+  # epinio-ui and, with a Rancher URL, rancher-dashboard).
+  additionalStaticClients: []
+  # -- Other top-level Dex settings, such as expiry, logger or frontend.
+  # Keys the chart renders itself are rejected: web, issuer, storage, oauth2,
+  # enablePasswordDB, staticPasswords, staticClients and connectors.
+  extraConfig: {}
   ui:
     # secret should be supplied by dex automatically, this is just a fall back
     secret: ""
