@@ -392,6 +392,47 @@
         "enabled": {
           "type": "boolean"
         },
+        "podSecurityContext": {
+          "type": "object",
+          "properties": {
+            "fsGroup": {
+              "type": "integer",
+              "default": 1000
+            },
+            "fsGroupChangePolicy": {
+              "type": "string",
+              "default": "OnRootMismatch"
+            }
+          }
+        },
+        "storage": {
+          "type": "object",
+          "properties": {
+            "emptyDir": {
+              "type": "boolean",
+              "default": true
+            },
+            "size": {
+              "type": "string",
+              "default": "1Gi"
+            },
+            "storageClassName": {
+              "type": "string",
+              "default": ""
+            },
+            "volumeMode": {
+              "type": "string",
+              "default": "Filesystem"
+            },
+            "accessModes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": ["ReadWriteOnce"]
+            }
+          }
+        },
         "image": {
           "type": "object",
           "properties": {

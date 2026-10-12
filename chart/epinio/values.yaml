@@ -399,6 +399,11 @@ containerregistry:
   # The certificate has to be in PEM format within in a 'tls.crt' key (it can be an Opaque secret).
   # It also has to be trusted by the kubelet, and it needs to be added in the cluster as well.
   certificateSecret: ""
+  # The podSecurityContext is used to set the security context of the registry 
+  # pod. It is recommended to set it to a non-root user and group.
+  podSecurityContext:
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
   # Configure PVC or EmptyDir values for container registry storage
   storage:
     # If set to false, the values below will be used or defaulted
