@@ -24,7 +24,7 @@ stringData:
     web:
       allowedOrigins: ['{{ $rancherUrl }}']
 {{- end }}
-    issuer: auth.{{ .Values.global.domain }}
+    issuer: {{ include "epinio-dex-issuer" . }}
     storage:
       type: kubernetes
       config:

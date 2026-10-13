@@ -186,6 +186,9 @@ ingress:
   nginxSSLRedirect: "true"
 
 gateway:
+  # Dex is always an Ingress and follows ingress.tls.enabled. For external
+  # TLS in Gateway API mode, set gateway.tls.enabled and ingress.tls.enabled
+  # to false.
   enabled: false
   # Hostname for your Gateway resources.  If not supplied, it will fallback to epinio.<<.Values.global.domain>> and auth.<<.Values.global.domain>> respectively
   hostnameOverride: ""
