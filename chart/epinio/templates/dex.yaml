@@ -83,6 +83,11 @@ stringData:
 {{- if $rancherUrl }}
       - rancher-dashboard
 {{- end }}
+{{- with .Values.dex.apiTrustedPeers }}
+      {{- range . }}
+      - {{ . | quote }}
+      {{- end }}
+{{- end }}
 
     - id: epinio-cli
       name: 'Epinio cli'
@@ -102,7 +107,7 @@ stringData:
       redirectURIs:
       - "{{ $rancherUrl }}/dashboard/epinio/auth/verify/"
 {{- end }}
-{{- with .Values.dex.additionalStaticClients }}
+{{- with .Values.dex.extratStaticClients }}
 {{- toYaml . | nindent 4 }}
 {{- end }}
 {{- end }}

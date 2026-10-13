@@ -327,11 +327,15 @@ dex:
   staticPasswords: null
   # -- Static clients added after Epinio's own (epinio-api, epinio-cli,
   # epinio-ui and, with a Rancher URL, rancher-dashboard).
-  additionalStaticClients: []
+  extraStaticClients: []
   # -- Other top-level Dex settings, such as expiry, logger or frontend.
   # Keys the chart renders itself are rejected: web, issuer, storage, oauth2,
   # enablePasswordDB, staticPasswords, staticClients and connectors.
   extraConfig: {}
+  # -- Static client IDs the Epinio API trusts to request tokens for it (scope
+  # audience:server:client_id:epinio-api), for example an app that calls the
+  # API as its users.
+  apiTrustedPeers: []
   ui:
     # secret should be supplied by dex automatically, this is just a fall back
     secret: ""
