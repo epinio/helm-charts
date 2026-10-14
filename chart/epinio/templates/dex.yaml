@@ -12,8 +12,8 @@
 {{- range $key, $_ := .Values.dex.extraConfig -}}
 {{- if has $key $reservedKeys -}}
 {{- fail (printf "%s %s"
-      (printf "dex.extraConfig.%s is managed by the chart;" $key)
-      "use its dedicated dex.* value instead") -}}
+      (printf "dex.extraConfig.%s is managed by the chart" $key)
+      "and cannot be set in dex.extraConfig") -}}
 {{- end -}}
 {{- end -}}
 
@@ -107,7 +107,7 @@ stringData:
       redirectURIs:
       - "{{ $rancherUrl }}/dashboard/epinio/auth/verify/"
 {{- end }}
-{{- with .Values.dex.extratStaticClients }}
+{{- with .Values.dex.extraStaticClients }}
 {{- toYaml . | nindent 4 }}
 {{- end }}
 {{- end }}
