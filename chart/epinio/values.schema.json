@@ -75,6 +75,17 @@
         "ingressClassName": {
           "type": "string"
         },
+        "metrics": {
+          "type": "object",
+          "description": "Prometheus /metrics on a separate listener (not via Ingress). port 0 disables.",
+          "properties": {
+            "port": {
+              "type": "integer",
+              "default": 0,
+              "description": "Metrics listen port. 0 disables the endpoint."
+            }
+          }
+        },
         "stagingWorkloads": {
           "type": "object",
           "properties": {

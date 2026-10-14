@@ -71,6 +71,12 @@ server:
   # If empty ingress.ingressClassName (see below) is used
   ingressClassName: ""
 
+  # Prometheus /metrics on a separate listener (not exposed via Ingress).
+  # 0 disables the endpoint (default). Set e.g. 9100 for in-cluster scraping
+  # (Alloy/Prometheus via prometheus.io annotations on the pod).
+  metrics:
+    port: 0
+
   # Configure staging jobs performing builds and deployment
   stagingWorkloads:
     # Name of the Service Account used by the staging job
