@@ -55,8 +55,10 @@ spec:
         path: /
         pathType: Prefix
   {{- end }}
+  {{- if .Values.ingress.tls.enabled }}
   tls:
   - hosts:
     - {{ (include "epinio-ingress-hostname" .) | quote }}
     secretName: epinio-tls
+  {{- end }}
 {{- end }}
