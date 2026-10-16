@@ -1,0 +1,15 @@
+apiVersion: v2
+name: grafana-cloud-observability
+description: Grafana Cloud observability for Epinio (Alloy → Loki logs + Prometheus metrics via kube-state-metrics).
+type: application
+version: 0.1.1
+appVersion: "1.8.3"
+kubeVersion: '>=1.21-0'
+home: https://github.com/epinio/helm-charts
+sources:
+  - https://github.com/epinio/helm-charts
+  - https://github.com/grafana/alloy
+maintainers:
+  - name: SUSE
+    email: epinio@epinio.io
+# Self-contained Alloy manifests (flat values API). No nested k8s-monitoring --set paths.
