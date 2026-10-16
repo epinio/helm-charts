@@ -12,11 +12,11 @@ spec:
   replicas: {{ .Values.epinio.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ .Values.epinio.appName }}
+      app.kubernetes.io/name: {{ .Values.epinio.appName | quote }}
   template:
     metadata:
       annotations:
-        app.kubernetes.io/name: {{ .Values.epinio.appName }}
+        app.kubernetes.io/name: {{ .Values.epinio.appName | quote }}
         {{- include "epinio-application.annotations" . | nindent 8 }}
         {{- with .Values.epinio.start }}
         epinio.io/start: {{ . | quote }}
@@ -43,15 +43,13 @@ spec:
         ports:
         - containerPort: {{ include "epinio-app-listening-port" . }}
           protocol: TCP
-        {{- with .Values.epinio.configurations }}
         volumeMounts:
         - name: stateful
           mountPath: /mnt/state
-        {{- range . }}
-        - mountPath: /configurations/{{ . }}
-          name: {{ . }}
+        {{- range .Values.epinio.configpaths }}
+        - mountPath: /configurations/{{ .path }}
+          name: {{ .name }}
           readOnly: true
-        {{- end }}
         {{- end }}
         env:
         - name: PORT

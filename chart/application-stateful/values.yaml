@@ -13,11 +13,19 @@
 # routes             :: sequence (route)       :: routes (= domain+path+id) the app has to be reachable at
 # env                :: sequence (assignment)  :: app environment variables and values
 # configurations     :: sequence (string)      :: names of the configurations to import into the app
+# configpaths        :: sequence (config)      :: names and mount paths of the bound configurations
 # start              :: integer                :: time of deployment, nanoseconds
 # ingress            :: string                 :: ingress class name to use, if any
 # tlsIssuer          :: string                 :: name of cert issuer
 ##
 #  assignment :: map ('name' -> string, 'value' -> string)
+#  route      :: map ('id' -> string, 'domain' -> string, 'path' -> string)
+#  config     :: map ('name' -> string, 'path' -> string)
+#
+# The field 'configpaths' is a replacement and extension of field 'configurations', separating a
+# configuration's name from from its mounting path in the application container. This allows for
+# using a more human-readable path. The server fills both fields so that old(er) charts can still
+# work, even if they are unable to take advantage of the nicer paths of the extension.
 
 # The `start` element can be used to force a restart of specific resources with each
 # re-deployment. This standard chart uses it in a pod template annotation, forcing pod

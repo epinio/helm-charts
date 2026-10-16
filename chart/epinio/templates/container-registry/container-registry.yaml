@@ -82,6 +82,10 @@ spec:
         app.kubernetes.io/name: "epinio-registry"
         app.kubernetes.io/instance: "epinio-registry"
     spec:
+      {{- with .Values.containerregistry.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: nginx
         image: "{{ template "registry-url" . }}{{ .Values.containerregistry.image.nginx.repository}}:{{ .Values.containerregistry.image.nginx.tag }}"
