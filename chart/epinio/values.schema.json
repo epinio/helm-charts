@@ -84,7 +84,7 @@
             },
             "ttlSecondsAfterFinished": {
               "type": "integer",
-              "default": 300
+              "default": 3600
             },
             "resources": {
               "type": "object",
