@@ -1,7 +1,7 @@
 dependencies:
 - name: dex
   repository: https://charts.dexidp.io
-  version: 0.15.2
+  version: 0.26.0
 - name: seaweedfs
   repository: https://seaweedfs.github.io/seaweedfs/helm
   version: 4.0.412
@@ -14,5 +14,5 @@ dependencies:
 - name: cert-manager
   repository: https://charts.jetstack.io
   version: v1.19.3
-digest: sha256:442b82351cbf77e501c0fbae7c56d6be9ac2c2ddca26b5af2bf3b02a0e937940
-generated: "2026-07-15T14:51:04.541998782-04:00"
+digest: sha256:eac23acb1f56322f60c8f769ee36865403a3343188a872b098c3ada4ad860e5a
+generated: "2026-10-16T15:13:02.348228295Z"
