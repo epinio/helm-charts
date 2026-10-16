@@ -1,0 +1,51 @@
+{{- if .Values.telemetry.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: epinio-telemetry
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "epinio.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.telemetry.schedule | quote }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels:
+            {{- include "epinio.selectorLabels" . | nindent 12 }}
+            app.kubernetes.io/component: epinio-telemetry
+        spec:
+          restartPolicy: OnFailure
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 3000
+          containers:
+            - name: epinio-telemetry
+              image: "{{ default .Values.image.curl.registry (include "registry-url" .) }}{{ .Values.image.curl.repository }}:{{ .Values.image.curl.tag }}"
+              imagePullPolicy: IfNotPresent
+              command:
+                - curl
+                - --silent
+                - --show-error
+                - --fail
+                - --request
+                - POST
+                - --header
+                - "X-Epinio-Telemetry-Token: $(TRIGGER_TOKEN)"
+                - "http://epinio-server.{{ .Release.Namespace }}.svc.cluster.local/api/v1/telemetry/publish"
+              env:
+                - name: TRIGGER_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: epinio-telemetry-trigger
+                      key: token
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+{{- end }}
