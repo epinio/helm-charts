@@ -56,10 +56,11 @@ spec:
                 description: Staging build mode used for the last build (buildpack or dockerfile).
                 type: string
               buildstatus:
-                description: BuildStatus reflects whether the last completed action
-                  on the application was a build (image staged but not deployed)
-                  or a deploy (image staged and deployed as a running workload).
+                description: BuildStatus stores the last completed lifecycle step
+                  of the application - create (resource only), build (staged image),
+                  or deployed (running workload).
                 enum:
+                - create
                 - build
                 - deployed
                 type: string
