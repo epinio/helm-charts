@@ -75,8 +75,8 @@ server:
   stagingWorkloads:
     # Name of the Service Account used by the staging job
     serviceAccountName: "epinio-server"
-    # Time to live for the deployed staging job
-    ttlSecondsAfterFinished: 300
+    # Time to live for finished staging jobs (and their logs)
+    ttlSecondsAfterFinished: 3600
     resources:
       requests:
         cpu: "200m"
