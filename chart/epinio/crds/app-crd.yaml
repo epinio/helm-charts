@@ -55,6 +55,20 @@ spec:
               buildmode:
                 description: Staging build mode used for the last build (buildpack or dockerfile).
                 type: string
+              buildstatus:
+                description: BuildStatus stores the last completed lifecycle step
+                  of the application - create (resource only), build (staged image),
+                  or deployed (running workload).
+                enum:
+                - create
+                - build
+                - deployed
+                type: string
+              builtimageurl:
+                description: BuiltImageURL stores the image reference produced by
+                  the last build (stage). It differs from ImageURL, which is the
+                  image of the currently deployed application.
+                type: string
               dockerfilepath:
                 description: Path to the Dockerfile used when buildmode is dockerfile.
                 type: string
