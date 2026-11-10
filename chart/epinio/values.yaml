@@ -75,8 +75,15 @@ server:
   stagingWorkloads:
     # Name of the Service Account used by the staging job
     serviceAccountName: "epinio-server"
-    # Time to live for the deployed staging job
-    ttlSecondsAfterFinished: 300
+    # Time to live for finished staging jobs (and their logs)
+    ttlSecondsAfterFinished: 3600
+    # Keep the logs of the latest finished staging run of each app in S3, so they
+    # remain available after the staging job is cleaned up. Older logs are removed
+    # and the stored logs are deleted together with the app.
+    persistLogs: false
+    # Maximum size in MB of the persisted staging logs. Longer logs keep their most
+    # recent lines and are marked as truncated.
+    persistLogsMaxSizeMB: 10
     resources:
       requests:
         cpu: "200m"
