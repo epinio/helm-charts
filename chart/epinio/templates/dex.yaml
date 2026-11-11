@@ -111,6 +111,11 @@ stringData:
 {{- toYaml . | nindent 4 }}
 {{- end }}
 {{- end }}
+{{- /* Matching Epinio API user for the default Dex static admin.
+     Only when staticPasswords is unset (null): that path still injects
+     admin@epinio.io into Dex. If the operator sets staticPasswords
+     (including []), they own local users — do not create this Secret. */}}
+{{- if not (kindIs "slice" .Values.dex.staticPasswords) }}
 ---
 apiVersion: v1
 kind: Secret
@@ -125,6 +130,7 @@ metadata:
 stringData:
   username: "admin@epinio.io"
   password: "$2a$10$2b2cU8CPhOTaGrs1HRQuAueS7JTT5ZHsHSzYiFPm1leZck7Mc8T4W"
+{{- end }}
 
 ---
 # TODO (Future):  Remove this custom resource and leverage Dex Helm chart values instead

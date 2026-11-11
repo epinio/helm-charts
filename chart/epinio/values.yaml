@@ -351,7 +351,8 @@ dex:
   # -- Enables Dex's local password database (static and stored users).
   enablePasswordDB: true
   # -- Local users. null keeps the default admin@epinio.io and
-  # epinio@epinio.io users; [] removes them.
+  # epinio@epinio.io Dex users and the matching Epinio API user Secret
+  # for admin@epinio.io; [] (or a custom list) removes those defaults.
   staticPasswords: null
   # -- Static clients added after Epinio's own (epinio-api, epinio-cli,
   # epinio-ui and, with a Rancher URL, rancher-dashboard).
