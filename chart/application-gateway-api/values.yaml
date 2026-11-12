@@ -18,6 +18,9 @@
 # ingress            :: string                 :: ingress class name to use, if any
 # gateway            :: string                 :: gateway class name to use, if any
 # tlsIssuer          :: string                 :: name of cert issuer
+# tls                :: boolean                :: render TLS Certificate / HTTPS listener cert
+#                                                  (default true). Set false when an external
+#                                                  ingress/proxy terminates TLS.
 ##
 #  assignment :: map ('name' -> string, 'value' -> string)
 #  route      :: map ('id' -> string, 'domain' -> string, 'path' -> string)
@@ -44,6 +47,9 @@ epinio:
   tlsIssuer: ~
   ingress: ~
   gateway: ~
+  # Whether Epinio renders per-route Certificate and HTTPS listener cert refs.
+  # Default true. Set false when an external ingress/proxy terminates TLS.
+  tls: true
   appName: placeholder
   # namespace: .Release.Namespace
   replicaCount: 1
