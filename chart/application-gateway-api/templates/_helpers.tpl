@@ -58,8 +58,12 @@ Application listening port
 
 
 {{/*
-Enable/disable Gateway API HTTPs Listener Redirect
+Enable/disable Gateway API HTTPS listener + redirect.
+Also requires epinio.tls (default true). When epinio.tls is false (external
+TLS termination), skip Certificate and HTTPS listener cert refs.
 */}}
 {{- define "epinio-enable-https-redirect" -}}
+{{- if ne .Values.epinio.tls false -}}
 {{- dig "httpsRedirect" false (.Values.userConfig | default dict) | ternary true false }}
+{{- end -}}
 {{- end }}

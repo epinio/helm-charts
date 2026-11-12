@@ -56,9 +56,9 @@ image:
     repository: epinio/kaniko
     tag: v1.25.19-debug
 appChart:
-  default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.26/epinio-application-0.1.26.tgz
-  gatewayAPI: https://github.com/epinio/helm-charts/releases/download/epinio-application-gateway-api-0.1.26/epinio-application-gateway-api-0.1.26.tgz
-  stateful: https://github.com/epinio/helm-charts/releases/download/epinio-application-stateful-0.1.24/epinio-application-stateful-0.1.24.tgz
+  default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.27/epinio-application-0.1.27.tgz
+  gatewayAPI: https://github.com/epinio/helm-charts/releases/download/epinio-application-gateway-api-0.1.27/epinio-application-gateway-api-0.1.27.tgz
+  stateful: https://github.com/epinio/helm-charts/releases/download/epinio-application-stateful-0.1.25/epinio-application-stateful-0.1.25.tgz
 server:
   # increase this value to increase all timeouts by the same factor
   timeoutMultiplier: 1
@@ -161,6 +161,9 @@ ingress:
   # secret, so the ingress controller serves its own/default certificate and
   # the hop after it is plain HTTP. cert-manager issuance for these public
   # hosts is skipped (no ACME/self-signed cert is minted for them).
+  #
+  # This value is also passed to the epinio-server as INGRESS_TLS so app charts
+  # receive epinio.tls and can skip per-app Certificate / ingress tls blocks.
   #
   # The internal registry/dex certificates are unaffected — they are still
   # issued via the epinio-ca PKI (see certManager.enabled), so nothing that
