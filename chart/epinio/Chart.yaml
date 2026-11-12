@@ -27,7 +27,7 @@ dependencies:
   repository: https://s3gw-tech.github.io/s3gw-charts
   tags:
   - s3gw
-  version: 0.14.0
+  version: 0.23.1
 - condition: certManager.install
   name: cert-manager
   repository: https://charts.jetstack.io

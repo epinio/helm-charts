@@ -10,9 +10,9 @@ dependencies:
   version: 10.0.77
 - name: s3gw
   repository: https://s3gw-tech.github.io/s3gw-charts
-  version: 0.14.0
+  version: 0.23.1
 - name: cert-manager
   repository: https://charts.jetstack.io
   version: v1.19.3
-digest: sha256:8234df87409e9d23e716264ebaeb3f4b215e03cc225700ad6640e454aaab557e
-generated: "2026-11-12T19:18:13.837724618Z"
+digest: sha256:75e4b5eb6c3f175c0be0ed4eecfcadddacfd77db53191d705e11cc502d99ace6
+generated: "2026-11-12T19:18:15.63717525Z"
