@@ -134,6 +134,41 @@ spec:
             type: object
           status:
             description: AppStatus defines the observed state of App
+            properties:
+              lastbuild:
+                description: LastBuild stores the outcome of the most recent build (stage).
+                properties:
+                  durationms:
+                    description: Duration of the build in milliseconds.
+                    type: integer
+                  finishedat:
+                    description: RFC3339 timestamp when the build finished.
+                    type: string
+                    format: date-time
+                  result:
+                    description: Result of the build (for example succeeded or failed).
+                    type: string
+                  stageid:
+                    description: Stage ID associated with the build.
+                    type: string
+                type: object
+              lastdeploy:
+                description: LastDeploy stores the outcome of the most recent deploy.
+                properties:
+                  durationms:
+                    description: Duration of the deploy in milliseconds.
+                    type: integer
+                  finishedat:
+                    description: RFC3339 timestamp when the deploy finished.
+                    type: string
+                    format: date-time
+                  result:
+                    description: Result of the deploy (for example succeeded or failed).
+                    type: string
+                  stageid:
+                    description: Stage ID associated with the deploy.
+                    type: string
+                type: object
             type: object
         type: object
     served: true
