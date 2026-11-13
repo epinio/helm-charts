@@ -490,6 +490,13 @@ containerregistry:
     # volumeMode: Filesystem
     # accessModes:
     # - ReadWriteOnce
+  # Deployment strategy for the registry.
+  # When unset: emptyDir keeps the Kubernetes default (RollingUpdate); a
+  # PersistentVolumeClaim defaults to type: Recreate so a ReadWriteOnce
+  # volume is released before the new pod starts (avoids a Multi-Attach
+  # stall; brief registry outage during the rollout).
+  # Set this to override, for example RollingUpdate when using ReadWriteMany.
+  strategy: {}
   resources: {}
   # requests:
   #   cpu: "200m"

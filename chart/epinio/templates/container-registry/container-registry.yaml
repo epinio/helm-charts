@@ -72,6 +72,15 @@ metadata:
     app.kubernetes.io/instance: "epinio-registry"
 spec:
   replicas: 1
+  {{- if .Values.containerregistry.strategy }}
+  strategy:
+    {{- toYaml .Values.containerregistry.strategy | nindent 4 }}
+  {{- else if not .Values.containerregistry.storage.emptyDir }}
+  # Recreate releases a ReadWriteOnce volume before the new pod starts.
+  # RollingUpdate can stall with Multi-Attach when the new pod is on another node.
+  strategy:
+    type: Recreate
+  {{- end }}
   selector:
     matchLabels:
       app.kubernetes.io/name: "epinio-registry"
