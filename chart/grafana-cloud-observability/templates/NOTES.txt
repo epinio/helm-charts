@@ -1,0 +1,22 @@
+Grafana Cloud observability (Alloy) installed in namespace {{ .Release.Namespace }}.
+
+Cluster label: {{ .Values.clusterName }}
+
+Verify:
+  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
+
+Components:
+  - Alloy DaemonSet (logs + scrapes)
+  {{- if .Values.clusterMetrics }}
+  - kube-state-metrics (kube_pod_* / Running Apps dashboards)
+  {{- end }}
+
+Loki (staging / build logs — container name depends on builder):
+  {namespace="epinio", container="dockerfile", cluster="{{ .Values.clusterName }}"}
+  {namespace="epinio", container="buildpack", cluster="{{ .Values.clusterName }}"}
+
+Loki (app logs):
+  {namespace="workspace", cluster="{{ .Values.clusterName }}"}
+
+Prometheus (Running Apps):
+  kube_pod_info{cluster="{{ .Values.clusterName }}", namespace="workspace"}

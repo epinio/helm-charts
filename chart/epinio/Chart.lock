@@ -14,5 +14,8 @@ dependencies:
 - name: cert-manager
   repository: https://charts.jetstack.io
   version: v1.19.3
-digest: sha256:442b82351cbf77e501c0fbae7c56d6be9ac2c2ddca26b5af2bf3b02a0e937940
-generated: "2026-07-15T14:51:04.541998782-04:00"
+- name: grafana-cloud-observability
+  repository: file://../grafana-cloud-observability
+  version: 0.1.1
+digest: sha256:52bc354e8ce249289bdfdb9f31b0cf4ae00d48a28703354dafbcecc12927fde5
+generated: "2026-09-25T09:42:00Z"

@@ -10,3 +10,15 @@ or go to the dashboard at: https://epinio.{{ .Values.global.domain }}
 If you didn't specify a password the default one is `password`.
 
 For more information about Epinio, feel free to checkout https://epinio.io/ and https://docs.epinio.io/.
+
+{{- if .Values.observability.enabled }}
+
+Grafana Cloud observability (Alloy) is enabled in this release namespace.
+  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/name=observability
+
+Loki (staging): {namespace="epinio", container="dockerfile"} or container="buildpack"
+{{- else }}
+
+Optional Grafana Cloud observability — set observability.enabled=true (see values.yaml),
+or install chart/grafana-cloud-observability separately.
+{{- end }}

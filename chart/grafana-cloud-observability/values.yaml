@@ -1,0 +1,49 @@
+## Flat config — same spirit as telemetry.* on the Epinio chart.
+##
+## Epinio (recommended):
+##   observability.enabled=true
+##   observability.clusterName=...
+##   observability.grafanaCloud.token=...
+##   observability.grafanaCloud.lokiUrl=...
+##   observability.grafanaCloud.lokiUsername=...
+##   observability.grafanaCloud.prometheusUrl=...
+##   observability.grafanaCloud.prometheusUsername=...
+
+clusterName: ""
+
+grafanaCloud:
+  token: ""
+  existingSecret: ""
+  lokiUrl: ""
+  lokiUsername: ""
+  prometheusUrl: ""
+  prometheusUsername: ""
+
+podLogs: true
+clusterMetrics: true
+
+kubeStateMetrics:
+  image:
+    repository: registry.k8s.io/kube-state-metrics/kube-state-metrics
+    tag: v2.13.0
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+image:
+  repository: grafana/alloy
+  tag: v1.8.3
+  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 2Gi
