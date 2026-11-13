@@ -255,9 +255,17 @@ spec:
   {{- end }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- $metricsPort := .Values.server.metrics.port | default 0 | int }}
+      {{- if or (gt $metricsPort 0) .Values.podAnnotations }}
       annotations:
+        {{- if gt $metricsPort 0 }}
+        prometheus.io/scrape: "true"
+        prometheus.io/port: {{ $metricsPort | quote }}
+        prometheus.io/path: "/metrics"
+        {{- end }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- end }}
       labels:
         app.kubernetes.io/component: epinio-server
@@ -298,7 +306,14 @@ spec:
       containers:
         - command: ["/epinio", "server"]
           name: epinio-server
-          args: ["--port", "{{ .Values.service.containerPort | default 8030 }}"]
+          {{- $metricsPort := .Values.server.metrics.port | default 0 | int }}
+          args:
+            - --port
+            - "{{ .Values.service.containerPort | default 8030 }}"
+            {{- if gt $metricsPort 0 }}
+            - --metrics-port
+            - "{{ $metricsPort }}"
+            {{- end }}
           env:
             - name: EPINIO_SETTINGS
               value: /tmp/settings.yaml
@@ -357,10 +372,16 @@ spec:
           {{- end }}
           image: "{{ default .Values.image.epinio.registry (include "registry-url" .) }}{{ .Values.image.epinio.repository }}:{{ default .Chart.AppVersion .Values.image.epinio.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- $metricsPort := .Values.server.metrics.port | default 0 | int }}
           ports:
             - name: http
               containerPort: {{ .Values.service.containerPort | default 8030 }}
               protocol: TCP
+            {{- if gt $metricsPort 0 }}
+            - name: metrics
+              containerPort: {{ $metricsPort }}
+              protocol: TCP
+            {{- end }}
           livenessProbe:
              httpGet:
               path: /ready
@@ -435,5 +456,13 @@ spec:
       port: {{ .Values.service.port | default 80 }}
       protocol: TCP
       targetPort: {{ .Values.service.containerPort | default 8030 }}
+    {{- $metricsPort := .Values.server.metrics.port | default 0 | int }}
+    {{- if gt $metricsPort 0 }}
+    # In-cluster scrape only; Ingress does not expose this port.
+    - name: metrics
+      port: {{ $metricsPort }}
+      protocol: TCP
+      targetPort: metrics
+    {{- end }}
   selector:
     app.kubernetes.io/name: epinio-server
