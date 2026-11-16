@@ -49,6 +49,7 @@ epinio:
   gateway: ~
   # Whether Epinio renders per-route Certificate and HTTPS listener cert refs.
   # Default true. Set false when an external ingress/proxy terminates TLS.
+  # When false, userConfig.httpsRedirect is also ignored (no HTTPS listener).
   tls: true
   appName: placeholder
   # namespace: .Release.Namespace

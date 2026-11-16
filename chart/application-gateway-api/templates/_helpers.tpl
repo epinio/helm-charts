@@ -58,9 +58,10 @@ Application listening port
 
 
 {{/*
-Enable/disable Gateway API HTTPS listener + redirect.
-Also requires epinio.tls (default true). When epinio.tls is false (external
-TLS termination), skip Certificate and HTTPS listener cert refs.
+Enable/disable Gateway API HTTPS listener, Certificate, and HTTP→HTTPS redirect.
+Requires userConfig.httpsRedirect AND epinio.tls (default true). When
+epinio.tls is false (external TLS termination), httpsRedirect is ignored and
+Certificate / HTTPS listener cert refs are skipped. Intended: no cert to attach.
 */}}
 {{- define "epinio-enable-https-redirect" -}}
 {{- if ne .Values.epinio.tls false -}}

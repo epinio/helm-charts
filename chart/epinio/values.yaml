@@ -155,8 +155,15 @@ ingress:
   # the hop after it is plain HTTP. cert-manager issuance for these public
   # hosts is skipped (no ACME/self-signed cert is minted for them).
   #
-  # This value is also passed to the epinio-server as INGRESS_TLS so app charts
-  # receive epinio.tls and can skip per-app Certificate / ingress tls blocks.
+  # This value is also passed to the epinio-server as INGRESS_TLS (flag
+  # ingress-tls) so app chart values get epinio.tls and can skip per-app
+  # Certificate / ingress `tls:` blocks. Same toggle, four names:
+  # ingress.tls.enabled → INGRESS_TLS / ingress-tls → EpinioParam.Tls → epinio.tls.
+  #
+  # When false, app charts also omit tls: for routes that had a user routing
+  # secret, and Traefik router.tls=true is kept so websecure can still present
+  # the edge/default cert (same pattern as Epinio's own ingresses). Redeploying
+  # apps after the app-chart version bump rolls pods (helm.sh/chart label).
   #
   # The internal registry/dex certificates are unaffected — they are still
   # issued via the epinio-ca PKI (see certManager.enabled), so nothing that
