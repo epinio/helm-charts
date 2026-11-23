@@ -56,12 +56,20 @@ spec:
                     Created to keep backward compatibility. Should also reduce misunderstandings
                     of what kind of settings are handled in a particular context.
                   properties:
+                    description:
+                      description: Optional help text shown to users configuring
+                        this setting
+                      type: string
                     enum:
                       description: Enumeration of allowed values, for types string,
                         number, integer
                       items:
                         type: string
                       type: array
+                    example:
+                      description: Optional sample value used as placeholder text
+                        in the UI
+                      type: string
                     maximum:
                       description: Maximal allowed value, for number, integer
                       type: string
