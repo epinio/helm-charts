@@ -18,6 +18,63 @@ entries:
       artifacthub.io/license: Apache-2.0
       artifacthub.io/prerelease: "false"
     apiVersion: v2
+    appVersion: v1.14.4-rc2
+    created: "2026-11-24T22:02:39.783944461Z"
+    dependencies:
+    - condition: global.dex.enabled
+      name: dex
+      repository: https://charts.dexidp.io
+      tags:
+      - dex
+      version: 0.15.2
+    - condition: seaweedfs.enabled, global.seaweedfs.enabled
+      name: seaweedfs
+      repository: https://seaweedfs.github.io/seaweedfs/helm
+      tags:
+      - seaweedfs
+      version: 4.0.412
+    - condition: reflector.enabled, global.reflector.enabled
+      name: reflector
+      repository: https://emberstack.github.io/helm-charts
+      tags:
+      - reflector
+      version: 10.0.58
+    - condition: s3gw.enabled, global.s3gw.enabled
+      name: s3gw
+      repository: https://s3gw-tech.github.io/s3gw-charts
+      tags:
+      - s3gw
+      version: 0.14.0
+    - condition: certManager.install
+      name: cert-manager
+      repository: https://charts.jetstack.io
+      tags:
+      - cert-manager
+      version: 1.19.3
+    description: Epinio deploys Kubernetes applications directly from source code
+      in one step.
+    digest: 5ab0be06687e5c7a04c0cec4ed3986fc69ed68de13967a1c38bece83dcd4be2a
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    kubeVersion: '>=1.21-0'
+    maintainers:
+    - email: epinio@krum.io
+      name: Krumware
+    - email: epinio@epinio.io
+      name: SUSE
+    name: epinio
+    sources:
+    - https://github.com/epinio/epinio
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-1.14.4-rc2/epinio-1.14.4-rc2.tgz
+    version: 1.14.4-rc2
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "false"
+    apiVersion: v2
     appVersion: v1.14.4-rc1
     created: "2026-11-13T16:18:18.639621224Z"
     dependencies:
@@ -5360,6 +5417,29 @@ entries:
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
+    created: "2026-11-24T22:02:39.981941065Z"
+    description: The helm chart for epinio applications to be deployed by
+    digest: d270951bd4d948f4a32eec6fd188678e46275e09189f2183ddef17c292b0a748
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: epinio@krum.io
+      name: Krumware
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio-application
+    sources:
+    - https://github.com/epinio/helm-charts
+    type: application
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.27/epinio-application-0.1.27.tgz
+    version: 0.1.27
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
     created: "2023-04-04T14:11:16.140462415Z"
     description: The helm chart for epinio applications to be deployed by
     digest: 82881f4ec51dc4bfb0ba8e61f1e81c7494dcbe8b9e66d8cbe7d3ecba6fa9f3df
@@ -5648,6 +5728,29 @@ entries:
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
+    created: "2026-11-24T22:02:40.155953341Z"
+    description: The helm chart for epinio applications to be deployed by
+    digest: 157fe8aae055bf414b28f68f85027d3d4563d7ee859af8d6b76370e805f2cddf
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: epinio@krum.io
+      name: Krumware
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio-application-gateway-api
+    sources:
+    - https://github.com/epinio/helm-charts
+    type: application
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-application-gateway-api-0.1.27/epinio-application-gateway-api-0.1.27.tgz
+    version: 0.1.27
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
     created: "2026-08-04T15:08:50.501360938Z"
     description: The helm chart for epinio applications to be deployed by
     digest: 831d188e14e120b0a036f8af753296c31d2925fc142498fcf16f90bdc2d03d23
@@ -5669,6 +5772,29 @@ entries:
     - https://github.com/epinio/helm-charts/releases/download/epinio-application-gateway-api-0.1.26/epinio-application-gateway-api-0.1.26.tgz
     version: 0.1.26
   epinio-application-stateful:
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+    apiVersion: v2
+    created: "2026-11-24T22:02:40.395141525Z"
+    description: The helm chart for epinio applications to be deployed by
+    digest: dfa2e7de4bf9ce169aa607e812778ac0ddfbab0a0c9c231cf0cd8bc1ddaeddc8
+    home: https://github.com/epinio/epinio
+    icon: https://raw.githubusercontent.com/epinio/helm-charts/main/assets/epinio.png
+    keywords:
+    - epinio
+    - paas
+    maintainers:
+    - email: epinio@krum.io
+      name: Krumware
+    - email: team@epinio.io
+      name: SUSE
+    name: epinio-application-stateful
+    sources:
+    - https://github.com/epinio/helm-charts
+    type: application
+    urls:
+    - https://github.com/epinio/helm-charts/releases/download/epinio-application-stateful-0.1.25/epinio-application-stateful-0.1.25.tgz
+    version: 0.1.25
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
@@ -6249,4 +6375,4 @@ entries:
     urls:
     - https://github.com/epinio/helm-charts/releases/download/upgrade-responder-v0.1.5/upgrade-responder-v0.1.5.tgz
     version: v0.1.5
-generated: "2026-11-13T16:18:18.640111092Z"
+generated: "2026-11-24T22:02:40.39576285Z"
