@@ -84,7 +84,16 @@
             },
             "ttlSecondsAfterFinished": {
               "type": "integer",
-              "default": 300
+              "default": 3600
+            },
+            "persistLogs": {
+              "type": "boolean",
+              "default": false
+            },
+            "persistLogsMaxSizeMB": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 10
             },
             "resources": {
               "type": "object",

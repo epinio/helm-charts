@@ -22,15 +22,15 @@ image:
   epinio:
     registry: ghcr.io/
     repository: epinio/epinio-server
-    tag: v1.14.3
+    tag: v1.14.4-rc2
   epinio-ui:
     registry: ghcr.io/
     repository: epinio/epinio-ui
-    tag: v1.14.3
+    tag: v1.14.4-rc2
   bash:
     registry: ghcr.io/
     repository: epinio/epinio-unpacker
-    tag: v1.14.3-rc1
+    tag: v1.14.4-rc2
   awscli:
     repository: amazon/aws-cli
     tag: 2.13.26
@@ -56,9 +56,9 @@ image:
     repository: epinio/kaniko
     tag: v1.25.19-debug
 appChart:
-  default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.26/epinio-application-0.1.26.tgz
-  gatewayAPI: https://github.com/epinio/helm-charts/releases/download/epinio-application-gateway-api-0.1.26/epinio-application-gateway-api-0.1.26.tgz
-  stateful: https://github.com/epinio/helm-charts/releases/download/epinio-application-stateful-0.1.24/epinio-application-stateful-0.1.24.tgz
+  default: https://github.com/epinio/helm-charts/releases/download/epinio-application-0.1.27/epinio-application-0.1.27.tgz
+  gatewayAPI: https://github.com/epinio/helm-charts/releases/download/epinio-application-gateway-api-0.1.27/epinio-application-gateway-api-0.1.27.tgz
+  stateful: https://github.com/epinio/helm-charts/releases/download/epinio-application-stateful-0.1.25/epinio-application-stateful-0.1.25.tgz
 server:
   # increase this value to increase all timeouts by the same factor
   timeoutMultiplier: 1
@@ -75,8 +75,15 @@ server:
   stagingWorkloads:
     # Name of the Service Account used by the staging job
     serviceAccountName: "epinio-server"
-    # Time to live for the deployed staging job
-    ttlSecondsAfterFinished: 300
+    # Time to live for finished staging jobs (and their logs)
+    ttlSecondsAfterFinished: 3600
+    # Keep the logs of the latest finished staging run of each app in S3, so they
+    # remain available after the staging job is cleaned up. Older logs are removed
+    # and the stored logs are deleted together with the app.
+    persistLogs: false
+    # Maximum size in MB of the persisted staging logs. Longer logs keep their most
+    # recent lines and are marked as truncated.
+    persistLogsMaxSizeMB: 10
     resources:
       requests:
         cpu: "200m"
@@ -154,6 +161,16 @@ ingress:
   # secret, so the ingress controller serves its own/default certificate and
   # the hop after it is plain HTTP. cert-manager issuance for these public
   # hosts is skipped (no ACME/self-signed cert is minted for them).
+  #
+  # This value is also passed to the epinio-server as INGRESS_TLS (flag
+  # ingress-tls) so app chart values get epinio.tls and can skip per-app
+  # Certificate / ingress `tls:` blocks. Same toggle, four names:
+  # ingress.tls.enabled → INGRESS_TLS / ingress-tls → EpinioParam.Tls → epinio.tls.
+  #
+  # When false, app charts also omit tls: for routes that had a user routing
+  # secret, and Traefik router.tls=true is kept so websecure can still present
+  # the edge/default cert (same pattern as Epinio's own ingresses). Redeploying
+  # apps after the app-chart version bump rolls pods (helm.sh/chart label).
   #
   # The internal registry/dex certificates are unaffected — they are still
   # issued via the epinio-ca PKI (see certManager.enabled), so nothing that
@@ -344,7 +361,8 @@ dex:
   # -- Enables Dex's local password database (static and stored users).
   enablePasswordDB: true
   # -- Local users. null keeps the default admin@epinio.io and
-  # epinio@epinio.io users; [] removes them.
+  # epinio@epinio.io Dex users and the matching Epinio API user Secret
+  # for admin@epinio.io; [] (or a custom list) removes those defaults.
   staticPasswords: null
   # -- Static clients added after Epinio's own (epinio-api, epinio-cli,
   # epinio-ui and, with a Rancher URL, rancher-dashboard).

@@ -348,6 +348,8 @@ spec:
             - name: INGRESS_CLASS_NAME
               value: "{{ .Values.ingress.ingressClassName }}"
             {{- end }}
+            - name: INGRESS_TLS
+              value: {{ .Values.ingress.tls.enabled | quote }}
             {{- if and .Values.gateway.enabled .Values.gateway.gatewayClassName }}
             - name: GATEWAY_CLASS_NAME
               value: "{{ .Values.gateway.gatewayClassName }}"
