@@ -19,3 +19,5 @@ spec:
     appListeningPort:
       type: 'integer'
       minimum: '0'
+      description: 'Port the application listens on inside the container'
+      example: '8080'
