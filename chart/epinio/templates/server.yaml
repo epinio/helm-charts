@@ -315,6 +315,13 @@ spec:
               value: "{{ .Values.server.traceLevel }}"
             - name: AUTH_TOKEN_DEFAULT_EXPIRY
               value: "{{ .Values.server.defaultTokenExpiry }}"
+            - name: AUTH_TOKEN_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: epinio-auth-keys
+                  key: privateKey
+            - name: EPINIO_OIDC_REDIRECT_URI
+              value: {{ .Values.dex.ui.redirectURI | default (printf "https://%s/api/v1/auth/oidc/callback" (include "epinio-hostname" .)) | quote }}
             - name: CHART_VERSION
               value: "{{ .Chart.Version }}"
             - name: DEFAULT_BUILDER_IMAGE

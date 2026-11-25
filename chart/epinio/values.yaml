@@ -378,7 +378,8 @@ dex:
   ui:
     # secret should be supplied by dex automatically, this is just a fall back
     secret: ""
-    # Defaults to https://epinio.{{ .Values.global.domain }}/auth/verify/
+    # Defaults to https://epinio.{{ .Values.global.domain }}/api/v1/auth/oidc/callback
+    # (also keeps /auth/verify/ until Jetstream UI eject completes)
     redirectURI: ""
   service:
     # -- Annotations to be added to the Epinio service.

@@ -1,0 +1,19 @@
+{{- /* Persistent RSA private key for epinio-server session + websocket JWTs (EPINIO-837).
+     Generated once and reused across upgrades / replicas, same pattern as uiClientSecret. */ -}}
+{{- $authKeysSecretName := "epinio-auth-keys" -}}
+{{- $prev := (lookup "v1" "Secret" .Release.Namespace $authKeysSecretName).data | default dict -}}
+{{- $prevKey := (get $prev "privateKey") -}}
+{{- $privateKey := empty $prevKey | ternary (genPrivateKey "rsa") (b64dec $prevKey) -}}
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: {{ $authKeysSecretName }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: epinio-server
+    app.kubernetes.io/component: auth
+stringData:
+  privateKey: |
+{{ $privateKey | indent 4 }}
