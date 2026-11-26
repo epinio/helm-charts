@@ -67,6 +67,9 @@ server:
   # Default expiry time for auth tokens (e.g. "30s", "60s", "2m"). Use to mitigate clock drift
   # in environments where short-lived tokens may expire before use. Capped at 5 minutes.
   defaultTokenExpiry: "30s"
+  # Browser session cookie SameSite. Default (empty) is Lax. Set to "none" only when
+  # Rancher-extension cross-origin credentialed cookie auth is required.
+  sessionSameSite: ""
   # The ingressClassName is used to select the ingress controller for apps.
   # If empty ingress.ingressClassName (see below) is used
   ingressClassName: ""
@@ -378,8 +381,9 @@ dex:
   ui:
     # secret should be supplied by dex automatically, this is just a fall back
     secret: ""
-    # Defaults to https://epinio.{{ .Values.global.domain }}/api/v1/auth/oidc/callback
-    # (also keeps /auth/verify/ until Jetstream UI eject completes)
+    # Optional EXTRA Dex redirect URI (legacy /auth/verify/). The server callback
+    # https://epinio.{{ .Values.global.domain }}/api/v1/auth/oidc/callback is always
+    # registered and is what EPINIO_OIDC_REDIRECT_URI uses — this value does not replace it.
     redirectURI: ""
   service:
     # -- Annotations to be added to the Epinio service.

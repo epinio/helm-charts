@@ -1,5 +1,9 @@
 {{- /* Persistent RSA private key for epinio-server session + websocket JWTs (EPINIO-837).
-     Generated once and reused across upgrades / replicas, same pattern as uiClientSecret. */ -}}
+     Generated once and reused across upgrades / replicas, same pattern as uiClientSecret.
+     NOTE: `lookup` only works against a live cluster. `helm template` / Fleet dry-render
+     regenerates a new key each time (drift). For GitOps, pre-create this Secret or
+     supply an externally managed key and point the server at it. Deleting the Secret
+     also rotates the key and invalidates all existing sessions. */ -}}
 {{- $authKeysSecretName := "epinio-auth-keys" -}}
 {{- $prev := (lookup "v1" "Secret" .Release.Namespace $authKeysSecretName).data | default dict -}}
 {{- $prevKey := (get $prev "privateKey") -}}

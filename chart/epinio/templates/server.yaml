@@ -320,8 +320,14 @@ spec:
                 secretKeyRef:
                   name: epinio-auth-keys
                   key: privateKey
+            {{- /* Lax by default; set server.sessionSameSite=none for Rancher-extension cookie auth. */}}
+            {{- if .Values.server.sessionSameSite }}
+            - name: EPINIO_SESSION_SAMESITE
+              value: {{ .Values.server.sessionSameSite | quote }}
+            {{- end }}
+            {{- /* Always the server callback — do not reuse dex.ui.redirectURI (legacy only). */}}
             - name: EPINIO_OIDC_REDIRECT_URI
-              value: {{ .Values.dex.ui.redirectURI | default (printf "https://%s/api/v1/auth/oidc/callback" (include "epinio-hostname" .)) | quote }}
+              value: {{ printf "https://%s/api/v1/auth/oidc/callback" (include "epinio-hostname" .) | quote }}
             - name: CHART_VERSION
               value: "{{ .Chart.Version }}"
             - name: DEFAULT_BUILDER_IMAGE
